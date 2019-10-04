@@ -1,0 +1,12 @@
+Package: phimethods
+Title: Standard Methods for use in PHI
+Version: 0.0.0.9000
+Authors@R: 
+    person("Jack",
+           "Hannah",
+           role = c("aut", "cre"),
+           email = "jack.hannah1@nhs.net"))
+Description: Bespoke functions for commonly undertaken tasks by analysts in PHI.
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
