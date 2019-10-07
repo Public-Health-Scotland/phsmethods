@@ -2,14 +2,14 @@
 
 postcode <- function(string) {
 
-  if(!any(is.na(string)) &
-     !all(stringr::str_detect(string, "^[A-Za-z0-9 ]*$"))) {
+  string <- stringr::str_replace_na(string)
+
+  if(!all(stringr::str_detect(string, "^[A-Za-z0-9 ]*$"))) {
     stop("Non-NA values in the input string(s) may contain letters, numbers ",
          "and spaces only")
   }
 
-  if(!any(is.na(string)) &
-     !all(stringr::str_detect(string, "(?=.*[0-9])(?=.*[A-Za-z])"))) {
+  if(!all(stringr::str_detect(string, "((?=.*[0-9])(?=.*[A-Za-z])|^NA$)"))) {
     stop("Non-NA values in the input string(s) must contain both letters and ",
          "numbers")
   }
@@ -34,7 +34,7 @@ postcode <- function(string) {
   }
 
   dplyr::case_when(
-    is.na(pc) ~ NA_character_,
+    pc == "NA" ~ NA_character_,
     stringr::str_length(pc) == 5 ~ sub("(.{2})", "\\1  ", pc),
     stringr::str_length(pc) == 6 ~ sub("(.{3})", "\\1 ", pc),
     stringr::str_length(pc) == 7 ~ pc,
