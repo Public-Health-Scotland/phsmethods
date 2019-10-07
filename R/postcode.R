@@ -14,16 +14,20 @@ postcode <- function(string) {
          "numbers")
   }
 
-  if(!any(is.na(string)) & any(grepl("[a-z]", string))) {
+  if(any(grepl("[a-z]", string))) {
     warning("Any lower case letters in the input string(s) will be converted ",
             "to upper case")
+  }
+
+  if(any(is.na(string))) {
+    warning("NA values in the input string(s) will be preserved")
   }
 
   string <- stringr::str_to_upper(string)
 
   pc <- gsub("\\s", "", string)
 
-  if(!any(is.na(pc)) & !any(stringr::str_length(pc) %in% 5:7)) {
+  if(!all(stringr::str_length(pc) %in% 5:7)) {
     warning("Non-NA values in the input string(s) containing fewer than 5 or ",
             "more than 7 alphanumeric characters will not have their spacing ",
             "altered")
