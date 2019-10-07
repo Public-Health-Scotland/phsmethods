@@ -1,4 +1,5 @@
 #' @title Format a postcode
+#' @export
 
 postcode <- function(string) {
 
