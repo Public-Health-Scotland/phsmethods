@@ -4,7 +4,7 @@
 \alias{postcode}
 \title{Format a postcode}
 \usage{
-postcode(string)
+postcode(string, format = c("pc7", "pc8"))
 }
 \description{
 Format a postcode
