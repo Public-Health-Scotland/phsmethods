@@ -5,47 +5,37 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   format <- match.arg(format)
 
-  if(any(is.na(string))) {
-    warning("NA values in the input string(s) will be preserved")
-  }
-
-  # Convert NA to "NA" for error handling
-  # Will be converted back at the end
-  string <- stringr::str_replace_na(string)
-
-  if(!all(stringr::str_detect(string, "^[A-Za-z0-9 ]*$"))) {
+  if(!all(stringr::str_detect(string[!is.na(string)], "^[A-Za-z0-9 ]*$"))) {
     stop("Non-NA values in the input string(s) may contain letters, numbers ",
          "and spaces only")
   }
 
-  if(!all(stringr::str_detect(gsub("\\s", "", string),
-                              "^([A-Z]{1,2}[0-9]{1,2}[0-9]{1}[A-Z]{2}|NA)$"))) {
-    stop("Non-NA values in the input string(s) must follow the standard UK ",
-         "postcode format (with or without spaces):\n",
-         "\U2022 1 or 2 letters, then\n",
-         "\U2022 1 or 2 numbers, then\n",
-         "\U2022 1 number, then\n",
-         "\U2022 2 letters")
-  }
-
-  if(any(grepl("[a-z]", string))) {
-    warning("Any lower case letters in the input string(s) will be converted ",
-            "to upper case")
-  }
-
-  string <- stringr::str_to_upper(string)
-
+  # Want to strip out all spaces from input, so they can be added in again later
+  # at the appropriate juncture
   pc <- gsub("\\s", "", string)
 
-  if(!all(stringr::str_length(pc)[pc != "NA"] %in% 5:7)) {
-    warning("Non-NA values in the input string(s) containing fewer than 5 or ",
-            "more than 7 alphanumeric characters will not have their spacing ",
-            "altered")
+  if(!all(
+    stringr::str_detect(pc[!is.na(pc)],
+                        "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$"))) {
+    warning("Non-NA values in the input string(s) which do not follow the ",
+            "standard UK postcode format (with or without spaces) will not be ",
+            "altered. The standard format is:\n",
+            "\U2022 1 or 2 letters, followed by\n",
+            "\U2022 1 or 2 numbers, followed by\n",
+            "\U2022 1 number, followed by\n",
+            "\U2022 2 letters")
   }
+
+  if(any(grepl("[a-z]", pc))) {
+    warning("Lower case letters in the input string(s) which form part of a ",
+            "valid postcode will be converted to upper case")
+  }
+
+  pc <- stringr::str_to_upper(pc)
 
   if (format == "pc7") {
     return(dplyr::case_when(
-      pc == "NA" ~ NA_character_,
+      is.na(string) ~ NA_character_,
       stringr::str_length(pc) == 5 ~ sub("(.{2})", "\\1  ", pc),
       stringr::str_length(pc) == 6 ~ sub("(.{3})", "\\1 ", pc),
       stringr::str_length(pc) == 7 ~ pc,
@@ -55,11 +45,10 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   } else {
 
     return(dplyr::case_when(
-      pc == "NA" ~ NA_character_,
+      is.na(string) ~ NA_character_,
       stringr::str_length(pc) %in% 5:7 ~
         stringi::stri_reverse(sub("(.{3})", "\\1 ", stringi::stri_reverse(pc))),
       TRUE ~ string
     ))
   }
-
 }
