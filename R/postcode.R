@@ -18,9 +18,14 @@ postcode <- function(string, format = c("pc7", "pc8")) {
          "and spaces only")
   }
 
-  if(!all(stringr::str_detect(string, "((?=.*[0-9])(?=.*[A-Za-z])|^NA$)"))) {
-    stop("Non-NA values in the input string(s) must contain both letters and ",
-         "numbers")
+  if(!all(stringr::str_detect(gsub("\\s", "", string),
+                              "^([A-Z]{1,2}[0-9]{1,2}[0-9]{1}[A-Z]{2}|NA)$"))) {
+    stop("Non-NA values in the input string(s) must follow the standard UK ",
+         "postcode format (with or without spaces):\n",
+         "\U2022 1 or 2 letters, then\n",
+         "\U2022 1 or 2 numbers, then\n",
+         "\U2022 1 number, then\n",
+         "\U2022 2 letters")
   }
 
   if(any(grepl("[a-z]", string))) {
