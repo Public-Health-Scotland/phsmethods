@@ -3,6 +3,8 @@
 
 postcode <- function(string, format = c("pc7", "pc8")) {
 
+  format <- match.arg(format)
+
   if(any(is.na(string))) {
     warning("NA values in the input string(s) will be preserved")
   }
@@ -44,9 +46,9 @@ postcode <- function(string, format = c("pc7", "pc8")) {
       stringr::str_length(pc) == 7 ~ pc,
       TRUE ~ string
     ))
-  }
 
-  if (format == "pc8") {
+  } else {
+
     return(dplyr::case_when(
       pc == "NA" ~ NA_character_,
       stringr::str_length(pc) %in% 5:7 ~
