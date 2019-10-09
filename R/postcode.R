@@ -10,16 +10,16 @@ postcode <- function(string, format = c("pc7", "pc8")) {
          "and spaces only")
   }
 
-  # Want to strip out all spaces from input, so they can be added in again later
-  # at the appropriate juncture
+  # Strip out all spaces from the input, so they can be added in again later at
+  # the appropriate juncture
   pc <- gsub("\\s", "", string)
 
   if(!all(
     stringr::str_detect(pc[!is.na(pc)],
                         "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$"))) {
-    warning("Non-NA values in the input string(s) which do not follow the ",
-            "standard UK postcode format (with or without spaces) will not be ",
-            "altered. The standard format is:\n",
+    warning("Values in the input string(s) which do not follow the standard ",
+            "UK postcode format (with or without spaces) will not be altered. ",
+            "The standard format is:\n",
             "\U2022 1 or 2 letters, followed by\n",
             "\U2022 1 or 2 numbers, followed by\n",
             "\U2022 1 number, followed by\n",
@@ -33,6 +33,10 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   pc <- stringr::str_to_upper(pc)
 
+  # pc7 format requires all valid postcodes to be of length 7, meaning:
+  # 5 character postcodes have 2 spaces after the 2nd character;
+  # 6 character postcodes have 1 space after the 3rd character;
+  # 7 character postcodes have no spaces
   if (format == "pc7") {
     return(dplyr::case_when(
       is.na(string) ~ NA_character_,
@@ -44,9 +48,14 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   } else {
 
+    # pc8 format requires all valid postcodes to be of maximum length 8
+    # All postcodes, whether 5, 6 or 7 characters, have one space before the
+    # last 3 characters
     return(dplyr::case_when(
       is.na(string) ~ NA_character_,
       stringr::str_length(pc) %in% 5:7 ~
+        # Reverse the order of the postcodes to add a space after 3 characters,
+        # then reverse again to get them back the right way around
         stringi::stri_reverse(sub("(.{3})", "\\1 ", stringi::stri_reverse(pc))),
       TRUE ~ string
     ))
