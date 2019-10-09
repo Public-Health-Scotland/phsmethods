@@ -28,7 +28,8 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   if(any(grepl("[a-z]", pc))) {
     warning("Lower case letters in the input string(s) which form part of a ",
-            "valid postcode will be converted to upper case")
+            "valid postcode will be converted to upper case. Otherwise they ",
+            "will remain lower case.")
   }
 
   pc <- stringr::str_to_upper(pc)
