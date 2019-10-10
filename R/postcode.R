@@ -15,12 +15,13 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   # Calculate the number of non-NA values in the input which do not match the
   # standard UK postcode format
-  x <- length(
-    pc[!is.na(pc)][!stringr::str_detect(
-      pc[!is.na(pc)],
-      "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$")])
+  n <- length(
+    pc
+    [!is.na(pc)]
+    [!stringr::str_detect(pc[!is.na(pc)],
+                          "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$")])
 
-  # If x is one, the warning message describing the number of values which
+  # If n is one, the warning message describing the number of values which
   # don't match the standard format should use singular verbs
   # Otherwise, use plural ones
   singular <- "value does"
@@ -29,7 +30,7 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   if(!all(
     stringr::str_detect(pc[!is.na(pc)],
                         "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$"))) {
-    warning(glue::glue("{x} non-NA input {ifelse(x == 1, singular, multiple)} ",
+    warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
                        "not follow the standard UK postcode format (with or ",
                        "without spaces) and will be coded as NA. The standard ",
                        "format is:\n",
@@ -39,7 +40,8 @@ postcode <- function(string, format = c("pc7", "pc8")) {
                        "\U2022 2 letters"))
   }
 
-  # Replace postcodes which don't meet standard UK format with NA
+  # Replace postcodes which don't meet standard UK format with NA (this will
+  # also 'replace' NA with NA)
   pc <- replace(pc,
                 !stringr::str_detect(
                   pc,
