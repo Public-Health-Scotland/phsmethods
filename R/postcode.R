@@ -5,16 +5,12 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   format <- match.arg(format)
 
-  if(!all(stringr::str_detect(string[!is.na(string)], "^[A-Za-z0-9 ]*$"))) {
-    stop("Non-NA input values may contain letters, numbers and spaces only")
-  }
-
   # Strip out all spaces from the input, so they can be added in again later at
   # the appropriate juncture
   pc <- gsub("\\s", "", string)
 
-  # Calculate the number of non-NA values in the input which do not match the
-  # standard UK postcode format
+  # Calculate the number of non-NA values in the input which do not adhere to
+  # the standard UK postcode format
   n <- length(
     pc
     [!is.na(pc)]
@@ -22,7 +18,7 @@ postcode <- function(string, format = c("pc7", "pc8")) {
                           "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$")])
 
   # If n is one, the warning message describing the number of values which
-  # don't match the standard format should use singular verbs
+  # do not adhere to the standard format should use singular verbs
   # Otherwise, use plural ones
   singular <- "value does"
   multiple <- "values do"
@@ -31,17 +27,17 @@ postcode <- function(string, format = c("pc7", "pc8")) {
     stringr::str_detect(pc[!is.na(pc)],
                         "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$"))) {
     warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
-                       "not follow the standard UK postcode format (with or ",
-                       "without spaces) and will be coded as NA. The standard ",
-                       "format is:\n",
+                       "not adhere to the standard UK postcode format (with ",
+                       "or without spaces) and will be coded as NA. The ",
+                       "standard format is:\n",
                        "\U2022 1 or 2 letters, followed by\n",
                        "\U2022 1 or 2 numbers, followed by\n",
                        "\U2022 1 number, followed by\n",
                        "\U2022 2 letters"))
   }
 
-  # Replace postcodes which don't meet standard UK format with NA (this will
-  # also 'replace' NA with NA)
+  # Replace postcodes which do not adhere to the standard format with NA (this
+  # will also 'replace' NA with NA)
   pc <- replace(pc,
                 !stringr::str_detect(
                   pc,
@@ -49,8 +45,8 @@ postcode <- function(string, format = c("pc7", "pc8")) {
                 NA_character_)
 
   if(any(grepl("[a-z]", pc))) {
-    warning("Lower case letters in the input string(s) which form part of a ",
-            "valid postcode will be converted to upper case")
+    warning("Lower case letters in any input value(s) adhering to the ",
+            "standard UK postcode format will be converted to upper case")
   }
 
   pc <- stringr::str_to_upper(pc)
