@@ -39,7 +39,7 @@ test_that("Warning gives true number of values that don't adhere to format", {
   expect_warning(postcode("g2"), "^1")
   expect_warning(postcode(c("DG98BS", "dg98b")), "^1")
   expect_warning(postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!")), "^3")
-
-  input_cliftonhill <- c("ML53RB", NA, "ML5", "???", 53, as.factor("ML53RB"))
-  expect_warning(postcode(input_cliftonhill), "^4")
+  expect_warning(postcode(c("ML53RB", NA, "ML5",
+                            "???", 53, as.factor("ML53RB"))),
+                 "^4")
 })
