@@ -73,10 +73,9 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   # Calculate the number of non-NA values in the input which do not adhere to
   # the standard UK postcode format
   n <- length(
-    pc
-    [!is.na(pc)]
-    [!stringr::str_detect(pc[!is.na(pc)],
-                          "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$")])
+    pc[!is.na(pc)][!stringr::str_detect(
+      pc[!is.na(pc)],
+      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$")])
 
   # If n is one, the warning message describing the number of values which
   # do not adhere to the standard format should use singular verbs
@@ -85,8 +84,9 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   multiple <- "values do"
 
   if(!all(
-    stringr::str_detect(pc[!is.na(pc)],
-                        "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$"))) {
+    stringr::str_detect(
+      pc[!is.na(pc)],
+      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"))) {
     warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
                        "not adhere to the standard UK postcode format (with ",
                        "or without spaces) and will be coded as NA. The ",
@@ -102,7 +102,7 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   pc <- replace(pc,
                 !stringr::str_detect(
                   pc,
-                  "^[A-Za-z]{1,2}[0-9]{1,2}[0-9]{1}[A-Za-z]{2}$"),
+                  "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"),
                 NA_character_)
 
   if(any(grepl("[a-z]", pc))) {
