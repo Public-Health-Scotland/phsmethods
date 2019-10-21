@@ -9,6 +9,15 @@ test_that("Creates strings of correct length", {
                                             format = "pc8")), c(7, 8))
 })
 
+test_that("Handles all valid outcode formats", {
+  expect_equal(postcode("G36RB"), "G3  6RB")
+  expect_equal(postcode("G432XR"), "G43 2XR")
+  expect_equal(postcode("DG29BA"), "DG2 9BA")
+  expect_equal(postcode("FK101RY"), "FK101RY")
+  expect_equal(postcode("E1W3TJ"), "E1W 3TJ")
+  expect_equal(postcode("EC1Y8SE"), "EC1Y8SE")
+})
+
 test_that("Parses multiple input formats", {
   input_hampden <- c("G429BA", "g429ba", "G42 9BA", "G 4 2 9 B A", "G429b    a")
   formatted_hampden <- suppressWarnings(postcode(input_hampden))
@@ -19,7 +28,7 @@ test_that("Parses multiple input formats", {
 
 test_that("Correctly handles values which don't adhere to standard format", {
   expect_true(is.na(suppressWarnings(postcode("G2?QE"))))
-  expect_warning(postcode(c("G207AL", "G2O7AL")))
+  expect_warning(postcode(c("G207AL", "G2O07AL")))
   expect_equal(suppressWarnings(postcode(c("EH7 5QG", NA,
                                            "EH11 2NL", "EH5 2HF*"))),
                c("EH7 5QG", NA, "EH112NL", NA))
