@@ -49,7 +49,8 @@ The standard UK postcode format (without spaces) is:
 
 \itemize{
 \item 1 or 2 letters, followed by
-\item 1 or 2 numbers, followed by
+\item 1 number, followed by
+\item 1 optional letter or number, followed by
 \item 1 number, followed by
 \item 2 letters
 }

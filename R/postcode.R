@@ -10,7 +10,8 @@
 #'
 #' \itemize{
 #' \item 1 or 2 letters, followed by
-#' \item 1 or 2 numbers, followed by
+#' \item 1 number, followed by
+#' \item 1 optional letter or number, followed by
 #' \item 1 number, followed by
 #' \item 2 letters
 #' }
@@ -92,7 +93,8 @@ postcode <- function(string, format = c("pc7", "pc8")) {
                        "or without spaces) and will be coded as NA. The ",
                        "standard format is:\n",
                        "\U2022 1 or 2 letters, followed by\n",
-                       "\U2022 1 or 2 numbers, followed by\n",
+                       "\U2022 1 number, followed by\n",
+                       "\U2022 1 optional letter or number, followed by\n",
                        "\U2022 1 number, followed by\n",
                        "\U2022 2 letters"))
   }
