@@ -9,7 +9,9 @@ Authors@R:
 Description: Bespoke functions for commonly undertaken tasks by analysts in PHI.
 Imports:
     dplyr,
-    glue,
+    gdata, 
+    glue, 
+    purrr, 
     stringi,
     stringr
 License: What license it uses
