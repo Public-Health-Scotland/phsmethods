@@ -1,5 +1,7 @@
-#' @export
+#' @title Calculate file sizes
 #'
+#' @export
+
 file_size <- function(filepath = getwd(), pattern = NULL) {
 
   if (!file.exists(filepath)) {
