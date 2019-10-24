@@ -2,3 +2,4 @@
 
 export(file_size)
 export(postcode)
+importFrom(magrittr,"%>%")
