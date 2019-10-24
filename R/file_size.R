@@ -1,5 +1,7 @@
 #' @title Calculate file sizes
 #'
+#' @importFrom magrittr %>%
+#'
 #' @export
 
 file_size <- function(filepath = getwd(), pattern = NULL) {
