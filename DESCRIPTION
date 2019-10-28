@@ -5,8 +5,16 @@ Authors@R:
     person("Jack",
            "Hannah",
            role = c("aut", "cre"),
-           email = "jack.hannah1@nhs.net"))
+           email = "jack.hannah1@nhs.net")
 Description: Bespoke functions for commonly undertaken tasks by analysts in PHI.
+Imports:
+    dplyr,
+    glue,
+    stringi,
+    stringr
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
+Suggests: 
+    testthat
+RoxygenNote: 6.1.1
