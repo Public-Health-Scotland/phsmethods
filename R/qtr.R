@@ -16,8 +16,7 @@
 #' format.
 #' }
 #'
-#' @param date A date in standard date format YYYY-MM-DD supplied with
-#' \code{Date} class.
+#' @param date A date supplied with \code{Date} class.
 #' @param format A \code{character} string specifying the format the quarter
 #' should be displayed in. Valid options are `short` (Jan-Mar 2018) and `long`
 #' (January to March 2018).
@@ -37,7 +36,7 @@ qtr_year <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (class(date) != "Date") {
-    stop("The date must be provided in standard date format YYYY-MM-DD")
+    stop("The current input is not a date. It must be in date format")
   }
 
   if (format == "long") {

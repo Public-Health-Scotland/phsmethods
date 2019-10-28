@@ -7,8 +7,7 @@
 qtr_year(date, format = c("long", "short"))
 }
 \arguments{
-\item{date}{A date in standard date format YYYY-MM-DD supplied with
-\code{Date} class.}
+\item{date}{A date supplied with \code{Date} class.}
 
 \item{format}{A \code{character} string specifying the format the quarter
 should be displayed in. Valid options are `short` (Jan-Mar 2018) and `long`
