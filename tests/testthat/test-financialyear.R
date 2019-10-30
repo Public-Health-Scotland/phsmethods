@@ -1,4 +1,5 @@
 library(testthat)
+library(phimethods)
 
 context("test-finyear")
 
