@@ -19,7 +19,7 @@
 #' @param date A date supplied with \code{Date} class.
 #' @param format A \code{character} string specifying the format the quarter
 #' should be displayed in. Valid options are `short` (Jan-Mar 2018) and `long`
-#' (January to March 2018).
+#' (January to March 2018). The default is `long`.
 #'
 #' @examples
 #' x <- lubridate::dmy(c("26032012", "04052012", "23092012"))
@@ -31,6 +31,7 @@
 #' qtr_prev(x, format = "long")
 
 #' @export
+#' @rdname qtr_year
 qtr_year <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
@@ -39,34 +40,33 @@ qtr_year <- function(date, format = c("long", "short")) {
     stop("The current input is not a date. It must be in date format")
   }
 
-  if (format == "long") {
-    quarter_num <- lubridate::quarter(date)
+  quarter_num <- lubridate::quarter(date)
 
+  if (format == "long") {
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("January to March ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 2 ~ paste0("April to June ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 3 ~ paste0("July to September ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 4 ~ paste0("October to December ",
-                                as.character(lubridate::year(date)))))
+                                lubridate::year(date))))
   } else {
-    quarter_num <- lubridate::quarter(date)
-
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Jan-Mar ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 2 ~ paste0("Apr-Jun ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 3 ~ paste0("Jul-Sep ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 4 ~ paste0("Oct-Dec ",
-                                as.character(lubridate::year(date)))))
+                                lubridate::year(date))))
   }
 }
 
 #' @export
+#' @rdname qtr_year
 qtr_end <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
@@ -75,34 +75,33 @@ qtr_end <- function(date, format = c("long", "short")) {
     stop("The date must be provided in standard date format YYYY-MM-DD")
   }
 
-  if (format == "long") {
-    quarter_num <- lubridate::quarter(date)
+  quarter_num <- lubridate::quarter(date)
 
+  if (format == "long") {
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("March ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 2 ~ paste0("June ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 3 ~ paste0("September ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 4 ~ paste0("December ",
-                                as.character(lubridate::year(date)))))
+                                lubridate::year(date))))
   } else {
-    quarter_num <- lubridate::quarter(date)
-
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Mar ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 2 ~ paste0("Jun ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 3 ~ paste0("Sep ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 4 ~ paste0("Dec ",
-                                as.character(lubridate::year(date)))))
+                                lubridate::year(date))))
   }
 }
 
 #' @export
+#' @rdname qtr_year
 qtr_prev <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
@@ -111,29 +110,27 @@ qtr_prev <- function(date, format = c("long", "short")) {
     stop("The date must be provided in standard date format YYYY-MM-DD")
   }
 
-  if (format == "long") {
-    quarter_num <- lubridate::quarter(date)
+  quarter_num <- lubridate::quarter(date)
 
+  if (format == "long") {
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("October to December ",
-                                as.character(lubridate::year(date) - 1)),
+                                lubridate::year(date) - 1),
       quarter_num == 2 ~ paste0("January to March ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 3 ~ paste0("April to June ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 4 ~ paste0("July to September ",
-                                as.character(lubridate::year(date)))))
+                                lubridate::year(date))))
   } else {
-    quarter_num <- lubridate::quarter(date)
-
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Oct-Dec ",
-                                as.character(lubridate::year(date) - 1)),
+                                lubridate::year(date) - 1),
       quarter_num == 2 ~ paste0("Jan-Mar ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 3 ~ paste0("Apr-Jun ",
-                                as.character(lubridate::year(date))),
+                                lubridate::year(date)),
       quarter_num == 4 ~ paste0("Jul-Sep ",
-                                as.character(lubridate::year(date)))))
+                                lubridate::year(date))))
   }
 }

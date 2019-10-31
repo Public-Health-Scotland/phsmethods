@@ -10,6 +10,7 @@ Description: Bespoke functions for commonly undertaken tasks by analysts in PHI.
 Imports:
     dplyr,
     glue,
+    lubridate,
     stringi,
     stringr
 License: What license it uses

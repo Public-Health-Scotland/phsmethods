@@ -2,16 +2,22 @@
 % Please edit documentation in R/qtr.R
 \name{qtr_year}
 \alias{qtr_year}
+\alias{qtr_end}
+\alias{qtr_prev}
 \title{Find a quarter to a date}
 \usage{
 qtr_year(date, format = c("long", "short"))
+
+qtr_end(date, format = c("long", "short"))
+
+qtr_prev(date, format = c("long", "short"))
 }
 \arguments{
 \item{date}{A date supplied with \code{Date} class.}
 
 \item{format}{A \code{character} string specifying the format the quarter
 should be displayed in. Valid options are `short` (Jan-Mar 2018) and `long`
-(January to March 2018).}
+(January to March 2018). The default is `long`.}
 }
 \description{
 The qtr functions take a date input and calculate the relevant
