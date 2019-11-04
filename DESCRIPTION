@@ -14,7 +14,8 @@ Imports:
     magrittr, 
     purrr, 
     stringi,
-    stringr
+    stringr,
+    tibble
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
