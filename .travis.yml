@@ -4,4 +4,4 @@ cache: packages
 
 env:
   global:
-  -TRAVIS_R_VERSION=3.5.1
+  - TRAVIS_R_VERSION=3.5.1
