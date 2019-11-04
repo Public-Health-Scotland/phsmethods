@@ -29,7 +29,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     trimws()
 
   k <- dplyr::case_when(
-    stringr::str_detect(x, ".xlsx?$") ~ "Excel ",
+    stringr::str_detect(x, ".xls(x|m)?$") ~ "Excel ",
     stringr::str_detect(x, ".csv$") ~ "CSV ",
     stringr::str_detect(x, ".z?sav$") ~ "SPSS ",
     stringr::str_detect(x, ".docx?$") ~ "Word ",
