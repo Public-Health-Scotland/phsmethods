@@ -1,4 +1,4 @@
 [![Build Status](https://travis-ci.com/Health-SocialCare-Scotland/phimethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phimethods)
-[![Coverage Status](https://coveralls.io/repos/github/Health-SocialCare-Scotland/phimethods/badge.svg?branch=master)](https://coveralls.io/github/Health-SocialCare-Scotland/phimethods?branch=master)
+[![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phimethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phimethods)
 
 # phi-methods
