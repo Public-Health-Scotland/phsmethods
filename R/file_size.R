@@ -34,7 +34,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     stringr::str_detect(x, ".z?sav$") ~ "SPSS ",
     stringr::str_detect(x, ".doc(m|x)?$") ~ "Word ",
     stringr::str_detect(x, ".rds$") ~ "RDS ",
-    stringr::str_detect(x, ".tsv$") ~ "Text ",
+    stringr::str_detect(x, ".txt$") ~ "Text ",
     stringr::str_detect(x, ".fst$") ~ "FST ",
     stringr::str_detect(x, ".pdf$") ~ "PDF ",
     stringr::str_detect(x, ".tsv$") ~ "TSV ",
