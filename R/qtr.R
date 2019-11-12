@@ -37,7 +37,7 @@ qtr_year <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (class(date) != "Date") {
-    stop("The current input is not a date. It must be in date format")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -72,7 +72,7 @@ qtr_end <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (class(date) != "Date") {
-    stop("The date must be provided in standard date format YYYY-MM-DD")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -107,7 +107,7 @@ qtr_prev <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (class(date) != "Date") {
-    stop("The date must be provided in standard date format YYYY-MM-DD")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
