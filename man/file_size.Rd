@@ -14,18 +14,51 @@ file_size(filepath = getwd(), pattern = NULL)
     which match the regular expression will be returned.}
 }
 \value{
-A \code{\link[tibble]{tibble}} listing the names of the files within
-\code{filepath} which match \code{pattern} and their respective file sizes.
-If no \code{pattern} is specified, \code{file_size} returns the names and
-file sizes of all files within \code{filepath}.
+A \code{\link[tibble]{tibble}} listing the names of files within
+\code{filepath} which match \code{pattern} and their respective sizes. If no
+\code{pattern} is specified, \code{file_size} returns the names and sizes of
+all files within \code{filepath}.
 
 If \code{filepath} is an empty folder, or \code{pattern} matches no files
 within \code{filepath}, \code{file_size} returns \code{NULL}.
 }
 \description{
 \code{file_size} takes a filepath and an optional regex pattern.
-It returns the size of any files within that directory which match the given
+It returns the size of all files within that directory which match the given
 pattern.
+}
+\details{
+The sizes of files with certain extensions are returned with the
+type of file prefixed. For example, the size of a 12 KB \code{.xlsx} file is
+returned as `Excel 12 KB`. The complete list of explicitly catered-for file
+extensions and their prefixes are as follows:
+
+\itemize{
+\item \code{.xls}, \code{.xlsb}, \code{.xlsm} and \code{.xlsx} files are
+prefixed with `Excel`
+\item \code{.csv} files are prefixed with `CSV`
+\item \code{.sav} and \code{.zsav} files are prefixed with `SPSS`
+\item \code{.doc}, \code{.docm} and \code{.docx} files are prefixed with
+`Word`
+\item \code{.rds} files are prefixed with `RDS`
+\item \code{.txt} files are prefixed with `Text`,
+\item \code{.fst} files are prefixed with `FST`,
+\item \code{.pdf} files are prefixed with `PDF`,
+\item \code{.tsv} files are prefixed with `TSV`,
+\item \code{.html} files are prefixed with `HTML`,
+\item \code{.ppt}, \code{.pptm} and \code{.pptx} files are prefixed with
+`PowerPoint`,
+\item \code{.md} files are prefixed with `Markdown`
+}
+
+Files with extensions not contained within this list will have their size
+returned with no prefix. To request that a certain extension be explicitly
+catered for, please create an issue on
+\href{https://github.com/Health-SocialCare-Scotland/phimethods/issues}{GitHub}.
+
+File sizes are returned as the appropriate multiple of the unit byte
+(kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to be 1,024
+units of the preceding denomination.
 }
 \seealso{
 For more information on using regular expressions, see this
