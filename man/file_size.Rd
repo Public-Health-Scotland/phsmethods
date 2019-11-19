@@ -15,7 +15,8 @@ file_size(filepath = getwd(), pattern = NULL)
 }
 \value{
 A \code{\link[tibble]{tibble}} listing the names of files within
-\code{filepath} which match \code{pattern} and their respective sizes. If no
+\code{filepath} which match \code{pattern} and their respective sizes. The
+column names of this tibble are `file_name` and `file_size`. If no
 \code{pattern} is specified, \code{file_size} returns the names and sizes of
 all files within \code{filepath}.
 
@@ -57,13 +58,23 @@ catered for, please create an issue on
 \href{https://github.com/Health-SocialCare-Scotland/phimethods/issues}{GitHub}.
 
 File sizes are returned as the appropriate multiple of the unit byte
-(kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to be 1,024
-units of the preceding denomination.
+(bytes (B), kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to
+be 1,024 units of the preceding denomination.
+}
+\examples{
+\dontrun{
+file_size()
+file_size(here::here("data", "output"), ".xlsx$")
+
+library(magrittr)
+file_size() \%>\% dplyr::pull(file_size) \%>\% extract(1)
+}
+
 }
 \seealso{
 For more information on using regular expressions, see this
 \href{https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/}{Jumping Rivers blog post}
 and this
 \href{https://stringr.tidyverse.org/articles/regular-expressions.html}{vignette}
-from the \href{https://stringr.tidyverse.org/}{stringr} package.
+from the \code{\link[stringr:stringr-package]{stringr}} package.
 }
