@@ -64,8 +64,6 @@
 #' \href{https://stringr.tidyverse.org/articles/regular-expressions.html}{vignette}
 #' from the \code{\link[stringr:stringr-package]{stringr}} package.
 #'
-#' @importFrom magrittr %>%
-#'
 #' @export
 
 file_size <- function(filepath = getwd(), pattern = NULL) {
