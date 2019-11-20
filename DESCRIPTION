@@ -1,12 +1,24 @@
 Package: phimethods
 Title: Standard Methods for use in PHI
 Version: 0.0.0.9000
-Authors@R: 
-    person("Jack",
-           "Hannah",
-           role = c("aut", "cre"),
-           email = "jack.hannah1@nhs.net"))
+Authors@R: c(
+    person("Jack", "Hannah", email = "jack.hannah1@nhs.net", role = c("aut", "cre")),
+    person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
+    person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut")
+    )
 Description: Bespoke functions for commonly undertaken tasks by analysts in PHI.
-License: What license it uses
+License: GPL (>= 2)
+URL: https://github.com/Health-SocialCare-Scotland/phimethods
+BugReports: https://github.com/Health-SocialCare-Scotland/phimethods/issues
+Imports:
+    dplyr,
+    glue,
+    lubridate,
+    stringi,
+    stringr
+Suggests: 
+    covr,
+    testthat
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
