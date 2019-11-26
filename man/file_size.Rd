@@ -7,26 +7,29 @@
 file_size(filepath = getwd(), pattern = NULL)
 }
 \arguments{
-\item{filepath}{A filepath. Defaults to the working directory,
-\code{getwd()}.}
+\item{filepath}{A character string denoting a filepath. Defaults to the
+working directory, \code{getwd()}.}
 
-\item{pattern}{an optional \link{regular expression}.  Only file names
-    which match the regular expression will be returned.}
+\item{pattern}{An optional character string denoting a
+\code{\link[base:regex]{regular expression}} pattern. Only file names which
+match the regular expression will be returned. See the \strong{See Also}
+section for resources regarding how to write regular expressions.}
 }
 \value{
 A \code{\link[tibble]{tibble}} listing the names of files within
 \code{filepath} which match \code{pattern} and their respective sizes. The
 column names of this tibble are `file_name` and `file_size`. If no
 \code{pattern} is specified, \code{file_size} returns the names and sizes of
-all files within \code{filepath}.
+all files within \code{filepath}. File names and sizes are returned in
+alphabetical order of file name.
 
 If \code{filepath} is an empty folder, or \code{pattern} matches no files
 within \code{filepath}, \code{file_size} returns \code{NULL}.
 }
 \description{
-\code{file_size} takes a filepath and an optional regex pattern.
-It returns the size of all files within that directory which match the given
-pattern.
+\code{file_size} takes a filepath and an optional regular
+expression pattern. It returns the size of all files within that directory
+which match the given pattern.
 }
 \details{
 The sizes of files with certain extensions are returned with the
@@ -62,13 +65,15 @@ File sizes are returned as the appropriate multiple of the unit byte
 be 1,024 units of the preceding denomination.
 }
 \examples{
-\dontrun{
+# Name and size of all files in working directory
 file_size()
-file_size(here::here("data", "output"), ".xlsx$")
 
+# Name and size of .xlsx files only in working directory
+file_size(pattern = ".xlsx$")
+
+# Size only of alphabetically first file in working directory
 library(magrittr)
 file_size() \%>\% dplyr::pull(file_size) \%>\% extract(1)
-}
 
 }
 \seealso{

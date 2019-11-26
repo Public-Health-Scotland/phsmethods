@@ -1,8 +1,8 @@
 #' @title Calculate file size
 #'
-#' @description \code{file_size} takes a filepath and an optional regex pattern.
-#' It returns the size of all files within that directory which match the given
-#' pattern.
+#' @description \code{file_size} takes a filepath and an optional regular
+#' expression pattern. It returns the size of all files within that directory
+#' which match the given pattern.
 #'
 #' @details The sizes of files with certain extensions are returned with the
 #' type of file prefixed. For example, the size of a 12 KB \code{.xlsx} file is
@@ -36,27 +36,33 @@
 #' (bytes (B), kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to
 #' be 1,024 units of the preceding denomination.
 #'
-#' @param filepath A filepath. Defaults to the working directory,
-#' \code{getwd()}.
-#' @inheritParams base::list.files
+#' @param filepath A character string denoting a filepath. Defaults to the
+#' working directory, \code{getwd()}.
+#' @param pattern An optional character string denoting a
+#' \code{\link[base:regex]{regular expression}} pattern. Only file names which
+#' match the regular expression will be returned. See the \strong{See Also}
+#' section for resources regarding how to write regular expressions.
 #'
 #' @return A \code{\link[tibble]{tibble}} listing the names of files within
 #' \code{filepath} which match \code{pattern} and their respective sizes. The
 #' column names of this tibble are `file_name` and `file_size`. If no
 #' \code{pattern} is specified, \code{file_size} returns the names and sizes of
-#' all files within \code{filepath}.
+#' all files within \code{filepath}. File names and sizes are returned in
+#' alphabetical order of file name.
 #'
 #' If \code{filepath} is an empty folder, or \code{pattern} matches no files
 #' within \code{filepath}, \code{file_size} returns \code{NULL}.
 #'
 #' @examples
-#' \dontrun{
+#' # Name and size of all files in working directory
 #' file_size()
-#' file_size(here::here("data", "output"), ".xlsx$")
 #'
+#' # Name and size of .xlsx files only in working directory
+#' file_size(pattern = ".xlsx$")
+#'
+#' # Size only of alphabetically first file in working directory
 #' library(magrittr)
 #' file_size() %>% dplyr::pull(file_size) %>% extract(1)
-#' }
 #'
 #' @seealso For more information on using regular expressions, see this
 #' \href{https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/}{Jumping Rivers blog post}
