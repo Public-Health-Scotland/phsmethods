@@ -18,10 +18,11 @@ section for resources regarding how to write regular expressions.}
 \value{
 A \code{\link[tibble]{tibble}} listing the names of files within
 \code{filepath} which match \code{pattern} and their respective sizes. The
-column names of this tibble are `file_name` and `file_size`. If no
-\code{pattern} is specified, \code{file_size} returns the names and sizes of
-all files within \code{filepath}. File names and sizes are returned in
-alphabetical order of file name.
+column names of this tibble are `name` and `size`. If no \code{pattern} is
+specified, \code{file_size} returns the names and sizes of all files within
+\code{filepath}. File names and sizes are returned in alphabetical order of
+file name. Sub-folders contained within \code{filepath} will return a file
+size of `0 B`.
 
 If \code{filepath} is an empty folder, or \code{pattern} matches no files
 within \code{filepath}, \code{file_size} returns \code{NULL}.
@@ -73,7 +74,7 @@ file_size(pattern = ".xlsx$")
 
 # Size only of alphabetically first file in working directory
 library(magrittr)
-file_size() \%>\% dplyr::pull(file_size) \%>\% extract(1)
+file_size() \%>\% dplyr::pull(size) \%>\% extract(1)
 
 }
 \seealso{

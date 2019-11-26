@@ -45,10 +45,11 @@
 #'
 #' @return A \code{\link[tibble]{tibble}} listing the names of files within
 #' \code{filepath} which match \code{pattern} and their respective sizes. The
-#' column names of this tibble are `file_name` and `file_size`. If no
-#' \code{pattern} is specified, \code{file_size} returns the names and sizes of
-#' all files within \code{filepath}. File names and sizes are returned in
-#' alphabetical order of file name.
+#' column names of this tibble are `name` and `size`. If no \code{pattern} is
+#' specified, \code{file_size} returns the names and sizes of all files within
+#' \code{filepath}. File names and sizes are returned in alphabetical order of
+#' file name. Sub-folders contained within \code{filepath} will return a file
+#' size of `0 B`.
 #'
 #' If \code{filepath} is an empty folder, or \code{pattern} matches no files
 #' within \code{filepath}, \code{file_size} returns \code{NULL}.
@@ -62,7 +63,7 @@
 #'
 #' # Size only of alphabetically first file in working directory
 #' library(magrittr)
-#' file_size() %>% dplyr::pull(file_size) %>% extract(1)
+#' file_size() %>% dplyr::pull(size) %>% extract(1)
 #'
 #' @seealso For more information on using regular expressions, see this
 #' \href{https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/}{Jumping Rivers blog post}
@@ -118,7 +119,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     TRUE ~ ""
   )
 
-  tibble::tibble(file_name = list.files(filepath, pattern),
-                 file_size = paste0(z, y))
+  tibble::tibble(name = list.files(filepath, pattern),
+                 size = paste0(z, y))
 
 }
