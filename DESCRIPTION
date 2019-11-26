@@ -12,13 +12,17 @@ URL: https://github.com/Health-SocialCare-Scotland/phimethods
 BugReports: https://github.com/Health-SocialCare-Scotland/phimethods/issues
 Imports:
     dplyr,
+    gdata,
     glue,
     lubridate,
+    magrittr,
     purrr, 
     stringi,
-    stringr
+    stringr,
+    tibble
 Suggests: 
     covr,
+    here,
     testthat (>= 2.0.0)
 Encoding: UTF-8
 LazyData: true
