@@ -16,7 +16,7 @@ Imports:
     glue,
     lubridate,
     magrittr,
-    purrr, 
+    purrr,
     stringi,
     stringr,
     tibble
