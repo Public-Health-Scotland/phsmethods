@@ -99,8 +99,8 @@ issue and get back to you as soon as possible.
 
 When contributing a function, please create a
 [branch](https://github.com/Health-SocialCare-Scotland/phimethods/branches)
-in this repository and conduct all work on it. When you are ready for a
-review, please create a [pull
+in this repository and carry out all work on it. When you are ready for
+a review, please create a [pull
 request](https://github.com/Health-SocialCare-Scotland/phimethods/pulls)
 and assign **all** of the package maintainers as reviewers. One or more
 of them will conduct a review, provide feedback and, if necessary,
@@ -134,3 +134,8 @@ may also be useful to consult the
 and
 [tests](https://github.com/Health-SocialCare-Scotland/phimethods/tree/master/tests/testthat)
 of existing functions within this package as a point of reference.
+
+Please note that this README will likely fail to Knit when connected to
+the NSS network as a result of the badges for continuous integration and
+test coverage. If you are editing the README file, please Knit the
+`README.Rmd` document while not connected to the network.

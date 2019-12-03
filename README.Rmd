@@ -98,3 +98,5 @@ phimethods will, as much as possible, adhere to the [tidyverse style guide](http
 - The package should always pass `devtools::check()`
 
 It's not necessary to have experience with GitHub or of building an R package to contribute to phimethods; as long as you can write an R function, the package maintainers can assist with error handling, writing documentation, testing and other aspects of package development. It is advised, however, to consult Hadley Wickham's [R Packages](https://r-pkgs.org/) book prior to making a contribution. It may also be useful to consult the [documentation](https://github.com/Health-SocialCare-Scotland/phimethods/tree/master/R) and [tests](https://github.com/Health-SocialCare-Scotland/phimethods/tree/master/tests/testthat) of existing functions within this package as a point of reference.
+
+Please note that this README will likely fail to Knit when connected to the NSS network as a result of the badges for continuous integration and test coverage. If you are editing the README file, please Knit the `README.Rmd` document while not connected to the network.
