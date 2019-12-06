@@ -69,11 +69,25 @@ To access the help file for any of phimethods’ functions, type
 ``` r
 # Names and sizes of all files in the tests/testthat/files folder
 file_size(testthat::test_path("files"))
-#> NULL
+#> # A tibble: 8 x 2
+#>   name             size       
+#>   <chr>            <chr>      
+#> 1 airquality.xls   Excel 26 KB
+#> 2 bod.xlsx         Excel 5 KB 
+#> 3 iris.csv         CSV 4 KB   
+#> 4 mtcars.sav       SPSS 4 KB  
+#> 5 plant-growth.rds RDS 316 B  
+#> 6 puromycin.txt    Text 442 B 
+#> 7 stackloss.fst    FST 897 B  
+#> 8 swiss.tsv        TSV 1 KB
 
 # Names and sizes of Excel files only in the tests/testthat/files folder
 file_size(testthat::test_path("files"), pattern = ".xlsx?$")
-#> NULL
+#> # A tibble: 2 x 2
+#>   name           size       
+#>   <chr>          <chr>      
+#> 1 airquality.xls Excel 26 KB
+#> 2 bod.xlsx       Excel 5 KB
 ```
 
 ### fin\_year
@@ -87,11 +101,11 @@ fin_year(a)
 ### postcode
 
 ``` r
-# Defaults to pc7 format
+# The default is pc7 format
 postcode("G26QE")
 #> [1] "G2  6QE"
 
-# But can also apply pc8 format
+# But pc8 format can also be applied
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #> [1] "KA8 9NB"  "PA15 2TY"
 
@@ -114,12 +128,12 @@ b %>% mutate(pc = postcode(pc))
 c <- lubridate::dmy(c("26032012", "04052012", "23092012"))
 
 # qtr_year returns the current quarter and year
-# Defaults to long format
+# The default is long format
 qtr_year(c)
 #> [1] "January to March 2012"  "April to June 2012"    
 #> [3] "July to September 2012"
 
-# But can also apply short format
+# But short format can also be applied
 qtr_year(c, format = "short")
 #> [1] "Jan-Mar 2012" "Apr-Jun 2012" "Jul-Sep 2012"
 
@@ -135,9 +149,8 @@ qtr_end(c, format = "short")
 qtr_prev(c)
 #> [1] "October to December 2011" "January to March 2012"   
 #> [3] "April to June 2012"
-qtr_prev(c, format = "long")
-#> [1] "October to December 2011" "January to March 2012"   
-#> [3] "April to June 2012"
+qtr_prev(c, format = "short")
+#> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
 ```
 
 ## Contributing to phimethods
