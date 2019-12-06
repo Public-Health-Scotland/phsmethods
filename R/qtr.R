@@ -1,4 +1,4 @@
-#' @title Find a quarter to a date
+#' @title Assign a date to a quarter
 #'
 #' @description
 #'

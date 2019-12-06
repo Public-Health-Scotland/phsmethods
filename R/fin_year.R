@@ -1,4 +1,4 @@
-#' @title Assign date to a financial year
+#' @title Assign a date to a financial year
 #'
 #' @description \code{fin_year} takes a date and assigns it to the correct
 #' financial year in the PHI specified format.

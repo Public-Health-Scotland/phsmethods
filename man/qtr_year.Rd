@@ -4,7 +4,7 @@
 \alias{qtr_year}
 \alias{qtr_end}
 \alias{qtr_prev}
-\title{Find a quarter to a date}
+\title{Assign a date to a quarter}
 \usage{
 qtr_year(date, format = c("long", "short"))
 
