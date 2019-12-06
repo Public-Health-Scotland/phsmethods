@@ -68,7 +68,7 @@ To access the help file for any of phimethods' functions, type `function_name` i
 file_size(testthat::test_path("files"))
 
 # Names and sizes of Excel files only in the tests/testthat/files folder
-file_size(testthat::test_path("files"), ".xlsx?$")
+file_size(testthat::test_path("files"), pattern = ".xlsx?$")
 ```
 
 ### fin_year

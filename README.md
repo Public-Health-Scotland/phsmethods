@@ -68,7 +68,7 @@ file_size(testthat::test_path("files"))
 #> NULL
 
 # Names and sizes of Excel files only in the tests/testthat/files folder
-file_size(testthat::test_path("files"), ".xlsx?$")
+file_size(testthat::test_path("files"), pattern = ".xlsx?$")
 #> NULL
 ```
 
