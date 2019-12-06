@@ -74,10 +74,46 @@ file_size(testthat::test_path("files"), ".xlsx?$")
 ### fin_year
 
 ```{r fin_year}
-x <- lubridate::dmy(c("21012017", "04042017", "17112017"))
-fin_year(x)
+a <- lubridate::dmy(c("21012017", "04042017", "17112017"))
+fin_year(a)
 ```
 
+### postcode
+
+```{r postcode, message = FALSE, warning = FALSE}
+# Defaults to pc7 format
+postcode("G26QE")
+
+# But can also apply pc8 format
+postcode(c("KA89NB", "PA152TY"), format = "pc8")
+
+
+library(dplyr)
+b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+b %>% mutate(pc = postcode(pc))
+```
+
+### qtr_year, qtr_end and qtr_prev
+```{r qtr}
+c <- lubridate::dmy(c("26032012", "04052012", "23092012"))
+
+# qtr_year returns the current quarter and year
+# Defaults to long format
+qtr_year(c)
+
+# But can also apply short format
+qtr_year(c, format = "short")
+
+
+# qtr_end returns the last month in the quarter
+qtr_end(c)
+qtr_end(c, format = "short")
+
+
+# qtr_prev returns the previous quarter
+qtr_prev(c)
+qtr_prev(c, format = "long")
+```
 
 ## Contributing to phimethods
 

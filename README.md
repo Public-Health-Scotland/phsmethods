@@ -75,9 +75,65 @@ file_size(testthat::test_path("files"), ".xlsx?$")
 ### fin\_year
 
 ``` r
-x <- lubridate::dmy(c("21012017", "04042017", "17112017"))
-fin_year(x)
+a <- lubridate::dmy(c("21012017", "04042017", "17112017"))
+fin_year(a)
 #> [1] "2016/17" "2017/18" "2017/18"
+```
+
+### postcode
+
+``` r
+# Defaults to pc7 format
+postcode("G26QE")
+#> [1] "G2  6QE"
+
+# But can also apply pc8 format
+postcode(c("KA89NB", "PA152TY"), format = "pc8")
+#> [1] "KA8 9NB"  "PA15 2TY"
+
+
+library(dplyr)
+b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+b %>% mutate(pc = postcode(pc))
+#> # A tibble: 4 x 1
+#>   pc     
+#>   <chr>  
+#> 1 G42 9BA
+#> 2 G20 7AL
+#> 3 DD3 7JY
+#> 4 DG9 8BS
+```
+
+### qtr\_year, qtr\_end and qtr\_prev
+
+``` r
+c <- lubridate::dmy(c("26032012", "04052012", "23092012"))
+
+# qtr_year returns the current quarter and year
+# Defaults to long format
+qtr_year(c)
+#> [1] "January to March 2012"  "April to June 2012"    
+#> [3] "July to September 2012"
+
+# But can also apply short format
+qtr_year(c, format = "short")
+#> [1] "Jan-Mar 2012" "Apr-Jun 2012" "Jul-Sep 2012"
+
+
+# qtr_end returns the last month in the quarter
+qtr_end(c)
+#> [1] "March 2012"     "June 2012"      "September 2012"
+qtr_end(c, format = "short")
+#> [1] "Mar 2012" "Jun 2012" "Sep 2012"
+
+
+# qtr_prev returns the previous quarter
+qtr_prev(c)
+#> [1] "October to December 2011" "January to March 2012"   
+#> [3] "April to June 2012"
+qtr_prev(c, format = "long")
+#> [1] "October to December 2011" "January to March 2012"   
+#> [3] "April to June 2012"
 ```
 
 ## Contributing to phimethods
