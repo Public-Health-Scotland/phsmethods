@@ -47,45 +47,45 @@ data_labels <- function(df, lab_type = c("var", "val", "all")) {
   lab_type <- match.arg(lab_type)
 
   df <- read_spss(df)
-  if (lab_type = "var") then {
+  if (lab_type == "var") {
     # Create a tibble for variable labels
     var_desc <- purrr::map(df, ~ attributes(.)[["label"]]) %>%
       purrr::map(~replace(attr(.x, "label"),
                    is.null(attr(.x, "label")),
                    NA)) %>%
       unlist() %>%
-#Move this warning to be bettert placed???
+#Move this warning to be better placed???
     if(any(purrr::some(var_desc, ~str_detect(., NA_character_)))) {
       warning("Empty labels(s) have been replaced with NA")
     }
-    var_desc_tib <- tibble(var_order = 1L:ncol(df),
+    var_desc_tib <- tibble::tibble(var_order = 1L:ncol(df),
                            var = names(df),
                            var_desc = var_desc)
     return(var_desc_tib)
   }
-  else if (lab_type = "val") then {
+  else if (lab_type == "val") {
     # Create a tibble for value labels
-    vals <- map(df, ~ attributes(.)[["labels"]])
-    val_lab <- map(df, ~ names(attributes(.)[["labels"]]))
+    vals <- purrr::map(df, ~ attributes(.)[["labels"]])
+    val_lab <- purrr::map(df, ~ names(attributes(.)[["labels"]]))
 
-    val_desc_tib <- tibble(var = rep(names(vals), map_int(vals, length)),
+    val_desc_tib <- tibble::tibble(var = rep(names(vals), map_int(vals, length)),
                            code = unlist(vals, use.names = FALSE),
                            code_desc = unlist(val_lab, use.names = FALSE))
     return(val_desc_tib)
   }
-  else if (lab_type = "all") then {
+  else if (lab_type == "all") {
     # Create a tibble for variable labels
-    var_desc <- map(df, ~ attributes(.)[["label"]]) %>%
+    var_desc <- purrr::map(df, ~ attributes(.)[["label"]]) %>%
       map_chr(~ if_else(is.null(.), NA_character_, .))
 
-    var_desc_tib <- tibble(var_order = 1L:ncol(df),
+    var_desc_tib <- tibble::tibble(var_order = 1L:ncol(df),
                            var = names(df),
                            var_desc = var_desc)
     # Create a tibble for value labels
-    vals <- map(df, ~ attributes(.)[["labels"]])
-    val_lab <- map(df, ~ names(attributes(.)[["labels"]]))
+    vals <- purrr::map(df, ~ attributes(.)[["labels"]])
+    val_lab <- purrr::map(df, ~ names(attributes(.)[["labels"]]))
 
-    val_desc_tib <- tibble(var = rep(names(vals), map_int(vals, length)),
+    val_desc_tib <- tibble::tibble(var = rep(names(vals), map_int(vals, length)),
                            code = unlist(vals, use.names = FALSE),
                            code_desc = unlist(val_lab, use.names = FALSE))
     # Join them together
