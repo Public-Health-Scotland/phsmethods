@@ -19,10 +19,10 @@
 #' @details Quarters are defined as:
 #'
 #' \itemize{
-#' \item January to March
-#' \item April to June
-#' \item July to September
-#' \item October to December
+#' \item January to March (Jan-Mar)
+#' \item April to June (Apr-Jun)
+#' \item July to September (Jul-Sep)
+#' \item October to December (Oct-Dec)
 #' }
 #'
 #' @param date A date supplied with \code{Date} class.
@@ -73,6 +73,41 @@ qtr <- function(date, format = c("long", "short")) {
                                 lubridate::year(date)),
       quarter_num == 4 ~ paste0("Oct-Dec ",
                                 lubridate::year(date))))
+  }
+}
+
+#' @export
+#' @rdname qtr
+qtr_next <- function(date, format = c("long", "short")) {
+
+  format <- match.arg(format)
+
+  if (class(date) != "Date") {
+    stop("The input must have Date class")
+  }
+
+  quarter_num <- lubridate::quarter(date)
+
+  if (format == "long") {
+    return(dplyr::case_when(
+      quarter_num == 1 ~ paste0("April to June ",
+                                lubridate::year(date)),
+      quarter_num == 2 ~ paste0("July to September ",
+                                lubridate::year(date)),
+      quarter_num == 3 ~ paste0("October to December ",
+                                lubridate::year(date)),
+      quarter_num == 4 ~ paste0("January to March ",
+                                lubridate::year(date) + 1)))
+  } else {
+    return(dplyr::case_when(
+      quarter_num == 1 ~ paste0("Apr-Jun ",
+                                lubridate::year(date)),
+      quarter_num == 2 ~ paste0("Jul-Sep ",
+                                lubridate::year(date)),
+      quarter_num == 3 ~ paste0("Oct-Dec ",
+                                lubridate::year(date)),
+      quarter_num == 4 ~ paste0("Jan-Mar ",
+                                lubridate::year(date) + 1)))
   }
 }
 

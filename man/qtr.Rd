@@ -2,11 +2,14 @@
 % Please edit documentation in R/qtr.R
 \name{qtr}
 \alias{qtr}
+\alias{qtr_next}
 \alias{qtr_prev}
 \alias{qtr_end}
 \title{Assign a date to a quarter}
 \usage{
 qtr(date, format = c("long", "short"))
+
+qtr_next(date, format = c("long", "short"))
 
 qtr_prev(date, format = c("long", "short"))
 
@@ -38,10 +41,10 @@ value.
 Quarters are defined as:
 
 \itemize{
-\item January to March
-\item April to June
-\item July to September
-\item October to December
+\item January to March (Jan-Mar)
+\item April to June (Apr-Jun)
+\item July to September (Jul-Sep)
+\item October to December (Oct-Dec)
 }
 }
 \examples{
