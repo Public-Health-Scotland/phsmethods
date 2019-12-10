@@ -3,7 +3,7 @@ Title: Standard Methods for use in PHI
 Version: 0.0.0.9000
 Authors@R: c(
     person("Jack", "Hannah", email = "jack.hannah1@nhs.net", role = c("aut", "cre")),
-    person("David", "Caldwell", email = "david.caldwell1@nhs.net", role = c("aut", "rev"),
+    person("David", "Caldwell", email = "david.caldwell1@nhs.net", role = c("aut", "rev")),
     person("Lucinda", "Lawrie", email = "lucinda.lawrie1@nhs.net", role = "rev")
     person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
     person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut")
