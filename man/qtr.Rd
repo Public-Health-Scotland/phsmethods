@@ -48,13 +48,13 @@ Quarters are defined as:
 }
 }
 \examples{
-x <- lubridate::dmy(c("26032012", "04052012", "23092012"))
+x <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
-qtr(x, format = "long")
+qtr(x)
 
-qtr_next(x, format = "long")
+qtr_next(x, format = "short")
 
-qtr_prev(x, format = "long")
+qtr_prev(x)
 
 qtr_end(x, format = "short")
 }
