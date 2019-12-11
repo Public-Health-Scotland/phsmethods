@@ -15,8 +15,8 @@ analysts:
   - `fin_year()` assigns a date to a financial year in the format
     `YYYY/YY`
   - `postcode()` formats improperly recorded postcodes
-  - `qtr_year()`, `qtr_end()` and `qtr_prev()` assign a date to a
-    quarter
+  - `qtr()`, `qtr_next()`, `qtr_prev()` and `qtr_end()` assign a date to
+    a quarter
 
 phimethods can be used on both the
 [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of
@@ -93,7 +93,7 @@ file_size(testthat::test_path("files"), pattern = ".xlsx?$")
 ### fin\_year
 
 ``` r
-a <- lubridate::dmy(c("21012017", "04042017", "17112017"))
+a <- lubridate::dmy(c(21012017, 04042017, 17112017))
 fin_year(a)
 #> [1] "2016/17" "2017/18" "2017/18"
 ```
@@ -109,7 +109,7 @@ postcode("G26QE")
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #> [1] "KA8 9NB"  "PA15 2TY"
 
-
+ 
 library(dplyr)
 b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
 b %>% mutate(pc = postcode(pc))
@@ -122,27 +122,28 @@ b %>% mutate(pc = postcode(pc))
 #> 4 DG9 8BS
 ```
 
-### qtr\_year, qtr\_end and qtr\_prev
+### qtr, qtr\_next, qtr\_prev and qtr\_end
 
 ``` r
-c <- lubridate::dmy(c("26032012", "04052012", "23092012"))
+c <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
-# qtr_year returns the current quarter and year
+# qtr returns the current quarter and year
 # The default is long format
-qtr_year(c)
+qtr(c)
 #> [1] "January to March 2012"  "April to June 2012"    
 #> [3] "July to September 2012"
 
 # But short format can also be applied
-qtr_year(c, format = "short")
+qtr(c, format = "short")
 #> [1] "Jan-Mar 2012" "Apr-Jun 2012" "Jul-Sep 2012"
 
 
-# qtr_end returns the last month in the quarter
-qtr_end(c)
-#> [1] "March 2012"     "June 2012"      "September 2012"
-qtr_end(c, format = "short")
-#> [1] "Mar 2012" "Jun 2012" "Sep 2012"
+# qtr_next returns the next quarter
+qtr_next(c)
+#> [1] "April to June 2012"       "July to September 2012"  
+#> [3] "October to December 2012"
+qtr_next(c, format = "short")
+#> [1] "Apr-Jun 2012" "Jul-Sep 2012" "Oct-Dec 2012"
 
 
 # qtr_prev returns the previous quarter
@@ -151,6 +152,13 @@ qtr_prev(c)
 #> [3] "April to June 2012"
 qtr_prev(c, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
+
+
+# qtr_end returns the last month in the quarter
+qtr_end(c)
+#> [1] "March 2012"     "June 2012"      "September 2012"
+qtr_end(c, format = "short")
+#> [1] "Mar 2012" "Jun 2012" "Sep 2012"
 ```
 
 ## Contributing to phimethods

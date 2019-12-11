@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 - `file_size()` returns the names and sizes of files in a directory
 - `fin_year()` assigns a date to a financial year in the format `YYYY/YY`
 - `postcode()` formats improperly recorded postcodes
-- `qtr_year()`, `qtr_end()` and `qtr_prev()` assign a date to a quarter
+- `qtr()`, `qtr_next()`, `qtr_prev()` and `qtr_end()` assign a date to a quarter
 
 phimethods can be used on both the [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of RStudio.
 
@@ -77,7 +77,7 @@ file_size(testthat::test_path("files"), pattern = ".xlsx?$")
 ### fin_year
 
 ```{r fin_year}
-a <- lubridate::dmy(c("21012017", "04042017", "17112017"))
+a <- lubridate::dmy(c(21012017, 04042017, 17112017))
 fin_year(a)
 ```
 
@@ -90,32 +90,37 @@ postcode("G26QE")
 # But pc8 format can also be applied
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
-
+ 
 library(dplyr)
 b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
 b %>% mutate(pc = postcode(pc))
 ```
 
-### qtr_year, qtr_end and qtr_prev
+### qtr, qtr_next, qtr_prev and qtr_end
 ```{r qtr}
-c <- lubridate::dmy(c("26032012", "04052012", "23092012"))
+c <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
-# qtr_year returns the current quarter and year
+# qtr returns the current quarter and year
 # The default is long format
-qtr_year(c)
+qtr(c)
 
 # But short format can also be applied
-qtr_year(c, format = "short")
+qtr(c, format = "short")
 
 
-# qtr_end returns the last month in the quarter
-qtr_end(c)
-qtr_end(c, format = "short")
+# qtr_next returns the next quarter
+qtr_next(c)
+qtr_next(c, format = "short")
 
 
 # qtr_prev returns the previous quarter
 qtr_prev(c)
 qtr_prev(c, format = "short")
+
+
+# qtr_end returns the last month in the quarter
+qtr_end(c)
+qtr_end(c, format = "short")
 ```
 
 ## Contributing to phimethods
