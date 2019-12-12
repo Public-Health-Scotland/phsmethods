@@ -2,18 +2,18 @@
 % Please edit documentation in R/qtr.R
 \name{qtr}
 \alias{qtr}
+\alias{qtr_end}
 \alias{qtr_next}
 \alias{qtr_prev}
-\alias{qtr_end}
 \title{Assign a date to a quarter}
 \usage{
 qtr(date, format = c("long", "short"))
 
+qtr_end(date, format = c("long", "short"))
+
 qtr_next(date, format = c("long", "short"))
 
 qtr_prev(date, format = c("long", "short"))
-
-qtr_end(date, format = c("long", "short"))
 }
 \arguments{
 \item{date}{A date supplied with \code{Date} class.}
@@ -30,11 +30,11 @@ value.
 \itemize{
 \item \code{qtr} returns the current quarter.
 
+\item \code{qtr_end} returns the last month in the quarter.
+
 \item \code{qtr_next} returns the next quarter.
 
 \item \code{qtr_prev} returns the previous quarter.
-
-\item \code{qtr_end} returns the last month in the quarter.
 }
 }
 \details{
@@ -52,9 +52,9 @@ x <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
 qtr(x)
 
-qtr_next(x, format = "short")
-
-qtr_prev(x)
-
 qtr_end(x, format = "short")
+
+qtr_next(x)
+
+qtr_prev(x, format = "short")
 }
