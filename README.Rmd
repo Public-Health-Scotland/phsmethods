@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 - `file_size()` returns the names and sizes of files in a directory
 - `fin_year()` assigns a date to a financial year in the format `YYYY/YY`
 - `postcode()` formats improperly recorded postcodes
-- `qtr()`, `qtr_next()`, `qtr_prev()` and `qtr_end()` assign a date to a quarter
+- `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
 
 phimethods can be used on both the [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of RStudio.
 
@@ -96,7 +96,7 @@ b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
 b %>% mutate(pc = postcode(pc))
 ```
 
-### qtr, qtr_next, qtr_prev and qtr_end
+### qtr, qtr_end, qtr_next and qtr_prev
 ```{r qtr}
 c <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
@@ -108,6 +108,11 @@ qtr(c)
 qtr(c, format = "short")
 
 
+# qtr_end returns the last month in the quarter
+qtr_end(c)
+qtr_end(c, format = "short")
+
+
 # qtr_next returns the next quarter
 qtr_next(c)
 qtr_next(c, format = "short")
@@ -116,11 +121,6 @@ qtr_next(c, format = "short")
 # qtr_prev returns the previous quarter
 qtr_prev(c)
 qtr_prev(c, format = "short")
-
-
-# qtr_end returns the last month in the quarter
-qtr_end(c)
-qtr_end(c, format = "short")
 ```
 
 ## Contributing to phimethods
@@ -129,7 +129,7 @@ At present, the maintainers of this package are [Jack Hannah](https://github.com
 
 This package is intended to be in continuous development and contributions may be made by anyone within PHI. If you would like to contribute a function, or propose an improvement to an existing function, please first create an [issue](https://github.com/Health-SocialCare-Scotland/phimethods/issues) on GitHub and assign **all** of the package maintainers to it. This is to ensure that no duplication of effort occurs in the case of multiple people having the same idea. The package maintainers will discuss the issue and get back to you as soon as possible.
 
-When contributing a function, please create a [branch](https://github.com/Health-SocialCare-Scotland/phimethods/branches) in this repository and carry out all work on it. When you are ready for a review, please create a [pull request](https://github.com/Health-SocialCare-Scotland/phimethods/pulls) and assign **all** of the package maintainers as reviewers. One or more of them will conduct a review, provide feedback and, if necessary, request changes prior to merging your branch.
+When contributing, please create a [branch](https://github.com/Health-SocialCare-Scotland/phimethods/branches) in this repository and carry out all work on it. Please ensure you have linked RStudio to your GitHub account using `usethis::edit_git_config()` prior to making your contribution. When you are ready for a review, please create a [pull request](https://github.com/Health-SocialCare-Scotland/phimethods/pulls) and assign **all** of the package maintainers as reviewers. One or more of them will conduct a review, provide feedback and, if necessary, request changes prior to merging your branch.
 
 phimethods will, as much as possible, adhere to the [tidyverse style guide](https://style.tidyverse.org/) and the [rOpenSci package development guide](https://devguide.ropensci.org/). The most pertinent points to take from these are:
 

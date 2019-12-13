@@ -15,7 +15,7 @@ analysts:
   - `fin_year()` assigns a date to a financial year in the format
     `YYYY/YY`
   - `postcode()` formats improperly recorded postcodes
-  - `qtr()`, `qtr_next()`, `qtr_prev()` and `qtr_end()` assign a date to
+  - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
     a quarter
 
 phimethods can be used on both the
@@ -122,7 +122,7 @@ b %>% mutate(pc = postcode(pc))
 #> 4 DG9 8BS
 ```
 
-### qtr, qtr\_next, qtr\_prev and qtr\_end
+### qtr, qtr\_end, qtr\_next and qtr\_prev
 
 ``` r
 c <- lubridate::dmy(c(26032012, 04052012, 23092012))
@@ -136,6 +136,13 @@ qtr(c)
 # But short format can also be applied
 qtr(c, format = "short")
 #> [1] "Jan-Mar 2012" "Apr-Jun 2012" "Jul-Sep 2012"
+
+
+# qtr_end returns the last month in the quarter
+qtr_end(c)
+#> [1] "March 2012"     "June 2012"      "September 2012"
+qtr_end(c, format = "short")
+#> [1] "Mar 2012" "Jun 2012" "Sep 2012"
 
 
 # qtr_next returns the next quarter
@@ -152,13 +159,6 @@ qtr_prev(c)
 #> [3] "April to June 2012"
 qtr_prev(c, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
-
-
-# qtr_end returns the last month in the quarter
-qtr_end(c)
-#> [1] "March 2012"     "June 2012"      "September 2012"
-qtr_end(c, format = "short")
-#> [1] "Mar 2012" "Jun 2012" "Sep 2012"
 ```
 
 ## Contributing to phimethods
@@ -178,10 +178,12 @@ to ensure that no duplication of effort occurs in the case of multiple
 people having the same idea. The package maintainers will discuss the
 issue and get back to you as soon as possible.
 
-When contributing a function, please create a
+When contributing, please create a
 [branch](https://github.com/Health-SocialCare-Scotland/phimethods/branches)
-in this repository and carry out all work on it. When you are ready for
-a review, please create a [pull
+in this repository and carry out all work on it. Please ensure you have
+linked RStudio to your GitHub account using `usethis::edit_git_config()`
+prior to making your contribution. When you are ready for a review,
+please create a [pull
 request](https://github.com/Health-SocialCare-Scotland/phimethods/pulls)
 and assign **all** of the package maintainers as reviewers. One or more
 of them will conduct a review, provide feedback and, if necessary,
