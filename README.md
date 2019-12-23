@@ -27,8 +27,8 @@ RStudio.
 You can install phimethods on RStudio server from GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("Health-SocialCare-Scotland/phimethods")
+# install.packages("remotes")
+remotes::install_github("Health-SocialCare-Scotland/phimethods")
 ```
 
 To install on RStudio desktop, please follow these steps:
