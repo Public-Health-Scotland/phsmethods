@@ -190,6 +190,21 @@ and assign **all** of the package maintainers as reviewers. One or more
 of them will conduct a review, provide feedback and, if necessary,
 request changes prior to merging your branch.
 
+Please be mindful of information governance when contributing to this
+package. No data files (aside from publically available and downloadable
+datasets or unless explicitly approved), server connection details,
+passwords or person identifiable or otherwise confidential information
+should be included anywhere within this package or any other repository
+(whether public or private) used within PHI. This includes within code
+and code commentary. For more information on security when using git and
+GitHub, and on using git and GitHub for version control more generally,
+please see the [Transforming Publishing
+Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)’s
+[Git
+guide](https://nhs-nss-transforming-publications.github.io/git-guide/)
+and [GitHub
+guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
+
 phimethods will, as much as possible, adhere to the [tidyverse style
 guide](https://style.tidyverse.org/) and the [rOpenSci package
 development guide](https://devguide.ropensci.org/). The most pertinent
