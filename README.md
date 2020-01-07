@@ -57,7 +57,7 @@ library(phimethods)
 ```
 
 To access the help file for any of phimethods’ functions, type
-`function_name` into the RStudio console after loading the package:
+`?function_name` into the RStudio console after loading the package:
 
 ``` r
 ?fin_year
