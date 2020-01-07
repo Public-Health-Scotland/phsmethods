@@ -109,9 +109,10 @@ postcode("G26QE")
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #> [1] "KA8 9NB"  "PA15 2TY"
 
- 
+# postcode accounts for irregular spacing and lower case letters
+# Invalid postcodes will return an NA
 library(dplyr)
-b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+b <- tibble(pc = c("G 4 2 9 B A", "g207al", "DD37J    y", "DG?8BS"))
 b %>% mutate(pc = postcode(pc))
 #> # A tibble: 4 x 1
 #>   pc     
@@ -119,7 +120,7 @@ b %>% mutate(pc = postcode(pc))
 #> 1 G42 9BA
 #> 2 G20 7AL
 #> 3 DD3 7JY
-#> 4 DG9 8BS
+#> 4 <NA>
 ```
 
 ### qtr, qtr\_end, qtr\_next and qtr\_prev

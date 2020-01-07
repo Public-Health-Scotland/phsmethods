@@ -90,9 +90,10 @@ postcode("G26QE")
 # But pc8 format can also be applied
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
- 
+# postcode accounts for irregular spacing and lower case letters
+# Invalid postcodes will return an NA
 library(dplyr)
-b <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+b <- tibble(pc = c("G 4 2 9 B A", "g207al", "DD37J    y", "DG?8BS"))
 b %>% mutate(pc = postcode(pc))
 ```
 
