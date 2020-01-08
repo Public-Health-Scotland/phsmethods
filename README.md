@@ -7,7 +7,7 @@
 Status](https://travis-ci.com/Health-SocialCare-Scotland/phimethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phimethods)
 [![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phimethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phimethods)
 
-**phimethods** contains functions for commonly undertaken tasks by
+`phimethods` contains functions for commonly undertaken tasks by
 [PHI](https://nhsnss.org/how-nss-works/our-structure/public-health-and-intelligence/)
 analysts:
 
@@ -18,45 +18,42 @@ analysts:
   - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
     a quarter
 
-phimethods can be used on both the
+`phimethods` can be used on both the
 [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of
 RStudio.
 
 ## Installation
 
-You can install phimethods on RStudio server from GitHub with:
+To install `phimethods`, the package `remotes` is required, and can be
+installed with `install.packages("remotes")`.
+
+You can then install `phimethods` on RStudio server from GitHub with:
 
 ``` r
-# install.packages("remotes")
 remotes::install_github("Health-SocialCare-Scotland/phimethods")
 ```
 
-To install on RStudio desktop, please follow these steps:
-
-1.  Click **Clone or download**
-2.  Click **Download ZIP**
-3.  Save the zip file locally
-4.  Unzip the zip file
-5.  Replace the sections marked `<>` below (including the arrows
-    themselves) and run the following code in RStudio:
-
-<!-- end list -->
+Network security settings may prevent `remotes::install_github()` from
+working on RStudio desktop. If this is the case, `phimethods` can be
+installed by downloading the [zip of the
+repository](https://github.com/Health-SocialCare-Scotland/phimethods/archive/master.zip)
+and running the following code (replacing the section marked `<>`,
+including the arrows themselves):
 
 ``` r
-install.packages("<FILEPATH OF UNZIPPED FILE>/phimethods-master", 
-                 repos = NULL,
-                 type = "source")
+remotes::install_local("<FILEPATH OF ZIPPED FILE>/phimethods-master.zip",
+                       upgrade = "never")
 ```
 
 ## Using phimethods
 
-Load phimethods using `library()`:
+Load `phimethods` using `library()`:
 
 ``` r
 library(phimethods)
 ```
 
-To access the help file for any of phimethods’ functions, type
+To access the help file for any of `phimethods`’ functions, type
 `?function_name` into the RStudio console after loading the package:
 
 ``` r
@@ -205,7 +202,7 @@ guide](https://nhs-nss-transforming-publications.github.io/git-guide/)
 and [GitHub
 guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
 
-phimethods will, as much as possible, adhere to the [tidyverse style
+`phimethods` will, as much as possible, adhere to the [tidyverse style
 guide](https://style.tidyverse.org/) and the [rOpenSci package
 development guide](https://devguide.ropensci.org/). The most pertinent
 points to take from these are:
@@ -234,7 +231,8 @@ and
 [tests](https://github.com/Health-SocialCare-Scotland/phimethods/tree/master/tests/testthat)
 of existing functions within this package as a point of reference.
 
-Please note that this README will likely fail to Knit when connected to
-the NSS network as a result of the badges for continuous integration and
-test coverage. If you are editing the README file, please Knit the
-`README.Rmd` document while not connected to the network.
+Please note that this README may fail to Knit on RStudio desktop as a
+result of network security settings. This is due to the badges for
+continuous integration and test coverage at the top of the document. If
+you are editing the README file, please Knit the `README.Rmd` document
+via RStudio server, or contact the package maintainers for assistance.
