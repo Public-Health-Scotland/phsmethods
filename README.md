@@ -220,7 +220,7 @@ points to take from these are:
   - The package should always pass `devtools::check()`
 
 It’s not necessary to have experience with GitHub or of building an R
-package to contribute to phimethods; as long as you can write an R
+package to contribute to `phimethods`; as long as you can write an R
 function, the package maintainers can assist with error handling,
 writing documentation, testing and other aspects of package development.
 It is advised, however, to consult Hadley Wickham’s [R
