@@ -2,7 +2,7 @@
 % Please edit documentation in R/fin_year.R
 \name{fin_year}
 \alias{fin_year}
-\title{Assign date to a financial year}
+\title{Assign a date to a financial year}
 \usage{
 fin_year(date)
 }
