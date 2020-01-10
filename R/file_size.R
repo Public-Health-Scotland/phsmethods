@@ -104,18 +104,18 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     trimws()
 
   z <- dplyr::case_when(
-    stringr::str_detect(x, ".xls(b|m|x)?$") ~ "Excel ",
-    stringr::str_detect(x, ".csv$") ~ "CSV ",
-    stringr::str_detect(x, ".z?sav$") ~ "SPSS ",
-    stringr::str_detect(x, ".doc(m|x)?$") ~ "Word ",
-    stringr::str_detect(x, ".rds$") ~ "RDS ",
-    stringr::str_detect(x, ".txt$") ~ "Text ",
-    stringr::str_detect(x, ".fst$") ~ "FST ",
-    stringr::str_detect(x, ".pdf$") ~ "PDF ",
-    stringr::str_detect(x, ".tsv$") ~ "TSV ",
-    stringr::str_detect(x, ".html$") ~ "HTML ",
-    stringr::str_detect(x, ".ppt(m|x)?$") ~ "PowerPoint ",
-    stringr::str_detect(x, ".md$") ~ "Markdown ",
+    stringr::str_detect(x, "\\.xls(b|m|x)?$") ~ "Excel ",
+    stringr::str_detect(x, "\\.csv$") ~ "CSV ",
+    stringr::str_detect(x, "\\.z?sav$") ~ "SPSS ",
+    stringr::str_detect(x, "\\.doc(m|x)?$") ~ "Word ",
+    stringr::str_detect(x, "\\.rds$") ~ "RDS ",
+    stringr::str_detect(x, "\\.txt$") ~ "Text ",
+    stringr::str_detect(x, "\\.fst$") ~ "FST ",
+    stringr::str_detect(x, "\\.pdf$") ~ "PDF ",
+    stringr::str_detect(x, "\\.tsv$") ~ "TSV ",
+    stringr::str_detect(x, "\\.html$") ~ "HTML ",
+    stringr::str_detect(x, "\\.ppt(m|x)?$") ~ "PowerPoint ",
+    stringr::str_detect(x, "\\.md$") ~ "Markdown ",
     TRUE ~ ""
   )
 
