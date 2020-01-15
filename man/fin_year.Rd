@@ -19,7 +19,7 @@ financial year in the PHI specified format.
 The PHI accepted format for financial year is yyyy/yy e.g. 2017/18.
 }
 \examples{
-x <- lubridate::dmy(c("21012017", "04042017", "17112017"))
+x <- lubridate::dmy(c(21012017, 04042017, 17112017))
 
 fin_year(x)
 

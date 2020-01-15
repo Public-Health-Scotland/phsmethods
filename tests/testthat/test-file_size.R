@@ -14,7 +14,7 @@ test_that("Identifies correct number of files", {
 test_that("Returns sizes with correct prefix", {
   expect_true(stringr::str_detect(file_size(test_path("files"), ".tsv$") %>%
                                     dplyr::pull(size),
-                                  "^TSV [0-9]* [A-Z]?B$"))
+                                  "^TSV\\s[0-9]*\\s[A-Z]?B$"))
 })
 
 test_that("Returns sizes in alphabetical order", {

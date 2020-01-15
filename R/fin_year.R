@@ -10,7 +10,7 @@
 #' be used to change a variable to date class.
 #'
 #' @examples
-#' x <- lubridate::dmy(c("21012017", "04042017", "17112017"))
+#' x <- lubridate::dmy(c(21012017, 04042017, 17112017))
 #'
 #' fin_year(x)
 #'
