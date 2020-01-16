@@ -43,7 +43,7 @@ remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
                        upgrade = "never")
 ```
 
-## Using phimethods
+## Using phsmethods
 
 Load `phsmethods` using `library()`:
 

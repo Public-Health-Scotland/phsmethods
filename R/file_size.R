@@ -96,7 +96,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
 
     # The gdata package defines a kilobyte (KB) as 1,000 bytes, and a
     # kibibyte (KiB) as 1,024 bytes
-    # In PHI a kilobyte is normally taken to be 1,024 bytes
+    # In PHS a kilobyte is normally taken to be 1,024 bytes
     # As a workaround, calculate file sizes in kibibytes (or higher), then
     # drop the `i` from the output
     gdata::humanReadable(standard = "IEC", digits = 0) %>%
