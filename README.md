@@ -1,15 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# phimethods
+# phsmethods
 
 [![Build
-Status](https://travis-ci.com/Health-SocialCare-Scotland/phimethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phimethods)
-[![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phimethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phimethods)
+Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods)
+[![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods)
 
-`phimethods` contains functions for commonly undertaken tasks by
-[PHI](https://nhsnss.org/how-nss-works/our-structure/public-health-and-intelligence/)
-analysts:
+`phsmethods` contains functions for commonly undertaken analytical tasks
+in [NHS Public Health
+Scotland](https://publichealthreform.scot/public-health-scotland):
 
   - `file_size()` returns the names and sizes of files in a directory
   - `fin_year()` assigns a date to a financial year in the format
@@ -18,42 +18,42 @@ analysts:
   - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
     a quarter
 
-`phimethods` can be used on both the
+`phsmethods` can be used on both the
 [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of
 RStudio.
 
 ## Installation
 
-To install `phimethods`, the package `remotes` is required, and can be
+To install `phsmethods`, the package `remotes` is required, and can be
 installed with `install.packages("remotes")`.
 
-You can then install `phimethods` on RStudio server from GitHub with:
+You can then install `phsmethods` on RStudio server from GitHub with:
 
 ``` r
-remotes::install_github("Health-SocialCare-Scotland/phimethods")
+remotes::install_github("Health-SocialCare-Scotland/phsmethods")
 ```
 
 Network security settings may prevent `remotes::install_github()` from
-working on RStudio desktop. If this is the case, `phimethods` can be
+working on RStudio desktop. If this is the case, `phsmethods` can be
 installed by downloading the [zip of the
-repository](https://github.com/Health-SocialCare-Scotland/phimethods/archive/master.zip)
+repository](https://github.com/Health-SocialCare-Scotland/phsmethods/archive/master.zip)
 and running the following code (replacing the section marked `<>`,
 including the arrows themselves):
 
 ``` r
-remotes::install_local("<FILEPATH OF ZIPPED FILE>/phimethods-master.zip",
+remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
                        upgrade = "never")
 ```
 
 ## Using phimethods
 
-Load `phimethods` using `library()`:
+Load `phsmethods` using `library()`:
 
 ``` r
-library(phimethods)
+library(phsmethods)
 ```
 
-To access the help file for any of `phimethods`’ functions, type
+To access the help file for any of `phsmethods`’ functions, type
 `?function_name` into the RStudio console after loading the package:
 
 ``` r
@@ -159,7 +159,7 @@ qtr_prev(c, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
 ```
 
-## Contributing to phimethods
+## Contributing to phsmethods
 
 At present, the maintainers of this package are [Jack
 Hannah](https://github.com/jackhannah95), [David
@@ -167,22 +167,22 @@ Caldwell](https://github.com/davidc92) and [Lucinda
 Lawrie](https://github.com/lucindalawrie).
 
 This package is intended to be in continuous development and
-contributions may be made by anyone within PHI. If you would like to
+contributions may be made by anyone within PHS. If you would like to
 contribute a function, or propose an improvement to an existing
 function, please first create an
-[issue](https://github.com/Health-SocialCare-Scotland/phimethods/issues)
+[issue](https://github.com/Health-SocialCare-Scotland/phsmethods/issues)
 on GitHub and assign **all** of the package maintainers to it. This is
 to ensure that no duplication of effort occurs in the case of multiple
 people having the same idea. The package maintainers will discuss the
 issue and get back to you as soon as possible.
 
 When contributing, please create a
-[branch](https://github.com/Health-SocialCare-Scotland/phimethods/branches)
+[branch](https://github.com/Health-SocialCare-Scotland/phsmethods/branches)
 in this repository and carry out all work on it. Please ensure you have
 linked RStudio to your GitHub account using `usethis::edit_git_config()`
 prior to making your contribution. When you are ready for a review,
 please create a [pull
-request](https://github.com/Health-SocialCare-Scotland/phimethods/pulls)
+request](https://github.com/Health-SocialCare-Scotland/phsmethods/pulls)
 and assign **all** of the package maintainers as reviewers. One or more
 of them will conduct a review, provide feedback and, if necessary,
 request changes prior to merging your branch.
@@ -192,7 +192,7 @@ package. No data files (aside from publically available and downloadable
 datasets or unless explicitly approved), server connection details,
 passwords or person identifiable or otherwise confidential information
 should be included anywhere within this package or any other repository
-(whether public or private) used within PHI. This includes within code
+(whether public or private) used within PHS. This includes within code
 and code commentary. For more information on security when using git and
 GitHub, and on using git and GitHub for version control more generally,
 please see the [Transforming Publishing
@@ -202,7 +202,7 @@ guide](https://nhs-nss-transforming-publications.github.io/git-guide/)
 and [GitHub
 guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
 
-`phimethods` will, as much as possible, adhere to the [tidyverse style
+`phsmethods` will, as much as possible, adhere to the [tidyverse style
 guide](https://style.tidyverse.org/) and the [rOpenSci package
 development guide](https://devguide.ropensci.org/). The most pertinent
 points to take from these are:
@@ -220,15 +220,15 @@ points to take from these are:
   - The package should always pass `devtools::check()`
 
 It’s not necessary to have experience with GitHub or of building an R
-package to contribute to `phimethods`; as long as you can write an R
+package to contribute to `phsmethods`; as long as you can write an R
 function, the package maintainers can assist with error handling,
 writing documentation, testing and other aspects of package development.
 It is advised, however, to consult Hadley Wickham’s [R
 Packages](https://r-pkgs.org/) book prior to making a contribution. It
 may also be useful to consult the
-[documentation](https://github.com/Health-SocialCare-Scotland/phimethods/tree/master/R)
+[documentation](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/R)
 and
-[tests](https://github.com/Health-SocialCare-Scotland/phimethods/tree/master/tests/testthat)
+[tests](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/tests/testthat)
 of existing functions within this package as a point of reference.
 
 Please note that this README may fail to Knit on RStudio desktop as a
