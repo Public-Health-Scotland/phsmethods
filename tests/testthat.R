@@ -1,4 +1,4 @@
 library(testthat)
-library(phimethods)
+library(phsmethods)
 
-test_check("phimethods")
+test_check("phsmethods")

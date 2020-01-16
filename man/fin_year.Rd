@@ -13,10 +13,10 @@ be used to change a variable to date class.}
 }
 \description{
 \code{fin_year} takes a date and assigns it to the correct
-financial year in the PHI specified format.
+financial year in the PHS specified format.
 }
 \details{
-The PHI accepted format for financial year is yyyy/yy e.g. 2017/18.
+The PHS accepted format for financial year is yyyy/yy e.g. 2017/18.
 }
 \examples{
 x <- lubridate::dmy(c(21012017, 04042017, 17112017))

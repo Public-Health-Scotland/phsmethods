@@ -59,7 +59,7 @@ prefixed with `Excel`
 Files with extensions not contained within this list will have their size
 returned with no prefix. To request that a certain extension be explicitly
 catered for, please create an issue on
-\href{https://github.com/Health-SocialCare-Scotland/phimethods/issues}{GitHub}.
+\href{https://github.com/Health-SocialCare-Scotland/phsmethods/issues}{GitHub}.
 
 File sizes are returned as the appropriate multiple of the unit byte
 (bytes (B), kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to
