@@ -85,9 +85,8 @@ postcode("G26QE")
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 # postcode accounts for irregular spacing and lower case letters
-# Postcodes containing invalid characters will return an NA
 library(dplyr)
-b <- tibble(pc = c("G 4 2 9 B A", "g207al", "DD37J    y", "DG?8BS"))
+b <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
 b %>% mutate(pc = postcode(pc))
 ```
 
@@ -140,4 +139,4 @@ Please be mindful of information governance when contributing to this package. N
 
 It's not necessary to have experience with GitHub or of building an R package to contribute to `phsmethods`; as long as you can write an R function, the package maintainers can assist with error handling, writing documentation, testing and other aspects of package development. It is advised, however, to consult Hadley Wickham's [R Packages](https://r-pkgs.org/) book prior to making a contribution. It may also be useful to consult the [documentation](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/R) and [tests](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/tests/testthat) of existing functions within this package as a point of reference.
 
-Please note that this README may fail to Knit on RStudio desktop as a result of network security settings. This is due to the badges for continuous integration and test coverage at the top of the document. If you are editing the README file, please Knit the `README.Rmd` document via RStudio server, or contact the package maintainers for assistance.
+Please note that this README may fail to 'Knit' at times as a result of network security settings. This will likely be due to the badges for continuous integration and test coverage at the top of the document. If you are editing the README file and are unable to successfully get it to 'Knit', please contact the package maintainers for assistance.

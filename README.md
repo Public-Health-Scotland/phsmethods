@@ -107,17 +107,16 @@ postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #> [1] "KA8 9NB"  "PA15 2TY"
 
 # postcode accounts for irregular spacing and lower case letters
-# Postcodes containing invalid characters will return an NA
 library(dplyr)
-b <- tibble(pc = c("G 4 2 9 B A", "g207al", "DD37J    y", "DG?8BS"))
+b <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
 b %>% mutate(pc = postcode(pc))
 #> # A tibble: 4 x 1
 #>   pc     
 #>   <chr>  
 #> 1 G42 9BA
 #> 2 G20 7AL
-#> 3 DD3 7JY
-#> 4 <NA>
+#> 3 DG9 8BS
+#> 4 DD3 7JY
 ```
 
 ### qtr, qtr\_end, qtr\_next and qtr\_prev
@@ -231,8 +230,8 @@ and
 [tests](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/tests/testthat)
 of existing functions within this package as a point of reference.
 
-Please note that this README may fail to Knit on RStudio desktop as a
-result of network security settings. This is due to the badges for
+Please note that this README may fail to ‘Knit’ at times as a result of
+network security settings. This will likely be due to the badges for
 continuous integration and test coverage at the top of the document. If
-you are editing the README file, please Knit the `README.Rmd` document
-via RStudio server, or contact the package maintainers for assistance.
+you are editing the README file and are unable to successfully get it to
+‘Knit’, please contact the package maintainers for assistance.
