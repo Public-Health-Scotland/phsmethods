@@ -233,5 +233,5 @@ of existing functions within this package as a point of reference.
 Please note that this README may fail to ‘Knit’ at times as a result of
 network security settings. This will likely be due to the badges for
 continuous integration and test coverage at the top of the document. If
-you are editing the README file and are unable to successfully get it to
-‘Knit’, please contact the package maintainers for assistance.
+you are editing the `README.Rmd` document and are unable to successfully
+get it to ‘Knit’, please contact the package maintainers for assistance.
