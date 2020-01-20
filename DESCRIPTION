@@ -1,5 +1,5 @@
 Package: phsmethods
-Title: Standard Methods for use in NHS Public Health Scotland
+Title: Standard Methods for use in Public Health Scotland
 Version: 0.0.0.9000
 Authors@R: c(
     person("Jack", "Hannah", email = "jack.hannah1@nhs.net", role = c("aut", "cre")),
@@ -8,7 +8,7 @@ Authors@R: c(
     person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
     person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut")
     )
-Description: Bespoke functions for commonly undertaken analytical tasks in NHS Public Health Scotland.
+Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
 License: GPL (>= 2)
 URL: https://github.com/Health-SocialCare-Scotland/phsmethods
 BugReports: https://github.com/Health-SocialCare-Scotland/phsmethods/issues

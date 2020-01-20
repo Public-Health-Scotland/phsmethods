@@ -8,8 +8,8 @@ Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=m
 [![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
-in [NHS Public Health
-Scotland](https://publichealthreform.scot/public-health-scotland):
+in [Public Health Scotland
+(PHS)](https://publichealthreform.scot/public-health-scotland):
 
   - `file_size()` returns the names and sizes of files in a directory
   - `fin_year()` assigns a date to a financial year in the format
