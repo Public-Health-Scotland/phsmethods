@@ -3,7 +3,6 @@
 \docType{package}
 \name{phsmethods}
 \alias{phsmethods}
-\alias{phsmethods-package}
 \title{\code{phsmethods} package}
 \description{
 Standard Methods for use in PHS.
