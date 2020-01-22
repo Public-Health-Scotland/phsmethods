@@ -1,11 +1,12 @@
 language: r
-sudo: false
+dist: trusty
 cache: packages
 
-r:
-  - oldrel
-  - release
-  - devel
+matrix:
+  include:
+  - r: oldrel
+  - r: release
+  - r: devel
 
 r_github_packages:
   - r-lib/covr
