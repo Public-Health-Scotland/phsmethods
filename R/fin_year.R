@@ -1,9 +1,9 @@
 #' @title Assign a date to a financial year
 #'
 #' @description \code{fin_year} takes a date and assigns it to the correct
-#' financial year in the PHI specified format.
+#' financial year in the PHS specified format.
 #'
-#' @details The PHI accepted format for financial year is yyyy/yy e.g. 2017/18.
+#' @details The PHS accepted format for financial year is yyyy/yy e.g. 2017/18.
 #'
 #' @param date A date which must be supplied with \code{Date} class. The
 #' functions as.Date() or lubridate::dmy() are examples of functions that can

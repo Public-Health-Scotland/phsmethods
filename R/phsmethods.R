@@ -1,11 +1,11 @@
-#' \code{phimethods} package
+#' \code{phsmethods} package
 #'
-#' Standard Methods for use in PHI.
+#' Standard Methods for use in PHS.
 #'
-#' See the README on \href{https://github.com/Health-SocialCare-Scotland/phimethods#readme}{GitHub}.
+#' See the README on \href{https://github.com/Health-SocialCare-Scotland/phsmethods#readme}{GitHub}.
 #'
 #' @docType package
-#' @name phimethods
+#' @name phsmethods
 #' @importFrom magrittr %>%
 NULL
 

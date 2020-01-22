@@ -30,7 +30,7 @@
 #' Files with extensions not contained within this list will have their size
 #' returned with no prefix. To request that a certain extension be explicitly
 #' catered for, please create an issue on
-#' \href{https://github.com/Health-SocialCare-Scotland/phimethods/issues}{GitHub}.
+#' \href{https://github.com/Health-SocialCare-Scotland/phsmethods/issues}{GitHub}.
 #'
 #' File sizes are returned as the appropriate multiple of the unit byte
 #' (bytes (B), kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to
@@ -96,7 +96,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
 
     # The gdata package defines a kilobyte (KB) as 1,000 bytes, and a
     # kibibyte (KiB) as 1,024 bytes
-    # In PHI a kilobyte is normally taken to be 1,024 bytes
+    # In PHS a kilobyte is normally taken to be 1,024 bytes
     # As a workaround, calculate file sizes in kibibytes (or higher), then
     # drop the `i` from the output
     gdata::humanReadable(standard = "IEC", digits = 0) %>%
