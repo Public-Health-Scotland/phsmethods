@@ -21,7 +21,9 @@ Imports:
     purrr,
     stringi,
     stringr,
-    tibble
+    tibble,
+    data.table,
+    tidyr
 Suggests: 
     covr,
     here,
