@@ -1,2 +1,2 @@
 # Overriding Rebol classification
-*.[R$|r$] linguist-language=R
+*.(R|r)$ linguist-language=R
