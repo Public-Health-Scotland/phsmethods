@@ -33,7 +33,8 @@ To install `phsmethods`, the package `remotes` is required, and can be installed
 You can then install `phsmethods` on RStudio server from GitHub with:
 
 ```{r gh-installation, eval = FALSE}
-remotes::install_github("Health-SocialCare-Scotland/phsmethods")
+remotes::install_github("Health-SocialCare-Scotland/phsmethods",
+                        upgrade = "never")
 ```
 
 Network security settings may prevent `remotes::install_github()` from working on RStudio desktop. If this is the case, `phsmethods` can be installed by downloading the [zip of the repository](https://github.com/Health-SocialCare-Scotland/phsmethods/archive/master.zip) and running the following code (replacing the section marked `<>`, including the arrows themselves):
