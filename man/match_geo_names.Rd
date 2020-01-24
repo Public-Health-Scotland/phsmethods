@@ -7,10 +7,10 @@
 match_geo_names(dataset, code_var)
 }
 \arguments{
-\item{dataset}{Object that contains the geography code variable}
+\item{dataset}{Data frame/tibble that contains the geography code variable.}
 
 \item{code_var}{The variable that contains the geography codes. Needs to be
-between quotes}
+between quotes.}
 }
 \description{
 \code{match_geo_names} takes a geography code and brings back the
@@ -18,10 +18,12 @@ name of the area.
 }
 \details{
 It uses the standard 9 digit codes for matching with the names.
-It can match with any of the different versions available.
+It can match with any of the current and previous versions of the codes (e.g
+2014 and 2019 Health Boards).
+
 It works for Health Boards, Council Areas, Health and Social Care Partnerships,
 Intermediate Zones, Data Zones, Electoral Wards, Scottish Parliamentary
-Constituencies and regions, and UK Parliamentary Constituencies
+Constituencies and Regions, and UK Parliamentary Constituencies.
 }
 \examples{
 test_df <- data.frame(code = c("3", "S01002363", "S01004303", "S02000656",
