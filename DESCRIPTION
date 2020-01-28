@@ -6,7 +6,8 @@ Authors@R: c(
     person("David", "Caldwell", email = "david.caldwell1@nhs.net", role = c("aut", "rev")),
     person("Lucinda", "Lawrie", email = "lucinda.lawrie1@nhs.net", role = "rev"),
     person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
-    person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut")
+    person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut"),
+    person("Chris", "Deans", email = "chrisdeans@nhs.net", role = "aut")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
 License: GPL (>= 2)
@@ -21,7 +22,8 @@ Imports:
     purrr,
     stringi,
     stringr,
-    tibble
+    tibble,
+    utils
 Suggests: 
     covr,
     here,
