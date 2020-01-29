@@ -155,8 +155,8 @@ qtr_prev <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (class(date) != "Date") {
-    stop("The input must have Date class")
+  if (!inherits(date, "Date")) {
+    stop("The input must have Date class.")
   }
 
   quarter_num <- lubridate::quarter(date)
