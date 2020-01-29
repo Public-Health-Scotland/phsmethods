@@ -15,10 +15,12 @@
 #' fin_year(x)
 #'
 #' @export
-fin_year <- function(date){
-  if(class(date) != "Date"){
+fin_year <- function(date) {
+
+  if (!inherits(date, "Date")) {
     stop("The input must have Date class.")
   }
+
   paste0(ifelse(lubridate::month(date) >= 4,
                 lubridate::year(date),
                 lubridate::year(date) - 1), "/",
