@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 - `postcode()` formats improperly recorded postcodes
 - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
 
-`phsmethods` can be used on both the [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of RStudio.
+`phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
 
 ## Installation
 
@@ -126,7 +126,7 @@ This package is intended to be in continuous development and contributions may b
 
 When contributing, please create a [branch](https://github.com/Health-SocialCare-Scotland/phsmethods/branches) in this repository and carry out all work on it. Please ensure you have linked RStudio to your GitHub account using `usethis::edit_git_config()` prior to making your contribution. When you are ready for a review, please create a [pull request](https://github.com/Health-SocialCare-Scotland/phsmethods/pulls) and assign **all** of the package maintainers as reviewers. One or more of them will conduct a review, provide feedback and, if necessary, request changes prior to merging your branch.
 
-Please be mindful of information governance when contributing to this package. No data files (aside from publically available and downloadable datasets or unless explicitly approved), server connection details, passwords or person identifiable or otherwise confidential information should be included anywhere within this package or any other repository (whether public or private) used within PHS. This includes within code and code commentary. For more information on security when using git and GitHub, and on using git and GitHub for version control more generally, please see the [Transforming Publishing Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)'s [Git guide](https://nhs-nss-transforming-publications.github.io/git-guide/) and [GitHub guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
+Please be mindful of information governance when contributing to this package. No data files (aside from publicly available and downloadable datasets or unless explicitly approved), server connection details, passwords or person identifiable or otherwise confidential information should be included anywhere within this package or any other repository (whether public or private) used within PHS. This includes within code and code commentary. For more information on security when using git and GitHub, and on using git and GitHub for version control more generally, please see the [Transforming Publishing Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)'s [Git guide](https://nhs-nss-transforming-publications.github.io/git-guide/) and [GitHub guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
 
 Please feel free to add yourself to the 'Authors' section of the `Description` file when contributing. As a rule of thumb, please assign your role as author (`"aut"`) when writing an exported function, and as contributor (`"ctb"`) when editing an existing function and/or writing a non-exported function.
 
