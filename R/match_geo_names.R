@@ -20,79 +20,71 @@
 #' "S02001042", "S08000020", "S12000013", "S12000048",
 #' "S13002522", "S13002873", "S14000020", "S16000124", "S17000012"))
 #'
-#' match_geo_names(dataset = test_df, code_var = "code")
+#' match_area_names(dataset = test_df, code_var = "code")
 #' test_df %>% match_geo_names("code")
 #'
 #' @export
-match_geo_names <- function(dataset, code_var) {
+match_area_names <- function(dataset, code_var) {
+
   # Folder where all the lookups between codes and names sit
-  cl_out <- "/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Codes and Names/"
+  cl_out <- paste0("/conf/linkage/output/lookups/Unicode/Geography/",
+                   "Scottish Postcode Directory/Codes and Names/")
 
   # List of name-code files in cl-out
   files <-  list.files(path = cl_out, pattern = "*.csv", full.names = TRUE)
 
   # Selecting name files for main geographies that would be included in lookup
-  files_wanted <- paste0("Health Board Area|Council Area|Intermediate Zone|Data Zone|",
-                         "Integration Authority|Parliamentary|Electoral")
-  files <- files[grepl(files_wanted, files) == T] #selecting only those of interest
+  files_wanted <- paste0("Health Board Area|Council Area|Intermediate Zone|",
+                         "Data Zone|Integration Authority|",
+                         "Parliamentary|Electoral")
+  # selecting only those of interest
+  files <- files[grepl(files_wanted, files) == T]
 
-  # Creating names lookup for all geographies. Read and combines all files in folder
-  names_lookup <- do.call(bind_rows, lapply(files, function(x){
-    fread(x) %>% setNames(tolower(names(.)))  #variables to lower case
+  # Creating names lookup for all geographies.
+  # Read and combines all files in folder
+  names_lookup <- do.call(dplyr::bind_rows, lapply(files, function(x){
+    data.table::fread(x) %>% janitor::clean_names()# variables to lower case
   }))
 
   # Now formatting it in a long format with only two columns: code and area_name.
-  names_lookup <- names_lookup %>%
-    select(-nrshealthboardareaname) %>% #duplicated name column
-    mutate_all(as.character) %>% #as there are a couple of integer ones
+  names_lookup %<>%
+    dplyr::select(-nrs_health_board_area_name) %>% # duplicated name column
+    dplyr::mutate_all(as.character) %>% # as there are a couple of integer ones
     # Moving all codes and all names on their own columns
-    pivot_longer(cols = contains("name"), names_to = "index", values_to = "area_name") %>%
-    pivot_longer(cols = contains("code"), names_to = "index2", values_to = "geo_code") %>%
+    tidyr::pivot_longer(cols = contains("name"), names_to = "index",
+                 values_to = "area_name") %>%
+    tidyr::pivot_longer(cols = contains("code"), names_to = "index2",
+                 values_to = "geo_code") %>%
     # filtering out those rows of spurious combinations
-    filter(!(is.na(geo_code)) & !(is.na(area_name))) %>%
-    # Selecting only one row of names per code (e.g. a CA with the same code in different versions)
-    select(-index, -index2) %>% unique()
+    dplyr::filter(!(is.na(geo_code)) & !(is.na(area_name))) %>%
+    # Selecting only one row of names per code
+    # (e.g. a CA with the same code in different versions)
+    dplyr::select(-index, -index2) %>%
+    unique()
 
   # Adding a few extra codes and names not present in lookup files
-  other_names <- data.frame(area_name = c(rep("Scotland", 2), "Non-NHS Provider/Location",
-                                          "Not applicable","Golden Jubilee Hospital"),
+  other_names <- data.frame(area_name = c(rep("Scotland", 2),
+                                          "Non-NHS Provider/Location",
+                                          "Not applicable",
+                                          "Golden Jubilee Hospital"),
                             geo_code = c("S00000001", "S92000003", "S27000001",
                                          "S27000002", "S08100001"))
   names_lookup <- rbind(names_lookup, other_names)
 
   # Ensuring geo_code variable is of the right type
-  dataset <- dataset %>% mutate_at(code_var, as.character)
+  dataset %<>% dplyr::mutate_at(code_var, as.character)
 
   # If there is already a variable named area_name give a warning
   if ("area_name" %in% names(dataset) == T) {
-    warning(paste0("There is already a variable named 'area_name' in the dataset. ",
-            "The original variable will be renamed as 'area_name.x and the one ",
-            "produced by this function as 'area_name.y' "))
+    warning(paste0("There is already a variable named 'area_name' ",
+            "in the dataset. The original variable will be renamed as ",
+            "'area_name.x and the one produced by this function as ",
+            "'area_name.y' "))
   }
 
   # Merges with the dataset selected
-  left_join(dataset, names_lookup, by = setNames("geo_code", code_var) )
+  dplyr::left_join(dataset, names_lookup, by = setNames("geo_code", code_var) )
 
 }
-
-# TODO:
-# Will it be better to get names from open data platforms? multiple ones
-# What about hospital locations?
-# Are any other areas missing?
-
-# Test dataframe
-# test_df <- data.frame(code = c("3", "S01002363", "S01004303", "S02000656",
-#                                "S02001042", "S08000020", "S12000013", "S12000048",
-#                                "S13002522", "S13002873", "S14000020", "S16000124", "S17000012"),
-#                       name_orig = c("Tayside", "Marybank to Newvalley", "Elgin South Lesmurdie",
-#                                     "Govan and Linthouse", "Peebles North", "Grampian",
-#                                     "Na h-Eileanan Siar", "Perth and Kinross", "Dunoon",
-#                                     "Arbroath East and Lunan", "East Lothian",
-#                                     "Hamilton, Larkhall and Stonehouse", "Lothian"))
-#
-# test_df <- test_df %>% match_geo_names("code")
-#
-# saveRDS(test_df, "tests/testthat/files/code_names_sample.rds")
-# test_df <- readRDS("tests/testthat/files/code_names_sample.rds")
 
 ##END
