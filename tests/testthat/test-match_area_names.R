@@ -1,8 +1,8 @@
-context("test-match_geo_names")
+context("test-match_area_names")
 
 test_that("Expect the same names as in sample dataframe", {
   test_df <- readRDS("tests/testthat/files/code_names_sample.rds") %>%
-    match_geo_names("code") %>%
+    match_area_names("code") %>%
     mutate(check = ifelse(name_orig == area_name, TRUE, FALSE))
 
   expect_true(all(test_df$check == T))
