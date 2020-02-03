@@ -7,9 +7,9 @@
 fin_year(date)
 }
 \arguments{
-\item{date}{A date which must be supplied with \code{Date} class. The
-functions as.Date() or lubridate::dmy() are examples of functions that can
-be used to change a variable to date class.}
+\item{date}{A date which must be supplied with \code{Date} or \code{POSIXct}
+class. The functions as.Date() or lubridate::dmy() as.POSIXct() are examples
+of functions that can be used to change a variable to the appropriate class.}
 }
 \description{
 \code{fin_year} takes a date and assigns it to the correct
