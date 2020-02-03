@@ -31,6 +31,6 @@ fin_year <- function(date) {
                                          lubridate::year(dates)), 3, 4))) %>%
     dplyr::right_join(tibble::tibble(dates = date))
 
-  unique_dates$dates
+  unique_dates$fin_year
 
 }
