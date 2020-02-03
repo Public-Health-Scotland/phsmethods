@@ -5,9 +5,9 @@
 #'
 #' @details The PHS accepted format for financial year is yyyy/yy e.g. 2017/18.
 #'
-#' @param date A date which must be supplied with \code{Date} class. The
-#' functions as.Date() or lubridate::dmy() are examples of functions that can
-#' be used to change a variable to date class.
+#' @param date A date which must be supplied with \code{Date} or \code{POSIXct}
+#' class. The functions as.Date() or lubridate::dmy() as.POSIXct() are examples
+#' of functions that can be used to change a variable to the appropriate class.
 #'
 #' @examples
 #' x <- lubridate::dmy(c(21012017, 04042017, 17112017))
@@ -31,6 +31,6 @@ fin_year <- function(date) {
                                          lubridate::year(dates)), 3, 4))) %>%
     right_join(tibble::tibble(dates = date))
 
-  unique_dates
+  unique_dates$dates
 
 }
