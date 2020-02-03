@@ -21,7 +21,7 @@ fin_year <- function(date) {
     stop("The input must have Date or POSIXct class.")
   }
 
-  unique_dates <- tibble(dates = unique(date)) %>%
+  unique_dates <- tibble::tibble(dates = unique(date)) %>%
 
   mutate(fin_year = paste0(ifelse(lubridate::month(dates) >= 4,
                                   lubridate::year(dates),
