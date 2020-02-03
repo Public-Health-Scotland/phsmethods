@@ -17,14 +17,8 @@
 #' @export
 fin_year <- function(date) {
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class.")
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    stop("The input must have Date or POSIXct class.")
   }
 
-  paste0(ifelse(lubridate::month(date) >= 4,
-                lubridate::year(date),
-                lubridate::year(date) - 1), "/",
-         substr(ifelse(lubridate::month(date) >= 4,
-                       lubridate::year(date) + 1,
-                       lubridate::year(date)), 3, 4))
 }
