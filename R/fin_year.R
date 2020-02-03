@@ -23,13 +23,13 @@ fin_year <- function(date) {
 
   unique_dates <- tibble::tibble(dates = unique(date)) %>%
 
-  mutate(fin_year = paste0(ifelse(lubridate::month(dates) >= 4,
+  dplyr::mutate(fin_year = paste0(ifelse(lubridate::month(dates) >= 4,
                                   lubridate::year(dates),
                                   lubridate::year(dates) - 1), "/",
                            substr(ifelse(lubridate::month(dates) >= 4,
                                          lubridate::year(dates) + 1,
                                          lubridate::year(dates)), 3, 4))) %>%
-    right_join(tibble::tibble(dates = date))
+    dplyr::right_join(tibble::tibble(dates = date))
 
   unique_dates$dates
 
