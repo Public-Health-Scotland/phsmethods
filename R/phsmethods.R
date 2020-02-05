@@ -11,4 +11,4 @@ NULL
 
 # Stops notes from appearing in R CMD check because of undefined global
 # variable '.'
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+if (getRversion() >= "2.15.1")  utils::globalVariables(c("."))

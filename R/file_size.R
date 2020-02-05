@@ -79,14 +79,14 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     stop("A valid filepath must be supplied")
   }
 
-  if (!class(pattern) %in% c("character", "NULL")) {
+  if (!inherits(pattern, c("character", "NULL"))) {
     stop("A specified pattern must be of character class in order to be ",
          "evaluated as a regular expression")
   }
 
   x <- dir(path = filepath, pattern = pattern)
 
-  if(length(x) == 0) {
+  if (length(x) == 0) {
     return(NULL)
   }
 

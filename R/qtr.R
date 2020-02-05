@@ -47,8 +47,8 @@ qtr <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (class(date) != "Date") {
-    stop("The input must have Date class")
+  if (!inherits(date, "Date")) {
+    stop("The input must have Date class.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -64,6 +64,7 @@ qtr <- function(date, format = c("long", "short")) {
       quarter_num == 4 ~ paste0("October to December ",
                                 lubridate::year(date))))
   } else {
+
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Jan-Mar ",
                                 lubridate::year(date)),
@@ -82,8 +83,8 @@ qtr_end <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (class(date) != "Date") {
-    stop("The input must have Date class")
+  if (!inherits(date, "Date")) {
+    stop("The input must have Date class.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -99,6 +100,7 @@ qtr_end <- function(date, format = c("long", "short")) {
       quarter_num == 4 ~ paste0("December ",
                                 lubridate::year(date))))
   } else {
+
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Mar ",
                                 lubridate::year(date)),
@@ -117,8 +119,8 @@ qtr_next <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (class(date) != "Date") {
-    stop("The input must have Date class")
+  if (!inherits(date, "Date")) {
+    stop("The input must have Date class.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -134,6 +136,7 @@ qtr_next <- function(date, format = c("long", "short")) {
       quarter_num == 4 ~ paste0("January to March ",
                                 lubridate::year(date) + 1)))
   } else {
+
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Apr-Jun ",
                                 lubridate::year(date)),
@@ -152,8 +155,8 @@ qtr_prev <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (class(date) != "Date") {
-    stop("The input must have Date class")
+  if (!inherits(date, "Date")) {
+    stop("The input must have Date class.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -169,6 +172,7 @@ qtr_prev <- function(date, format = c("long", "short")) {
       quarter_num == 4 ~ paste0("July to September ",
                                 lubridate::year(date))))
   } else {
+
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Oct-Dec ",
                                 lubridate::year(date) - 1),
