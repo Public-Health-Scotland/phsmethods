@@ -14,9 +14,9 @@ knitr::opts_chunk$set(
 
 # phsmethods
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Health-SocialCare-Scotland/phsmethods)](https://github.com/Health-SocialCare-Scotland/phsmethods/releases/latest)
 [![Build Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods)
 [![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Health-SocialCare-Scotland/phsmethods)](https://github.com/Health-SocialCare-Scotland/phsmethods/releases/latest)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks in [Public Health Scotland (PHS)](https://publichealthreform.scot/public-health-scotland):
 
