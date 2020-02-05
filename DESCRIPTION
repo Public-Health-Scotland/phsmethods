@@ -21,7 +21,8 @@ Imports:
     purrr,
     stringi,
     stringr,
-    tibble
+    tibble,
+    rlang
 Suggests: 
     covr,
     here,
