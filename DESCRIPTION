@@ -19,10 +19,10 @@ Imports:
     lubridate,
     magrittr,
     purrr,
+    rlang,
     stringi,
     stringr,
-    tibble,
-    rlang
+    tibble
 Suggests: 
     covr,
     here,
