@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 - `postcode()` formats improperly recorded postcodes
 - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
 
-`phsmethods` can be used on both the [server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of RStudio.
+`phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
 
 ## Installation
 

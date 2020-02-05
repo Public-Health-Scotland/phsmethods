@@ -21,7 +21,7 @@ in [Public Health Scotland
     a quarter
 
 `phsmethods` can be used on both the
-[server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of
+[server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
 RStudio.
 
 ## Installation
