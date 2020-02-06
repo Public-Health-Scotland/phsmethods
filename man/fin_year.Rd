@@ -8,7 +8,7 @@ fin_year(date)
 }
 \arguments{
 \item{date}{A date which must be supplied with \code{Date} or \code{POSIXct}
-class. The functions as.Date() or lubridate::dmy() as.POSIXct() are examples
+class. The functions as.Date(), lubridate::dmy() or as.POSIXct() are examples
 of functions that can be used to change a variable to the appropriate class.}
 }
 \description{
