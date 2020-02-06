@@ -18,12 +18,12 @@
 #' between quotes.
 #'
 #' @examples
-#' test_df <- data.frame(code = c("3", "S01002363", "S01004303", "S02000656",
-#' "S02001042", "S08000020", "S12000013", "S12000048",
-#' "S13002522", "S13002873", "S14000020", "S16000124", "S17000012"))
+#' test_df <- data.frame(code = c("S20000010", "S01002363", "S01004303",
+#' "S02000656", "S02001042", "S08000020", "S12000013", "S12000048",
+#' "S13002522", "S13002873", "S14000020", "S16000124", "S22000004"))
 #'
 #' match_area_names(dataset = test_df, code_var = "code")
-#' test_df %>% match_geo_names("code")
+#' test_df %>% match_area_names("code")
 #'
 #' @export
 match_area_names <- function(dataset, code_var) {
@@ -80,13 +80,13 @@ match_area_names <- function(dataset, code_var) {
       stop("Dataset provided is not a data frame or tibble."))
 
   # Testing that code variable provided is a string.
-  try(if(is.factor(dataset[[code]]) == FALSE &
-         is.character(dataset[[code]]) == FALSE)
+  try(if(is.factor(dataset[[code_var]]) == FALSE &
+         is.character(dataset[[code_var]]) == FALSE)
     stop("The code variable provided is not of type character or factor."))
 
   # Testing if codes that want to be matched are in lookup
   try(if(!(any(unique(substr(names_lookup$geo_code, 1, 3)) %in%
-         unique(substr(datatset[[code]], 1, 3)))))
+         unique(substr(dataset[[code_var]], 1, 3)))))
     stop("The codes you are trying to match don't exist in the names lookup."))
 
   # Ensuring geo_code variable is of the right type
