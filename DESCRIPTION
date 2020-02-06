@@ -23,7 +23,8 @@ Imports:
     stringr,
     tibble,
     data.table,
-    tidyr
+    tidyr,
+    SPARQL
 Suggests: 
     covr,
     here,
