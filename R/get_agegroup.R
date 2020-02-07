@@ -18,16 +18,32 @@
 #'   largest breakpoint.
 #' @param as_factor The default behaviour is to return a factor vector. Use
 #'   \code{FALSE} to return a character vector instead.
+#' @param sep a character string to seperate the start and end year in each age
+#'   group label. Not \code{\link[base]{NA_character_}}.
+#' @param above.char a character string to append to the final (top) age group
+#'   if it extends to infinity.
+#' @param from,to,by start, end and increment values for a sequence of age
+#'   breaks. These are passed to \code{\link[base]{seq}} to generate the breaks.
+#' @param ... further arguments passed to \code{get_agegroup()}
 #'
 #' @return A factor vector, where each element corresponds to the same element
 #'   in \code{x}. If \code{as_factor = FALSE} a character vector is returned
 #'   instead.
 #'
-#' @note
+#' @details
 #' The breakpoints are used to create distinct contiguous age groups which cover
 #' the whole range between the smallest and largest points (or zero and
-#' \code{Inf} depending on which options are used). A single call of the
-#' function cannot create overlapping age groups (e.g. 65+ and 75+).
+#' \code{Inf} depending on which options are used).
+#'
+#' \code{get_agegroup_seq} provides an alternative way of specifing the age
+#' groupings using \code{\link[base]{seq}} arguments.
+#'
+#' @note
+#' Only contiguous age groups can be created with a single call of
+#' \code{get_agegroup}. To create overlapping age groups (e.g. 65+ and 75+) or
+#' age groups with gaps (e.g. 0-17, 65+, but nothing in between) it will be
+#' necessary to do some additional work or use additional calls of this
+#' function.
 #'
 #' @export
 #' @examples
@@ -35,6 +51,8 @@
 #' get_agegroup(age)
 #'
 #' get_agegroup(age, c(5, 15, 25, 45, 65, 75, 85))
+#'
+#' get_agegroup_seq(age, from=0, to=90, by=10)
 #'
 #' #If \code{include_zero} or \code{include_inf} are set to \code{FALSE}, values
 #' #outside of the range will return \code{NA}:
@@ -50,7 +68,9 @@ get_agegroup <- function(x,
                          breaks = c(seq(0, 90, by = 5), Inf),
                          include_zero = TRUE,
                          include_inf = TRUE,
-                         as_factor = TRUE) {
+                         as_factor = TRUE,
+                         sep = "-",
+                         above.char = "+") {
 
   if(is.null(x))
     stop("argument 'x' is missing or NULL, with no default")
@@ -89,10 +109,10 @@ get_agegroup <- function(x,
 
   ### Creation of labels list ----
   # Create labels based on consecutive values in breaks
-  labels <- paste(utils::head(breaks, -1), utils::tail(breaks,-1)-1, sep="-")
+  labels <- paste(utils::head(breaks, -1), utils::tail(breaks,-1)-1, sep=sep)
 
   # Reformat label for last value (if appropriate)
-  labels <- gsub("-Inf", "+", labels)
+  labels <- gsub(paste0(sep,"Inf"), above.char, labels)
 
   # Reformat labels for single values (if appropriate)
   labels[utils::head(breaks, -1) == utils::tail(breaks, -1)-1] <-
@@ -110,4 +130,15 @@ get_agegroup <- function(x,
     agegroup <- as.character(agegroup)
 
   return(agegroup)
+}
+
+#' @rdname get_agegroup
+#' @export
+get_agegroup_seq <- function(x, from = 0, to = 90, by = 5, ...){
+
+  # Including breaks in dots could cause odd behaviour, so check for this
+  if("breaks" %in% names(list(...)))
+    stop(paste0("unused argument (breaks)"))
+
+  get_agegroup(x, breaks=seq(from, to, by), ...)
 }

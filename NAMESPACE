@@ -3,6 +3,7 @@
 export(file_size)
 export(fin_year)
 export(get_agegroup)
+export(get_agegroup_seq)
 export(postcode)
 export(qtr)
 export(qtr_end)
