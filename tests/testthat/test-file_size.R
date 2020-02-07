@@ -5,7 +5,7 @@ test_that("Returns a tibble", {
 })
 
 test_that("Identifies correct number of files", {
-  expect_equal(nrow(file_size(test_path("files"))), 8)
+  expect_equal(nrow(file_size(test_path("files"))), 9)
   expect_equal(nrow(file_size(test_path("files"), ".xlsx?$")), 2)
   expect_equal(nrow(file_size(test_path("files"), ".sav$")), 1)
   expect_null(file_size(test_path("files"), ".pdf$"))

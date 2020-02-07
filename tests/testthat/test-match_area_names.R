@@ -1,7 +1,16 @@
 context("test-match_area_names")
 
 testthat::test_that("Expect the same names as in sample dataframe", {
-  test_df <- readRDS("tests/testthat/files/code_names_sample.rds") %>%
+
+  test_df <- data.frame(
+    code = c("S20000010", "S01002363", "S01004303", "S02000656", "S02001042",
+             "S08000020", "S12000013", "S12000048", "S13002522",
+             "S13002873", "S14000020", "S16000124", "S22000004"),
+    name_orig = c("Eaglesham", "Marybank to Newvalley", "Elgin South Lesmurdie",
+                  "Govan and Linthouse", "Peebles North", "Grampian",
+                  "Na h-Eileanan Siar", "Perth and Kinross", "Dunoon",
+                  "Arbroath East and Lunan", "East Lothian",
+                  "Hamilton, Larkhall and Stonehouse", "Banff")) %>%
     match_area_names("code") %>%
     dplyr::mutate(check = ifelse(name_orig == area_name, TRUE, FALSE))
 
@@ -9,18 +18,6 @@ testthat::test_that("Expect the same names as in sample dataframe", {
 
 })
 
-testthat::test_that("Not necessarily an error, but if less than 18 some geographic
-          entities might have dissapeared, if more some new ones could have been
-          added and both cases might merit a check", {
-
-  # Read in area name to geographic code lookup
-  names_lookup <- readRDS("reference_files/area_name_lookup.rds")
-
-  number_areas <- length(unique(substr(names_lookup$geo_code, 1, 3)))
-
-  testthat::expect_true(number_areas == 18)
-
-          })
 
 testthat::test_that("Expect an error if object not a dataframe", {
 
