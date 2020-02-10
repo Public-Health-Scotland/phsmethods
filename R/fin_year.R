@@ -25,10 +25,9 @@ fin_year <- function(date) {
   # performance for large vectors. The function was rewritten to extract
   # a vector of unique elements from the input, convert those to financial year
   # and then match them back on to the original input. This vastly improves
-  # performance for large inputs
+  # performance for large inputs.
 
-  unique_dates <- tibble::tibble(dates = unique(date)) %>%
-
+  tibble::tibble(dates = unique(date)) %>%
     dplyr::mutate(fin_year = paste0(ifelse(lubridate::month(.data$dates) >= 4,
                                            lubridate::year(.data$dates),
                                            lubridate::year(.data$dates) - 1),
