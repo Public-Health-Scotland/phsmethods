@@ -11,7 +11,7 @@ Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=m
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
-(PHS)](https://publichealthreform.scot/public-health-scotland):
+(PHS)](https://www.publichealthscotland.scot/):
 
   - `file_size()` returns the names and sizes of files in a directory
   - `fin_year()` assigns a date to a financial year in the format
@@ -189,7 +189,7 @@ of them will conduct a review, provide feedback and, if necessary,
 request changes prior to merging your branch.
 
 Please be mindful of information governance when contributing to this
-package. No data files (aside from publically available and downloadable
+package. No data files (aside from publicly available and downloadable
 datasets or unless explicitly approved), server connection details,
 passwords or person identifiable or otherwise confidential information
 should be included anywhere within this package or any other repository

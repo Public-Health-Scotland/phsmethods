@@ -7,6 +7,7 @@
 #' @docType package
 #' @name phsmethods
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 NULL
 
 # Stops notes from appearing in R CMD check because of undefined global
