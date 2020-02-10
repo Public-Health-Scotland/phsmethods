@@ -95,6 +95,7 @@ file_size(testthat::test_path("files"), pattern = ".xlsx?$")
 ``` r
 a <- lubridate::dmy(c(21012017, 04042017, 17112017))
 fin_year(a)
+#> [1] "2016/17" "2017/18" "2017/18"
 ```
 
 ### postcode
