@@ -10,6 +10,8 @@
 #' \item \code{qtr} returns the current quarter.
 #'
 #' \item \code{qtr_end} returns the last month in the quarter.
+#' 
+#' \item \code{qtr_start} returns the first month in the quarter.
 #'
 #' \item \code{qtr_next} returns the next quarter.
 #'
@@ -19,10 +21,10 @@
 #' @details Quarters are defined as:
 #'
 #' \itemize{
-#' \item January to March (Jan-Mar)
-#' \item April to June (Apr-Jun)
-#' \item July to September (Jul-Sep)
-#' \item October to December (Oct-Dec)
+#' \item January to March (Jan-Mar, Q1)
+#' \item April to June (Apr-Jun, Q2)
+#' \item July to September (Jul-Sep, Q3)
+#' \item October to December (Oct-Dec, Q4)
 #' }
 #'
 #' @param date A date supplied with \code{Date} class.
@@ -124,6 +126,49 @@ qtr_end <- function(date, format = c("long", "short", "open")) {
 
 #' @export
 #' @rdname qtr
+qtr_start <- function(date, format = c("long", "short", "open")) {
+  
+  format <- match.arg(format)
+  
+  if (!inherits(date, "Date")) {
+    stop("The input must have Date class.")
+  }
+  
+  quarter_num <- lubridate::quarter(date)
+  
+  if (format == "long") {
+    return(dplyr::case_when(
+      quarter_num == 1 ~ paste0("January ",
+                                lubridate::year(date)),
+      quarter_num == 2 ~ paste0("April ",
+                                lubridate::year(date)),
+      quarter_num == 3 ~ paste0("July ",
+                                lubridate::year(date)),
+      quarter_num == 4 ~ paste0("October ",
+                                lubridate::year(date))))
+  }
+  else if(format == "open"){
+    return(dplyr::case_when(
+      quarter_num == 1 ~ paste0(lubridate::year(date), "01"),
+      quarter_num == 2 ~ paste0(lubridate::year(date), "04"),
+      quarter_num == 3 ~ paste0(lubridate::year(date), "07"),
+      quarter_num == 4 ~ paste0(lubridate::year(date), "10")))
+  } else{
+    
+    return(dplyr::case_when(
+      quarter_num == 1 ~ paste0("Jan ",
+                                lubridate::year(date)),
+      quarter_num == 2 ~ paste0("Apr ",
+                                lubridate::year(date)),
+      quarter_num == 3 ~ paste0("Jul ",
+                                lubridate::year(date)),
+      quarter_num == 4 ~ paste0("Oct ",
+                                lubridate::year(date))))
+  }
+}
+
+#' @export
+#' @rdname qtr
 qtr_next <- function(date, format = c("long", "short", "open")) {
   
   format <- match.arg(format)
@@ -207,5 +252,3 @@ qtr_prev <- function(date, format = c("long", "short", "open")) {
                                 lubridate::year(date))))
   } 
 }
-
-
