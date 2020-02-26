@@ -82,15 +82,15 @@ qtr <- function(date, format = c("long", "short", "open")) {
 #' @export
 #' @rdname qtr
 qtr_end <- function(date, format = c("long", "short", "open")) {
-
+  
   format <- match.arg(format)
-
+  
   if (!inherits(date, "Date")) {
     stop("The input must have Date class.")
   }
-
+  
   quarter_num <- lubridate::quarter(date)
-
+  
   if (format == "long") {
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("March ",
@@ -101,8 +101,15 @@ qtr_end <- function(date, format = c("long", "short", "open")) {
                                 lubridate::year(date)),
       quarter_num == 4 ~ paste0("December ",
                                 lubridate::year(date))))
-  } else if(format == "short") {
-
+  }
+  else if(format == "open"){
+    return(dplyr::case_when(
+      quarter_num == 1 ~ paste0(lubridate::year(date), "03"),
+      quarter_num == 2 ~ paste0(lubridate::year(date), "06"),
+      quarter_num == 3 ~ paste0(lubridate::year(date), "09"),
+      quarter_num == 4 ~ paste0(lubridate::year(date), "12")))
+  } else{
+    
     return(dplyr::case_when(
       quarter_num == 1 ~ paste0("Mar ",
                                 lubridate::year(date)),
@@ -112,13 +119,6 @@ qtr_end <- function(date, format = c("long", "short", "open")) {
                                 lubridate::year(date)),
       quarter_num == 4 ~ paste0("Dec ",
                                 lubridate::year(date))))
-  }
-  else if(format == "open"){
-    return(paste0(lubridate::year(date), "Q", quarter_num))
-  }
-  else{
-    print("Incorect `format` option: try, `long`, `short`, `open`.")
-    return(NA)
   }
 }
 
@@ -189,11 +189,11 @@ qtr_prev <- function(date, format = c("long", "short", "open")) {
       quarter_num == 4 ~ paste0("July to September ",
                                 lubridate::year(date))))
   } else if(format == "open"){
-      if(quarter_num == 1){
-        return(paste0(lubridate::year(date) - 1, "Q4"))
-      } else{
-        return(paste0(lubridate::year(date), as.character(quarter_num - 1)))
-      }
+    if(quarter_num == 1){
+      return(paste0(lubridate::year(date) - 1, "Q4"))
+    } else{
+      return(paste0(lubridate::year(date), "Q", as.character(quarter_num - 1)))
+    }
   } else{
     
     return(dplyr::case_when(
@@ -207,4 +207,5 @@ qtr_prev <- function(date, format = c("long", "short", "open")) {
                                 lubridate::year(date))))
   } 
 }
+
 
