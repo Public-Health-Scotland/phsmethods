@@ -26,7 +26,7 @@ test_that("Returns sizes in alphabetical order", {
 })
 
 test_that("Errors if supplied with invalid filepath", {
-  expect_error(file_size(here::here("data")))
+  expect_error(file_size(here::here("datatest")))
   expect_error(file_size(NA))
   expect_error(file_size(NULL))
 })
