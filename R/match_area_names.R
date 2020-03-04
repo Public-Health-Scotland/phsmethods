@@ -32,7 +32,7 @@ match_area_names <- function(dataset, code_var) {
   ## Merging dataset with names lookup ----
   ###############################################.
   # Read in area name to geographic code lookup
-  area_name_lookup <- readRDS("data/area_name_lookup.rds")
+  load("data/area_name_lookup.rda")
 
   # Function works for data frames sensu lato. Checking dataset provide is one.
   if(is.data.frame(dataset) == FALSE) {
