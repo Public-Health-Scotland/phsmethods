@@ -32,7 +32,7 @@ match_area_names <- function(dataset, code_var) {
   ## Merging dataset with names lookup ----
   ###############################################.
   # Read in area name to geographic code lookup
-  names_lookup <- readRDS("reference_files/area_name_lookup.rds")
+  area_name_lookup <- readRDS("data/area_name_lookup.rds")
 
   # Function works for data frames sensu lato. Checking dataset provide is one.
   if(is.data.frame(dataset) == FALSE) {
@@ -46,7 +46,7 @@ match_area_names <- function(dataset, code_var) {
   }
 
   # Testing if codes that want to be matched are in lookup
-  if(!(any(unique(substr(names_lookup$geo_code, 1, 3)) %in%
+  if(!(any(unique(substr(area_name_lookup$geo_code, 1, 3)) %in%
          unique(substr(dataset[[code_var]], 1, 3))))) {
     stop("The codes you are trying to match don't exist in the names lookup.")
   }
@@ -63,7 +63,7 @@ match_area_names <- function(dataset, code_var) {
   }
 
   # Merges with the dataset selected
-  dplyr::left_join(dataset, names_lookup,
+  dplyr::left_join(dataset, area_name_lookup,
                    by = stats::setNames("geo_code", code_var) )
 
 }

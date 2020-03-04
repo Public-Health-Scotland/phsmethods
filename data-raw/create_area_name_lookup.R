@@ -32,11 +32,11 @@ other_names <- tibble::tibble(
 
 names_lookup <- rbind(names_lookup, other_names)
 
-saveRDS(names_lookup, "reference_files/area_name_lookup.rds")
+saveRDS(area_name_lookup, file = "data/area_name_lookup.rds")
 # There is an issue with testhat that prevents it to access internal filepaths:
 # https://github.com/r-lib/testthat/issues/86
 # So it needs t be duplicated in its own folder too
-saveRDS(names_lookup, "tests/testthat/reference_files/area_name_lookup.rds")
+saveRDS(area_name_lookup, file = "tests/testthat/data/area_name_lookup.rds")
 
 
 ##END
