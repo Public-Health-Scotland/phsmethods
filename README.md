@@ -3,13 +3,15 @@
 
 # phsmethods
 
+[![GitHub release (latest by
+date)](https://img.shields.io/github/v/release/Health-SocialCare-Scotland/phsmethods)](https://github.com/Health-SocialCare-Scotland/phsmethods/releases/latest)
 [![Build
 Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods)
 [![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
-(PHS)](https://publichealthreform.scot/public-health-scotland):
+(PHS)](https://www.publichealthscotland.scot/):
 
   - `file_size()` returns the names and sizes of files in a directory
   - `fin_year()` assigns a date to a financial year in the format
@@ -19,7 +21,7 @@ in [Public Health Scotland
     a quarter
 
 `phsmethods` can be used on both the
-[server](http://spsssrv02.csa.scot.nhs.uk:8787/) and desktop versions of
+[server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
 RStudio.
 
 ## Installation
@@ -30,7 +32,8 @@ installed with `install.packages("remotes")`.
 You can then install `phsmethods` on RStudio server from GitHub with:
 
 ``` r
-remotes::install_github("Health-SocialCare-Scotland/phsmethods")
+remotes::install_github("Health-SocialCare-Scotland/phsmethods",
+                        upgrade = "never")
 ```
 
 Network security settings may prevent `remotes::install_github()` from
@@ -127,8 +130,7 @@ c <- lubridate::dmy(c(26032012, 04052012, 23092012))
 # qtr returns the current quarter and year
 # The default is long format
 qtr(c)
-#> [1] "January to March 2012"  "April to June 2012"    
-#> [3] "July to September 2012"
+#> [1] "January to March 2012"  "April to June 2012"     "July to September 2012"
 
 # But short format can also be applied
 qtr(c, format = "short")
@@ -187,7 +189,7 @@ of them will conduct a review, provide feedback and, if necessary,
 request changes prior to merging your branch.
 
 Please be mindful of information governance when contributing to this
-package. No data files (aside from publically available and downloadable
+package. No data files (aside from publicly available and downloadable
 datasets or unless explicitly approved), server connection details,
 passwords or person identifiable or otherwise confidential information
 should be included anywhere within this package or any other repository
@@ -200,6 +202,12 @@ Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publis
 guide](https://nhs-nss-transforming-publications.github.io/git-guide/)
 and [GitHub
 guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
+
+Please feel free to add yourself to the ‘Authors’ section of the
+`Description` file when contributing. As a rule of thumb, please assign
+your role as author (`"aut"`) when writing an exported function, and as
+contributor (`"ctb"`) when editing an existing function and/or writing a
+non-exported function.
 
 `phsmethods` will, as much as possible, adhere to the [tidyverse style
 guide](https://style.tidyverse.org/) and the [rOpenSci package

@@ -1,12 +1,12 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
 language: r
-dist: trusty
 cache: packages
 
-matrix:
-  include:
-  - r: oldrel
-  - r: release
-  - r: devel
+r:
+  - oldrel
+  - release
+  - devel
 
 r_github_packages:
   - r-lib/covr
