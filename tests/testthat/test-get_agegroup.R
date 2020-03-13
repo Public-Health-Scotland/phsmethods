@@ -167,10 +167,12 @@ test_that("Negative values in breaks gives warning", {
                              ordered = T))
 })
 
-test_that("Fractional values in breaks gives warning", {
+test_that("Fractional values in breaks gives warning and uses ranges", {
   expect_warning(
     a <- get_agegroup(c(7, 21, 14, 10.4, 10.6), breaks = c(5, 10.5, 20)))
-  expect_identical(a, factor(c("5-9.5", "20+", "10.5-19", "5-9.5", "10.5-19"),
-                             levels = c("0-4", "5-9.5", "10.5-19", "20+"),
+  expect_identical(a, factor(c("[5,10.5)", "[20,Inf)", "[10.5,20)", "[5,10.5)",
+                               "[10.5,20)"),
+                             levels = c("[0,5)", "[5,10.5)", "[10.5,20)",
+                                        "[20,Inf)"),
                              ordered = T))
 })

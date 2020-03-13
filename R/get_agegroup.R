@@ -87,9 +87,6 @@ get_agegroup <- function(x,
   if(any(breaks < 0))
     warning("Negative values in breaks. Check output carefully")
 
-  if(any(trunc(breaks) != breaks))
-    warning("Non-integer values found in breaks. Group labels may not be correct")
-
   # If include_zero is true (default) and last break value is not already 0
   # add 0 to the break vector
   if(include_zero & !(0 %in% breaks))
@@ -116,7 +113,12 @@ get_agegroup <- function(x,
 
   # Reformat labels for single values (if appropriate)
   labels[utils::head(breaks, -1) == utils::tail(breaks, -1)-1] <-
-    utils::head(breaks, -1)[utils::head(breaks, -1) == utils::tail(breaks, -1)-1]
+   utils::head(breaks, -1)[utils::head(breaks, -1) == utils::tail(breaks, -1)-1]
+
+  if(any(trunc(breaks) != breaks)){
+    warning("Non-integer values found in breaks. Using ranges as labels")
+    labels = NULL
+  }
 
   ### Age grouping ----
   # Create age groups
