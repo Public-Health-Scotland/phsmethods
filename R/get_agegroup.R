@@ -81,7 +81,7 @@ get_agegroup <- function(x,
   }
 
   ### Handling for breaks vector ----
-  if(!is.numeric(breaks))
+  if(!is.numeric(breaks) | any(is.na(breaks)) | any(is.nan(breaks)))
     stop("non-numeric value found in 'breaks'")
 
   if(any(breaks < 0))
