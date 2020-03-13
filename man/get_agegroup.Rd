@@ -78,15 +78,17 @@ get_agegroup(age)
 
 get_agegroup(age, c(5, 15, 25, 45, 65, 75, 85))
 
-get_agegroup_seq(age, from=0, to=90, by=10)
+#Other functions can be used to specify the breaks,
+#e.g. \code\link[base]{seq}:
+get_agegroup(age, seq(0, 100, by = 10))
 
 #If \code{include_zero} or \code{include_inf} are set to \code{FALSE}, values
 #outside of the range will return \code{NA}:
 get_agegroup(age, c(5, 15, 25, 45, 65, 75, 85), include_zero = FALSE)
 
-#Other functions can be used to specify the breaks, e.g. \code\link[base]{seq}:
-get_agegroup(age, seq(0, 100, by = 10))
-
 #To get the output as a vector of character:
 get_agegroup(age, as_factor = FALSE)
+
+#There is an additional method to use \code{seq}-like parameters
+get_agegroup_seq(age, from=0, to=90, by=10)
 }
