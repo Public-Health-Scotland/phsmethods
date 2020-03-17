@@ -34,7 +34,8 @@ match_area_names <- function(dataset, code_var) {
   # Read in area name to geographic code lookup
   load("data/area_name_lookup.rda")
 
-  # Function works for data frames sensu lato. Checking dataset provide is one.
+  # Function works for data frames sensu lato (includes tibbles).
+  # Checking dataset provided is one.
   if(is.data.frame(dataset) == FALSE) {
       stop("Dataset provided is not a data frame or tibble.")
   }
@@ -55,7 +56,7 @@ match_area_names <- function(dataset, code_var) {
   dataset %<>% dplyr::mutate_at(code_var, as.character)
 
   # If there is already a variable named area_name give a warning
-  if ("area_name" %in% names(dataset) == T) {
+  if ("area_name" %in% names(dataset) ) {
     warning(paste0("There is already a variable named 'area_name' ",
             "in the dataset. The original variable will be renamed as ",
             "'area_name.x and the one produced by this function as ",
