@@ -32,7 +32,7 @@ test_df <- data.frame(code = c("S20000010", "S01002363", "S01004303",
 "S02000656", "S02001042", "S08000020", "S12000013", "S12000048",
 "S13002522", "S13002873", "S14000020", "S16000124", "S22000004"))
 
-match_area_names(dataset = test_df, code_var = "code")
-test_df \%>\% match_area_names("code")
+# match_area_names(dataset = test_df, code_var = "code")
+# test_df \%>\% match_area_names("code")
 
 }
