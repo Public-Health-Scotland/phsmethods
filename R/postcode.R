@@ -84,10 +84,11 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   singular <- "value does"
   multiple <- "values do"
 
-  if(!all(
-    stringr::str_detect(
-      pc[!is.na(pc)],
-      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"))) {
+  if (
+    !all(
+      stringr::str_detect(
+        pc[!is.na(pc)],
+        "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"))) {
     warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
                        "not adhere to the standard UK postcode format (with ",
                        "or without spaces) and will be coded as NA. The ",
@@ -107,7 +108,7 @@ postcode <- function(string, format = c("pc7", "pc8")) {
                   "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"),
                 NA_character_)
 
-  if(any(grepl("[a-z]", pc))) {
+  if (any(grepl("[a-z]", pc))) {
     warning("Lower case letters in any input value(s) adhering to the ",
             "standard UK postcode format will be converted to upper case")
   }
