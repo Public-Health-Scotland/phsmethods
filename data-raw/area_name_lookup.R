@@ -16,7 +16,7 @@ query_names <- "SELECT ?geo_code ?area_name
 
 qd <- SPARQL::SPARQL(endpoint, query_names)
 
-names_lookup <- qd[["results"]] %>%
+area_name_lookup <- qd[["results"]] %>%
   dplyr::mutate(geo_code = substr(geo_code, 2, 10)) # extracting only code
 
 # Adding a few extra codes and names not present in lookup files
@@ -30,10 +30,9 @@ other_names <- tibble::tibble(
   geo_code = c("S00000001", "S27000001", "S27000002", "S08100001", "S08100008",
                sprintf("RA270%d", seq(1:4)), sprintf("S0820000%d", seq(1:4))))
 
-names_lookup <- rbind(names_lookup, other_names)
+area_name_lookup <- rbind(area_name_lookup, other_names)
 
-saveRDS(area_name_lookup, file = "data/area_name_lookup.rds")
-save(area_name_lookup, file = "data/area_name_lookup.rda", compress = T)
+usethis::use_data(area_name_lookup, overwrite = T, compress = T) # saving file
 # There is an issue with testhat that prevents it to access internal filepaths:
 # https://github.com/r-lib/testthat/issues/86
 # So it needs t be duplicated in its own folder too
