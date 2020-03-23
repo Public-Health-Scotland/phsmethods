@@ -6,9 +6,26 @@
 #'
 #' \itemize{
 #' \item \code{chi_pad} adds a leading zero to 9 character CHIs
-#'
 #' \item \code{chi_check} tests a CHI for validity
 #' }
+#'
+#' @details
+#' \code{chi_check}:
+#'
+#' This checks for a valid CHI by:
+#'
+#' \itemize{
+#' \item checking for invalid characters (non-numeric)
+#' \item checking for length of 10 characters
+#' \item checking that first 6 characters parse to valid date
+#' \item checksum digit is correct
+#' }
+#'
+#' \code{chi_pad}:
+#'
+#' Depending on the source, CHI numbers are sometimes mising a leading zero.
+#' \code{chi_pad} takes a 9 digit CHI and adds a leading zero. Only CHI numbers
+#' of 9 characters are changed.
 #'
 #' @param to_check \code{character} vector of CHI numbers
 #' @return character
@@ -17,9 +34,11 @@
 #'  "3213201234", "123456789", "12345678900", "010120123?")
 #' chi_check(x)
 #'
-#'x <- c("1234567890", "123456789", "123")
-#'chi_pad(x)
-#'
+#' #chi_pad differs from str_pad()
+#' #as only 9 character CHIs are changed
+#' x <- c("1234567890", "123456789", "123")
+#' chi_pad(x)
+
 #' @export
 #' @rdname chi
 chi_check <- function(to_check) {
@@ -64,13 +83,15 @@ chi_check <- function(to_check) {
   to_check_num <- ifelse(grepl(x = to_check, pattern = "[[:punct:][:alpha:]]"),
                          NA_character_,
                          to_check)
+
   #perform checks
-  ifelse(is.na(to_check_num), "invalid character", #check character
-    ifelse(nchar(to_check_num) > 10, "too long", #is it 10 digits?
-      ifelse(nchar(to_check_num) < 10, "too short", #is it 10 digits?
-        ifelse(is.na(lubridate::dmy(substr(to_check_num, 1, 6), quiet = TRUE)), "invalid date", #date check
-          ifelse(checksum(to_check_num) == "fail", "invalid checksum", #checksum calculation
-                 NA_character_))))) #NA if everything passes
+  dplyr::case_when(
+  is.na(to_check_num) ~ "invalid character", #check character
+  nchar(to_check_num) > 10 ~ "too long", #is it 10 digits?
+  nchar(to_check_num) < 10 ~  "too short", #is it 10 digits?
+  is.na(lubridate::dmy(substr(to_check_num, 1, 6), quiet = TRUE)) ~ "invalid date", #date check
+  checksum(to_check_num) == "fail" ~ "invalid checksum", #checksum calculation
+  TRUE ~ NA_character_) #NA if everything passes
 }
 
 #' @export
