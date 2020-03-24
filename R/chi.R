@@ -44,8 +44,8 @@
 chi_check <- function(to_check) {
 
   #stop if input is not character
-  if(inherits(to_check, "character") != TRUE) {
-    stop("input should be character class - try adding col_types = 'c' to read_csv")
+  if (inherits(to_check, "character") != TRUE) {
+    stop("input should be character - try adding col_types = 'c' to read_csv")
   }
 
   #define checksum function
@@ -66,12 +66,12 @@ chi_check <- function(to_check) {
 
     #multiply by weights and add together
     y <- sub_num(x, 1) + sub_num(x, 2) +
-        sub_num(x, 3) + sub_num(x, 4)+
-        sub_num(x, 5) + sub_num(x, 6)+
-        sub_num(x, 7) + sub_num(x, 8)+
+        sub_num(x, 3) + sub_num(x, 4) +
+        sub_num(x, 5) + sub_num(x, 6) +
+        sub_num(x, 7) + sub_num(x, 8) +
         sub_num(x, 9)
 
-    y2 <- floor(y/11) #discard remainder
+    y2 <- floor(y / 11) #discard remainder
     y3 <- 11 * (y2 + 1) - y #check sum calc
     y3 <- ifelse(y3 == 11, 0, y3) #if 11, make 0
 
@@ -96,11 +96,11 @@ chi_check <- function(to_check) {
 
 #' @export
 #' @rdname chi
-chi_pad <- function(to_check){
+chi_pad <- function(to_check) {
 
   #stop if input is not character
-  if(inherits(to_check, "character") != TRUE) {
-    stop("input should be character class - try adding col_types = 'c' to read_csv")
+  if (inherits(to_check, "character") != TRUE) {
+    stop("input should be character - try adding col_types = 'c' to read_csv")
   }
 
   #pad 9 characters to 10

@@ -8,11 +8,11 @@ test_that("chi_check - invalid day fails", {
 })
 
 test_that("chi_check - invalid month fails", {
-  expect_equal(chi_check("0113209999"), "invalid date" )
+  expect_equal(chi_check("0113209999"), "invalid date")
 })
 
 test_that("chi_check - invalid day/month fails", {
-  expect_equal(chi_check("3213209999"), "invalid date" )
+  expect_equal(chi_check("3213209999"), "invalid date")
 })
 
 test_that("chi_check - leap year passes", {
@@ -24,23 +24,23 @@ test_that("chi_check - non-leap year 29/02 fails", {
 })
 
 test_that("chi_check - punctuation fails", {
-  expect_equal(chi_check("?123456789"), "invalid character" )
+  expect_equal(chi_check("?123456789"), "invalid character")
 })
 
 test_that("chi_check - string fails", {
-  expect_equal(chi_check("a123456789"), "invalid character" )
+  expect_equal(chi_check("a123456789"), "invalid character")
 })
 
 test_that("chi_check - length < 10 fails", {
-  expect_equal(chi_check("123"), "too short" )
+  expect_equal(chi_check("123"), "too short")
 })
 
 test_that("chi_check - length > 10 fails", {
-  expect_equal(chi_check("12345678901"), "too long" )
+  expect_equal(chi_check("12345678901"), "too long")
 })
 
 test_that("chi_check - non-char fails", {
-  expect_error(chi_check(123), "input should be character class - try adding col_types = 'c' to read_csv")
+  expect_error(chi_check(123), "input should be character - try adding col_types = 'c' to read_csv")
 })
 
 test_that("chi_check - zero day fails", {
@@ -66,7 +66,7 @@ test_that("chi_check - invalid checksum fails", {
 test_that("chi_check - works on vector", {
 
   #data
-  x <- c("0101011237", "0101201234","3201201234", "0113201234",
+  x <- c("0101011237", "0101201234", "3201201234", "0113201234",
          "3213201234", "123456789", "12345678900", "010120123?",
          "1904851231")
   #expected
@@ -100,6 +100,5 @@ test_that("chi_pad - char > 10 not padded", {
 
 test_that("chi_check - non-char fails", {
   expect_error(chi_pad(123),
-               "input should be character class - try adding col_types = 'c' to read_csv")
+               "input should be character - try adding col_types = 'c' to read_csv")
 })
-
