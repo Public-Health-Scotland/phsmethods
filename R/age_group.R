@@ -42,7 +42,10 @@
 #' age_group(age, as_factor = TRUE)
 #'
 #' @export
-age_group <- function(x, from = 0, to = 90, by = 5,
+age_group <- function(x,
+                      from = 0,
+                      to = 90,
+                      by = 5,
                       as_factor = FALSE) {
 
   breaks <- seq(from, to, by)
@@ -61,7 +64,7 @@ age_group <- function(x, from = 0, to = 90, by = 5,
                   right = FALSE,
                   ordered_result = TRUE)
 
-  if(as_factor == F)
+  if(as_factor == FALSE)
     agegroup <- as.character(agegroup)
 
   return(agegroup)
