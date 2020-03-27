@@ -42,14 +42,10 @@ test_that("Default value for age groups", {
 
 
 test_that("Handling of non-numeric values for x", {
-  # Non-numeric values are converted to numeric. If this fails for any element,
-  # a warning will be diplayed and NA will be used for this element.
-  expect_warning(a <- age_group(c("1", "57", "apple", "12"), as_factor = FALSE))
-  expect_equal(a, c("0-4", "55-59", NA, "10-14"))
+  # If x is not numeric cut will error.
+  expect_error(age_group(c("1", "57", "apple", "12"), as_factor = FALSE))
 
-  # If all elements are numbers stored as text, no warning will be given.
-  expect_warning(a <- age_group(c("26", "9", "78", "81"), as_factor = FALSE),
-                 regexp = NA)
-  expect_equal(a, c("25-29", "5-9", "75-79", "80-84"))
+  # This is true even if all elements are numbers stored as character
+  expect_error(age_group(c("26", "9", "78", "81"), as_factor = FALSE))
 
 })

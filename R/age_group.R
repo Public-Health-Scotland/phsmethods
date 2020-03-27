@@ -58,7 +58,7 @@ age_group <- function(x,
   # Reformat label for last value
   labels <- gsub("-Inf", "+", labels)
 
-  agegroup <- cut(as.numeric(x),
+  agegroup <- cut(x,
                   breaks = breaks,
                   labels = labels,
                   right = FALSE,
