@@ -25,9 +25,8 @@
 #' rounded down to the nearest multiple of \code{by}.
 #'
 #' The default values of \code{from}, \code{to} and \code{by} correspond to the
-#' \href{https://www.opendata.nhs.scot/dataset/standard-populations/resource/
-#' edee9731-daf7-4e0d-b525-e4c1469b8f69}{European Standard Population} age
-#' groups.
+#' \href{https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69}{European Standard Population}
+#' age groups.
 #'
 #' @examples
 #' age <- c(54, 7, 77, 1, 26, 101)
