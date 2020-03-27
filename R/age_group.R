@@ -67,5 +67,5 @@ age_group <- function(x,
   if(as_factor == FALSE)
     agegroup <- as.character(agegroup)
 
-  return(agegroup)
+  agegroup
 }
