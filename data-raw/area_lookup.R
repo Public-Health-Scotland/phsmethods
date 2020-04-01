@@ -1,7 +1,8 @@
 ### This script downloads and formats data pertaining to geographic area names
 ### and codes from the Scottish Government open data platform
 ###
-### The resulting file is used inside the match_area function
+### The resulting file is used inside the match_area function and is made
+### available to users of the package via phsmethods::area_lookup
 ###
 ### This script should be re-run prior to every package release, to ensure the
 ### most up-to-date information provided by the Scottish Government is used
@@ -34,7 +35,14 @@ qd <- SPARQL::SPARQL(endpoint, query)
 area_lookup <- qd[["results"]] %>%
 
   # Extract the code only
-  dplyr::mutate(geo_code = substr(geo_code, 2, 10))
+  dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
+
+  # TO DO: fix encoding problems
+  # Bo'ness and Blackness (with code S13002936) is not formatted correctly on
+  # the SG open data platform, so manually edit its name here
+  # dplyr::mutate(area_name = replace(area_name,
+  #                                   geo_code == "S13002936",
+  #                                   "Bo'ness and Blackness"))
 
 # Manually add some additional codes which aren't present in the lookup file
 other_areas <- tibble::tibble(
@@ -67,7 +75,8 @@ if (any(other_areas$geo_code %in% area_lookup$geo_code)) {
 }
 
 area_lookup %<>%
+  tibble::as_tibble() %>%
   dplyr::bind_rows(other_areas)
 
-# Save data to R/sysdata.rda
-usethis::use_data(area_lookup, internal = TRUE, overwrite = TRUE)
+# Save data to data/area_lookup.rda
+usethis::use_data(area_lookup, overwrite = TRUE)
