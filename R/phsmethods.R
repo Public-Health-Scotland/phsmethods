@@ -9,9 +9,10 @@
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
 #' @importFrom rlang .data
-
+#' @importFrom tibble tibble
 NULL
 
 # Stops notes from appearing in R CMD check because of undefined global
-# variable '.'
-if (getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+# variable '.' and allows area_lookup dataset to be used inside match_areas
+# function
+utils::globalVariables(c(".", "area_lookup"))
