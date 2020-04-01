@@ -22,12 +22,10 @@ Imports:
     magrittr,
     purrr,
     rlang,
-    stringi,
+    stats,
     stringr,
     tibble,
-    data.table,
-    tidyr,
-    SPARQL
+    tidyr
 Suggests: 
     covr,
     here,
