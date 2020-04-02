@@ -35,14 +35,28 @@ qd <- SPARQL::SPARQL(endpoint, query)
 area_lookup <- qd[["results"]] %>%
 
   # Extract the code only
-  dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
+  dplyr::mutate(geo_code = substr(geo_code, 2, 10))
 
-  # TO DO: fix encoding problems
-  # Bo'ness and Blackness (with code S13002936) is not formatted correctly on
-  # the SG open data platform, so manually edit its name here
-  # dplyr::mutate(area_name = replace(area_name,
-  #                                   geo_code == "S13002936",
-  #                                   "Bo'ness and Blackness"))
+# A bunch of area names don't parse correctly from the SG open data platform
+# This seems like a problem with their platform, rather than with SPARQL
+# Most of the problems seem to be with parsing non-ASCII characters, although
+# not all of the area names which are parsed incorrectly should even have
+# non-ASCII characters in them
+# This step identifies the problem area names
+area_lookup %>%
+  dplyr::filter(!xfun::is_ascii(area_name))
+
+# I did't see an easier solution than googling the codes of the areas with
+# problem names, finding out what the real names are, and manually changing them
+area_lookup %<>%
+  dplyr::mutate(area_name = dplyr::case_when(
+    geo_code == "S13002605" ~ "Ste\U00F2rnabhagh a Deas",
+    geo_code == "S13002606" ~ "Ste\U00F2rnabhagh a Tuath",
+    geo_code == "S13002672" ~ "Eilean a' Ch\U00E8o",
+    geo_code == "S13002891" ~ "Annandale East and Eskdale",
+    geo_code == "S13002936" ~ "Bo'ness and Blackness",
+    geo_code == "S13002999" ~ "Eilean a' Ch\U00E8o"
+  ))
 
 # Manually add some additional codes which aren't present in the lookup file
 other_areas <- tibble::tibble(
