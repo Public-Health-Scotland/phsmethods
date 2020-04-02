@@ -59,7 +59,7 @@
 #' file_size()
 #'
 #' # Name and size of .xlsx files only in working directory
-#' file_size(pattern = ".xlsx$")
+#' file_size(pattern = "\\.xlsx$")
 #'
 #' # Size only of alphabetically first file in working directory
 #' library(magrittr)
