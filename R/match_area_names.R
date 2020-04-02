@@ -32,7 +32,7 @@ match_area_names <- function(dataset, code_var) {
   ## Merging dataset with names lookup ----
   ###############################################.
   # Read in area name to geographic code lookup
-  load("data/area_lookup.rda")
+  area_lookup <- phsmethods::area_lookup
 
   # Function works for data frames sensu lato (includes tibbles).
   # Checking dataset provided is one.
