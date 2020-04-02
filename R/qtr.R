@@ -32,13 +32,9 @@
 #'
 #' @examples
 #' x <- lubridate::dmy(c(26032012, 04052012, 23092012))
-#'
 #' qtr(x)
-#'
 #' qtr_end(x, format = "short")
-#'
 #' qtr_next(x)
-#'
 #' qtr_prev(x, format = "short")
 
 #' @export
