@@ -69,7 +69,7 @@ postcode("G26QE")
 postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 library(dplyr)
-x <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
-x \%>\% mutate(pc = postcode(pc))
+df <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+df \%>\% mutate(pc = postcode(pc))
 
 }
