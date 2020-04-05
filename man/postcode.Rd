@@ -4,14 +4,14 @@
 \alias{postcode}
 \title{Format a postcode}
 \usage{
-postcode(string, format = c("pc7", "pc8"))
+postcode(x, format = c("pc7", "pc8"))
 }
 \arguments{
-\item{string}{A character string or vector of character strings. Input
-values which adhere to the standard UK postcode format may be upper or lower
-case and will be formatted regardless of existing spacing. Any input values
-which do not adhere to the standard UK postcode format will generate an NA
-and a warning message - see \strong{Value} section for more information.}
+\item{x}{A character string or vector of character strings. Input values
+which adhere to the standard UK postcode format may be upper or lower case
+and will be formatted regardless of existing spacing. Any input values which
+do not adhere to the standard UK postcode format will generate an NA and a
+warning message - see \strong{Value} section for more information.}
 
 \item{format}{A character string denoting the desired output format. Valid
 options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
