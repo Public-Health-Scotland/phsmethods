@@ -34,7 +34,11 @@ match_area <- function(x, by = c("code", "name")) {
     stop("The input vector must be of character, list or factor class")
   }
 
+  # Coerce input to character to prevent any warning messages appearing about
+  # type conversion in dplyr::left_join
   x <- as.character(x)
+
+  area_lookup <- phsmethods::area_lookup
 
   if (by == "code") {
 
@@ -43,6 +47,8 @@ match_area <- function(x, by = c("code", "name")) {
                                             value = "geo_code"),
                             area_lookup,
                             by = "geo_code") %>%
+
+             # dplyr::pull takes the last variable if none is specified
              dplyr::pull())
 
   } else {
@@ -52,6 +58,10 @@ match_area <- function(x, by = c("code", "name")) {
                                             value = "area_name"),
                             area_lookup,
                             by = "area_name") %>%
+
+             # Making area name a factor whose levels are in the same order as
+             # the input ensures dplyr::summarise goes in that order and not
+             # alphabetically
              dplyr::mutate(area_name = forcats::fct_inorder(area_name)) %>%
              dplyr::group_by(area_name) %>%
              dplyr::summarise(geo_code = stringr::str_c(geo_code,
