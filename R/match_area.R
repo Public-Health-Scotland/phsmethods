@@ -26,47 +26,38 @@
 #' # test_df %>% match_area_names("code")
 #'
 #' @export
-match_area_names <- function(dataset, code_var) {
+match_area <- function(x, by = c("code", "name")) {
 
-  ###############################################.
-  ## Merging dataset with names lookup ----
-  ###############################################.
-  # Read in area name to geographic code lookup
-  area_lookup <- phsmethods::area_lookup
+  by <- match.arg(by)
 
-  # Function works for data frames sensu lato (includes tibbles).
-  # Checking dataset provided is one.
-  if(is.data.frame(dataset) == FALSE) {
-      stop("Dataset provided is not a data frame or tibble.")
+  if (!inherits(x, c("character", "list", "factor"))) {
+    stop("The input vector must be of character, list or factor class")
   }
 
-  # Testing that code variable provided is a string.
-  if(is.factor(dataset[[code_var]]) == FALSE &
-         is.character(dataset[[code_var]]) == FALSE) {
-    stop("The code variable provided is not of type character or factor.")
+  x <- as.character(x)
+
+  if (by == "code") {
+
+    return(dplyr::left_join(tibble::enframe(x,
+                                            name = NULL,
+                                            value = "geo_code"),
+                            area_lookup,
+                            by = "geo_code") %>%
+             dplyr::pull())
+
+  } else {
+
+    return(dplyr::left_join(tibble::enframe(x,
+                                            name = NULL,
+                                            value = "area_name"),
+                            area_lookup,
+                            by = "area_name") %>%
+             dplyr::mutate(area_name = forcats::fct_inorder(area_name)) %>%
+             dplyr::group_by(area_name) %>%
+             dplyr::summarise(geo_code = stringr::str_c(geo_code,
+                                                        collapse = ", ")) %>%
+             dplyr::ungroup() %>%
+             dplyr::pull())
+
   }
-
-  # Testing if codes that want to be matched are in lookup
-  if(!(any(unique(substr(area_lookup$geo_code, 1, 3)) %in%
-         unique(substr(dataset[[code_var]], 1, 3))))) {
-    stop("The codes you are trying to match don't exist in the names lookup.")
-  }
-
-  # Ensuring geo_code variable is of the right type
-  dataset %<>% dplyr::mutate_at(code_var, as.character)
-
-  # If there is already a variable named area_name give a warning
-  if ("area_name" %in% names(dataset) ) {
-    warning(paste0("There is already a variable named 'area_name' ",
-            "in the dataset. The original variable will be renamed as ",
-            "'area_name.x and the one produced by this function as ",
-            "'area_name.y' "))
-  }
-
-  # Merges with the dataset selected
-  dplyr::left_join(dataset, area_lookup,
-                   by = stats::setNames("geo_code", code_var) )
-
 }
-
-##END
