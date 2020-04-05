@@ -13,7 +13,7 @@
 #' @seealso The script used to create the \code{area_lookup} dataset on
 #' \href{https://github.com/Health-SocialCare-Scotland/phsmethods/blob/master/data-raw/area_lookup.R}{GitHub}.
 #'
-#' @format A \code{\link[tibble]{tibble}} with 2 variables and over 23,000 rows:
+#' @format A \code{\link[tibble]{tibble}} with 2 variables and over 17,000 rows:
 #' \describe{
 #'   \item{geo_code}{Standard geography code - 9 characters}
 #'   \item{area_name}{Name of the area the code represents}
