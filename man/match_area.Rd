@@ -2,37 +2,79 @@
 % Please edit documentation in R/match_area.R
 \name{match_area}
 \alias{match_area}
-\title{Match geography codes with their names}
+\title{Match geography codes and names}
 \usage{
-match_area(x, by = c("code", "name"))
+match_area(x, return = c("name", "code"))
 }
 \arguments{
-\item{dataset}{Data frame/tibble that contains the geography code variable.}
+\item{x}{An input vector of geography codes or area names. Can be of
+\code{character}, \code{list} or \code{factor} class.}
 
-\item{code_var}{The variable that contains the geography codes. Needs to be
-between quotes.}
+\item{return}{A character string declaring the type of desired output.
+Valid options are `name` and `code`. When set to `name`, \code{match_area}
+returns area names. When set to `code`, \code{match_area} returns geography
+codes. The default value is `name`.}
+}
+\value{
+Each geography code within Scotland is unique, and consequently
+\code{match_area} returns a single area name for each input value when
+`return` is set equal to `name`.
+
+However, the same area may be covered by multiple geography codes. When
+`return` is set equal to `code`, and multiple codes are available for a
+given area, they will all be returned as a single value, separated by
+commas. They will not be returned as separate entries in a list, as it is
+not desirable to have a single function producing outputs of varying class.
+Consider using \code{\link[stringr:str_split]{stringr::str_split()}} to
+split these into separate entries in a vector, or
+\code{\link[tidyr:separate]{tidyr::separate()}} to split each entry into a
+new variable in a \code{\link[base:data.frame]{data.frame()}} or
+\code{\link[tibble]{tibble}}.
 }
 \description{
-\code{match_area_names} takes a geography code and brings back the
-name of the area.
+\code{match_area} takes a vector of geography codes or area
+names. It matches the input to the corresponding value(s) in the
+\code{\link{area_lookup}} dataset. It returns the corresponding area name when
+supplied with a geography code, or the corresponding geography code(s) when
+supplied with an area name.
 }
 \details{
-It uses the standard 9 digit codes for matching with the names.
-It can match with any of the current and previous versions of the codes (e.g
-2014 and 2019 Health Boards).
+\code{match_area} relies predominantly on the standard 9 digit
+geography codes. The only exceptions are:
+\itemize{
+\item RA2701: No Fixed Abode
+\item RA2702: Rest of UK (Outside Scotland)
+\item RA2703: Outside the UK
+\item RA2704: Unknown Residency
+}
 
-It works for Health Boards, Council Areas, Health and Social Care Partnerships,
-Intermediate Zones, Data Zones (2001 and 2011), Electoral Wards,
-Scottish Parliamentary Constituencies, UK Parliamentary Constituencies,
-Travel to work areas, National Parks, Commmunity Health Partnerships,
-Localities (S19), Settlements (S20) and Scotland
+\code{match_area} caters for both current and previous versions of geography
+codes (e.g 2014 and 2019 Health Boards).
+
+It can account for geography codes pertaining to Health Boards, Council
+Areas, Health and Social Care Partnerships, Intermediate Zones, Data Zones
+(2001 and 2011), Electoral Wards, Scottish Parliamentary Constituencies,
+UK Parliamentary Constituencies, Travel to work areas, National Parks,
+Commmunity Health Partnerships, Localities (S19), Settlements (S20) and
+Scotland.
+
+\code{match_area} returns a non-NA value only when an exact match is present
+between the input vector and the corresponding variable in the
+\code{\link{area_lookup}} dataset. These exact matches are sensitive to both
+case and spacing. Additionally, several place names in Scotland contain
+letters outwith the standard 26 character Roman alphabet, which may
+provide an added complication when supplying \code{match_area} with area
+names. It is advised to inspect \code{\link{area_lookup}} in the case of
+unexpected results, as these may be explained by subtle differences in
+transcription between the input vector and the corresponding value in the
+lookup dataset.
 }
 \examples{
-test_df <- data.frame(code = c("S20000010", "S01002363", "S01004303",
-"S02000656", "S02001042", "S08000020", "S12000013", "S12000048",
-"S13002522", "S13002873", "S14000020", "S16000124", "S22000004"))
+match_area("S20000010")
+match_area(c("Ayr North", "Ayr East", "Ayr West"), return = "code")
 
-# match_area_names(dataset = test_df, code_var = "code")
-# test_df \%>\% match_area_names("code")
+library(dplyr)
+df <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013"))
+df \%>\% mutate(name = match_area(code))
 
 }
