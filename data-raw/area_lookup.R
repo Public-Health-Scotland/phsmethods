@@ -55,7 +55,8 @@ area_lookup %<>%
     geo_code == "S13002672" ~ "Eilean a' Ch\U00E8o",
     geo_code == "S13002891" ~ "Annandale East and Eskdale",
     geo_code == "S13002936" ~ "Bo'ness and Blackness",
-    geo_code == "S13002999" ~ "Eilean a' Ch\U00E8o"
+    geo_code == "S13002999" ~ "Eilean a' Ch\U00E8o",
+    TRUE ~ area_name
   ))
 
 # Manually add some additional codes which aren't present in the lookup file
