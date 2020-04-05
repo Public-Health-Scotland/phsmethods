@@ -36,9 +36,9 @@ Any input value without a corresponding value in the
 \description{
 \code{match_area} takes a vector of geography codes or area
 names. It matches the input to the corresponding value(s) in the
-\code{\link{area_lookup}} dataset. It returns the corresponding area name when
-supplied with a geography code, or the corresponding geography code(s) when
-supplied with an area name.
+\code{\link{area_lookup}} dataset. It returns the corresponding area name
+when supplied with a geography code, or the corresponding geography code(s)
+when supplied with an area name.
 }
 \details{
 \code{match_area} relies predominantly on the standard 9 digit
