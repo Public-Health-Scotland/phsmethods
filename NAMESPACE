@@ -2,7 +2,7 @@
 
 export(file_size)
 export(fin_year)
-export(match_area_names)
+export(match_area)
 export(postcode)
 export(qtr)
 export(qtr_end)
