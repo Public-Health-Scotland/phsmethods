@@ -7,8 +7,7 @@
 match_area(x, return = c("name", "code"))
 }
 \arguments{
-\item{x}{An input vector of geography codes or area names. Can be of
-\code{character}, \code{list} or \code{factor} class.}
+\item{x}{An input vector of geography codes or area names.}
 
 \item{return}{A character string declaring the type of desired output.
 Valid options are `name` and `code`. When set to `name`, \code{match_area}
@@ -30,6 +29,9 @@ split these into separate entries in a vector, or
 \code{\link[tidyr:separate]{tidyr::separate()}} to split each entry into a
 new variable in a \code{\link[base:data.frame]{data.frame()}} or
 \code{\link[tibble]{tibble}}.
+
+Any input value without a corresponding value in the
+\code{\link{area_lookup}} will return an NA output value.
 }
 \description{
 \code{match_area} takes a vector of geography codes or area
