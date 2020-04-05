@@ -21,7 +21,6 @@ library(magrittr)
 endpoint <- "http://statistics.gov.scot/sparql"
 
 # Query for the platform API, written in SPARQL
-# The optional means it extracts all codes even when they don't have a name
 query <- "SELECT ?geo_code ?area_name
 WHERE {
 ?s <http://statistics.data.gov.uk/def/statistical-entity#code> ?entity;
@@ -35,7 +34,13 @@ qd <- SPARQL::SPARQL(endpoint, query)
 area_lookup <- qd[["results"]] %>%
 
   # Extract the code only
-  dplyr::mutate(geo_code = substr(geo_code, 2, 10))
+  dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
+
+  # I don't know enough about SPARQL to write a query that excludes codes with
+  # no name, so drop them here
+  # It's necessary to drop them as otherwise entering an NA into the function
+  # will return all those codes as a match
+  tidyr::drop_na(area_name)
 
 # A bunch of area names don't parse correctly from the SG open data platform
 # This seems like a problem with their platform, rather than with SPARQL
