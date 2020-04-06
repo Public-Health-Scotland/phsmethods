@@ -86,3 +86,7 @@ test_that("Produces no warning for codes of valid length with no match", {
   expect_silent(match_area(c(NA, "RA2703", "123456789")))
 })
 
+test_that("Warns about the appropriate number of entries", {
+  expect_warning(match_area(123223), "^1")
+  expect_warning(match_area(c(NA, sprintf("RA270%d", seq(1:7)))), "^3")
+})
