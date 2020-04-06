@@ -136,9 +136,9 @@ match_area <- function(x, return = c("name", "code")) {
       # These values won't be returned in the final output so it doesn't really
       # matter how they're recorded, each one just needs to be unique
       dplyr::mutate(area_name = replace(
-        area_name,
-        is.na(area_name),
-        sprintf("NA%d", seq(1, dplyr::n_distinct(is.na(area_name))))))
+        .data$area_name,
+        is.na(.data$area_name),
+        sprintf("NA%d", seq(1, dplyr::n_distinct(is.na(.data$area_name))))))
 
     return(dplyr::left_join(x,
                             area_lookup,
@@ -147,9 +147,10 @@ match_area <- function(x, return = c("name", "code")) {
              # Making area name a factor whose levels are in the same order as
              # the input ensures dplyr::summarise goes in that order and not
              # alphabetically
-             dplyr::mutate(area_name = forcats::fct_inorder(area_name)) %>%
-             dplyr::group_by(area_name) %>%
-             dplyr::summarise(geo_code = stringr::str_c(geo_code,
+             dplyr::mutate(area_name = forcats::fct_inorder(
+               .data$area_name)) %>%
+             dplyr::group_by(.data$area_name) %>%
+             dplyr::summarise(geo_code = stringr::str_c(.data$geo_code,
                                                         collapse = ", ")) %>%
              dplyr::ungroup() %>%
              dplyr::pull())
