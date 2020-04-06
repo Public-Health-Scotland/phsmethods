@@ -7,6 +7,7 @@ Authors@R: c(
     person("Lucinda", "Lawrie", email = "lucinda.lawrie1@nhs.net", role = "rev"),
     person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
     person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut"),
+    person("Chris", "Deans", email = "chrisdeans@nhs.net", role = "aut"),
     person("Jaime", "Villacampa", email = "jaime.villacampa@nhs.net", role = "aut")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
