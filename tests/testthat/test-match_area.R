@@ -73,3 +73,16 @@ test_that("Handles NA input values correctly", {
                           return = "code"),
                c(NA, "S13002672, S13002999", "S13002672, S13002999"))
 })
+
+test_that("Produces warnings for geography codes of invalid length", {
+  expect_warning(match_area("tiny changes"))
+
+  # The last entry is only 8 characters
+  expect_warning(match_area(c(NA, "S01012487", "S0101248")))
+})
+
+test_that("Produces no warning for codes of valid length with no match", {
+  expect_silent(match_area("S01000001"))
+  expect_silent(match_area(c(NA, "RA2703", "123456789")))
+})
+
