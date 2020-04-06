@@ -69,4 +69,7 @@ test_that("Handles NA input values correctly", {
   expect_true(is.na(match_area(NA, return = "code")))
   expect_equal(match_area(c("S13002781", NA, NA, "S13003089")),
                c("Ayr North", NA, NA, "Ayr North"))
+  expect_equal(match_area(c(NA, "Eilean a' Ch\U00E8o", "Eilean a' Ch\U00E8o"),
+                          return = "code"),
+               c(NA, "S13002672, S13002999", "S13002672, S13002999"))
 })
