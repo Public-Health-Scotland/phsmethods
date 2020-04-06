@@ -129,31 +129,23 @@ match_area <- function(x, return = c("name", "code")) {
                          name = NULL,
                          value = "area_name") %>%
 
-      # NA values will all be lumped together as a factor level, which will
-      # cause problems
-      # Replace each instance of NA with a character value of "NA.n", where .n
-      # represents the nth NA in the input vector
-      # These values won't be returned in the final output so it doesn't really
-      # matter how they're recorded, each one just needs to be unique
-      dplyr::mutate(area_name = replace(
-        .data$area_name,
-        is.na(.data$area_name),
-        sprintf("NA%d", seq(1, dplyr::n_distinct(is.na(.data$area_name))))))
+      # Create a unique identifier for each input value
+      # This ensures that multiple entries of the same area name will be
+      # treated separately
+      # It also ensures that an area name with mutiple geography codes will
+      # return those codes together as a single value once per input
+      # This is important as dplyr::left_join will create additional rows of
+      # these area names at first (one row per code) but dplyr::group_by and
+      # dplyr::summarise will ensure these are cut down to the correct number
+      dplyr::mutate(row = dplyr::row_number())
 
     return(dplyr::left_join(x,
                             area_lookup,
                             by = "area_name") %>%
-
-             # Making area name a factor whose levels are in the same order as
-             # the input ensures dplyr::summarise goes in that order and not
-             # alphabetically
-             dplyr::mutate(area_name = forcats::fct_inorder(
-               .data$area_name)) %>%
-             dplyr::group_by(.data$area_name) %>%
+             dplyr::group_by(.data$row, .data$area_name) %>%
              dplyr::summarise(geo_code = stringr::str_c(.data$geo_code,
                                                         collapse = ", ")) %>%
              dplyr::ungroup() %>%
              dplyr::pull())
-
   }
 }
