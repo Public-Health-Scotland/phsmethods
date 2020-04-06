@@ -1,4 +1,4 @@
-#Tests for match area names function
+context("test-match_area")
 
 testthat::test_that("Expect the same names as in sample dataframe", {
 
