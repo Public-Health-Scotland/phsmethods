@@ -1,110 +1,150 @@
-#' @title chi functions
+#' @title Check the validity of a CHI number
 #'
-#' @description
+#' @description \code{chi_check} takes a CHI number or a vector of CHI numbers
+#' with \code{character} class. It returns feedback on the validity of the
+#' entered CHI number and, if found to be invalid, provides an explanation as
+#' to why.
 #'
-#' The chi functions operate on CHI numbers:
+#' @details The Community Health Index (CHI) is a register of all patients in
+#' NHS Scotland. A CHI number is a unique, ten-digit identifier assigned to
+#' each patient on the index.
+#'
+#' The first six digits of a CHI number are a patient's date of birth in
+#' DD/MM/YY format. The first digit of a CHI number must, therefore, be 3 or
+#' less.
+#'
+#' The ninth digit of a CHI number identifies a patient's sex: odd for men,
+#' even for women. The tenth digit is a check digit, denoted `checksum`.
+#'
+#' While a CHI number is made up exclusively of numeric digits, it cannot be
+#' stored with \code{numeric} class in R. This is because leading zeros in
+#' numeric values are silently dropped, a practice not exclusive to R. For this
+#' reason, \code{chi_check} accepts input values of \code{character} class
+#' only. A leading zero can be added to a nine-digit CHI number using
+#' \code{\link{chi_pad}}.
+#'
+#' \code{chi_check} assesses whether an entered CHI number is valid by checking
+#' whether the answer to each of the following criteria is `Yes`:
 #'
 #' \itemize{
-#' \item \code{chi_pad} adds a leading zero to 9 character CHIs
-#' \item \code{chi_check} tests a CHI for validity
+#' \item Does it contain no non-numeric characters?
+#' \item Is it ten digits in length?
+#' \item Do the first six digits denote a valid date?
+#' \item Is the checksum digit correct?
 #' }
 #'
-#' @details
-#' \code{chi_check}:
+#' @param x a CHI number or a vector of CHI numbers with \code{character} class.
 #'
-#' This checks for a valid CHI by:
+#' @return \code{chi_check} returns a character string. Depending on the
+#' validity of the entered CHI number, it will return one of the following:
 #'
 #' \itemize{
-#' \item checking for invalid characters (non-numeric)
-#' \item checking for length of 10 characters
-#' \item checking that first 6 characters parse to valid date
-#' \item checksum digit is correct
+#' \item `Valid CHI`
+#' \item `Invalid character(s) present`
+#' \item `Too many characters`
+#' \item `Too few characters`
+#' \item `Invalid date`
+#' \item `Invalid checksum`
 #' }
 #'
-#' \code{chi_pad}:
-#'
-#' Depending on the source, CHI numbers are sometimes mising a leading zero.
-#' \code{chi_pad} takes a 9 digit CHI and adds a leading zero. Only CHI numbers
-#' of 9 characters are changed.
-#'
-#' @param to_check \code{character} vector of CHI numbers
-#' @return character
 #' @examples
-#' x <- c("0101011237", "0101201234","3201201234", "0113201234",
-#'  "3213201234", "123456789", "12345678900", "010120123?")
-#' chi_check(x)
+#' chi_check("0101011237")
+#' chi_check(c("0101201234", "3201201234"))
 #'
-#' #chi_pad differs from str_pad()
-#' #as only 9 character CHIs are changed
-#' x <- c("1234567890", "123456789", "123")
-#' chi_pad(x)
-
+#' library(dplyr)
+#' df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?"))
+#' df %>% mutate(validity = chi_check(chi))
+#'
 #' @export
-#' @rdname chi
-chi_check <- function(to_check) {
 
-  #stop if input is not character
-  if (inherits(to_check, "character") != TRUE) {
-    stop("input should be character - try adding col_types = 'c' to read_csv")
+chi_check <- function(x) {
+
+  if (!inherits(x, "character")) {
+    stop("The input must be of character class")
   }
 
-  #define checksum function
-  checksum <- function(x) {
+  # Replace entries containing invalid characters (letters and punctuation)
+  # with NA
+  x <- ifelse(grepl("[[:punct:][:alpha:]]", x),
+              NA,
+              x)
 
-    #define sub_num helper function
-    sub_num <- function(z, num) {
-
-      #weight factor for checksum calculation
-      wg <- c(10, 9, 8, 7, 6, 5, 4, 3, 2)
-
-      #extract character by position
-      z_ex <- substr(z, num, num)
-
-      #multiply by weight factor
-      as.numeric(z_ex) * wg[num]
-    }
-
-    #multiply by weights and add together
-    y <- sub_num(x, 1) + sub_num(x, 2) +
-        sub_num(x, 3) + sub_num(x, 4) +
-        sub_num(x, 5) + sub_num(x, 6) +
-        sub_num(x, 7) + sub_num(x, 8) +
-        sub_num(x, 9)
-
-    y2 <- floor(y / 11) #discard remainder
-    y3 <- 11 * (y2 + 1) - y #check sum calc
-    y3 <- ifelse(y3 == 11, 0, y3) #if 11, make 0
-
-    #check if output matches the checksum
-    ifelse(y3 != substr(x, 10, 10), "fail", NA_character_)
-  }
-
-  #make vec of numerics, replacing invalid characters with NA
-  to_check_num <- ifelse(grepl(x = to_check, pattern = "[[:punct:][:alpha:]]"),
-                         NA_character_,
-                         to_check)
-
-  #perform checks
+  # Perform checks and return feedback
   dplyr::case_when(
-  is.na(to_check_num) ~ "invalid character", #check character
-  nchar(to_check_num) > 10 ~ "too long", #is it 10 digits?
-  nchar(to_check_num) < 10 ~  "too short", #is it 10 digits?
-  is.na(lubridate::dmy(substr(to_check_num, 1, 6), quiet = TRUE)) ~ "invalid date", #date check
-  checksum(to_check_num) == "fail" ~ "invalid checksum", #checksum calculation
-  TRUE ~ NA_character_) #NA if everything passes
+    is.na(x) ~ "Invalid character(s) present",
+    nchar(x) > 10 ~ "Too many characters",
+    nchar(x) < 10 ~  "Too few characters",
+    is.na(lubridate::dmy(substr(x, 1, 6), quiet = TRUE)) ~ "Invalid date",
+    checksum(x) == "Fail" ~ "Invalid checksum",
+    TRUE ~ "Valid CHI")
 }
 
-#' @export
-#' @rdname chi
-chi_pad <- function(to_check) {
+checksum <- function(x) {
 
-  #stop if input is not character
-  if (inherits(to_check, "character") != TRUE) {
-    stop("input should be character - try adding col_types = 'c' to read_csv")
+  # Multiply by weights and add together
+  i <- sub_num(x, 1) + sub_num(x, 2) +
+    sub_num(x, 3) + sub_num(x, 4) +
+    sub_num(x, 5) + sub_num(x, 6) +
+    sub_num(x, 7) + sub_num(x, 8) +
+    sub_num(x, 9)
+
+  j <- floor(i / 11) # Discard remainder
+  k <- 11 * (j + 1) - i # Check sum calculation
+  k <- ifelse(k == 11, 0, k) # If 11, make 0
+
+  # Check if output matches the checksum
+  ifelse(k != substr(x, 10, 10), "Fail", NA)
+}
+
+sub_num <- function(x, num) {
+
+  # Weight factor for checksum calculation
+  wg <- rev(seq(2, 10))
+
+  # Extract character by position
+  x_ex <- substr(x, num, num)
+
+  # Multiply by weight factor
+  as.numeric(x_ex) * wg[num]
+}
+
+#' @title Add a leading zero to nine-digit CHI numbers
+#'
+#' @description \code{chi_pad} takes a nine-digit CHI number with
+#' \code{character} class and prefixes it with a zero. Any values provided
+#' which are not nine characters in length remain unchanged.
+#'
+#' @details The Community Health Index (CHI) is a register of all patients in
+#' NHS Scotland. A CHI number is a unique, ten-digit identifier assigned to
+#' each patient on the index.
+#'
+#' The first six digits of a CHI number are a patient's date of birth in
+#' DD/MM/YY format. The first digit of a CHI number must, therefore, be 3 or
+#' less. Depending on the source, CHI numbers are sometimes mising a leading
+#' zero.
+#'
+#' While a CHI number is made up exclusively of numeric digits, it cannot be
+#' stored with \code{numeric} class in R. This is because leading zeros in
+#' numeric values are silently dropped, a practice not exclusive to R. For this
+#' reason, \code{chi_pad} accepts input values of \code{character} class
+#' only, and returns values of the same class. It does not assess the validity
+#' of a CHI number - please see \code{\link{chi_check}} for that.
+#'
+#' @inheritParams chi_check
+#'
+#' @examples
+#' chi_pad(c("101011237", "101201234"))
+#'
+#' @export
+
+chi_pad <- function(x) {
+
+  if (!inherits(x, "character")) {
+    stop("The input must be of character class")
   }
 
-  #pad 9 characters to 10
-  ifelse(nchar(to_check) == 9,
-         paste0("0", to_check),
-         paste0(to_check))
+  # Add a leading zero to any nine character CHI numbers
+  ifelse(nchar(x) == 9,
+         paste0("0", x),
+         x)
 }
