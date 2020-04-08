@@ -1,104 +1,115 @@
-#chi_check####
-test_that("chi_check - valid CHI passes", {
-  expect_equal(is.na(chi_check("1904851231")), is.na(NA))
+context("test-chi")
+
+test_that("Valid CHI passes chi_check", {
+  expect_equal(chi_check("1904851231"), "Valid CHI")
 })
 
-test_that("chi_check - invalid day fails", {
-  expect_equal(chi_check("3201209999"), "invalid date")
+test_that("Invalid day fails chi_check", {
+  expect_equal(chi_check("3201209999"), "Invalid date")
 })
 
-test_that("chi_check - invalid month fails", {
-  expect_equal(chi_check("0113209999"), "invalid date")
+test_that("Invalid month fails chi_check", {
+  expect_equal(chi_check("0113209999"), "Invalid date")
 })
 
-test_that("chi_check - invalid day/month fails", {
-  expect_equal(chi_check("3213209999"), "invalid date")
+test_that("Invalid day/month combination fails chi_check", {
+  expect_equal(chi_check("3213209999"), "Invalid date")
 })
 
-test_that("chi_check - leap year passes", {
-  expect_equal(is.na(chi_check("2902201230")), is.na(NA))
+test_that("Leap year passes chi_check", {
+  expect_equal(chi_check("2902201230"), "Valid CHI")
 })
 
-test_that("chi_check - non-leap year 29/02 fails", {
-  expect_equal(chi_check("2902191230"), "invalid date")
+test_that("Non-leap year 29/02 fails chi_check", {
+  expect_equal(chi_check("2902191230"), "Invalid date")
 })
 
-test_that("chi_check - punctuation fails", {
-  expect_equal(chi_check("?123456789"), "invalid character")
+test_that("Punctuation fails chi_check", {
+  expect_equal(chi_check("?123456789"), "Invalid character(s) present")
 })
 
-test_that("chi_check - string fails", {
-  expect_equal(chi_check("a123456789"), "invalid character")
+test_that("Letter fails chi_check", {
+  expect_equal(chi_check("a123456789"), "Invalid character(s) present")
 })
 
-test_that("chi_check - length < 10 fails", {
-  expect_equal(chi_check("123"), "too short")
+test_that("Length < 10 fails chi_check", {
+  expect_equal(chi_check("123"), "Too few characters")
 })
 
-test_that("chi_check - length > 10 fails", {
-  expect_equal(chi_check("12345678901"), "too long")
+test_that("Length > 10 fails chi_check", {
+  expect_equal(chi_check("12345678901"), "Too many characters")
 })
 
-test_that("chi_check - non-char fails", {
-  expect_error(chi_check(123), "input should be character - try adding col_types = 'c' to read_csv")
+test_that("Non-character input fails chi_check", {
+  expect_error(chi_check(123), "The input must be of character class")
 })
 
-test_that("chi_check - zero day fails", {
-  expect_equal(chi_check("0011201234"), "invalid date")
+test_that("Zero day fails chi_check", {
+  expect_equal(chi_check("0011201234"), "Invalid date")
 })
 
-test_that("chi_check - zero month fails", {
-  expect_equal(chi_check("1100201234"), "invalid date")
+test_that("Zero month fails chi_check", {
+  expect_equal(chi_check("1100201234"), "Invalid date")
 })
 
-test_that("chi_check - zero day/month fails", {
-  expect_equal(chi_check("0000201234"), "invalid date")
+test_that("Zero day/month combination fails chi_check", {
+  expect_equal(chi_check("0000201234"), "Invalid date")
 })
 
-test_that("chi_check - all zero fails", {
-  expect_equal(chi_check("0000000000"), "invalid date")
+test_that("All zero fails chi_check", {
+  expect_equal(chi_check("0000000000"), "Invalid date")
 })
 
-test_that("chi_check - invalid checksum fails", {
-  expect_equal(chi_check("1904851232"), "invalid checksum")
+test_that("Invalid checksum fails chi_check", {
+  expect_equal(chi_check("1904851232"), "Invalid checksum")
 })
 
-test_that("chi_check - works on vector", {
-
-  #data
-  x <- c("0101011237", "0101201234", "3201201234", "0113201234",
-         "3213201234", "123456789", "12345678900", "010120123?",
-         "1904851231")
-  #expected
-  y <- c(NA_character_, "invalid checksum", "invalid date", "invalid date",
-         "invalid date", "too short", "too long", "invalid character",
-         NA_character_)
-  #test
-  expect_equal(chi_check(x), y)
+test_that("Vector entry works in chi_check", {
+  expect_equal(chi_check(c("0101011237",
+                           "0101201234",
+                           "3201201234",
+                           "0113201234",
+                           "3213201234",
+                           "123456789",
+                           "12345678900",
+                           "010120123?",
+                           "1904851231")),
+               c("Valid CHI",
+                 "Invalid checksum",
+                 "Invalid date",
+                 "Invalid date",
+                 "Invalid date",
+                 "Too few characters",
+                 "Too many characters",
+                 "Invalid character(s) present",
+                 "Valid CHI"))
 })
 
-#chi_pad####
-test_that("chi_pad - pads 9 char input", {
+test_that("9 character input is padded by chi_pad", {
   expect_equal(chi_pad("123456789"), "0123456789")
   expect_equal(nchar(chi_pad("123456789")), 10)
 })
 
-test_that("chi_pad - char < 9 not padded", {
+test_that("< 9 character input not padded by chi_pad", {
   expect_equal(chi_pad("12345678"), "12345678")
   expect_equal(nchar(chi_pad("12345678")), 8)
 })
 
-test_that("chi_pad - char = 10 not padded", {
+test_that("10 character input not padded by chi_pad", {
   expect_equal(chi_pad("1234567890"), "1234567890")
   expect_equal(nchar(chi_pad("1234567890")), 10)
 })
 
-test_that("chi_pad - char > 10 not padded", {
+test_that("> 10 character input not padded by chi_pad", {
   expect_equal(chi_pad("01234567890"), "01234567890")
   expect_equal(nchar(chi_pad("01234567890")), 11)
 })
 
-test_that("chi_check - non-char fails", {
-  expect_error(chi_pad(123),
-               "input should be character - try adding col_types = 'c' to read_csv")
+test_that("Non-character input fails chi_pad", {
+  expect_error(chi_pad(123), "The input must be of character class")
+})
+
+test_that("Vector entry works in chi_pad", {
+  expect_equal(chi_pad(c("12345678", NA, "123456789")),
+               c("12345678", NA, "0123456789"))
 })
