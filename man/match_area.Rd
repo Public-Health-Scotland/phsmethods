@@ -7,7 +7,7 @@
 match_area(x)
 }
 \arguments{
-\item{x}{A geogrpahy code or vector of geography codes.}
+\item{x}{A geography code or vector of geography codes.}
 }
 \value{
 Each geography code within Scotland is unique, and consequently
@@ -17,7 +17,7 @@ Any input value without a corresponding value in the
 }
 \description{
 \code{match_area} takes a geography code or vector of geography
-codes. It matches the input to the corresponding value(s) in the
+codes. It matches the input to the corresponding value in the
 \code{\link{area_lookup}} dataset and returns the corresponding area name.
 }
 \details{
@@ -45,7 +45,7 @@ between the input value and the corresponding variable in the
 \code{\link{area_lookup}} dataset. These exact matches are sensitive to both
 case and spacing. It is advised to inspect \code{\link{area_lookup}} in the
 case of unexpected results, as these may be explained by subtle differences
-in transcription between the input vector and the corresponding value in the
+in transcription between the input value and the corresponding value in the
 lookup dataset.
 }
 \examples{
