@@ -1,17 +1,17 @@
 ### This script downloads and formats data pertaining to geographic area names
-### and codes from the Scottish Government open data platform
+### and codes from the Scottish Government open data platform.
 ###
 ### The resulting file is used inside the match_area function and is made
-### available to users of the package via phsmethods::area_lookup
+### available to users of the package via phsmethods::area_lookup.
 ###
 ### This script should be re-run prior to every package release, to ensure the
-### most up-to-date information provided by the Scottish Government is used
+### most up-to-date information provided by the Scottish Government is used.
 ###
 ### Any substantial changes to the data should be noted in the section
-### pertaining to the latest release in the NEWS.md file
+### pertaining to the latest release in the NEWS.md file.
 ###
-### This code should run successfully on RStudio server
-### It may time out on RStudio desktop due to network security settings
+### This code should run successfully on RStudio server.
+### It may time out on RStudio desktop due to network security settings.
 
 
 library(SPARQL)
@@ -35,9 +35,6 @@ area_lookup <- qd[["results"]] %>%
 
   # Extract the code only
   dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
-
-  # I don't know enough about SPARQL to write a query that excludes codes with
-  # no name, so drop them here
   # It's necessary to drop them as otherwise entering an NA into the function
   # will return all those codes as a match
   tidyr::drop_na(area_name)
