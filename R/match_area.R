@@ -77,13 +77,14 @@ match_area <- function(code_var) {
                        "\U2022 RA2704: Unknown Residency"))
   }
 
-  # area_lookup <- phsmethods::area_lookup
-  load("data/area_lookup.rda")
+  area_lookup <- phsmethods::area_lookup # reading area code to name lookup
 
+  # transforming variable into data frame to allow merging with lookup
     code_var <- tibble::enframe(code_var,
                          name = NULL,
                          value = "geo_code")
 
+    # Merging lookup with code variable and retrieving only the name
     return(dplyr::left_join(code_var,
                             area_lookup,
                             by = "geo_code") %>%
