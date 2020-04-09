@@ -1,10 +1,9 @@
 #' @title Match geography codes and names
 #'
-#' @description \code{match_area} takes a vector of geography codes or area
-#' names. It matches the input to the corresponding value(s) in the
+#' @description \code{match_area} takes a vector of geography codes.
+#' It matches the input to the corresponding value(s) in the
 #' \code{\link{area_lookup}} dataset. It returns the corresponding area name
-#' when supplied with a geography code, or the corresponding geography code(s)
-#' when supplied with an area name.
+#' when supplied with a geography code.
 #'
 #' @details \code{match_area} relies predominantly on the standard 9 digit
 #' geography codes. The only exceptions are:
@@ -28,41 +27,21 @@
 #' \code{match_area} returns a non-NA value only when an exact match is present
 #' between the input vector and the corresponding variable in the
 #' \code{\link{area_lookup}} dataset. These exact matches are sensitive to both
-#' case and spacing. Additionally, several place names in Scotland contain
-#' letters outwith the standard 26 character Roman alphabet, which may
-#' provide an added complication when supplying \code{match_area} with area
-#' names. It is advised to inspect \code{\link{area_lookup}} in the case of
-#' unexpected results, as these may be explained by subtle differences in
+#' case and spacing.It is advised to inspect \code{\link{area_lookup}} in the case
+#' of unexpected results, as these may be explained by subtle differences in
 #' transcription between the input vector and the corresponding value in the
 #' lookup dataset.
 #'
-#' @param x An input vector of geography codes or area names.
-#' @param return A character string declaring the type of desired output.
-#' Valid options are `name` and `code`. When set to `name`, \code{match_area}
-#' returns area names. When set to `code`, \code{match_area} returns geography
-#' codes. The default value is `name`.
-#'
+#' @param code_var An input vector of geography codes.
+
 #' @return Each geography code within Scotland is unique, and consequently
-#' \code{match_area} returns a single area name for each input value when
-#' `return` is set equal to `name`.
-#'
-#' However, the same area may be covered by multiple geography codes. When
-#' `return` is set equal to `code`, and multiple codes are available for a
-#' given area, they will all be returned as a single value, separated by
-#' commas. They will not be returned as separate entries in a list, as it is
-#' not desirable to have a single function producing outputs of varying class.
-#' Consider using \code{\link[stringr:str_split]{stringr::str_split()}} to
-#' split these into separate entries in a vector, or
-#' \code{\link[tidyr:separate]{tidyr::separate()}} to split each entry into a
-#' new variable in a \code{\link[base:data.frame]{data.frame()}} or
-#' \code{\link[tibble]{tibble}}.
-#'
+#' \code{match_area} returns a single area name for each input value.
+
 #' Any input value without a corresponding value in the
 #' \code{\link{area_lookup}} will return an NA output value.
 #'
 #' @examples
 #' match_area("S20000010")
-#' match_area(c("Ayr North", "Ayr East", "Ayr West"), return = "code")
 #'
 #' library(dplyr)
 #' df <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013"))
@@ -70,24 +49,24 @@
 #'
 #' @export
 
-match_area <- function(x) {
+match_area <- function(code_var) {
 
   # Coerce input to character to prevent any warning messages appearing about
   # type conversion in dplyr::left_join
-  x <- as.character(x)
+  code_var <- as.character(code_var)
 
   # Calculate the number of non-NA input geography codes which are not 9
   # characters in length or one of the exceptions
-  n <- length(x[!is.na(x)][nchar(x[!is.na(x)]) != 9 &
-                           !x[!is.na(x)] %in% sprintf("RA270%d", seq(1:4))])
+  no_9char_codes <- length(code_var[!is.na(code_var)][nchar(code_var[!is.na(code_var)]) != 9 &
+                                                     !code_var[!is.na(code_var)] %in% sprintf("RA270%d", seq(1:4))])
 
-  # If n is one, the warning message describing the number of non-NA codes
+  # If nchar_codes is one, the warning message describing the number of non-NA codes
   # which are not length 9 or one of the exceptions should use singular verbs
   # Otherwise, use plural ones
   singular <- "code is"
   multiple <- "codes are"
 
-  if (n > 0) {
+  if (no_9char_codes > 0) {
     warning(glue::glue("{n} non-NA input geography ",
                        "{ifelse(n == 1, singular, multiple)} not 9 characters ",
                        "in length and will return an NA. The only allowed ",
@@ -101,11 +80,11 @@ match_area <- function(x) {
   # area_lookup <- phsmethods::area_lookup
   load("data/area_lookup.rda")
 
-    x <- tibble::enframe(x,
+    code_var <- tibble::enframe(code_var,
                          name = NULL,
                          value = "geo_code")
 
-    return(dplyr::left_join(x,
+    return(dplyr::left_join(code_var,
                             area_lookup,
                             by = "geo_code") %>%
              # dplyr::pull takes the last variable if none is specified
