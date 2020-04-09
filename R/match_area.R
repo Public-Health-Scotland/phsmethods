@@ -1,9 +1,8 @@
-#' @title Match geography codes and names
+#' @title Translate geography codes into area names
 #'
-#' @description \code{match_area} takes a vector of geography codes.
-#' It matches the input to the corresponding value(s) in the
-#' \code{\link{area_lookup}} dataset. It returns the corresponding area name
-#' when supplied with a geography code.
+#' @description \code{match_area} takes a geography code or vector of geography
+#' codes. It matches the input to the corresponding value(s) in the
+#' \code{\link{area_lookup}} dataset and returns the corresponding area name.
 #'
 #' @details \code{match_area} relies predominantly on the standard 9 digit
 #' geography codes. The only exceptions are:
@@ -25,20 +24,20 @@
 #' Scotland.
 #'
 #' \code{match_area} returns a non-NA value only when an exact match is present
-#' between the input vector and the corresponding variable in the
+#' between the input value and the corresponding variable in the
 #' \code{\link{area_lookup}} dataset. These exact matches are sensitive to both
-#' case and spacing.It is advised to inspect \code{\link{area_lookup}} in the case
-#' of unexpected results, as these may be explained by subtle differences in
-#' transcription between the input vector and the corresponding value in the
+#' case and spacing. It is advised to inspect \code{\link{area_lookup}} in the
+#' case of unexpected results, as these may be explained by subtle differences
+#' in transcription between the input vector and the corresponding value in the
 #' lookup dataset.
 #'
-#' @param code_var An input vector of geography codes.
+#' @param x A geogrpahy code or vector of geography codes.
 
 #' @return Each geography code within Scotland is unique, and consequently
 #' \code{match_area} returns a single area name for each input value.
 
 #' Any input value without a corresponding value in the
-#' \code{\link{area_lookup}} will return an NA output value.
+#' \code{\link{area_lookup}} dataset will return an NA output value.
 #'
 #' @examples
 #' match_area("S20000010")
@@ -49,24 +48,24 @@
 #'
 #' @export
 
-match_area <- function(code_var) {
+match_area <- function(x) {
 
   # Coerce input to character to prevent any warning messages appearing about
   # type conversion in dplyr::left_join
-  code_var <- as.character(code_var)
+  code_var <- as.character(x)
 
   # Calculate the number of non-NA input geography codes which are not 9
   # characters in length or one of the exceptions
-  no_9char_codes <- length(code_var[!is.na(code_var)][nchar(code_var[!is.na(code_var)]) != 9 &
-                                                     !code_var[!is.na(code_var)] %in% sprintf("RA270%d", seq(1:4))])
+  n <- length(x[!is.na(x)][nchar(x[!is.na(x)]) != 9 &
+                             !x[!is.na(x)] %in% sprintf("RA270%d", seq(1:4))])
 
-  # If nchar_codes is one, the warning message describing the number of non-NA codes
+  # If n is one, the warning message describing the number of non-NA codes
   # which are not length 9 or one of the exceptions should use singular verbs
   # Otherwise, use plural ones
   singular <- "code is"
   multiple <- "codes are"
 
-  if (no_9char_codes > 0) {
+  if (n > 0) {
     warning(glue::glue("{n} non-NA input geography ",
                        "{ifelse(n == 1, singular, multiple)} not 9 characters ",
                        "in length and will return an NA. The only allowed ",
@@ -77,18 +76,20 @@ match_area <- function(code_var) {
                        "\U2022 RA2704: Unknown Residency"))
   }
 
-  area_lookup <- phsmethods::area_lookup # reading area code to name lookup
+  # Reading area code to name lookup
+  area_lookup <- phsmethods::area_lookup
 
-  # transforming variable into data frame to allow merging with lookup
-    code_var <- tibble::enframe(code_var,
-                         name = NULL,
-                         value = "geo_code")
+  # Transforming variable into data frame to allow merging with lookup
+  code_var <- tibble::enframe(code_var,
+                              name = NULL,
+                              value = "geo_code")
 
-    # Merging lookup with code variable and retrieving only the name
-    return(dplyr::left_join(code_var,
-                            area_lookup,
-                            by = "geo_code") %>%
-             # dplyr::pull takes the last variable if none is specified
-             dplyr::pull())
+  # Merging lookup with code variable and retrieving only the name
+  dplyr::left_join(code_var,
+                   area_lookup,
+                   by = "geo_code") %>%
 
-} # end of function
+    # dplyr::pull takes the last variable if none is specified
+    dplyr::pull()
+
+}

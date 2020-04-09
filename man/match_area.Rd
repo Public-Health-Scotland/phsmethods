@@ -2,24 +2,23 @@
 % Please edit documentation in R/match_area.R
 \name{match_area}
 \alias{match_area}
-\title{Match geography codes and names}
+\title{Translate geography codes into area names}
 \usage{
-match_area(code_var)
+match_area(x)
 }
 \arguments{
-\item{code_var}{An input vector of geography codes.}
+\item{x}{A geogrpahy code or vector of geography codes.}
 }
 \value{
 Each geography code within Scotland is unique, and consequently
 \code{match_area} returns a single area name for each input value.
 Any input value without a corresponding value in the
-\code{\link{area_lookup}} will return an NA output value.
+\code{\link{area_lookup}} dataset will return an NA output value.
 }
 \description{
-\code{match_area} takes a vector of geography codes.
-It matches the input to the corresponding value(s) in the
-\code{\link{area_lookup}} dataset. It returns the corresponding area name
-when supplied with a geography code.
+\code{match_area} takes a geography code or vector of geography
+codes. It matches the input to the corresponding value(s) in the
+\code{\link{area_lookup}} dataset and returns the corresponding area name.
 }
 \details{
 \code{match_area} relies predominantly on the standard 9 digit
@@ -42,11 +41,11 @@ Commmunity Health Partnerships, Localities (S19), Settlements (S20) and
 Scotland.
 
 \code{match_area} returns a non-NA value only when an exact match is present
-between the input vector and the corresponding variable in the
+between the input value and the corresponding variable in the
 \code{\link{area_lookup}} dataset. These exact matches are sensitive to both
-case and spacing.It is advised to inspect \code{\link{area_lookup}} in the case
-of unexpected results, as these may be explained by subtle differences in
-transcription between the input vector and the corresponding value in the
+case and spacing. It is advised to inspect \code{\link{area_lookup}} in the
+case of unexpected results, as these may be explained by subtle differences
+in transcription between the input vector and the corresponding value in the
 lookup dataset.
 }
 \examples{

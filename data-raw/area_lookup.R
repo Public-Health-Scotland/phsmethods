@@ -35,8 +35,11 @@ area_lookup <- qd[["results"]] %>%
 
   # Extract the code only
   dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
-  # It's necessary to drop them as otherwise entering an NA into the function
-  # will return all those codes as a match
+
+  # Drop codes with no area name
+  # Storing them isn't necessary as codes without a corresponding area name
+  # will generate an NA from match_area regardless of whether the code is
+  # present in the lookup file
   tidyr::drop_na(area_name)
 
 # A bunch of area names don't parse correctly from the SG open data platform
