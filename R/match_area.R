@@ -70,9 +70,7 @@
 #'
 #' @export
 
-match_area <- function(x, return = c("name", "code")) {
-
-  return <- match.arg(return)
+match_area <- function(x) {
 
   # Coerce input to character to prevent any warning messages appearing about
   # type conversion in dplyr::left_join
@@ -80,16 +78,8 @@ match_area <- function(x, return = c("name", "code")) {
 
   # Calculate the number of non-NA input geography codes which are not 9
   # characters in length or one of the exceptions
-  if (return == "name") {
-    n <- length(x[!is.na(x)][nchar(x[!is.na(x)]) != 9 &
-                               !x[!is.na(x)] %in% sprintf("RA270%d", seq(1:4))])
-
-  } else {
-
-    # This value is irrelevant if the function is provided with area names
-    # It's easier to set n equal to zero than to have nested if statements
-    n <- 0
-  }
+  n <- length(x[!is.na(x)][nchar(x[!is.na(x)]) != 9 &
+                           !x[!is.na(x)] %in% sprintf("RA270%d", seq(1:4))])
 
   # If n is one, the warning message describing the number of non-NA codes
   # which are not length 9 or one of the exceptions should use singular verbs
@@ -108,9 +98,8 @@ match_area <- function(x, return = c("name", "code")) {
                        "\U2022 RA2704: Unknown Residency"))
   }
 
-  area_lookup <- phsmethods::area_lookup
-
-  if (return == "name") {
+  # area_lookup <- phsmethods::area_lookup
+  load("data/area_lookup.rda")
 
     x <- tibble::enframe(x,
                          name = NULL,
@@ -119,33 +108,7 @@ match_area <- function(x, return = c("name", "code")) {
     return(dplyr::left_join(x,
                             area_lookup,
                             by = "geo_code") %>%
-
              # dplyr::pull takes the last variable if none is specified
              dplyr::pull())
 
-  } else {
-
-    x <- tibble::enframe(x,
-                         name = NULL,
-                         value = "area_name") %>%
-
-      # Create a unique identifier for each input value
-      # This ensures that multiple entries of the same area name will be
-      # treated separately
-      # It also ensures that an area name with mutiple geography codes will
-      # return those codes together as a single value once per input
-      # This is important as dplyr::left_join will create additional rows of
-      # these area names at first (one row per code) but dplyr::group_by and
-      # dplyr::summarise will ensure these are cut down to the correct number
-      dplyr::mutate(row = dplyr::row_number())
-
-    return(dplyr::left_join(x,
-                            area_lookup,
-                            by = "area_name") %>%
-             dplyr::group_by(.data$row, .data$area_name) %>%
-             dplyr::summarise(geo_code = stringr::str_c(.data$geo_code,
-                                                        collapse = ", ")) %>%
-             dplyr::ungroup() %>%
-             dplyr::pull())
-  }
-}
+} # end of function
