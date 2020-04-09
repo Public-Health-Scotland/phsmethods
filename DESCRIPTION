@@ -7,6 +7,7 @@ Authors@R: c(
     person("Lucinda", "Lawrie", email = "lucinda.lawrie1@nhs.net", role = "rev"),
     person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
     person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut"),
+    person("Chris", "Deans", email = "chrisdeans@nhs.net", role = "aut"),
     person("Graeme", "Gowans", email = "graeme.gowans@nhs.net", role = "aut")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
@@ -23,11 +24,12 @@ Imports:
     rlang,
     stringi,
     stringr,
-    tibble
+    tibble,
+    utils
 Suggests: 
     covr,
     here,
-    testthat (>= 2.1.0)
+    testthat (>= 2.0.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
