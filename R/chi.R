@@ -89,7 +89,7 @@ checksum <- function(x) {
     sub_num(x, 9)
 
   j <- floor(i / 11) # Discard remainder
-  k <- 11 * (j + 1) - i # Check sum calculation
+  k <- 11 * (j + 1) - i # Checksum calculation
   k <- ifelse(k == 11, 0, k) # If 11, make 0
 
   # Check if output matches the checksum

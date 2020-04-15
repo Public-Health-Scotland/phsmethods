@@ -20,12 +20,12 @@ age_group(x, from = 0, to = 90, by = 5, as_factor = FALSE)
 }
 \value{
 A character vector, where each element is the age group for the
-  corresponding element in \code{x}. If \code{as_factor = TRUE} a factor
-  vector is returned instead.
+corresponding element in \code{x}. If \code{as_factor = TRUE}, a factor
+vector is returned instead.
 }
 \description{
-age_group() takes a numeric vector and assigns each age to the appropriate
-age group.
+\code{age_group()} takes a numeric vector and assigns each age to the
+appropriate age group.
 }
 \details{
 The \code{from}, \code{to} and \code{by} values are used to create distinct

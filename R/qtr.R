@@ -7,13 +7,13 @@
 #' value.
 #'
 #' \itemize{
-#' \item \code{qtr} returns the current quarter.
+#' \item \code{qtr} returns the current quarter
 #'
-#' \item \code{qtr_end} returns the last month in the quarter.
+#' \item \code{qtr_end} returns the last month in the quarter
 #'
-#' \item \code{qtr_next} returns the next quarter.
+#' \item \code{qtr_next} returns the next quarter
 #'
-#' \item \code{qtr_prev} returns the previous quarter.
+#' \item \code{qtr_prev} returns the previous quarter
 #' }
 #'
 #' @details Quarters are defined as:
@@ -44,7 +44,7 @@ qtr <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, "Date")) {
-    stop("The input must have Date class.")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -80,7 +80,7 @@ qtr_end <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, "Date")) {
-    stop("The input must have Date class.")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -116,7 +116,7 @@ qtr_next <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, "Date")) {
-    stop("The input must have Date class.")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -152,7 +152,7 @@ qtr_prev <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, "Date")) {
-    stop("The input must have Date class.")
+    stop("The input must have Date class")
   }
 
   quarter_num <- lubridate::quarter(date)
