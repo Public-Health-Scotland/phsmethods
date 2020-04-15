@@ -13,9 +13,13 @@ Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=m
 in [Public Health Scotland
 (PHS)](https://www.publichealthscotland.scot/):
 
+  - `age_group()` categorises ages into groups
+  - `chi_check()` assesses the validity of a CHI number
+  - `chi_pad()` adds a leading zero to nine-digit CHI numbers
   - `file_size()` returns the names and sizes of files in a directory
   - `fin_year()` assigns a date to a financial year in the format
     `YYYY/YY`
+  - `match_area()` converts geography codes into area names
   - `postcode()` formats improperly recorded postcodes
   - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
     a quarter
@@ -64,6 +68,45 @@ To access the help file for any of `phsmethods`’ functions, type
 ?postcode
 ```
 
+### age\_group
+
+``` r
+a <- c(54, 7, 77, 1, 26, 101)
+
+# By default age_group goes in 5 year increments from 0 to 90+
+age_group(a)
+#> [1] "50-54" "5-9"   "75-79" "0-4"   "25-29" "90+"
+
+# But these settings can be changed
+age_group(a, from = 0, to = 80, by = 10)
+#> [1] "50-59" "0-9"   "70-79" "0-9"   "20-29" "80+"
+```
+
+### chi\_check
+
+``` r
+# chi_check returns specific feedback on why a CHI number might be invalid
+library(dplyr)
+b <- tibble(chi = c("0101011237", "3213201234", "123456789", "12345678900", "010120123?"))
+b %>% mutate(validity = chi_check(chi))
+#> # A tibble: 5 x 2
+#>   chi         validity                    
+#>   <chr>       <chr>                       
+#> 1 0101011237  Valid CHI                   
+#> 2 3213201234  Invalid date                
+#> 3 123456789   Too few characters          
+#> 4 12345678900 Too many characters         
+#> 5 010120123?  Invalid character(s) present
+```
+
+### chi\_pad
+
+``` r
+# Only nine-digit characters are prefixed with a zero
+chi_pad(c("101011237", "101201234", "123223"))
+#> [1] "0101011237" "0101201234" "123223"
+```
+
 ### file\_size
 
 ``` r
@@ -82,7 +125,7 @@ file_size(testthat::test_path("files"))
 #> 8 swiss.tsv        TSV 1 KB
 
 # Names and sizes of Excel files only in the tests/testthat/files folder
-file_size(testthat::test_path("files"), pattern = ".xlsx?$")
+file_size(testthat::test_path("files"), pattern = "\\.xlsx?$")
 #> # A tibble: 2 x 2
 #>   name           size       
 #>   <chr>          <chr>      
@@ -93,9 +136,27 @@ file_size(testthat::test_path("files"), pattern = ".xlsx?$")
 ### fin\_year
 
 ``` r
-a <- lubridate::dmy(c(21012017, 04042017, 17112017))
-fin_year(a)
+c <- lubridate::dmy(c(21012017, 04042017, 17112017))
+fin_year(c)
 #> [1] "2016/17" "2017/18" "2017/18"
+```
+
+### match\_area
+
+``` r
+match_area("S13002781")
+#> [1] "Ayr North"
+
+d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
+d %>% mutate(name = match_area(code))
+#> # A tibble: 5 x 2
+#>   code      name               
+#>   <chr>     <chr>              
+#> 1 S02000656 Govan and Linthouse
+#> 2 S02001042 Peebles North      
+#> 3 S08000020 Grampian           
+#> 4 S12000013 Na h-Eileanan Siar 
+#> 5 S13002605 Steòrnabhagh a Deas
 ```
 
 ### postcode
@@ -110,9 +171,8 @@ postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #> [1] "KA8 9NB"  "PA15 2TY"
 
 # postcode accounts for irregular spacing and lower case letters
-library(dplyr)
-b <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-b %>% mutate(pc = postcode(pc))
+e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
+e %>% mutate(pc = postcode(pc))
 #> # A tibble: 4 x 1
 #>   pc     
 #>   <chr>  
@@ -125,38 +185,38 @@ b %>% mutate(pc = postcode(pc))
 ### qtr, qtr\_end, qtr\_next and qtr\_prev
 
 ``` r
-c <- lubridate::dmy(c(26032012, 04052012, 23092012))
+f <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
 # qtr returns the current quarter and year
 # The default is long format
-qtr(c)
+qtr(f)
 #> [1] "January to March 2012"  "April to June 2012"     "July to September 2012"
 
 # But short format can also be applied
-qtr(c, format = "short")
+qtr(f, format = "short")
 #> [1] "Jan-Mar 2012" "Apr-Jun 2012" "Jul-Sep 2012"
 
 
 # qtr_end returns the last month in the quarter
-qtr_end(c)
+qtr_end(f)
 #> [1] "March 2012"     "June 2012"      "September 2012"
-qtr_end(c, format = "short")
+qtr_end(f, format = "short")
 #> [1] "Mar 2012" "Jun 2012" "Sep 2012"
 
 
 # qtr_next returns the next quarter
-qtr_next(c)
+qtr_next(f)
 #> [1] "April to June 2012"       "July to September 2012"  
 #> [3] "October to December 2012"
-qtr_next(c, format = "short")
+qtr_next(f, format = "short")
 #> [1] "Apr-Jun 2012" "Jul-Sep 2012" "Oct-Dec 2012"
 
 
 # qtr_prev returns the previous quarter
-qtr_prev(c)
+qtr_prev(f)
 #> [1] "October to December 2011" "January to March 2012"   
 #> [3] "April to June 2012"
-qtr_prev(c, format = "short")
+qtr_prev(f, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
 ```
 
