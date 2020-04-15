@@ -25,11 +25,11 @@
 #' consistent with the above format and, if so, assigns the appropriate amount
 #' of spacing and capitalises any lower case letters.
 #'
-#' @param string A character string or vector of character strings. Input
-#' values which adhere to the standard UK postcode format may be upper or lower
-#' case and will be formatted regardless of existing spacing. Any input values
-#' which do not adhere to the standard UK postcode format will generate an NA
-#' and a warning message - see \strong{Value} section for more information.
+#' @param x A character string or vector of character strings. Input values
+#' which adhere to the standard UK postcode format may be upper or lower case
+#' and will be formatted regardless of existing spacing. Any input values which
+#' do not adhere to the standard UK postcode format will generate an NA and a
+#' warning message - see \strong{Value} section for more information.
 #' @param format A character string denoting the desired output format. Valid
 #' options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
 #' section for more information on the string length of output values.
@@ -58,25 +58,25 @@
 #' postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #'
 #' library(dplyr)
-#' x <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
-#' x %>% mutate(pc = postcode(pc))
+#' df <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+#' df %>% mutate(pc = postcode(pc))
 #'
 #' @export
 
-postcode <- function(string, format = c("pc7", "pc8")) {
+postcode <- function(x, format = c("pc7", "pc8")) {
 
   format <- match.arg(format)
 
   # Strip out all spaces from the input, so they can be added in again later at
   # the appropriate juncture
-  pc <- gsub("\\s", "", string)
+  x <- gsub("\\s", "", x)
 
   # Calculate the number of non-NA values in the input which do not adhere to
   # the standard UK postcode format
   n <- length(
-    pc[!is.na(pc)][!stringr::str_detect(
-      pc[!is.na(pc)],
-      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$")])
+    x[!is.na(x)][!stringr::str_detect(
+      x[!is.na(x)],
+      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$")])
 
   # If n is one, the warning message describing the number of values which
   # do not adhere to the standard format should use singular verbs
@@ -87,8 +87,8 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   if (
     !all(
       stringr::str_detect(
-        pc[!is.na(pc)],
-        "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"))) {
+        x[!is.na(x)],
+        "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"))) {
     warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
                        "not adhere to the standard UK postcode format (with ",
                        "or without spaces) and will be coded as NA. The ",
@@ -102,18 +102,18 @@ postcode <- function(string, format = c("pc7", "pc8")) {
 
   # Replace postcodes which do not adhere to the standard format with NA (this
   # will also 'replace' NA with NA)
-  pc <- replace(pc,
-                !stringr::str_detect(
-                  pc,
-                  "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9]{1}[A-Za-z]{2}$"),
-                NA_character_)
+  x <- replace(x,
+               !stringr::str_detect(
+                 x,
+                 "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"),
+               NA_character_)
 
-  if (any(grepl("[a-z]", pc))) {
+  if (any(grepl("[a-z]", x))) {
     warning("Lower case letters in any input value(s) adhering to the ",
             "standard UK postcode format will be converted to upper case")
   }
 
-  pc <- stringr::str_to_upper(pc)
+  x <- toupper(x)
 
   # pc7 format requires all valid postcodes to be of length 7, meaning:
   # 5 character postcodes have 2 spaces after the 2nd character;
@@ -121,10 +121,10 @@ postcode <- function(string, format = c("pc7", "pc8")) {
   # 7 character postcodes have no spaces
   if (format == "pc7") {
     return(dplyr::case_when(
-      is.na(pc) ~ NA_character_,
-      stringr::str_length(pc) == 5 ~ sub("(.{2})", "\\1  ", pc),
-      stringr::str_length(pc) == 6 ~ sub("(.{3})", "\\1 ", pc),
-      stringr::str_length(pc) == 7 ~ pc
+      is.na(x) ~ NA_character_,
+      nchar(x) == 5 ~ sub("(.{2})", "\\1  ", x),
+      nchar(x) == 6 ~ sub("(.{3})", "\\1 ", x),
+      nchar(x) == 7 ~ x
     ))
 
   } else {
@@ -133,11 +133,9 @@ postcode <- function(string, format = c("pc7", "pc8")) {
     # All postcodes, whether 5, 6 or 7 characters, have one space before the
     # last 3 characters
     return(dplyr::case_when(
-      is.na(pc) ~ NA_character_,
-      stringr::str_length(pc) %in% 5:7 ~
-        # Reverse the order of the postcodes to add a space after 3 characters,
-        # then reverse again to get them back the right way around
-        stringi::stri_reverse(sub("(.{3})", "\\1 ", stringi::stri_reverse(pc)))
+      is.na(x) ~ NA_character_,
+      nchar(x) %in% 5:7 ~ paste(stringr::str_sub(x, end = -4),
+                                stringr::str_sub(x, start = -3))
     ))
   }
 }

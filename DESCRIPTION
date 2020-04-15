@@ -8,12 +8,15 @@ Authors@R: c(
     person("Tina", "Fu", email = "tina.fu@nhs.net", role = "aut"),
     person("Ciara", "Gribben", email = "ciaragribben@nhs.net", role = "aut"),
     person("Chris", "Deans", email = "chrisdeans@nhs.net", role = "aut"),
+    person("Jaime", "Villacampa", email = "jaime.villacampa@nhs.net", role = "aut"),
     person("Graeme", "Gowans", email = "graeme.gowans@nhs.net", role = "aut")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
 License: GPL (>= 2)
 URL: https://github.com/Health-SocialCare-Scotland/phsmethods
 BugReports: https://github.com/Health-SocialCare-Scotland/phsmethods/issues
+Depends:
+    R (>= 2.10)
 Imports:
     dplyr,
     gdata,
@@ -22,7 +25,6 @@ Imports:
     magrittr,
     purrr,
     rlang,
-    stringi,
     stringr,
     tibble,
     utils
