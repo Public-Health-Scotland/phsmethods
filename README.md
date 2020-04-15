@@ -239,10 +239,10 @@ While the most obvious and eyecatching (as well as intimidating) way of
 contributing is by writing a function, this isn’t the only way to make a
 useful contribution. Fixing typos in documentation, for example, isn’t
 the most glamorous way to contribute, but is of great help to the
-package maintainers. Please see this
-[blogpost](https://www.tidyverse.org/blog/2017/08/contributing/) by Jim
-Hester for more information on getting started with contributing to open
-source software.
+package maintainers. Please see this [blogpost by Jim
+Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more
+information on getting started with contributing to open source
+software.
 
 When contributing, please create a
 [branch](https://github.com/Health-SocialCare-Scotland/phsmethods/branches)
@@ -297,7 +297,7 @@ package to contribute to `phsmethods`. If you wish to contribute code
 then, as long as you can write an R function, the package maintainers
 can assist with error handling, writing documentation, testing and other
 aspects of package development. It is advised, however, to consult
-Hadley Wickham’s [R Packages](https://r-pkgs.org/) book prior to making
+[Hadley Wickham’s R Packages book](https://r-pkgs.org/) prior to making
 a contribution. It may also be useful to consult the
 [documentation](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/R)
 and
