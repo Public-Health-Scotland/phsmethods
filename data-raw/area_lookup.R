@@ -1,17 +1,17 @@
 ### This script downloads and formats data pertaining to geographic area names
-### and codes from the Scottish Government open data platform.
+### and codes from the Scottish Government open data platform
 ###
 ### The resulting file is used inside the match_area function and is made
-### available to users of the package via phsmethods::area_lookup.
+### available to users of the package via phsmethods::area_lookup
 ###
 ### This script should be re-run prior to every package release, to ensure the
-### most up-to-date information provided by the Scottish Government is used.
+### most up-to-date information provided by the Scottish Government is used
 ###
 ### Any substantial changes to the data should be noted in the section
-### pertaining to the latest release in the NEWS.md file.
+### pertaining to the latest release in the NEWS.md file
 ###
-### This code should run successfully on RStudio server.
-### It may time out on RStudio desktop due to network security settings.
+### This code should run successfully on RStudio server
+### It may time out on RStudio desktop due to network security settings
 
 
 library(SPARQL)

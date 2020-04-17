@@ -28,13 +28,13 @@ quarter-related value from it. They all return the year as part of this
 value.
 
 \itemize{
-\item \code{qtr} returns the current quarter.
+\item \code{qtr} returns the current quarter
 
-\item \code{qtr_end} returns the last month in the quarter.
+\item \code{qtr_end} returns the last month in the quarter
 
-\item \code{qtr_next} returns the next quarter.
+\item \code{qtr_next} returns the next quarter
 
-\item \code{qtr_prev} returns the previous quarter.
+\item \code{qtr_prev} returns the previous quarter
 }
 }
 \details{

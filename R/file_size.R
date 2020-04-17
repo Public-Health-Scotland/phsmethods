@@ -91,8 +91,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
   }
 
   y <- x %>%
-    purrr::map(~file.info(paste0(filepath, "/", .))$size) %>%
-    unlist() %>%
+    purrr::map_dbl(~file.info(paste0(filepath, "/", .))$size) %>%
 
     # The gdata package defines a kilobyte (KB) as 1,000 bytes, and a
     # kibibyte (KiB) as 1,024 bytes

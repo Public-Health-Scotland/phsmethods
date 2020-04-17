@@ -19,7 +19,7 @@
 fin_year <- function(date) {
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class.")
+    stop("The input must have Date or POSIXct class")
   }
 
   # Simply converting all elements of the input vector resulted in poor
