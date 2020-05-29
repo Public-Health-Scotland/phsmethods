@@ -144,7 +144,7 @@ chi_pad <- function(x) {
   }
 
   # Add a leading zero to any string comprised of nine numeric digits
-  ifelse(stringr::str_detect(x, "^[1-9]{9}$"),
+  ifelse(stringr::str_detect(x, "^[0-9]{9}$"),
          paste0("0", x),
          x)
 }
