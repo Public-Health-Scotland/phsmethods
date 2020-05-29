@@ -88,8 +88,8 @@ b %>% mutate(validity = chi_check(chi))
 ### chi_pad
 
 ```{r chi_pad}
-# Only nine-digit characters are prefixed with a zero
-chi_pad(c("101011237", "101201234", "123223"))
+# Only nine-digit characters comprised exclusively of numeric digits are prefixed with a zero
+chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
 ```
 
 

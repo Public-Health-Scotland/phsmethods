@@ -45,7 +45,8 @@ working on RStudio desktop. If this is the case, `phsmethods` can be
 installed by downloading the [zip of the
 repository](https://github.com/Health-SocialCare-Scotland/phsmethods/archive/master.zip)
 and running the following code (replacing the section marked `<>`,
-including the arrows themselves):
+including the arrows
+themselves):
 
 ``` r
 remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
@@ -102,9 +103,9 @@ b %>% mutate(validity = chi_check(chi))
 ### chi\_pad
 
 ``` r
-# Only nine-digit characters are prefixed with a zero
-chi_pad(c("101011237", "101201234", "123223"))
-#> [1] "0101011237" "0101201234" "123223"
+# Only nine-digit characters comprised exclusively of numeric digits are prefixed with a zero
+chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
+#> [1] "0101011237" "0101201234" "123223"     "abcdefghi"  "12345tuvw"
 ```
 
 ### file\_size
@@ -120,7 +121,7 @@ file_size(testthat::test_path("files"))
 #> 3 iris.csv         CSV 4 KB   
 #> 4 mtcars.sav       SPSS 4 KB  
 #> 5 plant-growth.rds RDS 316 B  
-#> 6 puromycin.txt    Text 442 B 
+#> 6 puromycin.txt    Text 418 B 
 #> 7 stackloss.fst    FST 897 B  
 #> 8 swiss.tsv        TSV 1 KB
 
