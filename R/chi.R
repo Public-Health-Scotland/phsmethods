@@ -143,8 +143,8 @@ chi_pad <- function(x) {
     stop("The input must be of character class")
   }
 
-  # Add a leading zero to any nine character CHI numbers
-  ifelse(nchar(x) == 9,
+  # Add a leading zero to any string comprised of nine numeric digits
+  ifelse(stringr::str_detect(x, "^[1-9]{9}$"),
          paste0("0", x),
          x)
 }
