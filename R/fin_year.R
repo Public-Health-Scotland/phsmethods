@@ -27,16 +27,23 @@ fin_year <- function(date) {
   # a vector of unique elements from the input, convert those to financial year
   # and then match them back on to the original input. This vastly improves
   # performance for large inputs.
-  tibble::tibble(dates = unique(date)) %>%
-    dplyr::mutate(fin_year = paste0(ifelse(lubridate::month(.data$dates) >= 4,
-                                           lubridate::year(.data$dates),
-                                           lubridate::year(.data$dates) - 1),
-                                    "/",
-                                    substr(
-                                      ifelse(lubridate::month(.data$dates) >= 4,
-                                             lubridate::year(.data$dates) + 1,
-                                             lubridate::year(.data$dates)),
-                                      3, 4))) %>%
-    dplyr::right_join(tibble::tibble(dates = date), by = "dates") %>%
-    dplyr::pull(fin_year)
+
+  x <- tibble::tibble(dates = unique(date)) %>%
+    dplyr::mutate(fyear = paste0(ifelse(lubridate::month(.data$dates) >= 4,
+                                        lubridate::year(.data$dates),
+                                        lubridate::year(.data$dates) - 1),
+                                 "/",
+                                 substr(
+                                   ifelse(lubridate::month(.data$dates) >= 4,
+                                          lubridate::year(.data$dates) + 1,
+                                          lubridate::year(.data$dates)),
+                                   3, 4)),
+                  fyear = ifelse(is.na(.data$dates),
+                                 NA_character_,
+                                 .data$fyear))
+
+  tibble::tibble(dates = date) %>%
+    dplyr::left_join(x, by = "dates") %>%
+    dplyr::pull(.data$fyear)
+
 }
