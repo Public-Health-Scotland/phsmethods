@@ -21,3 +21,7 @@ test_that("Non-date formats produce an error", {
   expect_error(fin_year(as.factor("28-Oct-2019")))
 })
 
+test_that("NAs are handled correctly", {
+  expect_equal(fin_year(c(lubridate::dmy(05012020), NA)), c("2019/20", NA))
+})
+
