@@ -12,7 +12,7 @@ chi_pad(x)
 \description{
 \code{chi_pad} takes a nine-digit CHI number with
 \code{character} class and prefixes it with a zero. Any values provided
-which are not nine characters in length remain unchanged.
+which are not a string comprised of nine numeric digits remain unchanged.
 }
 \details{
 The Community Health Index (CHI) is a register of all patients in
