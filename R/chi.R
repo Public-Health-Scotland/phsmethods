@@ -117,7 +117,7 @@ sub_num <- function(x, num) {
 #'
 #' @description \code{chi_pad} takes a nine-digit CHI number with
 #' \code{character} class and prefixes it with a zero. Any values provided
-#' which are not nine characters in length remain unchanged.
+#' which are not a string comprised of nine numeric digits remain unchanged.
 #'
 #' @details The Community Health Index (CHI) is a register of all patients in
 #' NHS Scotland. A CHI number is a unique, ten-digit identifier assigned to
@@ -148,8 +148,8 @@ chi_pad <- function(x) {
     stop("The input must be of character class")
   }
 
-  # Add a leading zero to any nine character CHI numbers
-  ifelse(nchar(x) == 9,
+  # Add a leading zero to any string comprised of nine numeric digits
+  ifelse(stringr::str_detect(x, "^[0-9]{9}$"),
          paste0("0", x),
          x)
 }

@@ -119,3 +119,9 @@ test_that("Vector entry works in chi_pad", {
   expect_equal(chi_pad(c("12345678", NA, "123456789")),
                c("12345678", NA, "0123456789"))
 })
+
+test_that("chi_pad only pads 9 character strings comprised of numeric digits", {
+  expect_equal(chi_pad("abcdefghi"), "abcdefghi")
+  expect_equal(chi_pad(c("246789532", "jklmnopqr", "123223")),
+               c("0246789532", "jklmnopqr", "123223"))
+})
