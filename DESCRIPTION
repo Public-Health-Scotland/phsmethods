@@ -10,7 +10,8 @@ Authors@R: c(
     person("Chris", "Deans", email = "chrisdeans@nhs.net", role = "aut"),
     person("Jaime", "Villacampa", email = "jaime.villacampa@nhs.net", role = "aut"),
     person("Graeme", "Gowans", email = "graeme.gowans@nhs.net", role = "aut"),
-    person("Alice", "Byers", email = "alice.byers@nhs.net", role = "ctb")
+    person("Alice", "Byers", email = "alice.byers@nhs.net", role = "ctb"),
+    person("Alan", "Yeung", email = "alan.yeung@nhs.net", role = "ctb")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
 License: GPL (>= 2)

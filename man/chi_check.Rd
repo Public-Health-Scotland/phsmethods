@@ -20,6 +20,7 @@ validity of the entered CHI number, it will return one of the following:
 \item `Too few characters`
 \item `Invalid date`
 \item `Invalid checksum`
+\item `Missing`
 }
 }
 \description{
@@ -62,7 +63,7 @@ chi_check("0101011237")
 chi_check(c("0101201234", "3201201234"))
 
 library(dplyr)
-df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?"))
+df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?", NA))
 df \%>\% mutate(validity = chi_check(chi))
 
 }

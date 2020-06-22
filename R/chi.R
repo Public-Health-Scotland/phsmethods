@@ -45,6 +45,7 @@
 #' \item `Too few characters`
 #' \item `Invalid date`
 #' \item `Invalid checksum`
+#' \item `Missing`
 #' }
 #'
 #' @examples
@@ -52,7 +53,7 @@
 #' chi_check(c("0101201234", "3201201234"))
 #'
 #' library(dplyr)
-#' df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?"))
+#' df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?", NA))
 #' df %>% mutate(validity = chi_check(chi))
 #'
 #' @export
@@ -63,6 +64,9 @@ chi_check <- function(x) {
     stop("The input must be of character class")
   }
 
+  # Store unchanged input for checking missing values
+  y <- x
+
   # Replace entries containing invalid characters (letters and punctuation)
   # with NA
   x <- ifelse(grepl("[[:punct:][:alpha:]]", x),
@@ -71,6 +75,7 @@ chi_check <- function(x) {
 
   # Perform checks and return feedback
   dplyr::case_when(
+    is.na(y) ~ "Missing",
     is.na(x) ~ "Invalid character(s) present",
     nchar(x) > 10 ~ "Too many characters",
     nchar(x) < 10 ~  "Too few characters",
