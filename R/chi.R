@@ -75,7 +75,7 @@ chi_check <- function(x) {
     nchar(x) > 10 ~ "Too many characters",
     nchar(x) < 10 ~  "Too few characters",
     is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y")) ~ "Invalid date",
-    checksum(x) == "Fail" ~ "Invalid checksum",
+    checksum(x) == FALSE ~ "Invalid checksum",
     TRUE ~ "Valid CHI")
 }
 
@@ -93,7 +93,7 @@ checksum <- function(x) {
   k <- ifelse(k == 11, 0, k) # If 11, make 0
 
   # Check if output matches the checksum
-  ifelse(k != substr(x, 10, 10), "Fail", NA)
+  ifelse(k == substr(x, 10, 10), TRUE, FALSE)
 }
 
 sub_num <- function(x, num) {
