@@ -74,7 +74,7 @@ chi_check <- function(x) {
     is.na(x) ~ "Invalid character(s) present",
     nchar(x) > 10 ~ "Too many characters",
     nchar(x) < 10 ~  "Too few characters",
-    is.na(lubridate::dmy(substr(x, 1, 6), quiet = TRUE)) ~ "Invalid date",
+    is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y")) ~ "Invalid date",
     checksum(x) == "Fail" ~ "Invalid checksum",
     TRUE ~ "Valid CHI")
 }
