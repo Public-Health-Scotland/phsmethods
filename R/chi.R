@@ -99,7 +99,7 @@ checksum <- function(x) {
 sub_num <- function(x, num) {
 
   # Weight factor for checksum calculation
-  wg <- rev(seq(2, 10))
+  wg <- 10:2
 
   # Extract character by position
   x_ex <- substr(x, num, num)
