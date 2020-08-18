@@ -81,7 +81,7 @@ age_group(a, from = 0, to = 80, by = 10)
 ```{r chi_check, message = FALSE, warning = FALSE}
 # chi_check returns specific feedback on why a CHI number might be invalid
 library(dplyr)
-b <- tibble(chi = c("0101011237", "3213201234", "123456789", "12345678900", "010120123?"))
+b <- tibble(chi = c("0101011237", "3213201234", "123456789", "12345678900", "010120123?", NA))
 b %>% mutate(validity = chi_check(chi))
 ```
 

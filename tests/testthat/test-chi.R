@@ -64,6 +64,10 @@ test_that("Invalid checksum fails chi_check", {
   expect_equal(chi_check("1904851232"), "Invalid checksum")
 })
 
+test_that("Missing value fails chi_check", {
+  expect_equal(chi_check(NA_character_), "Missing")
+})
+
 test_that("Vector entry works in chi_check", {
   expect_equal(chi_check(c("0101011237",
                            "0101201234",
@@ -73,6 +77,7 @@ test_that("Vector entry works in chi_check", {
                            "123456789",
                            "12345678900",
                            "010120123?",
+                           NA,
                            "1904851231")),
                c("Valid CHI",
                  "Invalid checksum",
@@ -82,6 +87,7 @@ test_that("Vector entry works in chi_check", {
                  "Too few characters",
                  "Too many characters",
                  "Invalid character(s) present",
+                 "Missing",
                  "Valid CHI"))
 })
 
