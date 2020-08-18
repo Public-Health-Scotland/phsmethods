@@ -79,8 +79,8 @@ chi_check <- function(x) {
     is.na(x) ~ "Invalid character(s) present",
     nchar(x) > 10 ~ "Too many characters",
     nchar(x) < 10 ~  "Too few characters",
-    is.na(lubridate::dmy(substr(x, 1, 6), quiet = TRUE)) ~ "Invalid date",
-    checksum(x) == "Fail" ~ "Invalid checksum",
+    is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y")) ~ "Invalid date",
+    checksum(x) == FALSE ~ "Invalid checksum",
     TRUE ~ "Valid CHI")
 }
 
@@ -98,13 +98,13 @@ checksum <- function(x) {
   k <- ifelse(k == 11, 0, k) # If 11, make 0
 
   # Check if output matches the checksum
-  ifelse(k != substr(x, 10, 10), "Fail", NA)
+  ifelse(k == substr(x, 10, 10), TRUE, FALSE)
 }
 
 sub_num <- function(x, num) {
 
   # Weight factor for checksum calculation
-  wg <- rev(seq(2, 10))
+  wg <- 10:2
 
   # Extract character by position
   x_ex <- substr(x, num, num)
@@ -149,7 +149,5 @@ chi_pad <- function(x) {
   }
 
   # Add a leading zero to any string comprised of nine numeric digits
-  ifelse(stringr::str_detect(x, "^[0-9]{9}$"),
-         paste0("0", x),
-         x)
+  sub("^([0-9]{9})$", "0\\1", x)
 }
