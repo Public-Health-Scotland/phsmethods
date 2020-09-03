@@ -29,7 +29,8 @@ Imports:
     rlang,
     stringr,
     tibble,
-    utils
+    utils,
+    readr
 Suggests: 
     covr,
     here,
