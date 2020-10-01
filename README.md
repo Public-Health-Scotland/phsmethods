@@ -6,7 +6,7 @@
 [![GitHub release (latest by
 date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest)
 [![Build
-Status](https://travis-ci.com/{Public-Health-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Public-Health-Scotland/phsmethods)
+Status](https://travis-ci.com/Public-Health-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Public-Health-Scotland/phsmethods)
 [![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
