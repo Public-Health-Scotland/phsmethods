@@ -4,10 +4,10 @@
 # phsmethods
 
 [![GitHub release (latest by
-date)](https://img.shields.io/github/v/release/Health-SocialCare-Scotland/phsmethods)](https://github.com/Health-SocialCare-Scotland/phsmethods/releases/latest)
+date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest)
 [![Build
-Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods)
-[![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods)
+Status](https://travis-ci.com/Public-Health-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Public-Health-Scotland/phsmethods)
+[![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
@@ -36,14 +36,14 @@ installed with `install.packages("remotes")`.
 You can then install `phsmethods` on RStudio server from GitHub with:
 
 ``` r
-remotes::install_github("Health-SocialCare-Scotland/phsmethods",
+remotes::install_github("Public-Health-Scotland/phsmethods",
                         upgrade = "never")
 ```
 
 Network security settings may prevent `remotes::install_github()` from
 working on RStudio desktop. If this is the case, `phsmethods` can be
 installed by downloading the [zip of the
-repository](https://github.com/Health-SocialCare-Scotland/phsmethods/archive/master.zip)
+repository](https://github.com/Public-Health-Scotland/phsmethods/archive/master.zip)
 and running the following code (replacing the section marked `<>`,
 including the arrows
 themselves):
@@ -230,7 +230,7 @@ Lawrie](https://github.com/lucindalawrie).
 This package is intended to be in continuous development and
 contributions may be made by anyone within PHS. If you would like to
 make a contribution, please first create an
-[issue](https://github.com/Health-SocialCare-Scotland/phsmethods/issues)
+[issue](https://github.com/Public-Health-Scotland/phsmethods/issues)
 on GitHub and assign **both** of the package maintainers to it. This is
 to ensure that no duplication of effort occurs in the case of multiple
 people having the same idea. The package maintainers will discuss the
@@ -246,12 +246,12 @@ information on getting started with contributing to open source
 software.
 
 When contributing, please create a
-[branch](https://github.com/Health-SocialCare-Scotland/phsmethods/branches)
+[branch](https://github.com/Public-Health-Scotland/phsmethods/branches)
 in this repository and carry out all work on it. Please ensure you have
 linked RStudio to your GitHub account using `usethis::edit_git_config()`
 prior to making your contribution. When you are ready for a review,
 please create a [pull
-request](https://github.com/Health-SocialCare-Scotland/phsmethods/pulls)
+request](https://github.com/Public-Health-Scotland/phsmethods/pulls)
 and assign **both** of the package maintainers as reviewers. One or both
 of them will conduct a review, provide feedback and, if necessary,
 request changes prior to merging your branch.
@@ -267,9 +267,9 @@ GitHub, and on using git and GitHub for version control more generally,
 please see the [Transforming Publishing
 Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)’s
 [Git
-guide](https://nhs-nss-transforming-publications.github.io/git-guide/)
+guide](https://public-health-scotland.github.io/git-guide/)
 and [GitHub
-guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
+guidance](https://github.com/Public-Health-Scotland/GitHub-guidance).
 
 Please feel free to add yourself to the ‘Authors’ section of the
 `Description` file when contributing. As a rule of thumb, please assign
@@ -300,9 +300,9 @@ can assist with error handling, writing documentation, testing and other
 aspects of package development. It is advised, however, to consult
 [Hadley Wickham’s R Packages book](https://r-pkgs.org/) prior to making
 a contribution. It may also be useful to consult the
-[documentation](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/R)
+[documentation](https://github.com/Public-Health-Scotland/phsmethods/tree/master/R)
 and
-[tests](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/tests/testthat)
+[tests](https://github.com/Public-Health-Scotland/phsmethods/tree/master/tests/testthat)
 of existing functions within this package as a point of reference.
 
 Please note that this README may fail to ‘Knit’ at times as a result of
