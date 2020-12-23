@@ -18,9 +18,7 @@
 #' @export
 fin_year <- function(date) {
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
-  }
+  if (!is_date(date)) stop("The input must have Date or POSIXct class")
 
   # Simply converting all elements of the input vector resulted in poor
   # performance for large vectors. The function was rewritten to extract

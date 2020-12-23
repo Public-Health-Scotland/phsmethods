@@ -43,9 +43,7 @@ qtr <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
-  }
+  if (!is_date(date)) stop("The input must have Date or POSIXct class")
 
   quarter_num <- lubridate::quarter(date)
 
@@ -79,9 +77,7 @@ qtr_end <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
-  }
+  if (!is_date(date)) stop("The input must have Date or POSIXct class")
 
   quarter_num <- lubridate::quarter(date)
 
@@ -115,9 +111,7 @@ qtr_next <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
-  }
+  if (!is_date(date)) stop("The input must have Date or POSIXct class")
 
   quarter_num <- lubridate::quarter(date)
 
@@ -151,9 +145,7 @@ qtr_prev <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
-  }
+  if (!is_date(date)) stop("The input must have Date or POSIXct class")
 
   quarter_num <- lubridate::quarter(date)
 

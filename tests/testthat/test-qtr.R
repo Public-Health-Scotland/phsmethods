@@ -35,7 +35,7 @@ test_that("Returns correct quarter in correct format", {
                qtr_prev(date = lubridate::dmy(15102018), format = "long"))
 })
 
-test_that("Errors if the input date is not in date format", {
+test_that("Errors if the input date is not in a date format", {
   expect_error(qtr(date = "2018-03-25", format = "short"))
   expect_error(qtr_end(date = as.factor("2018-03-25"), format = "long"))
   expect_error(qtr_next(date = NULL, format = "short"))
