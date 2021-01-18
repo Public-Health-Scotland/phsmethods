@@ -7,7 +7,7 @@
 is_date(date)
 }
 \arguments{
-\item{date}{}
+\item{date}{an object to check the type of.}
 }
 \value{
 boolean
