@@ -16,7 +16,7 @@ qtr_next(date, format = c("long", "short"))
 qtr_prev(date, format = c("long", "short"))
 }
 \arguments{
-\item{date}{A date supplied with \code{Date} class.}
+\item{date}{A date which must be supplied with \code{Date} or \code{POSIXct}}
 
 \item{format}{A \code{character} string specifying the format the quarter
 should be displayed in. Valid options are `long` (January to March 2018) and
