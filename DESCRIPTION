@@ -11,7 +11,9 @@ Authors@R: c(
     person("Jaime", "Villacampa", email = "jaime.villacampa@nhs.net", role = "aut"),
     person("Graeme", "Gowans", email = "graeme.gowans@nhs.net", role = "aut"),
     person("Alice", "Byers", email = "alice.byers@nhs.net", role = "ctb"),
-    person("Alan", "Yeung", email = "alan.yeung@nhs.net", role = "ctb")
+    person("Alan", "Yeung", email = "alan.yeung@nhs.net", role = "ctb"),
+    person("James", "McMahon", email = "james.mcmahon@phs.scot", role = "aut"),
+    person("Csilla", "Scharle", email = "csilla.scharle2@phs.scot", role = "aut")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
 License: GPL (>= 2)
@@ -20,8 +22,10 @@ BugReports: https://github.com/Health-SocialCare-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:
+    ckanr,
     dplyr,
     gdata,
+    httr,
     glue,
     lubridate,
     magrittr,
@@ -29,11 +33,12 @@ Imports:
     rlang,
     stringr,
     tibble,
-    utils
+    utils,
+    jsonlite
 Suggests: 
     covr,
     here,
     testthat (>= 2.0.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
