@@ -11,5 +11,6 @@ test_that("returns data in the expected format", {
 test_that("errors properly", {
   expect_error(opendata_get_resource(res_id = 123))
   expect_error(opendata_get_resource("a794d603-95ab-4309-8c92-b48970478c1"),
-               regexp = "HTTP 404")
+    regexp = "HTTP 404"
+  )
 })

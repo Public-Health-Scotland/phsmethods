@@ -11,7 +11,6 @@
 #'
 #' @examples opendata_get_resource(res_id = "a794d603-95ab-4309-8c92-b48970478c14")
 opendata_get_resource <- function(res_id, rows = NULL) {
-
   if (!opendata_check_res_id(res_id)) {
     stop(glue::glue("The resource ID supplied ('{res_id}') is invalid"))
   }
@@ -19,11 +18,14 @@ opendata_get_resource <- function(res_id, rows = NULL) {
   # Get the max rows allowed by the API if rows isn't specified
   max_rows <- min(rows, 32000)
 
-  query <- list(id = res_id,
-                limit = max_rows)
+  query <- list(
+    id = res_id,
+    limit = max_rows
+  )
 
   url <- httr::modify_url(opendata_ds_search_url(),
-                    query = query)
+    query = query
+  )
 
   ua <- opendata_ua()
 
@@ -78,5 +80,6 @@ opendata_check_res_id <- function(res_id) {
 #' @return a url
 opendata_ds_search_url <- function() {
   httr::modify_url("https://www.opendata.nhs.scot",
-                   path = "/api/3/action/datastore_search")
+    path = "/api/3/action/datastore_search"
+  )
 }
