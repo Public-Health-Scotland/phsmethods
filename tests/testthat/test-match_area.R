@@ -1,5 +1,3 @@
-context("test-match_area")
-
 test_that("Returns the correct area names", {
   expect_equal(match_area(c("S20000010",
                             "S01002363",

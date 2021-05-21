@@ -1,5 +1,3 @@
-context("test-fin_year")
-
 test_that("Date is assigned to the correct financial year", {
   expect_equal(fin_year(as.Date("20120331", "%Y%m%d")), "2011/12")
   expect_equal(fin_year(as.Date("20120401", "%Y%m%d")), "2012/13")

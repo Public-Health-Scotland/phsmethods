@@ -1,5 +1,3 @@
-context("test-chi")
-
 test_that("Valid CHI passes chi_check", {
   expect_equal(chi_check("1904851231"), "Valid CHI")
 })

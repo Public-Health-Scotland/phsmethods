@@ -1,5 +1,3 @@
-context("test-postcode")
-
 test_that("Creates strings of correct length", {
   expect_equal(stringr::str_length(postcode("G26QE", format = "pc7")), 7)
   expect_equal(stringr::str_length(postcode("G26QE", format = "pc8")), 6)
