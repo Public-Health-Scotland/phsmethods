@@ -4,7 +4,7 @@
 #' @param res_id The resource ID as found on \href{https://www.opendata.nhs.scot/}{NHS Open Data platform}
 #' @param rows (optional) specify the max number of rows to return
 #' use this when testing code to reduce the size of the request
-#' it will default to all data
+#' it will default to the either all the data or 99,999 (the hard limit on this API endpoint)
 #'
 #' @return a [tibble][tibble::tibble-package] with the data
 #' @export
@@ -16,7 +16,9 @@ opendata_get_resource <- function(res_id, rows = NULL) {
   }
 
   # Get the max rows allowed by the API if rows isn't specified
-  max_rows <- min(rows, 32000)
+  # 99999 is the limit for the API row selection but some resources are larger than this
+  # We are considering options for returning these resources in an efficient way.
+  max_rows <- min(rows, 99999)
 
   query <- list(
     id = res_id,
