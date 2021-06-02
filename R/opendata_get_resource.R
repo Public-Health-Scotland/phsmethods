@@ -70,8 +70,8 @@ opendata_ua <- function() {
 opendata_check_res_id <- function(res_id) {
   if (!inherits(res_id, "character")) {
     return(FALSE)
-  } else if (FALSE) {
-    # Can be extended with other checks e.g. does res_id match a regex?
+  } else if (!grepl(pattern = "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$", x = res_id)) {
+    return(FALSE)
   } else {
     return(TRUE)
   }

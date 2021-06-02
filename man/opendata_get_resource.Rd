@@ -11,7 +11,7 @@ opendata_get_resource(res_id, rows = NULL)
 
 \item{rows}{(optional) specify the max number of rows to return
 use this when testing code to reduce the size of the request
-it will default to all data}
+it will default to the either all the data or 99,999 (the hard limit on this API endpoint)}
 }
 \value{
 a [tibble][tibble::tibble-package] with the data
