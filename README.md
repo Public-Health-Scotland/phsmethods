@@ -1,56 +1,40 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # phsmethods
 
-[![GitHub release (latest by
-date)](https://img.shields.io/github/v/release/Health-SocialCare-Scotland/phsmethods)](https://github.com/Health-SocialCare-Scotland/phsmethods/releases/latest)
-[![Build
-Status](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Health-SocialCare-Scotland/phsmethods)
-[![codecov](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Health-SocialCare-Scotland/phsmethods)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest) [![Build Status](https://travis-ci.com/Public-Health-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Public-Health-Scotland/phsmethods) [![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
 
-`phsmethods` contains functions for commonly undertaken analytical tasks
-in [Public Health Scotland
-(PHS)](https://www.publichealthscotland.scot/):
+`phsmethods` contains functions for commonly undertaken analytical tasks in [Public Health Scotland (PHS)](https://www.publichealthscotland.scot/):
 
-  - `age_group()` categorises ages into groups
-  - `chi_check()` assesses the validity of a CHI number
-  - `chi_pad()` adds a leading zero to nine-digit CHI numbers
-  - `file_size()` returns the names and sizes of files in a directory
-  - `fin_year()` assigns a date to a financial year in the format
-    `YYYY/YY`
-  - `match_area()` converts geography codes into area names
-  - `postcode()` formats improperly recorded postcodes
-  - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
-    a quarter
+-   `age_group()` categorises ages into groups
+-   `chi_check()` assesses the validity of a CHI number
+-   `chi_pad()` adds a leading zero to nine-digit CHI numbers
+-   `file_size()` returns the names and sizes of files in a directory
+-   `fin_year()` assigns a date to a financial year in the format `YYYY/YY`
+-   `match_area()` converts geography codes into area names
+-   `postcode()` formats improperly recorded postcodes
+-   `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
 
-`phsmethods` can be used on both the
-[server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
-RStudio.
+`phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
 
 ## Installation
 
-To install `phsmethods`, the package `remotes` is required, and can be
-installed with `install.packages("remotes")`.
+To install `phsmethods`, the package `remotes` is required, and can be installed with `install.packages("remotes")`.
 
 You can then install `phsmethods` on RStudio server from GitHub with:
 
 ``` r
-remotes::install_github("Health-SocialCare-Scotland/phsmethods",
-                        upgrade = "never")
+remotes::install_github("Public-Health-Scotland/phsmethods",
+  upgrade = "never"
+)
 ```
 
-Network security settings may prevent `remotes::install_github()` from
-working on RStudio desktop. If this is the case, `phsmethods` can be
-installed by downloading the [zip of the
-repository](https://github.com/Health-SocialCare-Scotland/phsmethods/archive/master.zip)
-and running the following code (replacing the section marked `<>`,
-including the arrows
-themselves):
+Network security settings may prevent `remotes::install_github()` from working on RStudio desktop. If this is the case, `phsmethods` can be installed by downloading the [zip of the repository](https://github.com/Public-Health-Scotland/phsmethods/archive/master.zip) and running the following code (replacing the section marked `<>`, including the arrows themselves):
 
 ``` r
 remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
-                       upgrade = "never")
+  upgrade = "never"
+)
 ```
 
 ## Using phsmethods
@@ -61,8 +45,7 @@ Load `phsmethods` using `library()`:
 library(phsmethods)
 ```
 
-To access the help file for any of `phsmethods`’ functions, type
-`?function_name` into the RStudio console after loading the package:
+To access the help file for any of `phsmethods`' functions, type `?function_name` into the RStudio console after loading the package:
 
 ``` r
 ?fin_year
@@ -88,9 +71,9 @@ age_group(a, from = 0, to = 80, by = 10)
 ``` r
 # chi_check returns specific feedback on why a CHI number might be invalid
 library(dplyr)
-b <- tibble(chi = c("0101011237", "3213201234", "123456789", "12345678900", "010120123?"))
+b <- tibble(chi = c("0101011237", "3213201234", "123456789", "12345678900", "010120123?", NA))
 b %>% mutate(validity = chi_check(chi))
-#> # A tibble: 5 x 2
+#> # A tibble: 6 x 2
 #>   chi         validity                    
 #>   <chr>       <chr>                       
 #> 1 0101011237  Valid CHI                   
@@ -98,6 +81,7 @@ b %>% mutate(validity = chi_check(chi))
 #> 3 123456789   Too few characters          
 #> 4 12345678900 Too many characters         
 #> 5 010120123?  Invalid character(s) present
+#> 6 <NA>        Missing
 ```
 
 ### chi\_pad
@@ -223,91 +207,28 @@ qtr_prev(f, format = "short")
 
 ## Contributing to phsmethods
 
-At present, the maintainers of this package are [David
-Caldwell](https://github.com/davidc92) and [Lucinda
-Lawrie](https://github.com/lucindalawrie).
+At present, the maintainers of this package are [David Caldwell](https://github.com/davidc92) and [Lucinda Lawrie](https://github.com/lucindalawrie).
 
-This package is intended to be in continuous development and
-contributions may be made by anyone within PHS. If you would like to
-make a contribution, please first create an
-[issue](https://github.com/Health-SocialCare-Scotland/phsmethods/issues)
-on GitHub and assign **both** of the package maintainers to it. This is
-to ensure that no duplication of effort occurs in the case of multiple
-people having the same idea. The package maintainers will discuss the
-issue and get back to you as soon as possible.
+This package is intended to be in continuous development and contributions may be made by anyone within PHS. If you would like to make a contribution, please first create an [issue](https://github.com/Public-Health-Scotland/phsmethods/issues) on GitHub and assign **both** of the package maintainers to it. This is to ensure that no duplication of effort occurs in the case of multiple people having the same idea. The package maintainers will discuss the issue and get back to you as soon as possible.
 
-While the most obvious and eyecatching (as well as intimidating) way of
-contributing is by writing a function, this isn’t the only way to make a
-useful contribution. Fixing typos in documentation, for example, isn’t
-the most glamorous way to contribute, but is of great help to the
-package maintainers. Please see this [blogpost by Jim
-Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more
-information on getting started with contributing to open source
-software.
+While the most obvious and eyecatching (as well as intimidating) way of contributing is by writing a function, this isn't the only way to make a useful contribution. Fixing typos in documentation, for example, isn't the most glamorous way to contribute, but is of great help to the package maintainers. Please see this [blogpost by Jim Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more information on getting started with contributing to open source software.
 
-When contributing, please create a
-[branch](https://github.com/Health-SocialCare-Scotland/phsmethods/branches)
-in this repository and carry out all work on it. Please ensure you have
-linked RStudio to your GitHub account using `usethis::edit_git_config()`
-prior to making your contribution. When you are ready for a review,
-please create a [pull
-request](https://github.com/Health-SocialCare-Scotland/phsmethods/pulls)
-and assign **both** of the package maintainers as reviewers. One or both
-of them will conduct a review, provide feedback and, if necessary,
-request changes prior to merging your branch.
+When contributing, please create a [branch](https://github.com/Public-Health-Scotland/phsmethods/branches) in this repository and carry out all work on it. Please ensure you have linked RStudio to your GitHub account using `usethis::edit_git_config()` prior to making your contribution. When you are ready for a review, please create a [pull request](https://github.com/Public-Health-Scotland/phsmethods/pulls) and assign **both** of the package maintainers as reviewers. One or both of them will conduct a review, provide feedback and, if necessary, request changes prior to merging your branch.
 
-Please be mindful of information governance when contributing to this
-package. No data files (aside from publicly available and downloadable
-datasets or unless explicitly approved), server connection details,
-passwords or person identifiable or otherwise confidential information
-should be included anywhere within this package or any other repository
-(whether public or private) used within PHS. This includes within code
-and code commentary. For more information on security when using git and
-GitHub, and on using git and GitHub for version control more generally,
-please see the [Transforming Publishing
-Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)’s
-[Git
-guide](https://nhs-nss-transforming-publications.github.io/git-guide/)
-and [GitHub
-guidance](https://github.com/NHS-NSS-transforming-publications/GitHub-guidance).
+Please be mindful of information governance when contributing to this package. No data files (aside from publicly available and downloadable datasets or unless explicitly approved), server connection details, passwords or person identifiable or otherwise confidential information should be included anywhere within this package or any other repository (whether public or private) used within PHS. This includes within code and code commentary. For more information on security when using git and GitHub, and on using git and GitHub for version control more generally, please see the [Transforming Publishing Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)'s [Git guide](https://Public-Health-Scotland.github.io/git-guide/) and [GitHub guidance](https://github.com/Public-Health-Scotland/GitHub-guidance).
 
-Please feel free to add yourself to the ‘Authors’ section of the
-`Description` file when contributing. As a rule of thumb, please assign
-your role as author (`"aut"`) when writing an exported function, and as
-contributor (`"ctb"`) for anything else.
+Please feel free to add yourself to the 'Authors' section of the `Description` file when contributing. As a rule of thumb, please assign your role as author (`"aut"`) when writing an exported function, and as contributor (`"ctb"`) for anything else.
 
-`phsmethods` will, as much as possible, adhere to the [tidyverse style
-guide](https://style.tidyverse.org/) and the [rOpenSci package
-development guide](https://devguide.ropensci.org/). The most pertinent
-points to take from these are:
+`phsmethods` will, as much as possible, adhere to the [tidyverse style guide](https://style.tidyverse.org/) and the [rOpenSci package development guide](https://devguide.ropensci.org/). The most pertinent points to take from these are:
 
-  - All function names should be in lower case, with words separated by
-    an underscore
-  - Put a space after a comma, never before
-  - Put a space before and after infix operators such as `<-`, `==` and
-    `+`
-  - Limit code to 80 characters per line
-  - Function documentation should be generated using
-    [`roxygen2`](https://github.com/r-lib/roxygen2)
-  - All functions should be tested using
-    [`testthat`](https://github.com/r-lib/testthat)
-  - The package should always pass `devtools::check()`
+-   All function names should be in lower case, with words separated by an underscore
+-   Put a space after a comma, never before
+-   Put a space before and after infix operators such as `<-`, `==` and `+`
+-   Limit code to 80 characters per line
+-   Function documentation should be generated using [`roxygen2`](https://github.com/r-lib/roxygen2)
+-   All functions should be tested using [`testthat`](https://github.com/r-lib/testthat)
+-   The package should always pass `devtools::check()`
 
-It’s not necessary to have experience with GitHub or of building an R
-package to contribute to `phsmethods`. If you wish to contribute code
-then, as long as you can write an R function, the package maintainers
-can assist with error handling, writing documentation, testing and other
-aspects of package development. It is advised, however, to consult
-[Hadley Wickham’s R Packages book](https://r-pkgs.org/) prior to making
-a contribution. It may also be useful to consult the
-[documentation](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/R)
-and
-[tests](https://github.com/Health-SocialCare-Scotland/phsmethods/tree/master/tests/testthat)
-of existing functions within this package as a point of reference.
+It's not necessary to have experience with GitHub or of building an R package to contribute to `phsmethods`. If you wish to contribute code then, as long as you can write an R function, the package maintainers can assist with error handling, writing documentation, testing and other aspects of package development. It is advised, however, to consult [Hadley Wickham's R Packages book](https://r-pkgs.org/) prior to making a contribution. It may also be useful to consult the [documentation](https://github.com/Public-Health-Scotland/phsmethods/tree/master/R) and [tests](https://github.com/Public-Health-Scotland/phsmethods/tree/master/tests/testthat) of existing functions within this package as a point of reference.
 
-Please note that this README may fail to ‘Knit’ at times as a result of
-network security settings. This will likely be due to the badges for the
-package’s release version, continuous integration status and test
-coverage at the top of the document. If you are editing the `README.Rmd`
-document and are unable to successfully get it to ‘Knit’, please contact
-the package maintainers for assistance.
+Please note that this README may fail to 'Knit' at times as a result of network security settings. This will likely be due to the badges for the package's release version, continuous integration status and test coverage at the top of the document. If you are editing the `README.Rmd` document and are unable to successfully get it to 'Knit', please contact the package maintainers for assistance.
