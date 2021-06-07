@@ -46,7 +46,7 @@ The default behaviour for \code{sex_from_chi} is to first check the CHI number i
 valid using \code{check_chi} and then to return 1 for male and 2 for female.
 
 There are options to return custom values e.g. \code{'M'} and \code{'F'} or to return
-a factor which will have lables \code{'Male'} and \code{'Female')}
+a factor which will have labels \code{'Male'} and \code{'Female')}
 }
 \examples{
 sex_from_chi("0101011237")

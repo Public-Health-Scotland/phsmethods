@@ -170,7 +170,7 @@ chi_pad <- function(x) {
 #' valid using \code{check_chi} and then to return 1 for male and 2 for female.
 #'
 #' There are options to return custom values e.g. \code{'M'} and \code{'F'} or to return
-#' a factor which will have lables \code{'Male'} and \code{'Female')}
+#' a factor which will have labels \code{'Male'} and \code{'Female')}
 #'
 #' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
 #' @param male_value,female_value optionally supply custom values for Male and Female. Note
