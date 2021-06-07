@@ -25,7 +25,7 @@
 #' \item October to December (Oct-Dec)
 #' }
 #'
-#' @param date A date supplied with \code{Date} class.
+#' @param date A date which must be supplied with \code{Date} or \code{POSIXct}
 #' @param format A \code{character} string specifying the format the quarter
 #' should be displayed in. Valid options are `long` (January to March 2018) and
 #' `short` (Jan-Mar 2018). The default is `long`.
@@ -43,8 +43,8 @@ qtr <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    stop("The input must have Date or POSIXct class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -79,8 +79,8 @@ qtr_end <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    stop("The input must have Date or POSIXct class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -115,8 +115,8 @@ qtr_next <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    stop("The input must have Date or POSIXct class")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -151,8 +151,8 @@ qtr_prev <- function(date, format = c("long", "short")) {
 
   format <- match.arg(format)
 
-  if (!inherits(date, "Date")) {
-    stop("The input must have Date class")
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    stop("The input must have Date or POSIXct class")
   }
 
   quarter_num <- lubridate::quarter(date)

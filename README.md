@@ -2,6 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 # phsmethods
 
+
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest) [![Build Status](https://travis-ci.com/Public-Health-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Public-Health-Scotland/phsmethods) [![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks in [Public Health Scotland (PHS)](https://www.publichealthscotland.scot/):
@@ -17,6 +18,7 @@
 
 `phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
 
+
 ## Installation
 
 To install `phsmethods`, the package `remotes` is required, and can be installed with `install.packages("remotes")`.
@@ -25,11 +27,13 @@ You can then install `phsmethods` on RStudio server from GitHub with:
 
 ``` r
 remotes::install_github("Public-Health-Scotland/phsmethods",
+
   upgrade = "never"
 )
 ```
 
 Network security settings may prevent `remotes::install_github()` from working on RStudio desktop. If this is the case, `phsmethods` can be installed by downloading the [zip of the repository](https://github.com/Public-Health-Scotland/phsmethods/archive/master.zip) and running the following code (replacing the section marked `<>`, including the arrows themselves):
+
 
 ``` r
 remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
@@ -232,3 +236,4 @@ Please feel free to add yourself to the 'Authors' section of the `Description` f
 It's not necessary to have experience with GitHub or of building an R package to contribute to `phsmethods`. If you wish to contribute code then, as long as you can write an R function, the package maintainers can assist with error handling, writing documentation, testing and other aspects of package development. It is advised, however, to consult [Hadley Wickham's R Packages book](https://r-pkgs.org/) prior to making a contribution. It may also be useful to consult the [documentation](https://github.com/Public-Health-Scotland/phsmethods/tree/master/R) and [tests](https://github.com/Public-Health-Scotland/phsmethods/tree/master/tests/testthat) of existing functions within this package as a point of reference.
 
 Please note that this README may fail to 'Knit' at times as a result of network security settings. This will likely be due to the badges for the package's release version, continuous integration status and test coverage at the top of the document. If you are editing the `README.Rmd` document and are unable to successfully get it to 'Knit', please contact the package maintainers for assistance.
+
