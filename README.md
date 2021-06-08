@@ -2,7 +2,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 # phsmethods
 
-
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest) [![Build Status](https://travis-ci.com/Public-Health-Scotland/phsmethods.svg?branch=master)](https://travis-ci.com/Public-Health-Scotland/phsmethods) [![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks in [Public Health Scotland (PHS)](https://www.publichealthscotland.scot/):
@@ -10,6 +9,7 @@
 -   `age_group()` categorises ages into groups
 -   `chi_check()` assesses the validity of a CHI number
 -   `chi_pad()` adds a leading zero to nine-digit CHI numbers
+-   `sex_from_chi()` extracts the sex of a person from a CHI number
 -   `file_size()` returns the names and sizes of files in a directory
 -   `fin_year()` assigns a date to a financial year in the format `YYYY/YY`
 -   `match_area()` converts geography codes into area names
@@ -17,7 +17,6 @@
 -   `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
 
 `phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
-
 
 ## Installation
 
@@ -27,13 +26,11 @@ You can then install `phsmethods` on RStudio server from GitHub with:
 
 ``` r
 remotes::install_github("Public-Health-Scotland/phsmethods",
-
   upgrade = "never"
 )
 ```
 
 Network security settings may prevent `remotes::install_github()` from working on RStudio desktop. If this is the case, `phsmethods` can be installed by downloading the [zip of the repository](https://github.com/Public-Health-Scotland/phsmethods/archive/master.zip) and running the following code (replacing the section marked `<>`, including the arrows themselves):
-
 
 ``` r
 remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
@@ -75,17 +72,18 @@ age_group(a, from = 0, to = 80, by = 10)
 ``` r
 # chi_check returns specific feedback on why a CHI number might be invalid
 library(dplyr)
-b <- tibble(chi = c("0101011237", "3213201234", "123456789", "12345678900", "010120123?", NA))
+b <- tibble(chi = c("0101011237", "0101336489", "3213201234", "123456789", "12345678900", "010120123?", NA))
 b %>% mutate(validity = chi_check(chi))
-#> # A tibble: 6 x 2
+#> # A tibble: 7 x 2
 #>   chi         validity                    
 #>   <chr>       <chr>                       
 #> 1 0101011237  Valid CHI                   
-#> 2 3213201234  Invalid date                
-#> 3 123456789   Too few characters          
-#> 4 12345678900 Too many characters         
-#> 5 010120123?  Invalid character(s) present
-#> 6 <NA>        Missing
+#> 2 0101336489  Valid CHI                   
+#> 3 3213201234  Invalid date                
+#> 4 123456789   Too few characters          
+#> 5 12345678900 Too many characters         
+#> 6 010120123?  Invalid character(s) present
+#> 7 <NA>        Missing
 ```
 
 ### chi\_pad
@@ -94,6 +92,51 @@ b %>% mutate(validity = chi_check(chi))
 # Only nine-digit characters comprised exclusively of numeric digits are prefixed with a zero
 chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
 #> [1] "0101011237" "0101201234" "123223"     "abcdefghi"  "12345tuvw"
+```
+
+### sex\_from\_chi
+
+``` r
+# By default it will check that the CHI is valid before extracting the sex.
+library(dplyr)
+b <- tibble(chi = c("0101011237", "0101336489", "123456789", "12345678900", "010120123?", NA))
+
+b %>% mutate(chi_sex = sex_from_chi(chi))
+#> # A tibble: 6 x 2
+#>   chi         chi_sex
+#>   <chr>         <int>
+#> 1 0101011237        1
+#> 2 0101336489        2
+#> 3 123456789        NA
+#> 4 12345678900      NA
+#> 5 010120123?       NA
+#> 6 <NA>             NA
+
+# Use custom values for male and female
+b %>% mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
+#> Using custom values: Male = M Female = F.
+#> The return variable will be character.
+#> # A tibble: 6 x 2
+#>   chi         chi_sex
+#>   <chr>       <chr>  
+#> 1 0101011237  M      
+#> 2 0101336489  F      
+#> 3 123456789   <NA>   
+#> 4 12345678900 <NA>   
+#> 5 010120123?  <NA>   
+#> 6 <NA>        <NA>
+
+# Alternatively return the result as a factor (with labels 'Male' and 'Female')
+b %>% mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
+#> # A tibble: 6 x 2
+#>   chi         chi_sex
+#>   <chr>       <fct>  
+#> 1 0101011237  Male   
+#> 2 0101336489  Female 
+#> 3 123456789   <NA>   
+#> 4 12345678900 <NA>   
+#> 5 010120123?  <NA>   
+#> 6 <NA>        <NA>
 ```
 
 ### file\_size
@@ -236,4 +279,3 @@ Please feel free to add yourself to the 'Authors' section of the `Description` f
 It's not necessary to have experience with GitHub or of building an R package to contribute to `phsmethods`. If you wish to contribute code then, as long as you can write an R function, the package maintainers can assist with error handling, writing documentation, testing and other aspects of package development. It is advised, however, to consult [Hadley Wickham's R Packages book](https://r-pkgs.org/) prior to making a contribution. It may also be useful to consult the [documentation](https://github.com/Public-Health-Scotland/phsmethods/tree/master/R) and [tests](https://github.com/Public-Health-Scotland/phsmethods/tree/master/tests/testthat) of existing functions within this package as a point of reference.
 
 Please note that this README may fail to 'Knit' at times as a result of network security settings. This will likely be due to the badges for the package's release version, continuous integration status and test coverage at the top of the document. If you are editing the `README.Rmd` document and are unable to successfully get it to 'Knit', please contact the package maintainers for assistance.
-
