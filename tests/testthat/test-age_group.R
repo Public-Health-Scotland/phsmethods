@@ -1,5 +1,3 @@
-context("test-age_group")
-
 test_that("Return correct age groups", {
   expect_identical(
     age_group(c(4, 51, 21, 89),

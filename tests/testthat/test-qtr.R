@@ -1,5 +1,3 @@
-context("test-qtr")
-
 test_that("Returns correct quarter in correct format", {
   expect_equal("Jan-Mar 2018",
                qtr(date = lubridate::dmy(25032018), format = "short"))

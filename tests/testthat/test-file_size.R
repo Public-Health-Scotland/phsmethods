@@ -1,5 +1,3 @@
-context("test-file_size")
-
 test_that("Returns a tibble", {
   expect_true(tibble::is_tibble(file_size(test_path("files"))))
 })
