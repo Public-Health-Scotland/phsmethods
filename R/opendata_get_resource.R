@@ -22,7 +22,7 @@ opendata_get_resource <- function(res_id, rows = NULL) {
   #set resource id-s to use
   res_id <- res_id
   
-  if (isTRUE(is.null(rows) || rows > 99999)) {
+  if (is.null(rows) | rows > 99999) {
     
     #extract all data
     
