@@ -78,10 +78,13 @@ opendata_ua <- function() {
 #'
 #' @return TRUE / FALSE indicating the validity of the res_id
 opendata_check_res_id <- function(res_id) {
+  res_id_regex <- "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+
+
   if (!inherits(res_id, "character")) {
     return(FALSE)
-  } else if (FALSE) {
-    # Can be extended with other checks e.g. does res_id match a regex?
+  } else if (!grepl(res_id_regex, res_id)) {
+    return(FALSE)
   } else {
     return(TRUE)
   }
@@ -98,6 +101,7 @@ opendata_ds_search_url <- function() {
 
 #' Creates the URL for the datastore dump end-point
 #'
+#' @param res_id a resource ID
 #' @return a url
 opendata_ds_dump_url <- function(res_id) {
   httr::modify_url("https://www.opendata.nhs.scot",

@@ -9,8 +9,14 @@ test_that("returns data in the expected format", {
 })
 
 test_that("errors properly", {
+  # wrong type
   expect_error(opendata_get_resource(res_id = 123))
+  # Invalid format (doesn't match regex)
   expect_error(opendata_get_resource("a794d603-95ab-4309-8c92-b48970478c1"),
-    regexp = "HTTP 404"
+    regexp = "The resource ID supplied \\('.+?'\\) is invalid"
+  )
+  # Correct format but not real
+  expect_error(opendata_get_resource("00000000-0000-0000-0000-000000000000"),
+               regexp = "Not Found \\(HTTP 404\\)\\."
   )
 })
