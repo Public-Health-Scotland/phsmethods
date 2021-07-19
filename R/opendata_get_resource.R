@@ -14,8 +14,6 @@ opendata_get_resource <- function(res_id, rows = NULL) {
     stop(glue::glue("The resource ID supplied ('{res_id}') is invalid"))
   }
 
-  if (rows > 99999) message("Queries for more than 99,999 rows of data will return the full resource.") 
-    
   # set resource id-s to use
   res_id <- res_id
 
@@ -23,6 +21,10 @@ opendata_get_resource <- function(res_id, rows = NULL) {
   ua <- opendata_ua()
 
   if (is.null(rows) || rows > 99999) {
+    if (!is.null(rows)) {
+      message("Queries for more than 99,999 rows of data will return the full resource.")
+    }
+
     response <- httr::GET(url = opendata_ds_dump_url(res_id), user_agent = ua)
 
     httr::stop_for_status(response)
