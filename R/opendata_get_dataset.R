@@ -15,8 +15,8 @@
 #'   max_resources = 2, rows = 10
 #' )
 opendata_get_dataset <- function(dataset_name, max_resources = NULL, rows = NULL) {
-  if (is.null(dataset_name)) {
-    stop("You must supply a dataset name")
+  if (!opendata_check_dataset_name(dataset_name)) {
+    stop(glue::glue("The dataset name supplied ('{dataset_name}') is invalid"))
   }
 
   query <- list(id = dataset_name)
@@ -58,4 +58,26 @@ opendata_package_show_url <- function() {
   httr::modify_url("https://www.opendata.nhs.scot",
     path = "/api/3/action/package_show"
   )
+}
+
+#' Check if a dataset name is valid
+#'
+#' @description
+#' Used to attempt to validate a dataset name before submitting it to the API
+#'
+#' @param dataset_name a resource ID
+#'
+#' @return TRUE / FALSE indicating the validity of the dataset name
+opendata_check_dataset_name <- function(dataset_name) {
+  # Starts and ends in a lowercase letter or number
+  # Has only lowercase alphanum or hyphens inbetween
+  dataset_name_regex <- "^[a-z0-9][a-z0-9\\-]+?[a-z0-9]$"
+
+  if (!inherits(dataset_name, "character")) {
+    return(FALSE)
+  } else if (!grepl(dataset_name_regex, dataset_name)) {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
 }

@@ -24,5 +24,7 @@ a [tibble][tibble::tibble-package] with the data
 Get Open Data resources from a dataset
 }
 \examples{
-opendata_get_dataset("gp-practice-populations")
+opendata_get_dataset("gp-practice-populations",
+  max_resources = 2, rows = 10
+)
 }

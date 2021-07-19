@@ -11,7 +11,9 @@ test_that("returns data in the expected format", {
 })
 
 test_that("errors properly", {
-  expect_error(opendata_get_dataset())
+  expect_error(opendata_get_dataset("Mal-formed-name"),
+    regexp = "The dataset name supplied \\('.+?'\\) is invalid"
+  )
   expect_error(opendata_get_dataset("non-existant-data"),
     regexp = "HTTP 404"
   )
