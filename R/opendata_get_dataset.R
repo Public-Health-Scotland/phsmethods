@@ -29,10 +29,41 @@ opendata_get_dataset <- function(dataset_name, max_resources = NULL, rows = NULL
 
   response <- httr::GET(url = url, user_agent = ua)
 
-  httr::stop_for_status(response)
+  tryCatch(httr::stop_for_status(response),
+    error = function(cond) {
+      url <- httr::modify_url("https://www.opendata.nhs.scot", path = "api/3/action/package_list")
+
+      response <- httr::GET(url = url, user_agent = ua)
+
+      httr::stop_for_status(response)
+
+      dataset_names <- httr::content(response)$result %>%
+        unlist()
+
+      if (dataset_name %in% dataset_names) {
+        stop(glue::glue("The dataset name '{dataset_name}' looks correct but the server didn't respond as expected.\nPlease try again in a few minutes."))
+      } else {
+        # stringdist has a nicer algroithm for assessing distances and is faster than base R
+        if (requireNamespace("stringdist", quietly = TRUE)) {
+          string_distances <- stringdist::stringdist(dataset_name, dataset_names)
+        } else {
+          string_distances <- utils::adist(dataset_name, dataset_names)
+        }
+
+        # Only proceed with a reasonably close match
+        if (min(string_distances) < 10) {
+          closest_match <- dataset_names[which.min(string_distances)]
+
+          stop(glue::glue("The dataset name '{dataset_name}' is incorrect.\nDid you mean '{closest_match}'?"))
+        } else {
+          stop(glue::glue("The dataset name '{dataset_name}' was not found.\nPlease check the name and try again."))
+        }
+      }
+      return(NA)
+    }
+  )
 
   stopifnot(httr::http_type(response) == "application/json")
-
 
   parsed <- httr::content(response, "text") %>%
     jsonlite::fromJSON()

@@ -36,6 +36,7 @@ Imports:
     utils,
     jsonlite
 Suggests: 
+    stringdist,
     covr,
     here,
     testthat (>= 2.0.0)
