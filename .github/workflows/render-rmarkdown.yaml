@@ -1,5 +1,8 @@
 on:
-  push:
+  pull_request:
+    branches:
+      - main
+      - master
     paths:
       - '**.Rmd'
 
@@ -36,7 +39,7 @@ jobs:
       - name: Render Rmarkdown files
         run: |
           RMD_PATH=($(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '[.]Rmd$'))
-          Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f)' ${RMD_PATH[*]} 
+          Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f)' ${RMD_PATH[*]}
 
       - name: Commit results
         run: |
