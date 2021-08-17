@@ -65,77 +65,8 @@
 
 postcode <- function(x, format = c("pc7", "pc8")) {
 
-  format <- match.arg(format)
+  warning("The function `postcode` has been renamed to `format_postcode` and will be removed in the future.\n",
+          "Please re-write your code.")
 
-  # Strip out all spaces from the input, so they can be added in again later at
-  # the appropriate juncture
-  x <- gsub("\\s", "", x)
-
-  # Calculate the number of non-NA values in the input which do not adhere to
-  # the standard UK postcode format
-  n <- length(
-    x[!is.na(x)][!stringr::str_detect(
-      x[!is.na(x)],
-      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$")])
-
-  # If n is one, the warning message describing the number of values which
-  # do not adhere to the standard format should use singular verbs
-  # Otherwise, use plural ones
-  singular <- "value does"
-  multiple <- "values do"
-
-  if (
-    !all(
-      stringr::str_detect(
-        x[!is.na(x)],
-        "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"))) {
-    warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
-                       "not adhere to the standard UK postcode format (with ",
-                       "or without spaces) and will be coded as NA. The ",
-                       "standard format is:\n",
-                       "\U2022 1 or 2 letters, followed by\n",
-                       "\U2022 1 number, followed by\n",
-                       "\U2022 1 optional letter or number, followed by\n",
-                       "\U2022 1 number, followed by\n",
-                       "\U2022 2 letters"))
-  }
-
-  # Replace postcodes which do not adhere to the standard format with NA (this
-  # will also 'replace' NA with NA)
-  x <- replace(x,
-               !stringr::str_detect(
-                 x,
-                 "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"),
-               NA_character_)
-
-  if (any(grepl("[a-z]", x))) {
-    warning("Lower case letters in any input value(s) adhering to the ",
-            "standard UK postcode format will be converted to upper case")
-  }
-
-  x <- toupper(x)
-
-  # pc7 format requires all valid postcodes to be of length 7, meaning:
-  # 5 character postcodes have 2 spaces after the 2nd character;
-  # 6 character postcodes have 1 space after the 3rd character;
-  # 7 character postcodes have no spaces
-  if (format == "pc7") {
-    return(dplyr::case_when(
-      is.na(x) ~ NA_character_,
-      nchar(x) == 5 ~ sub("(.{2})", "\\1  ", x),
-      nchar(x) == 6 ~ sub("(.{3})", "\\1 ", x),
-      nchar(x) == 7 ~ x
-    ))
-
-  } else {
-
-    # pc8 format requires all valid postcodes to be of maximum length 8
-    # All postcodes, whether 5, 6 or 7 characters, have one space before the
-    # last 3 characters
-    return(dplyr::case_when(
-      is.na(x) ~ NA_character_,
-      nchar(x) %in% 5:7 ~ paste(stringr::str_sub(x, end = -4),
-                                stringr::str_sub(x, start = -3))
-    ))
-  }
+  return(format_postcode(x = x, format = format))
 }

@@ -35,11 +35,11 @@ test_that("Correctly handles values which don't adhere to standard format", {
 test_that("Produces correct number of warning messages", {
   input_dens <- c("Dd37Jy", "DD37JY", "D  d 337JY")
   warnings_dens <- capture_warnings(postcode(input_dens))
-  expect_length(warnings_dens, 1)
+  expect_length(warnings_dens, 2)
 
   input_pittodrie <- c("ab245qh", NA, "ab245q", "A  B245QH")
   warnings_pittodrie <- capture_warnings(postcode(input_pittodrie))
-  expect_length(warnings_pittodrie, 2)
+  expect_length(warnings_pittodrie, 3)
 })
 
 test_that("Warning gives true number of values that don't adhere to format", {
