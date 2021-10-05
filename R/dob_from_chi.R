@@ -1,3 +1,20 @@
+#' @title Extract Date of Birth (DoB) from the CHI number
+#'
+#' @description \code{dob_from_chi} takes a CHI number or a vector of CHI numbers
+#' and returns the DoB as implied by the CHI number(s). If the DoB is ambiguous
+#' it will return NA
+#'
+#' @param chi_number
+#' @param min_date
+#' @param max_date
+#' @param min_age
+#' @param max_age
+#' @param chi_check
+#'
+#' @return
+#' @export
+#'
+#' @examples
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, min_age = 0, max_age = 120, chi_check = TRUE) {
 
   ## TODO
