@@ -37,7 +37,7 @@ test_that("Returns correct DoB - no options", {
     ))
   )
 
-  # Centuary leap year (hard to test as 1900 is a long time ago!)
+  # Century leap year (hard to test as 1900 is a long time ago!)
   expect_equal(dob_from_chi(gen_real_chi(290200)), as.Date("2000-02-29"))
 })
 

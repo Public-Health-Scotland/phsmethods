@@ -58,6 +58,8 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, min_age =
   )
 
   guess_dob <- as.Date(dplyr::case_when(
+    is.na(date_1900) ~ date_2000,
+    is.na(date_2000) ~ date_1900,
     date_1900 < min_date ~ date_2000,
     date_2000 > max_date ~ date_1900
   ))
