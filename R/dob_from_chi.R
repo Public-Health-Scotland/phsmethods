@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, min_age = 0, max_age = 120, chi_check = TRUE) {
+dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, min_age = 0, chi_check = TRUE) {
 
   ## TODO
   # Do type checking on the params
@@ -25,8 +25,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, min_age =
   # min and max ages are integers in a reasonable range
 
   # Convert the age into a date
-  max_date.age <- Sys.time() - lubridate::years(min_age)
-  min_date.age <- Sys.time() - lubridate::years(max_age)
+  max_date.age <- Sys.Date() - lubridate::years(min_age)
 
 
   if (is.null(max_date) || max_date.age < max_date) {
@@ -34,10 +33,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, min_age =
     max_date <- max_date.age
   }
 
-  if (is.null(min_date) || min_date.age < min_date) {
-    ## TODO provide message about usage of age vs supplied date
-    min_date <- min_date.age
-  }
+  if (is.null(min_date)) min_date <- as.Date("1900-01-01")
 
   # Default behaviour: Check the CHI number
   # for invalid CHIs we will return NA
