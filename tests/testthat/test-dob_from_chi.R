@@ -49,9 +49,6 @@ test_that("Returns NA when DoB is ambiguous", {
 
 })
 
-test_that("Supplied ages override supplied dates", {
-
-})
 
 test_that("Can supply different max dates per CHI", {
 

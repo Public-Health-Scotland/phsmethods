@@ -4,14 +4,7 @@
 \alias{dob_from_chi}
 \title{Extract Date of Birth (DoB) from the CHI number}
 \usage{
-dob_from_chi(
-  chi_number,
-  min_date = NULL,
-  max_date = NULL,
-  min_age = 0,
-  max_age = 120,
-  chi_check = TRUE
-)
+dob_from_chi(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE)
 }
 \arguments{
 \item{chi_check}{}
