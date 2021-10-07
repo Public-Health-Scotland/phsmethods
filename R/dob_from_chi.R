@@ -58,3 +58,40 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 
   return(guess_dob)
 }
+
+#' @title Extract age from the CHI number
+#'
+#' @description \code{age_from_chi} takes a CHI number or a vector of CHI numbers
+#' and returns the age as implied by the CHI number(s). If the DoB is ambiguous
+#' it will return NA. It uses \code{dob_from_chi}.
+#'
+#' @param chi_number
+#' @param ref_date
+#' @param min_age
+#' @param max_age
+#' @param chi_check
+#'
+#' @return
+#' @export
+#'
+#' @examples
+age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NULL, chi_check = TRUE) {
+  ## TODO
+  # Do type checking on the params
+
+  # min and max ages are in a reasonable range
+
+  if (is.null(ref_date)) ref_date <- Sys.Date()
+
+  max_date.age <- ref_date - lubridate::years(min_age)
+
+  min_date.age <- ifelse(is.null(max_age), NULL, ref_date - lubridate::years(max_age))
+
+  dobs <- dob_from_chi(chi_number = chi_number,
+                       min_date = min_date.age,
+                       max_date = max_date.age,
+                       chi_check = chi_check)
+
+  ages <- lubridate::as.period(lubridate::interval(dobs, ref_date))$year
+
+}
