@@ -171,11 +171,17 @@ age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NUL
     min_date.age <- ref_date - lubridate::years(max_age)
   }
 
-  dobs <- dob_from_chi(chi_number = chi_number,
-                       min_date = min_date.age,
-                       max_date = max_date.age,
-                       chi_check = chi_check)
+  guess_dob <- dob_from_chi(
+    chi_number = chi_number,
+    min_date = min_date.age,
+    max_date = max_date.age,
+    chi_check = chi_check
+  )
 
-  ages <- lubridate::as.period(lubridate::interval(dobs, ref_date))$year
+  guess_age <- lubridate::interval(guess_dob, ref_date) %>%
+    lubridate::as.period() %>%
+    .$year %>%
+    as.integer()
 
+  return(guess_age)
 }
