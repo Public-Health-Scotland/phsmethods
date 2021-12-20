@@ -33,7 +33,7 @@ test_that("sex_from_chi returns expected simple results", {
 })
 
 test_that("sex_from_chi works with custom values", {
-  expect_equal(
+  expect_message(
     sex_from_chi(c(
       "0101011237",
       "0101336489",
@@ -42,6 +42,20 @@ test_that("sex_from_chi works with custom values", {
     ),
     male_value = "M",
     female_value = "F"
+    )
+  )
+
+  expect_equal(
+    suppressMessages(
+      sex_from_chi(c(
+        "0101011237",
+        "0101336489",
+        "0113201234",
+        NA
+      ),
+      male_value = "M",
+      female_value = "F"
+      )
     ),
     c("M", "F", NA, NA)
   )
