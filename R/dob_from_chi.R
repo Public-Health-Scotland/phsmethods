@@ -15,10 +15,19 @@
 #' @examples
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE) {
 
-  ## TODO
   # Do type checking on the params
+  stopifnot(typeof(chi_number) == "character")
 
-  # min and max date are valid dates in a reasonable range
+  if (!is.null(min_date) & !inherits(min_date, c("Date", "POSIXct"))) {
+    stop("min_date must have Date or POSIXct class")
+  }
+
+  if (!is.null(max_date) & !inherits(max_date, c("Date", "POSIXct"))) {
+    stop("max_date must have Date or POSIXct class")
+  }
+
+  # min and max date are in a reasonable range
+  if (!is.null(min_date) & !is.null(max_date)) stopifnot(min_date <= max_date)
 
   # Default the max_date to today (person can't be born after today)
   if (is.null(max_date)) max_date <- Sys.Date()
@@ -76,16 +85,28 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 #'
 #' @examples
 age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NULL, chi_check = TRUE) {
-  ## TODO
+
   # Do type checking on the params
+  stopifnot(typeof(chi_number) == "character")
+
+  if (!is.null(ref_date) & !inherits(ref_date, c("Date", "POSIXct"))) {
+    stop("ref_date must have Date or POSIXct class")
+  }
 
   # min and max ages are in a reasonable range
+  stopifnot(min_age >= 0)
+
+  if (!is.null(max_age)) stopifnot(max_age >= min_age)
 
   if (is.null(ref_date)) ref_date <- Sys.Date()
 
   max_date.age <- ref_date - lubridate::years(min_age)
 
-  min_date.age <- ifelse(is.null(max_age), NULL, ref_date - lubridate::years(max_age))
+  if (is.null(max_age)) {
+    min_date.age <- NULL
+  } else {
+    min_date.age <- ref_date - lubridate::years(max_age)
+  }
 
   dobs <- dob_from_chi(chi_number = chi_number,
                        min_date = min_date.age,
