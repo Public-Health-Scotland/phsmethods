@@ -26,7 +26,7 @@ It is used within \code{\link{match_area}}.
 Boards, Council Areas, Health and Social Care Partnerships, Intermediate
 Zones, Data Zones (2001 and 2011), Electoral Wards, Scottish Parliamentary
 Constituencies, UK Parliamentary Constituencies, Travel to work areas,
-National Parks, Commmunity Health Partnerships, Localities (S19),
+National Parks, Community Health Partnerships, Localities (S19),
 Settlements (S20) and Scotland.
 }
 \seealso{
