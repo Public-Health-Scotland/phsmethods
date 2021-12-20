@@ -66,16 +66,18 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   }
 
   # Parse the digits of the chi number as a date
+  date_from_chi <- substr(chi_number, 1, 6)
+
   # Create dates as all DD/MM/19YY
   date_1900 <- lubridate::fast_strptime(
-    substr(chi_number, 1, 6),
+    date_from_chi,
     "%d%m%y",
     cutoff_2000 = -1L
   )
 
   # Create dates as all DD/MM/20YY
   date_2000 <- lubridate::fast_strptime(
-    substr(chi_number, 1, 6),
+    date_from_chi,
     "%d%m%y",
     cutoff_2000 = 100L
   )
