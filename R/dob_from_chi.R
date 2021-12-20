@@ -62,7 +62,13 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   # for invalid CHIs we will return NA
   if (chi_check) {
     # Don't use any CHIs which don't pass the validity check
+    na_count <- sum(is.na(chi_number))
     chi_number <- dplyr::if_else(chi_check(chi_number) == "Valid CHI", chi_number, NA_character_)
+    new_na_count <- sum(is.na(chi_number)) - na_count
+
+    if (new_na_count > 0) {
+      message(glue::glue("{format(new_na_count, big.mark = ',')} CHI number{ifelse(new_na_count > 1, 's were', ' was')} invalid and will be given NA for DoB"))
+    }
   }
 
   # Parse the digits of the chi number as a date
@@ -82,12 +88,21 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
     cutoff_2000 = 100L
   )
 
+  na_count <- sum(is.na(chi_number))
+
   guess_dob <- as.Date(dplyr::case_when(
     is.na(date_1900) ~ date_2000,
     is.na(date_2000) ~ date_1900,
-    date_1900 < min_date ~ date_2000,
-    date_2000 > max_date ~ date_1900
+    date_1900 <= min_date ~ date_2000,
+    date_2000 >= max_date ~ date_1900
   ))
+
+  new_na_count <- sum(is.na(guess_dob)) - na_count
+
+  if (new_na_count > 0) {
+    message(glue::glue("{format(new_na_count, big.mark = ',')} CHI number{ifelse(new_na_count > 1, 's produced ambiguous dates', ' produced an ambiguous date')} and will be given NA for DoB, if possible try different values for min_date and/or max_date"))
+  }
+
 
   return(guess_dob)
 }
