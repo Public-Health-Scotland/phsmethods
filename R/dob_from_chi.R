@@ -4,15 +4,37 @@
 #' and returns the DoB as implied by the CHI number(s). If the DoB is ambiguous
 #' it will return NA
 #'
-#' @param chi_number
-#' @param min_date
-#' @param max_date
-#' @param chi_check
+#' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
+#' @param min_date,max_date optional min and/or max dates that the Date of Birth could take. Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number e.g. an admission date.
+#' @param chi_check logical, optionally skip checking the CHI for validity which will be
+#' faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.
 #'
-#' @return
+#' @return a date vector of DoB. It will be the same length as \code{chi_number}.
 #' @export
 #'
 #' @examples
+#' dob_from_chi("0101336489")
+#'
+#' library(tibble)
+#' library(dplyr)
+#' data <- tibble(chi = c(
+#'   "0101336489",
+#'   "0101405073",
+#'   "0101625707"
+#' ), adm_date = as.Date(c(
+#'   "01-01-1950",
+#'   "01-01-2000",
+#'   "01-01-2020"
+#' )))
+#'
+#' data %>%
+#'   mutate(chi_dob = dob_from_chi(chi))
+#'
+#' data %>%
+#'   mutate(chi_dob = dob_from_chi(chi,
+#'     min_date = as.Date("01-01-1930"),
+#'     max_date = adm_date
+#'   ))
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE) {
 
   # Do type checking on the params
@@ -74,16 +96,40 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 #' and returns the age as implied by the CHI number(s). If the DoB is ambiguous
 #' it will return NA. It uses \code{dob_from_chi}.
 #'
-#' @param chi_number
-#' @param ref_date
-#' @param min_age
-#' @param max_age
-#' @param chi_check
+#' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
+#' @param ref_date calculate the age at this date, default is to use \code{Sys.Date()} i.e. today.
+#' @param min_age,max_age optional min and/or max dates that the Date of Birth could take. Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number e.g. an admission date.
+#' @param chi_check logical, optionally skip checking the CHI for validity which will be
+#' faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.
 #'
-#' @return
+#' @return an integer vector of ages in years truncated to the nearest year. It will be the same length as \code{chi_number}.
 #' @export
 #'
 #' @examples
+#' age_from_chi("0101336489")
+#'
+#' library(tibble)
+#' library(dplyr)
+#' data <- tibble(chi = c(
+#'   "0101336489",
+#'   "0101405073",
+#'   "0101625707"
+#' ), dis_date = as.Date(c(
+#'   "01-01-1950",
+#'   "01-01-2000",
+#'   "01-01-2020"
+#' )))
+#'
+#' data %>%
+#'   mutate(chi_age = age_from_chi(chi))
+#'
+#' data %>%
+#'   mutate(chi_age = age_from_chi(chi, min_age = 18, max_age = 65))
+#'
+#' data %>%
+#'   mutate(chi_age = age_from_chi(chi,
+#'     ref_date = dis_date
+#'   ))
 age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NULL, chi_check = TRUE) {
 
   # Do type checking on the params
