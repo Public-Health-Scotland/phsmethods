@@ -11,6 +11,7 @@
 #' @importFrom magrittr %<>%
 #' @importFrom rlang .data
 #' @importFrom tibble tibble
+#' @importFrom lifecycle deprecated
 NULL
 
 # Stops notes from appearing in R CMD check because of undefined global
