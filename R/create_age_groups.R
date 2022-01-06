@@ -39,34 +39,32 @@
 #'
 #' # To get the output as a factor:
 #' create_age_groups(age, as_factor = TRUE)
-#'
 #' @export
 create_age_groups <- function(x,
-                      from = 0,
-                      to = 90,
-                      by = 5,
-                      as_factor = FALSE) {
-
+                              from = 0,
+                              to = 90,
+                              by = 5,
+                              as_factor = FALSE) {
   breaks <- seq(from, to, by)
   breaks <- c(breaks, Inf)
   breaks <- sort(unique(breaks))
 
   # Create labels based on consecutive values in breaks
-  labels <- paste0(utils::head(breaks, -1), "-", utils::tail(breaks,-1) - 1)
+  labels <- paste0(utils::head(breaks, -1), "-", utils::tail(breaks, -1) - 1)
 
   # Reformat label for last value
   labels <- gsub("-Inf", "+", labels)
 
   agegroup <- cut(x,
-                  breaks = breaks,
-                  labels = labels,
-                  right = FALSE,
-                  ordered_result = TRUE)
+    breaks = breaks,
+    labels = labels,
+    right = FALSE,
+    ordered_result = TRUE
+  )
 
   if (as_factor == FALSE) {
     agegroup <- as.character(agegroup)
   }
 
   agegroup
-
 }

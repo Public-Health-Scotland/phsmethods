@@ -14,10 +14,8 @@
 #' @examples
 #' x <- lubridate::dmy(c(21012017, 04042017, 17112017))
 #' extract_fin_year(x)
-#'
 #' @export
 extract_fin_year <- function(date) {
-
   if (!inherits(date, c("Date", "POSIXct"))) {
     stop("The input must have Date or POSIXct class")
   }
@@ -29,21 +27,28 @@ extract_fin_year <- function(date) {
   # performance for large inputs.
 
   x <- tibble::tibble(dates = unique(date)) %>%
-    dplyr::mutate(fyear = paste0(ifelse(lubridate::month(.data$dates) >= 4,
-                                        lubridate::year(.data$dates),
-                                        lubridate::year(.data$dates) - 1),
-                                 "/",
-                                 substr(
-                                   ifelse(lubridate::month(.data$dates) >= 4,
-                                          lubridate::year(.data$dates) + 1,
-                                          lubridate::year(.data$dates)),
-                                   3, 4)),
-                  fyear = ifelse(is.na(.data$dates),
-                                 NA_character_,
-                                 .data$fyear))
+    dplyr::mutate(
+      fyear = paste0(
+        ifelse(lubridate::month(.data$dates) >= 4,
+          lubridate::year(.data$dates),
+          lubridate::year(.data$dates) - 1
+        ),
+        "/",
+        substr(
+          ifelse(lubridate::month(.data$dates) >= 4,
+            lubridate::year(.data$dates) + 1,
+            lubridate::year(.data$dates)
+          ),
+          3, 4
+        )
+      ),
+      fyear = ifelse(is.na(.data$dates),
+        NA_character_,
+        .data$fyear
+      )
+    )
 
   tibble::tibble(dates = date) %>%
     dplyr::left_join(x, by = "dates") %>%
     dplyr::pull(.data$fyear)
-
 }

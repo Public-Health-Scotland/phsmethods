@@ -23,5 +23,4 @@ The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
 \examples{
 x <- lubridate::dmy(c(21012017, 04042017, 17112017))
 extract_fin_year(x)
-
 }

@@ -51,5 +51,4 @@ create_age_groups(age, from = 0, to = 65, by = 10)
 
 # To get the output as a factor:
 create_age_groups(age, as_factor = TRUE)
-
 }
