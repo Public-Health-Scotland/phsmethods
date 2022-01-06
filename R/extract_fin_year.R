@@ -1,6 +1,6 @@
 #' @title Assign a date to a financial year
 #'
-#' @description \code{fin_year} takes a date and assigns it to the correct
+#' @description \code{extract_fin_year} takes a date and assigns it to the correct
 #' financial year in the PHS specified format.
 #'
 #' @details The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
@@ -13,10 +13,10 @@
 #'
 #' @examples
 #' x <- lubridate::dmy(c(21012017, 04042017, 17112017))
-#' fin_year(x)
+#' extract_fin_year(x)
 #'
 #' @export
-fin_year <- function(date) {
+extract_fin_year <- function(date) {
 
   if (!inherits(date, c("Date", "POSIXct"))) {
     stop("The input must have Date or POSIXct class")

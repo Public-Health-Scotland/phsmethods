@@ -9,6 +9,7 @@
 #'
 #' * `postcode()` -> `format_postcode()`
 #' * `age_group()` -> `create_age_groups()`
+#' * `fin_year()` -> `extract_fin_year()`
 #'
 #'
 #' @keywords internal
@@ -38,4 +39,12 @@ age_group <- function(x,
                            to = to,
                            by = by,
                            as_factor = as_factor))
+}
+
+#' @rdname rename
+#' @export
+fin_year <- function(date) {
+  lifecycle::deprecate_warn("0.2.0", "fin_year()", "extract_fin_year()")
+
+  return(extract_fin_year(date = date))
 }

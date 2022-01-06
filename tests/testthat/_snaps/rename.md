@@ -143,3 +143,72 @@
     Warning <lifecycle_warning_deprecated>
       `age_group()` was deprecated in phsmethods 0.2.0.
       Please use `create_age_groups()` instead.
+
+# fin_year is deprecated
+
+    Code
+      expect_equal(fin_year(as.Date("20120331", "%Y%m%d")), "2011/12")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(as.Date("20120401", "%Y%m%d")), "2012/13")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(as.POSIXct("20190104", format = "%Y%m%d")), "2018/19")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(as.Date("17111993", "%d%m%Y")), "1993/94")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(as.Date("19980404", "%Y%m%d")), "1998/99")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(as.Date("21-Jan-2017", "%d-%B-%Y")), "2016/17")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(as.POSIXct("20181401", format = "%Y%d%m")), "2017/18")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(lubridate::dmy(29102019)), "2019/20")
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_error(fin_year("28102019"))
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_error(fin_year("28-Oct-2019"))
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_error(fin_year(as.numeric("28102019")))
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_error(fin_year(as.factor("28-Oct-2019")))
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+    Code
+      expect_equal(fin_year(c(lubridate::dmy(5012020), NA)), c("2019/20", NA))
+    Warning <lifecycle_warning_deprecated>
+      `fin_year()` was deprecated in phsmethods 0.2.0.
+      Please use `extract_fin_year()` instead.
+
