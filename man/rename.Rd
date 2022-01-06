@@ -2,9 +2,12 @@
 % Please edit documentation in R/rename.R
 \name{rename}
 \alias{postcode}
+\alias{age_group}
 \title{Functions renamed in December 2021}
 \usage{
 postcode(x, format = c("pc7", "pc8"))
+
+age_group(x, from = 0, to = 90, by = 5, as_factor = FALSE)
 }
 \description{
 `r lifecycle::badge('deprecated')`
@@ -14,5 +17,6 @@ The old functions are still usable but will produce a warning.
 After a reasonable amount of time they will be removed completely.
 
 * `postcode()` -> `format_postcode()`
+* `age_group()` -> `create_age_groups()`
 }
 \keyword{internal}

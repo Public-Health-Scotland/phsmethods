@@ -8,6 +8,7 @@
 #' After a reasonable amount of time they will be removed completely.
 #'
 #' * `postcode()` -> `format_postcode()`
+#' * `age_group()` -> `create_age_groups()`
 #'
 #'
 #' @keywords internal
@@ -23,3 +24,18 @@ postcode <- function(x, format = c("pc7", "pc8")) {
   return(format_postcode(x = x, format = format))
 }
 
+#' @rdname rename
+#' @export
+age_group <- function(x,
+                      from = 0,
+                      to = 90,
+                      by = 5,
+                      as_factor = FALSE) {
+  lifecycle::deprecate_warn("0.2.0", "age_group()", "create_age_groups()")
+
+  return(create_age_groups(x = x,
+                           from = from,
+                           to = to,
+                           by = by,
+                           as_factor = as_factor))
+}

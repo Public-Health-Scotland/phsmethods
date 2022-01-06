@@ -1,7 +1,7 @@
 #' Create age groups
 #'
 #' @description
-#' \code{age_group()} takes a numeric vector and assigns each age to the
+#' \code{create_age_groups()} takes a numeric vector and assigns each age to the
 #' appropriate age group.
 #'
 #' @param x a vector of numeric values
@@ -31,17 +31,17 @@
 #' @examples
 #' age <- c(54, 7, 77, 1, 26, 101)
 #'
-#' age_group(age)
-#' age_group(age, from = 0, to = 80, by = 10)
+#' create_age_groups(age)
+#' create_age_groups(age, from = 0, to = 80, by = 10)
 #'
 #' # Final group may start below 'to'
-#' age_group(age, from = 0, to = 65, by = 10)
+#' create_age_groups(age, from = 0, to = 65, by = 10)
 #'
 #' # To get the output as a factor:
-#' age_group(age, as_factor = TRUE)
+#' create_age_groups(age, as_factor = TRUE)
 #'
 #' @export
-age_group <- function(x,
+create_age_groups <- function(x,
                       from = 0,
                       to = 90,
                       by = 5,
