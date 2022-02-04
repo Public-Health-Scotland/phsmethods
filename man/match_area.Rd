@@ -37,7 +37,7 @@ It can account for geography codes pertaining to Health Boards, Council
 Areas, Health and Social Care Partnerships, Intermediate Zones, Data Zones
 (2001 and 2011), Electoral Wards, Scottish Parliamentary Constituencies,
 UK Parliamentary Constituencies, Travel to work areas, National Parks,
-Commmunity Health Partnerships, Localities (S19), Settlements (S20) and
+Community Health Partnerships, Localities (S19), Settlements (S20) and
 Scotland.
 
 \code{match_area} returns a non-NA value only when an exact match is present

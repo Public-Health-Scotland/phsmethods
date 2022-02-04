@@ -125,7 +125,7 @@ sub_num <- function(x, num) {
 #'
 #' The first six digits of a CHI number are a patient's date of birth in
 #' DD/MM/YY format. The first digit of a CHI number must, therefore, be 3 or
-#' less. Depending on the source, CHI numbers are sometimes mising a leading
+#' less. Depending on the source, CHI numbers are sometimes missing a leading
 #' zero.
 #'
 #' While a CHI number is made up exclusively of numeric digits, it cannot be
@@ -175,8 +175,8 @@ chi_pad <- function(x) {
 #' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
 #' @param male_value,female_value optionally supply custom values for Male and Female. Note
 #' that that these must be of the same class.
-#' @param as_factor logical, optionally return as a factor with lables \code{'Male'}
-#' and \code{'Female'}. Note that this will overide any custom values supplied with
+#' @param as_factor logical, optionally return as a factor with labels \code{'Male'}
+#' and \code{'Female'}. Note that this will override any custom values supplied with
 #' \code{male_value} or \code{female_value}.
 #' @param chi_check logical, optionally skip checking the CHI for validity which will be
 #' faster but should only be used if you have previously checked the CHI(s).
