@@ -20,14 +20,14 @@ knitr::opts_chunk$set(
 
 `phsmethods` contains functions for commonly undertaken analytical tasks in [Public Health Scotland (PHS)](https://www.publichealthscotland.scot/):
 
-- `age_group()` categorises ages into groups
+- `create_age_groups()` categorises ages into groups
 - `chi_check()` assesses the validity of a CHI number
 - `chi_pad()` adds a leading zero to nine-digit CHI numbers
 - `sex_from_chi()` extracts the sex of a person from a CHI number
 - `file_size()` returns the names and sizes of files in a directory
-- `fin_year()` assigns a date to a financial year in the format `YYYY/YY`
+- `extract_fin_year()` assigns a date to a financial year in the format `YYYY/YY`
 - `match_area()` converts geography codes into area names
-- `postcode()` formats improperly recorded postcodes
+- `format_postcode()` formats improperly recorded postcodes
 - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
 
 `phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
@@ -63,20 +63,20 @@ library(phsmethods)
 To access the help file for any of `phsmethods`' functions, type `?function_name` into the RStudio console after loading the package:
 
 ```{r help, eval = FALSE}
-?fin_year
-?postcode
+?extract_fin_year
+?format_postcode
 ```
 
-### age_group
+### create_age_groups
 
-```{r age_group}
+```{r create_age_groups}
 a <- c(54, 7, 77, 1, 26, 101)
 
-# By default age_group goes in 5 year increments from 0 to 90+
-age_group(a)
+# By default create_age_groups goes in 5 year increments from 0 to 90+
+create_age_groups(a)
 
 # But these settings can be changed
-age_group(a, from = 0, to = 80, by = 10)
+create_age_groups(a, from = 0, to = 80, by = 10)
 ```
 
 ### chi_check
@@ -123,11 +123,11 @@ file_size(testthat::test_path("files"))
 file_size(testthat::test_path("files"), pattern = "\\.xlsx?$")
 ```
 
-### fin_year
+### extract_fin_year
 
-```{r fin_year}
+```{r extract_fin_year}
 c <- lubridate::dmy(c(21012017, 04042017, 17112017))
-fin_year(c)
+extract_fin_year(c)
 ```
 
 ### match_area
@@ -139,18 +139,18 @@ d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002
 d %>% mutate(name = match_area(code))
 ```
 
-### postcode
+### format_postcode
 
-```{r postcode, warning = FALSE}
+```{r format_postcode, warning = FALSE}
 # The default is pc7 format
-postcode("G26QE")
+format_postcode("G26QE")
 
 # But pc8 format can also be applied
-postcode(c("KA89NB", "PA152TY"), format = "pc8")
+format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 # postcode accounts for irregular spacing and lower case letters
 e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-e %>% mutate(pc = postcode(pc))
+e %>% mutate(pc = format_postcode(pc))
 ```
 
 ### qtr, qtr_end, qtr_next and qtr_prev

@@ -31,7 +31,8 @@ Imports:
     stringr,
     tibble,
     utils,
-    readr
+    readr,
+    lifecycle
 Suggests: 
     spelling,
     covr,

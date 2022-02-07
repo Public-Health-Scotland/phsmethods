@@ -1,6 +1,6 @@
 #' @title Format a postcode
 #'
-#' @description \code{postcode} takes a character string or vector of character
+#' @description \code{format_postcode} takes a character string or vector of character
 #' strings. It extracts the input values which adhere to the standard UK
 #' postcode format (with or without spaces), assigns the appropriate amount
 #' of spacing to them (for both pc7 and pc8 formats) and ensures all letters
@@ -19,7 +19,7 @@
 #' \href{https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/283357/ILRSpecification2013_14Appendix_C_Dec2012_v1.pdf}{UK government regulations}
 #' mandate which letters and numbers can be used in specific sections of a
 #' postcode. However, these regulations are liable to change over time. For
-#' this reason, \code{postcode} does not validate whether a given postcode
+#' this reason, \code{format_postcode} does not validate whether a given postcode
 #' actually exists, or whether specific numbers and letters are being used in
 #' the appropriate places. It only assesses whether the given input is
 #' consistent with the above format and, if so, assigns the appropriate amount
@@ -34,12 +34,12 @@
 #' options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
 #' section for more information on the string length of output values.
 #'
-#' @return When \code{format} is set equal to \code{pc7}, \code{postcode}
+#' @return When \code{format} is set equal to \code{pc7}, \code{format_postcode}
 #' returns a character string of length 7. 5 character postcodes have two
 #' spaces after the 2nd character; 6 character postcodes have 1 space after the
 #' 3rd character; and 7 character postcodes have no spaces.
 #'
-#' When \code{format} is set equal to \code{pc8}, \code{postcode} returns a
+#' When \code{format} is set equal to \code{pc8}, \code{format_postcode} returns a
 #' character string with maximum length 8. All postcodes, whether 5, 6 or 7
 #' characters, have one space before the last 3 characters.
 #'
@@ -54,18 +54,19 @@
 #' these letters will be capitalised.
 #'
 #' @examples
-#' postcode("G26QE")
-#' postcode(c("KA89NB", "PA152TY"), format = "pc8")
+#' format_postcode("G26QE")
+#' format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #'
 #' library(dplyr)
-#' df <- tibble(pc = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
-#' df %>% mutate(pc = postcode(pc))
-#'
+#' df <- tibble(postcode = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
+#' df %>% mutate(postcode = format_postcode(postcode))
 #' @export
 
-postcode <- function(x, format = c("pc7", "pc8")) {
-
+format_postcode <- function(x, format = c("pc7", "pc8")) {
   format <- match.arg(format)
+
+  # The standard regex for a UK postcode
+  uk_pc_regex <- "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"
 
   # Strip out all spaces from the input, so they can be added in again later at
   # the appropriate juncture
@@ -73,10 +74,7 @@ postcode <- function(x, format = c("pc7", "pc8")) {
 
   # Calculate the number of non-NA values in the input which do not adhere to
   # the standard UK postcode format
-  n <- length(
-    x[!is.na(x)][!stringr::str_detect(
-      x[!is.na(x)],
-      "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$")])
+  n <- length(x[!is.na(x)][!stringr::str_detect(x[!is.na(x)], uk_pc_regex)])
 
   # If n is one, the warning message describing the number of values which
   # do not adhere to the standard format should use singular verbs
@@ -84,33 +82,29 @@ postcode <- function(x, format = c("pc7", "pc8")) {
   singular <- "value does"
   multiple <- "values do"
 
-  if (
-    !all(
-      stringr::str_detect(
-        x[!is.na(x)],
-        "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"))) {
-    warning(glue::glue("{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
-                       "not adhere to the standard UK postcode format (with ",
-                       "or without spaces) and will be coded as NA. The ",
-                       "standard format is:\n",
-                       "\U2022 1 or 2 letters, followed by\n",
-                       "\U2022 1 number, followed by\n",
-                       "\U2022 1 optional letter or number, followed by\n",
-                       "\U2022 1 number, followed by\n",
-                       "\U2022 2 letters"))
+  if (!all(stringr::str_detect(x[!is.na(x)], uk_pc_regex))) {
+    warning(glue::glue(
+      "{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
+      "not adhere to the standard UK postcode format (with ",
+      "or without spaces) and will be coded as NA. The ",
+      "standard format is:\n",
+      "\U2022 1 or 2 letters, followed by\n",
+      "\U2022 1 number, followed by\n",
+      "\U2022 1 optional letter or number, followed by\n",
+      "\U2022 1 number, followed by\n",
+      "\U2022 2 letters"
+    ))
   }
 
   # Replace postcodes which do not adhere to the standard format with NA (this
   # will also 'replace' NA with NA)
-  x <- replace(x,
-               !stringr::str_detect(
-                 x,
-                 "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"),
-               NA_character_)
+  x <- replace(x, !stringr::str_detect(x, uk_pc_regex), NA_character_)
 
   if (any(grepl("[a-z]", x))) {
-    warning("Lower case letters in any input value(s) adhering to the ",
-            "standard UK postcode format will be converted to upper case")
+    warning(
+      "Lower case letters in any input value(s) adhering to the ",
+      "standard UK postcode format will be converted to upper case"
+    )
   }
 
   x <- toupper(x)
@@ -126,7 +120,6 @@ postcode <- function(x, format = c("pc7", "pc8")) {
       nchar(x) == 6 ~ sub("(.{3})", "\\1 ", x),
       nchar(x) == 7 ~ x
     ))
-
   } else {
 
     # pc8 format requires all valid postcodes to be of maximum length 8
@@ -134,8 +127,10 @@ postcode <- function(x, format = c("pc7", "pc8")) {
     # last 3 characters
     return(dplyr::case_when(
       is.na(x) ~ NA_character_,
-      nchar(x) %in% 5:7 ~ paste(stringr::str_sub(x, end = -4),
-                                stringr::str_sub(x, start = -3))
+      nchar(x) %in% 5:7 ~ paste(
+        stringr::str_sub(x, end = -4),
+        stringr::str_sub(x, start = -3)
+      )
     ))
   }
 }
