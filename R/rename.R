@@ -15,6 +15,7 @@
 #' @keywords internal
 #' @name rename
 #' @aliases NULL
+#' @md
 NULL
 
 #' @rdname rename
