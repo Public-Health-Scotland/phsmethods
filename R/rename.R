@@ -1,16 +1,16 @@
-#' Functions renamed in December 2021
+#' Functions renamed in phsmethods 0.2.1 (Dec 2021)
 #'
 #' @description
 #' `r lifecycle::badge('deprecated')`
 #'
-#' We renamed a number of function to improve code clarity.
-#' The old functions are still usable but will produce a warning.
-#' After a reasonable amount of time they will be removed completely.
+#' phsmethods 0.2.1 renamed a number of functions
+#' to improve code clarity. The old functions will still
+#' work but will produce a warning. After a reasonable
+#' amount of time they will be removed completely.
 #'
 #' * `postcode()` -> `format_postcode()`
 #' * `age_group()` -> `create_age_groups()`
 #' * `fin_year()` -> `extract_fin_year()`
-#'
 #'
 #' @keywords internal
 #' @name rename
@@ -35,11 +35,13 @@ age_group <- function(x,
                       as_factor = FALSE) {
   lifecycle::deprecate_warn("0.2.1", "age_group()", "create_age_groups()")
 
-  return(create_age_groups(x = x,
-                           from = from,
-                           to = to,
-                           by = by,
-                           as_factor = as_factor))
+  return(create_age_groups(
+    x = x,
+    from = from,
+    to = to,
+    by = by,
+    as_factor = as_factor
+  ))
 }
 
 #' @rdname rename
