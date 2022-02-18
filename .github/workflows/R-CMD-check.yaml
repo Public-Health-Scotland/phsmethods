@@ -25,7 +25,6 @@ jobs:
 
           # An approximation for the PHS RStudio Desktop installation
           - {os: windows-latest,  r: '3.6'}
-          - {os: windows-latest,  r: '3.5'}
 
           # An approximation of the PHS RStudio Server Pro setup
           - {os: ubuntu-latest,   r: '3.6'}
