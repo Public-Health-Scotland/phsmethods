@@ -24,6 +24,7 @@ in [Public Health Scotland
 -   `format_postcode()` formats improperly recorded postcodes
 -   `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
     a quarter
+-   `age_calculate` calculate age between two dates
 
 `phsmethods` can be used on both the
 [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
@@ -268,6 +269,24 @@ qtr_prev(f)
 #> [3] "April to June 2012"
 qtr_prev(f, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
+```
+
+### age\_calculate
+
+``` r
+my_date <- lubridate::ymd("2020-02-29")
+end_date <- lubridate::ymd("2022-02-21")
+
+age_calculate(my_date, end_date, round_down = FALSE, date_class = "period") * 365.25
+#> [1] 723.0625
+age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
+#> [1] 723
+
+leap1 <- lubridate::ymd("2020-02-29")
+leap2 <- lubridate::ymd("2022-02-28")
+
+age_calculate(leap1, leap2, date_class = "period")
+#> [1] 1
 ```
 
 ## Contributing to phsmethods
