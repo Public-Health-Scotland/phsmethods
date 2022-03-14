@@ -1,7 +1,5 @@
 ^phsmethods\.Rproj$
 ^\.Rproj\.user$
-^codecov\.yml$
-^\.travis\.yml$
 ^README\.Rmd$
 ^README-.*\.png$
 ^data-raw$

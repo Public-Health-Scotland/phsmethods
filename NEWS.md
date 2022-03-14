@@ -1,4 +1,6 @@
-# phsmethods 0.2.1
+# phsmethods 0.2.1 (2022-02-11)
+
+- Three functions renamed to improve code clarity: `postcode()` to `format_postcode()`; `age_group()` to `create_age_groups()`; `fin_year()` to `extract_fin_year()`. The old functions will still work but will produce a warning. After a reasonable amount of time they will be removed completely.
 
 # phsmethods 0.2.0 (2020-04-17)
 
