@@ -5,9 +5,11 @@
 #' it will return NA
 #'
 #' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
-#' @param min_date,max_date optional min and/or max dates that the Date of Birth could take. Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number e.g. an admission date.
+#' @param min_date,max_date optional min and/or max dates that the Date of Birth could take as the century needs to be guessed.
+#' Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number.
+#' min_date can be date based on common sense in the dataset, whilst max_date can be date when an event happens such as discharge date.
 #' @param chi_check logical, optionally skip checking the CHI for validity which will be
-#' faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.
+#' faster but should only be used if you have previously checked the CHI(s). The default (TRUE) will check the CHI numbers.
 #'
 #' @return a date vector of DoB. It will be the same length as \code{chi_number}.
 #' @export
@@ -22,9 +24,9 @@
 #'   "0101405073",
 #'   "0101625707"
 #' ), adm_date = as.Date(c(
-#'   "01-01-1950",
-#'   "01-01-2000",
-#'   "01-01-2020"
+#'   "1950-01-01",
+#'   "2000-01-01",
+#'   "2020-01-01"
 #' )))
 #'
 #' data %>%
@@ -32,7 +34,7 @@
 #'
 #' data %>%
 #'   mutate(chi_dob = dob_from_chi(chi,
-#'     min_date = as.Date("01-01-1930"),
+#'     min_date = as.Date("1930-01-01"),
 #'     max_date = adm_date
 #'   ))
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE) {
@@ -53,6 +55,16 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 
   # Default the max_date to today (person can't be born after today)
   if (is.null(max_date)) max_date <- Sys.Date()
+
+  # Fill in today's date to where max_date is missing
+  if (any(is.na(max_date))) max_date[is.na(max_date)] <- Sys.Date()
+
+  # max_date should not be a future date
+  if (any(max_date > Sys.Date())) {
+    to_replace <- max_date > Sys.Date()
+    max_date[to_replace] <- Sys.Date()
+    warning("any max_date where it is a future date is changed to date of today")
+  }
 
   # Default the min_date to 1 Jan 1900 (person can't be born before then)
   # TODO - Find out what the earliest CHI date was?
@@ -93,8 +105,10 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   guess_dob <- as.Date(dplyr::case_when(
     is.na(date_1900) ~ date_2000,
     is.na(date_2000) ~ date_1900,
-    date_1900 <= min_date ~ date_2000,
-    date_2000 >= max_date ~ date_1900
+    (date_2000 >= min_date & date_2000 <= max_date) &
+      !(date_1900 >= min_date & date_1900 <= max_date) ~ date_2000,
+    (date_1900 >= min_date & date_1900 <= max_date) &
+      !(date_2000 >= min_date & date_2000 <= max_date) ~ date_1900
   ))
 
   new_na_count <- sum(is.na(guess_dob)) - na_count
@@ -115,7 +129,9 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 #'
 #' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
 #' @param ref_date calculate the age at this date, default is to use \code{Sys.Date()} i.e. today.
-#' @param min_age,max_age optional min and/or max dates that the Date of Birth could take. Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number e.g. an admission date.
+#' @param min_age,max_age optional min and/or max dates that the Date of Birth could take as the century needs to be guessed.
+#' Must be either length 1 for a 'fixed' age or the same length as \code{chi_number} for an age per CHI number.
+#' min_age can be age based on common sense in the dataset, whilst max_age can be age when an event happens such as the age at discharge.
 #' @param chi_check logical, optionally skip checking the CHI for validity which will be
 #' faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.
 #'
@@ -132,9 +148,9 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 #'   "0101405073",
 #'   "0101625707"
 #' ), dis_date = as.Date(c(
-#'   "01-01-1950",
-#'   "01-01-2000",
-#'   "01-01-2020"
+#'   "1950-01-01",
+#'   "2000-01-01",
+#'   "2020-01-01"
 #' )))
 #'
 #' data %>%
@@ -178,10 +194,7 @@ age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NUL
     chi_check = chi_check
   )
 
-  guess_age <- lubridate::interval(guess_dob, ref_date) %>%
-    lubridate::as.period() %>%
-    .$year %>%
-    as.integer()
+  guess_age <- age_calculate(guess_dob, ref_date)
 
   return(guess_age)
 }

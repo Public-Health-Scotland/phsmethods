@@ -9,10 +9,12 @@ dob_from_chi(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE)
 \arguments{
 \item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
 
-\item{min_date, max_date}{optional min and/or max dates that the Date of Birth could take. Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number e.g. an admission date.}
+\item{min_date, max_date}{optional min and/or max dates that the Date of Birth could take as the century needs to be guessed.
+Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number.
+min_date can be date based on common sense in the dataset, whilst max_date can be date when an event happens such as discharge date.}
 
 \item{chi_check}{logical, optionally skip checking the CHI for validity which will be
-faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.}
+faster but should only be used if you have previously checked the CHI(s). The default (TRUE) will check the CHI numbers.}
 }
 \value{
 a date vector of DoB. It will be the same length as \code{chi_number}.
@@ -32,9 +34,9 @@ data <- tibble(chi = c(
   "0101405073",
   "0101625707"
 ), adm_date = as.Date(c(
-  "01-01-1950",
-  "01-01-2000",
-  "01-01-2020"
+  "1950-01-01",
+  "2000-01-01",
+  "2020-01-01"
 )))
 
 data \%>\%
@@ -42,7 +44,7 @@ data \%>\%
 
 data \%>\%
   mutate(chi_dob = dob_from_chi(chi,
-    min_date = as.Date("01-01-1930"),
+    min_date = as.Date("1930-01-01"),
     max_date = adm_date
   ))
 }

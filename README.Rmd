@@ -29,7 +29,9 @@ knitr::opts_chunk$set(
 - `match_area()` converts geography codes into area names
 - `format_postcode()` formats improperly recorded postcodes
 - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
-- `age_calculate` calculate age between two dates
+- `age_calculate` calculates age between two dates
+- `dob_from_chi` extracts Date of Birth (DoB) from the CHI number
+- `age_from_chi` extracts age from the CHI number
 
 `phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
 
@@ -186,18 +188,74 @@ qtr_prev(f, format = "short")
 my_date <- lubridate::ymd("2020-02-29")
 end_date <- lubridate::ymd("2022-02-21")
 
+# Change the argument of date_class can make a difference.
 age_calculate(my_date, end_date, round_down = FALSE, date_class = "period") * 365.25
 age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
 
+# For a start date in leap year, age increases on 1st March every year. 
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
 
 age_calculate(leap1, leap2, date_class = "period")
 ```
 
+### dob_from_chi
+```{r dob_from_chi}
+dob_from_chi("0101336489")
+
+library(tibble)
+library(dplyr)
+data <- tibble(chi = c(
+ "0101336489",
+ "0101405073",
+ "0101625707"
+), adm_date = as.Date(c(
+ "1950-01-01",
+ "2000-01-01",
+ "2020-01-01"
+)))
+
+data %>%
+ mutate(chi_dob = dob_from_chi(chi))
+
+data %>%
+ mutate(chi_dob = dob_from_chi(chi,
+   min_date = as.Date("1930-01-01"),
+   max_date = adm_date
+ ))
+```
+
+### age_from_chi
+```{r age_from_chi}
+age_from_chi("0101336489")
+
+library(tibble)
+library(dplyr)
+data <- tibble(chi = c(
+ "0101336489",
+ "0101405073",
+ "0101625707"
+), dis_date = as.Date(c(
+ "1950-01-01",
+ "2000-01-01",
+ "2020-01-01"
+)))
+
+data %>%
+ mutate(chi_age = age_from_chi(chi))
+
+data %>%
+ mutate(chi_age = age_from_chi(chi, min_age = 18, max_age = 65))
+
+data %>%
+ mutate(chi_age = age_from_chi(chi,
+   ref_date = dis_date
+ ))
+```
+
 ## Contributing to phsmethods
 
-At present, the maintainers of this package are [David Caldwell](https://github.com/davidc92) and [Lucinda Lawrie](https://github.com/lucindalawrie).
+At present, the maintainer of this package is [Tina Fu](https://github.com/Tina815).
 
 This package is intended to be in continuous development and contributions may be made by anyone within PHS. If you would like to make a contribution, please first create an [issue](https://github.com/Public-Health-Scotland/phsmethods/issues) on GitHub and assign **both** of the package maintainers to it. This is to ensure that no duplication of effort occurs in the case of multiple people having the same idea. The package maintainers will discuss the issue and get back to you as soon as possible.
 

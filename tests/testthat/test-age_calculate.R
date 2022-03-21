@@ -64,4 +64,14 @@ test_that("date_class has to be either period or duration", {
                              round_down = TRUE))
 })
 
+test_that("Age is calculated correctly for a dataframe", {
+  expect_equal(age_calculate(as.Date(c("1933-01-01",
+                                       "1940-01-01",
+                                       "1962-01-01")),
+                             as.Date(c("1950-01-01",
+                                       "2000-01-01",
+                                       "2020-01-01"))
+                             ), c(17, 60, 58))
+})
+
 

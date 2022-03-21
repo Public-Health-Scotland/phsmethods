@@ -69,18 +69,15 @@ test_that("Returns correct DoB - unusual fixed dates", {
   # Some standard CHIs / dates
   # Dates which would change the 'usual'
   expect_equal(
-    dob_from_chi(c(
+    suppressMessages(
+      dob_from_chi(c(
       "0101336489",
       "0101405073",
       "0101625707"
     ),
     min_date = as.Date("1950-01-01")
-    ),
-    as.Date(c(
-      "2033-01-01",
-      "2040-01-01",
-      "1962-01-01"
-    ))
+    )),
+    as.Date(c(NA, NA, "1962-01-01"))
   )
 })
 
@@ -165,5 +162,147 @@ test_that("dob_from_chi gives messages when returning NA", {
 
   expect_message(dob_from_chi(rep("1234567890", 99999)),
     regexp = "^99,999 CHI numbers were invalid and will be given NA for DoB"
+  )
+})
+
+test_that("Returns correct age - no options", {
+
+  # Some standard CHIs
+  expect_equal(
+    age_from_chi(c(
+      "0101336489",
+      "0101405073",
+      "0101625707"
+    )),
+    c(89, 82, 60)
+  )
+
+  # Leap years
+  expect_equal(
+    age_from_chi(c(
+      gen_real_chi(290228),
+      gen_real_chi(290236),
+      gen_real_chi(290296)
+    )),
+    c(94, 86, 26)
+  )
+
+  # Century leap year (hard to test as 1900 is a long time ago!)
+  expect_equal(
+    age_from_chi(gen_real_chi(290200)), 22)
+})
+
+test_that("Returns correct age - fixed age supplied", {
+  # Some standard CHIs
+  # Fixed min age e.g. All patients are younger than X
+  expect_equal(
+    age_from_chi(c(
+      "0101336489",
+      "0101405073",
+      "0101625707"
+    ),
+    min_age = 1,
+    max_age = 101
+    ),
+    c(89, 82, 60)
+  )
+})
+
+test_that("Returns correct age - unusual fixed age", {
+  # Some standard CHIs
+  expect_equal(
+    suppressMessages(
+      age_from_chi(c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      max_age = 72
+      )),
+    c(NA_real_, NA_real_, 60)
+  )
+})
+
+test_that("Returns NA when DoB is ambiguous so can't return age", {
+
+  # Default is min_age as 0. max_age is NULL and will be set to the age from 1900-01-01.
+  expect_message(
+    age_from_chi(gen_real_chi(010101)),
+    regexp = "^1 CHI number produced an ambiguous date and will be given NA for DoB"
+  )
+
+  expect_message(
+    age_from_chi(c(
+      gen_real_chi(010101),
+      gen_real_chi(010110),
+      gen_real_chi(010120)
+    )),
+    regexp = "^3 CHI numbers produced ambiguous dates and will be given NA for DoB"
+  )
+
+  expect_equal(
+    suppressMessages(
+      age_from_chi(c(
+        gen_real_chi(010101),
+        gen_real_chi(010110),
+        gen_real_chi(010120)
+      ))
+    ),
+    c(NA_real_, NA_real_, NA_real_)
+  )
+})
+
+test_that("Can supply different reference dates per CHI", {
+  # Some standard CHIs / dates
+  # Reference date per CHI, e.g. Date of discharge
+  expect_equal(
+    age_from_chi(c(
+      "0101336489",
+      "0101405073",
+      "0101625707"
+    ),
+    ref_date = as.Date(c(
+      "1950-01-01",
+      "2000-01-01",
+      "2020-01-01"
+    ))
+    ),
+    c(17, 60, 58)
+  )
+})
+
+test_that("age_from_chi errors properly", {
+  expect_error(age_from_chi(1010101129),
+               regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
+  )
+
+  expect_error(age_from_chi("0101625707",
+                            ref_date = "01-01-2020"
+  ),
+  regexp = "ref_date must have Date or POSIXct class"
+  )
+
+  expect_error(age_from_chi("0101625707",
+                            min_age = -2
+  ),
+  regexp = "min_age >= 0 is not TRUE"
+  )
+
+  expect_error(age_from_chi("0101625707",
+                            min_age = 20, max_age = 10
+  ),
+  regexp = "max_age >= min_age is not TRUE"
+  )
+})
+
+test_that("age_from_chi gives messages when returning NA", {
+
+  # Invalid CHI numbers
+  expect_message(age_from_chi("1234567890"),
+                 regexp = "^1 CHI number was invalid and will be given NA for DoB"
+  )
+
+  expect_message(age_from_chi(rep("1234567890", 99999)),
+                 regexp = "^99,999 CHI numbers were invalid and will be given NA for DoB"
   )
 })

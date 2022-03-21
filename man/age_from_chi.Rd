@@ -17,7 +17,9 @@ age_from_chi(
 
 \item{ref_date}{calculate the age at this date, default is to use \code{Sys.Date()} i.e. today.}
 
-\item{min_age, max_age}{optional min and/or max dates that the Date of Birth could take. Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number e.g. an admission date.}
+\item{min_age, max_age}{optional min and/or max dates that the Date of Birth could take as the century needs to be guessed.
+Must be either length 1 for a 'fixed' age or the same length as \code{chi_number} for an age per CHI number.
+min_age can be age based on common sense in the dataset, whilst max_age can be age when an event happens such as the age at discharge.}
 
 \item{chi_check}{logical, optionally skip checking the CHI for validity which will be
 faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.}
@@ -40,9 +42,9 @@ data <- tibble(chi = c(
   "0101405073",
   "0101625707"
 ), dis_date = as.Date(c(
-  "01-01-1950",
-  "01-01-2000",
-  "01-01-2020"
+  "1950-01-01",
+  "2000-01-01",
+  "2020-01-01"
 )))
 
 data \%>\%

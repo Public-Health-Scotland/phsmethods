@@ -24,7 +24,9 @@ in [Public Health Scotland
 -   `format_postcode()` formats improperly recorded postcodes
 -   `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
     a quarter
--   `age_calculate` calculate age between two dates
+-   `age_calculate` calculates age between two dates
+-   `dob_from_chi` extracts Date of Birth (DoB) from the CHI number
+-   `age_from_chi` extracts age from the CHI number
 
 `phsmethods` can be used on both the
 [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
@@ -277,11 +279,13 @@ qtr_prev(f, format = "short")
 my_date <- lubridate::ymd("2020-02-29")
 end_date <- lubridate::ymd("2022-02-21")
 
+# Change the argument of date_class can make a difference.
 age_calculate(my_date, end_date, round_down = FALSE, date_class = "period") * 365.25
 #> [1] 723.0625
 age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
 #> [1] 723
 
+# For a start date in leap year, age increases on 1st March every year. 
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
 
@@ -289,11 +293,100 @@ age_calculate(leap1, leap2, date_class = "period")
 #> [1] 1
 ```
 
+### dob\_from\_chi
+
+``` r
+dob_from_chi("0101336489")
+#> [1] "1933-01-01"
+
+library(tibble)
+#> Warning: package 'tibble' was built under R version 3.6.3
+library(dplyr)
+data <- tibble(chi = c(
+ "0101336489",
+ "0101405073",
+ "0101625707"
+), adm_date = as.Date(c(
+ "1950-01-01",
+ "2000-01-01",
+ "2020-01-01"
+)))
+
+data %>%
+ mutate(chi_dob = dob_from_chi(chi))
+#> # A tibble: 3 x 3
+#>   chi        adm_date   chi_dob   
+#>   <chr>      <date>     <date>    
+#> 1 0101336489 1950-01-01 1933-01-01
+#> 2 0101405073 2000-01-01 1940-01-01
+#> 3 0101625707 2020-01-01 1962-01-01
+
+data %>%
+ mutate(chi_dob = dob_from_chi(chi,
+   min_date = as.Date("1930-01-01"),
+   max_date = adm_date
+ ))
+#> # A tibble: 3 x 3
+#>   chi        adm_date   chi_dob   
+#>   <chr>      <date>     <date>    
+#> 1 0101336489 1950-01-01 1933-01-01
+#> 2 0101405073 2000-01-01 1940-01-01
+#> 3 0101625707 2020-01-01 1962-01-01
+```
+
+### age\_from\_chi
+
+``` r
+age_from_chi("0101336489")
+#> [1] 89
+
+library(tibble)
+library(dplyr)
+data <- tibble(chi = c(
+ "0101336489",
+ "0101405073",
+ "0101625707"
+), dis_date = as.Date(c(
+ "1950-01-01",
+ "2000-01-01",
+ "2020-01-01"
+)))
+
+data %>%
+ mutate(chi_age = age_from_chi(chi))
+#> # A tibble: 3 x 3
+#>   chi        dis_date   chi_age
+#>   <chr>      <date>       <dbl>
+#> 1 0101336489 1950-01-01      89
+#> 2 0101405073 2000-01-01      82
+#> 3 0101625707 2020-01-01      60
+
+data %>%
+ mutate(chi_age = age_from_chi(chi, min_age = 18, max_age = 65))
+#> 2 CHI numbers produced ambiguous dates and will be given NA for DoB, if possible try different values for min_date and/or max_date
+#> # A tibble: 3 x 3
+#>   chi        dis_date   chi_age
+#>   <chr>      <date>       <dbl>
+#> 1 0101336489 1950-01-01      NA
+#> 2 0101405073 2000-01-01      NA
+#> 3 0101625707 2020-01-01      60
+
+data %>%
+ mutate(chi_age = age_from_chi(chi,
+   ref_date = dis_date
+ ))
+#> # A tibble: 3 x 3
+#>   chi        dis_date   chi_age
+#>   <chr>      <date>       <dbl>
+#> 1 0101336489 1950-01-01      17
+#> 2 0101405073 2000-01-01      60
+#> 3 0101625707 2020-01-01      58
+```
+
 ## Contributing to phsmethods
 
-At present, the maintainers of this package are [David
-Caldwell](https://github.com/davidc92) and [Lucinda
-Lawrie](https://github.com/lucindalawrie).
+At present, the maintainer of this package is [Tina
+Fu](https://github.com/Tina815).
 
 This package is intended to be in continuous development and
 contributions may be made by anyone within PHS. If you would like to
