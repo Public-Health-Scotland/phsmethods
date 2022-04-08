@@ -73,13 +73,13 @@ To access the help file for any of `phsmethods`' functions, type `?function_name
 ### create_age_groups
 
 ```{r create_age_groups}
-a <- c(54, 7, 77, 1, 26, 101)
+ages <- c(54, 7, 77, 1, 26, 101)
 
 # By default create_age_groups goes in 5 year increments from 0 to 90+
-create_age_groups(a)
+create_age_groups(ages)
 
 # But these settings can be changed
-create_age_groups(a, from = 0, to = 80, by = 10)
+create_age_groups(ages, from = 0, to = 80, by = 10)
 ```
 
 ### chi_check
