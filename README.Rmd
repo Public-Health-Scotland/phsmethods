@@ -63,7 +63,7 @@ Load `phsmethods` using `library()`:
 library(phsmethods)
 ```
 
-To access the help file for any of `phsmethods`' functions, type `?function_name` into the RStudio console after loading the package:
+To see the documentation for any `phsmethods`' functions, type `?function_name` into the RStudio console after loading the package:
 
 ```{r help, eval = FALSE}
 ?extract_fin_year
@@ -73,13 +73,13 @@ To access the help file for any of `phsmethods`' functions, type `?function_name
 ### create_age_groups
 
 ```{r create_age_groups}
-a <- c(54, 7, 77, 1, 26, 101)
+ages <- c(54, 7, 77, 1, 26, 101)
 
 # By default create_age_groups goes in 5 year increments from 0 to 90+
-create_age_groups(a)
+create_age_groups(ages)
 
 # But these settings can be changed
-create_age_groups(a, from = 0, to = 80, by = 10)
+create_age_groups(ages, from = 0, to = 80, by = 10)
 ```
 
 ### chi_check
@@ -87,15 +87,17 @@ create_age_groups(a, from = 0, to = 80, by = 10)
 ```{r chi_check, message = FALSE, warning = FALSE}
 # chi_check returns specific feedback on why a CHI number might be invalid
 library(dplyr)
-b <- tibble(chi = c("0101011237", "0101336489", "3213201234", "123456789", "12345678900", "010120123?", NA))
-b %>% mutate(validity = chi_check(chi))
+chi_data <- tibble(chi = c("0101011237", "0101336489", "3213201234", "123456789", "12345678900", "010120123?", NA))
+chi_data %>% 
+  mutate(validity = chi_check(chi))
 ```
 
 ### chi_pad
 
 ```{r chi_pad}
+chi_numbers <- c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw")
 # Only nine-digit characters comprised exclusively of numeric digits are prefixed with a zero
-chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
+chi_pad(chi_numbers)
 ```
 
 
@@ -104,15 +106,18 @@ chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
 ```{r sex_from_chi}
 # By default it will check that the CHI is valid before extracting the sex.
 library(dplyr)
-b <- tibble(chi = c("0101011237", "0101336489", "123456789", "12345678900", "010120123?", NA))
+chi_data <- tibble(chi = c("0101011237", "0101336489", "123456789", "12345678900", "010120123?", NA))
 
-b %>% mutate(chi_sex = sex_from_chi(chi))
+chi_data %>% 
+  mutate(chi_sex = sex_from_chi(chi))
 
 # Use custom values for male and female
-b %>% mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
+chi_data %>% 
+  mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
 
 # Alternatively return the result as a factor (with labels 'Male' and 'Female')
-b %>% mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
+chi_data %>% 
+  mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
 ```
 
 
@@ -129,8 +134,8 @@ file_size(testthat::test_path("files"), pattern = "\\.xlsx?$")
 ### extract_fin_year
 
 ```{r extract_fin_year}
-c <- lubridate::dmy(c(21012017, 04042017, 17112017))
-extract_fin_year(c)
+dates <- lubridate::dmy(c(21012017, 04042017, 17112017))
+extract_fin_year(dates)
 ```
 
 ### match_area
@@ -138,8 +143,9 @@ extract_fin_year(c)
 ```{r match_area}
 match_area("S13002781")
 
-d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
-d %>% mutate(name = match_area(code))
+geog_data <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
+geog_data %>% 
+  mutate(name = match_area(code))
 ```
 
 ### format_postcode
@@ -152,47 +158,48 @@ format_postcode("G26QE")
 format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 # postcode accounts for irregular spacing and lower case letters
-e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-e %>% mutate(pc = format_postcode(pc))
+postcode_data <- tibble(postcode = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
+postcode_data %>% 
+  mutate(postcode = format_postcode(postcode))
 ```
 
 ### qtr, qtr_end, qtr_next and qtr_prev
 ```{r qtr}
-f <- lubridate::dmy(c(26032012, 04052012, 23092012))
+dates <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
 # qtr returns the current quarter and year
 # The default is long format
-qtr(f)
+qtr(dates)
 
 # But short format can also be applied
-qtr(f, format = "short")
+qtr(dates, format = "short")
 
 
 # qtr_end returns the last month in the quarter
-qtr_end(f)
-qtr_end(f, format = "short")
+qtr_end(dates)
+qtr_end(dates, format = "short")
 
 
 # qtr_next returns the next quarter
-qtr_next(f)
-qtr_next(f, format = "short")
+qtr_next(dates)
+qtr_next(dates, format = "short")
 
 
 # qtr_prev returns the previous quarter
-qtr_prev(f)
-qtr_prev(f, format = "short")
+qtr_prev(dates)
+qtr_prev(dates, format = "short")
 ```
 
 ### age_calculate
 ```{r age_calculate}
-my_date <- lubridate::ymd("2020-02-29")
+birth_date <- lubridate::ymd("2020-02-29")
 end_date <- lubridate::ymd("2022-02-21")
 
 # Change the argument of date_class can make a difference.
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "period") * 365.25
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
+age_calculate(birth_date, end_date, round_down = FALSE, date_class = "period") * 365.25
+age_calculate(birth_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
 
-# For a start date in leap year, age increases on 1st March every year. 
+# If the start day is leap day (February 29th), age increases on 1st March every year. 
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
 
@@ -257,11 +264,11 @@ data %>%
 
 At present, the maintainer of this package is [Tina Fu](https://github.com/Tina815).
 
-This package is intended to be in continuous development and contributions may be made by anyone within PHS. If you would like to make a contribution, please first create an [issue](https://github.com/Public-Health-Scotland/phsmethods/issues) on GitHub and assign **both** of the package maintainers to it. This is to ensure that no duplication of effort occurs in the case of multiple people having the same idea. The package maintainers will discuss the issue and get back to you as soon as possible.
+This package is intended to be in continuous development and contributions may be made by anyone within PHS. If you would like to contribute, please first create an [issue](https://github.com/Public-Health-Scotland/phsmethods/issues) on GitHub and assign **both** of the package maintainers to it. This is to ensure that no duplication of effort occurs in the case of multiple people having the same idea. The package maintainers will discuss the issue and get back to you as soon as possible.
 
-While the most obvious and eyecatching (as well as intimidating) way of contributing is by writing a function, this isn't the only way to make a useful contribution. Fixing typos in documentation, for example, isn't the most glamorous way to contribute, but is of great help to the package maintainers. Please see this [blogpost by Jim Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more information on getting started with contributing to open source software.
+While the most obvious and eyecatching (as well as intimidating) way of contributing is by writing a function, this isn't the only way to make a useful contribution. Fixing typos in documentation, for example, isn't the most glamorous way to contribute, but is of great help to the package maintainers. Please see this [blog post by Jim Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more information on getting started with contributing to open-source software.
 
-When contributing, please create a [branch](https://github.com/Public-Health-Scotland/phsmethods/branches) in this repository and carry out all work on it. Please ensure you have linked RStudio to your GitHub account using `usethis::edit_git_config()` prior to making your contribution. When you are ready for a review, please create a [pull request](https://github.com/Public-Health-Scotland/phsmethods/pulls) and assign **both** of the package maintainers as reviewers. One or both of them will conduct a review, provide feedback and, if necessary, request changes prior to merging your branch.
+When contributing, please create a [branch](https://github.com/Public-Health-Scotland/phsmethods/branches) in this repository and carry out all work on it. Please ensure you have linked RStudio to your GitHub account using `usethis::edit_git_config()` prior to making your contribution. When you are ready for a review, please create a [pull request](https://github.com/Public-Health-Scotland/phsmethods/pulls) and assign **both** of the package maintainers as reviewers. One or both of them will conduct a review, provide feedback and, if necessary, request changes before merging your branch.
 
 Please be mindful of information governance when contributing to this package. No data files (aside from publicly available and downloadable datasets or unless explicitly approved), server connection details, passwords or person identifiable or otherwise confidential information should be included anywhere within this package or any other repository (whether public or private) used within PHS. This includes within code and code commentary. For more information on security when using git and GitHub, and on using git and GitHub for version control more generally, please see the [Transforming Publishing Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)'s [Git guide](https://Public-Health-Scotland.github.io/git-guide/) and [GitHub guidance](https://github.com/Public-Health-Scotland/GitHub-guidance).
 
@@ -279,4 +286,5 @@ Please feel free to add yourself to the 'Authors' section of the `Description` f
 
 It's not necessary to have experience with GitHub or of building an R package to contribute to `phsmethods`. If you wish to contribute code then, as long as you can write an R function, the package maintainers can assist with error handling, writing documentation, testing and other aspects of package development. It is advised, however, to consult [Hadley Wickham's R Packages book](https://r-pkgs.org/) prior to making a contribution. It may also be useful to consult the [documentation](https://github.com/Public-Health-Scotland/phsmethods/tree/master/R) and [tests](https://github.com/Public-Health-Scotland/phsmethods/tree/master/tests/testthat) of existing functions within this package as a point of reference.
 
-Please note that this README may fail to 'Knit' at times as a result of network security settings. This will likely be due to the badges for the package's release version, continuous integration status and test coverage at the top of the document. If you are editing the `README.Rmd` document and are unable to successfully get it to 'Knit', please contact the package maintainers for assistance.
+Please note that this README may fail to 'Knit' at times as a result of network security settings. This will likely be due to the badges for the package's release version, continuous integration status and test coverage at the top of the document. You should only make edits to the `.Rmd` version, you can then knit yourself, or a GitHub action should run and knit it for you when you open a pull request.
+
