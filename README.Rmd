@@ -63,7 +63,7 @@ Load `phsmethods` using `library()`:
 library(phsmethods)
 ```
 
-To access the help file for any of `phsmethods`' functions, type `?function_name` into the RStudio console after loading the package:
+To see the documentation for any `phsmethods`' functions, type `?function_name` into the RStudio console after loading the package:
 
 ```{r help, eval = FALSE}
 ?extract_fin_year
