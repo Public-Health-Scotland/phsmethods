@@ -143,8 +143,8 @@ extract_fin_year(dates)
 ```{r match_area}
 match_area("S13002781")
 
-d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
-d %>% 
+geog_data <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
+geog_data %>% 
   mutate(name = match_area(code))
 ```
 
@@ -158,36 +158,36 @@ format_postcode("G26QE")
 format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 # postcode accounts for irregular spacing and lower case letters
-e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-e %>% 
-  mutate(pc = format_postcode(pc))
+postcode_data <- tibble(postcode = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
+postcode_data %>% 
+  mutate(postcode = format_postcode(postcode))
 ```
 
 ### qtr, qtr_end, qtr_next and qtr_prev
 ```{r qtr}
-f <- lubridate::dmy(c(26032012, 04052012, 23092012))
+dates <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
 # qtr returns the current quarter and year
 # The default is long format
-qtr(f)
+qtr(dates)
 
 # But short format can also be applied
-qtr(f, format = "short")
+qtr(dates, format = "short")
 
 
 # qtr_end returns the last month in the quarter
-qtr_end(f)
-qtr_end(f, format = "short")
+qtr_end(dates)
+qtr_end(dates, format = "short")
 
 
 # qtr_next returns the next quarter
-qtr_next(f)
-qtr_next(f, format = "short")
+qtr_next(dates)
+qtr_next(dates, format = "short")
 
 
 # qtr_prev returns the previous quarter
-qtr_prev(f)
-qtr_prev(f, format = "short")
+qtr_prev(dates)
+qtr_prev(dates, format = "short")
 ```
 
 ### age_calculate
