@@ -88,7 +88,8 @@ create_age_groups(ages, from = 0, to = 80, by = 10)
 # chi_check returns specific feedback on why a CHI number might be invalid
 library(dplyr)
 b <- tibble(chi = c("0101011237", "0101336489", "3213201234", "123456789", "12345678900", "010120123?", NA))
-b %>% mutate(validity = chi_check(chi))
+b %>% 
+  mutate(validity = chi_check(chi))
 ```
 
 ### chi_pad
@@ -106,13 +107,16 @@ chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
 library(dplyr)
 b <- tibble(chi = c("0101011237", "0101336489", "123456789", "12345678900", "010120123?", NA))
 
-b %>% mutate(chi_sex = sex_from_chi(chi))
+b %>% 
+  mutate(chi_sex = sex_from_chi(chi))
 
 # Use custom values for male and female
-b %>% mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
+b %>% 
+  mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
 
 # Alternatively return the result as a factor (with labels 'Male' and 'Female')
-b %>% mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
+b %>% 
+  mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
 ```
 
 
@@ -129,8 +133,8 @@ file_size(testthat::test_path("files"), pattern = "\\.xlsx?$")
 ### extract_fin_year
 
 ```{r extract_fin_year}
-c <- lubridate::dmy(c(21012017, 04042017, 17112017))
-extract_fin_year(c)
+dates <- lubridate::dmy(c(21012017, 04042017, 17112017))
+extract_fin_year(dates)
 ```
 
 ### match_area
@@ -139,7 +143,8 @@ extract_fin_year(c)
 match_area("S13002781")
 
 d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
-d %>% mutate(name = match_area(code))
+d %>% 
+  mutate(name = match_area(code))
 ```
 
 ### format_postcode
@@ -153,7 +158,8 @@ format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 # postcode accounts for irregular spacing and lower case letters
 e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-e %>% mutate(pc = format_postcode(pc))
+e %>% 
+  mutate(pc = format_postcode(pc))
 ```
 
 ### qtr, qtr_end, qtr_next and qtr_prev
