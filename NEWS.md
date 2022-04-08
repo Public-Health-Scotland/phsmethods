@@ -7,6 +7,8 @@
 `dob_from_chi()`([#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42), [@Moohan](https://github.com/Moohan)); and 
 `age_from_chi()`([#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42), [@Moohan](https://github.com/Moohan))
 
+- Change the output for `chi_check` so that empty string ("") reports as missing (#76)
+
 # phsmethods 0.2.0 (2020-04-17)
 
 - New functions added: `age_group()`([#23](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/23), [@chrisdeans](https://github.com/chrisdeans)); `chi_check()`([#30](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); `chi_pad()`([#30](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); and `match_area()`([#13](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/13), [@jvillacampa](https://github.com/jvillacampa)).
