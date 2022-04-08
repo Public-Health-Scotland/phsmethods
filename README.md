@@ -66,7 +66,7 @@ Load `phsmethods` using `library()`:
 library(phsmethods)
 ```
 
-To access the help file for any of `phsmethods`’ functions, type
+To see the documentation for any `phsmethods`’ functions, type
 `?function_name` into the RStudio console after loading the package:
 
 ``` r
@@ -205,8 +205,8 @@ extract_fin_year(dates)
 match_area("S13002781")
 #> [1] "Ayr North"
 
-d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
-d %>% 
+geog_data <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
+geog_data %>% 
   mutate(name = match_area(code))
 #> # A tibble: 5 × 2
 #>   code      name               
@@ -230,53 +230,53 @@ format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 #> [1] "KA8 9NB"  "PA15 2TY"
 
 # postcode accounts for irregular spacing and lower case letters
-e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-e %>% 
-  mutate(pc = format_postcode(pc))
+postcode_data <- tibble(postcode = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
+postcode_data %>% 
+  mutate(postcode = format_postcode(postcode))
 #> # A tibble: 4 × 1
-#>   pc     
-#>   <chr>  
-#> 1 G42 9BA
-#> 2 G20 7AL
-#> 3 DG9 8BS
+#>   postcode
+#>   <chr>   
+#> 1 G42 9BA 
+#> 2 G20 7AL 
+#> 3 DG9 8BS 
 #> 4 DD3 7JY
 ```
 
 ### qtr, qtr_end, qtr_next and qtr_prev
 
 ``` r
-f <- lubridate::dmy(c(26032012, 04052012, 23092012))
+dates <- lubridate::dmy(c(26032012, 04052012, 23092012))
 
 # qtr returns the current quarter and year
 # The default is long format
-qtr(f)
+qtr(dates)
 #> [1] "January to March 2012"  "April to June 2012"     "July to September 2012"
 
 # But short format can also be applied
-qtr(f, format = "short")
+qtr(dates, format = "short")
 #> [1] "Jan-Mar 2012" "Apr-Jun 2012" "Jul-Sep 2012"
 
 
 # qtr_end returns the last month in the quarter
-qtr_end(f)
+qtr_end(dates)
 #> [1] "March 2012"     "June 2012"      "September 2012"
-qtr_end(f, format = "short")
+qtr_end(dates, format = "short")
 #> [1] "Mar 2012" "Jun 2012" "Sep 2012"
 
 
 # qtr_next returns the next quarter
-qtr_next(f)
+qtr_next(dates)
 #> [1] "April to June 2012"       "July to September 2012"  
 #> [3] "October to December 2012"
-qtr_next(f, format = "short")
+qtr_next(dates, format = "short")
 #> [1] "Apr-Jun 2012" "Jul-Sep 2012" "Oct-Dec 2012"
 
 
 # qtr_prev returns the previous quarter
-qtr_prev(f)
+qtr_prev(dates)
 #> [1] "October to December 2011" "January to March 2012"   
 #> [3] "April to June 2012"
-qtr_prev(f, format = "short")
+qtr_prev(dates, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
 ```
 
