@@ -29,10 +29,10 @@ jobs:
           extra-packages: rmarkdown, local::.
 
       - name: Render README.Rmd
-        run:  Rscript -e 'rmarkdown::render("README.md")'
+        run:  Rscript -e 'rmarkdown::render("README.Rmd")'
 
       - name: Commit the results
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Render `README.md` after changes to the `.Rmd` version (GitHub action)
-          file_pattern: README.Rmd
+          file_pattern: README.md
