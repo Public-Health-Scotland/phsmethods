@@ -3,6 +3,8 @@ on:
     paths:
       - 'README.Rmd'
   workflow_dispatch:
+  
+name: Render README
 
 jobs:
   build:
@@ -32,10 +34,10 @@ jobs:
         with:
           extra-packages: rmarkdown
 
-      - name: Re-knit README.Rmd
+      - name: Render README.Rmd
         run: rmarkdown::render('README.Rmd')
 
       - name: Commit the results
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Re-knit README.md after changes to the .rmd file (GitHub action)
+          commit_message: Render README.md after changes to the .rmd file (GitHub action)
