@@ -7,7 +7,7 @@
 `dob_from_chi()`([#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42), [@Moohan](https://github.com/Moohan)); and 
 `age_from_chi()`([#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42), [@Moohan](https://github.com/Moohan))
 
-- Change the output for `chi_check` so that empty string ("") reports as missing (#76)
+- Change the output for `chi_check` so that empty string ("") reports as missing ([#76](https://github.com/Public-Health-Scotland/phsmethods/issues/76))
 
 # phsmethods 0.2.0 (2020-04-17)
 
