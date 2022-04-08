@@ -192,14 +192,14 @@ qtr_prev(f, format = "short")
 
 ### age_calculate
 ```{r age_calculate}
-my_date <- lubridate::ymd("2020-02-29")
+birth_date <- lubridate::ymd("2020-02-29")
 end_date <- lubridate::ymd("2022-02-21")
 
 # Change the argument of date_class can make a difference.
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "period") * 365.25
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
+age_calculate(birth_date, end_date, round_down = FALSE, date_class = "period") * 365.25
+age_calculate(birth_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
 
-# For a start date in leap year, age increases on 1st March every year. 
+# If the start day is leap day (February 29th), age increases on 1st March every year. 
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
 
