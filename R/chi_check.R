@@ -10,11 +10,10 @@
 #' each patient on the index.
 #'
 #' The first six digits of a CHI number are a patient's date of birth in
-#' DD/MM/YY format. The first digit of a CHI number must, therefore, be 3 or
-#' less.
+#' DD/MM/YY format.
 #'
-#' The ninth digit of a CHI number identifies a patient's sex: odd for men,
-#' even for women. The tenth digit is a check digit, denoted `checksum`.
+#' The ninth digit of a CHI number identifies a patient's sex: odd for male,
+#' even for female. The tenth digit is a check digit, denoted `checksum`.
 #'
 #' While a CHI number is made up exclusively of numeric digits, it cannot be
 #' stored with \code{numeric} class in R. This is because leading zeros in
@@ -45,7 +44,8 @@
 #' \item `Too few characters`
 #' \item `Invalid date`
 #' \item `Invalid checksum`
-#' \item `Missing`
+#' \item `Missing (NA)`
+#' \item `Missing (Blank)`
 #' }
 #'
 #' @examples
@@ -54,7 +54,8 @@
 #'
 #' library(dplyr)
 #' df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?", NA))
-#' df %>% mutate(validity = chi_check(chi))
+#' df %>%
+#'   mutate(validity = chi_check(chi))
 #' @export
 
 chi_check <- function(x) {
@@ -74,7 +75,8 @@ chi_check <- function(x) {
 
   # Perform checks and return feedback
   dplyr::case_when(
-    is.na(y) ~ "Missing",
+    is.na(y) ~ "Missing (NA)",
+    x == "" ~ "Missing (Blank)",
     is.na(x) ~ "Invalid character(s) present",
     nchar(x) > 10 ~ "Too many characters",
     nchar(x) < 10 ~ "Too few characters",
