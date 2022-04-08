@@ -403,7 +403,7 @@ ensure that no duplication of effort occurs in the case of multiple
 people having the same idea. The package maintainers will discuss the
 issue and get back to you as soon as possible.
 
-While the most obvious and eyecatching (as well as intimidating) way of
+While the most obvious and eye-catching (as well as intimidating) way of
 contributing is by writing a function, this isn’t the only way to make a
 useful contribution. Fixing typos in documentation, for example, isn’t
 the most glamorous way to contribute, but is of great help to the
