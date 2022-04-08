@@ -1,7 +1,8 @@
 on:
-  pull_request:
+  push:
     paths:
       - 'README.Rmd'
+  workflow_dispatch:
 
 jobs:
   build:
