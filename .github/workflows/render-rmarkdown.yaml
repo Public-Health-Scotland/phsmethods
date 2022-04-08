@@ -38,4 +38,4 @@ jobs:
       - name: Commit the results
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          Re-knit README.md after changes to the .rmd file (GitHub action)
+          commit_message: Re-knit README.md after changes to the .rmd file (GitHub action)
