@@ -14,12 +14,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          
-      - uses: r-lib/actions/pr-fetch@v2
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
