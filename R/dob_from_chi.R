@@ -66,8 +66,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
     warning("any max_date where it is a future date is changed to date of today")
   }
 
-  # Default the min_date to 1 Jan 1900 (person can't be born before then)
-  # TODO - Find out what the earliest CHI date was?
+  # Default the min_date to 1 Jan 1900
   if (is.null(min_date)) min_date <- as.Date("1900-01-01")
 
   # Default behaviour: Check the CHI number
@@ -103,10 +102,14 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   na_count <- sum(is.na(chi_number))
 
   guess_dob <- as.Date(dplyr::case_when(
+    # Date is NA - missing, invalid or an invalid leap year date in 19XX.
     is.na(date_1900) ~ date_2000,
+    # Invalid leap year date in 20XX.
     is.na(date_2000) ~ date_1900,
+    # When 20XX date is in the valid range and the 19XX date isn't, 20XX is guessed.
     (date_2000 >= min_date & date_2000 <= max_date) &
       !(date_1900 >= min_date & date_1900 <= max_date) ~ date_2000,
+    # When 19XX date is in the valid range and the 20XX date isn't, 19XX is guessed.
     (date_1900 >= min_date & date_1900 <= max_date) &
       !(date_2000 >= min_date & date_2000 <= max_date) ~ date_1900
   ))

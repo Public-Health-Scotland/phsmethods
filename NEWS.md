@@ -2,6 +2,11 @@
 
 - Three functions renamed to improve code clarity: `postcode()` to `format_postcode()`; `age_group()` to `create_age_groups()`; `fin_year()` to `extract_fin_year()`. The old functions will still work but will produce a warning. After a reasonable amount of time they will be removed completely.
 
+- New functions added:
+`age_calculate()`([#65](https://github.com/Public-Health-Scotland/phsmethods/issues/65), [@Nic-chr](https://github.com/Nic-Chr));
+`dob_from_chi()`([#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42), [@Moohan](https://github.com/Moohan)); and 
+`age_from_chi()`([#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42), [@Moohan](https://github.com/Moohan))
+
 # phsmethods 0.2.0 (2020-04-17)
 
 - New functions added: `age_group()`([#23](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/23), [@chrisdeans](https://github.com/chrisdeans)); `chi_check()`([#30](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); `chi_pad()`([#30](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); and `match_area()`([#13](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/13), [@jvillacampa](https://github.com/jvillacampa)).

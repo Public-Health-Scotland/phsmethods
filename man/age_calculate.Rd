@@ -6,36 +6,39 @@
 \usage{
 age_calculate(
   start,
-  end = Sys.time(),
+  end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
   units = "years",
   date_class = c("period", "duration"),
   round_down = TRUE
 )
 }
 \arguments{
-\item{start}{A start date (typically date of birth) which must be supplied with \code{Date} or \code{POSIXct}
+\item{start}{A start date (e.g. date of birth) which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt}
 class. \code{\link[base:as.Date]{as.Date()}},
 \code{\link[lubridate:ymd]{lubridate::dmy()}} and
 \code{\link[base:as.POSIXlt]{as.POSIXct()}} are examples of functions which
 can be used to store dates as an appropriate class.}
 
-\item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} class. Defaulted as Sys.time()}
+\item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt} class.
+Default is `Sys.Date()` or `Sys.time()` depending on the class of `start`.}
 
 \item{units}{Type of units to be used. Seconds, minutes, hours, days, weeks, months and years are accepted.}
 
-\item{date_class}{Type of `lubridate` date class. Accepted arguments are "period" and "duration".}
+\item{date_class}{Type of `lubridate` date class. Accepted arguments are "period" and "duration".
+For details please see \code{\link[lubridate:as.period]{lubridate::as.period()}} and \code{\link[lubridate:as.duration]{lubridate::as.duration()}}.}
 
-\item{round_down}{Should returned ages be rounded down to the nearest whole number. Defaulted as `TRUE`.}
+\item{round_down}{Should returned ages be rounded down to the nearest whole number. Default is \code{TRUE}.}
 }
 \description{
-This function calculates the age between two dates using `lubridate` periods.
-`lubridate` duration is measured in seconds whereas period is human interpretable unit and varies depending on the context.
-Easily switch between the two with the `date_class` argument. Defaulted as "period".
+This function calculates the age between two dates using `lubridate` periods and durations.
+`lubridate` duration is measured in seconds whereas period is human interpretable
+unit and varies depending on the temporal context.
+Easily switch between the two with the `date_class` argument. Default is "period".
 }
 \examples{
 \dontrun{
-require(phsmethods)
-require(lubridate)
+library(phsmethods)
+library(lubridate)
 my_date <- ymd("2020-02-29")
 end_date <- today()
 age_calculate(my_date, end_date)

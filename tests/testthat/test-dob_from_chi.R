@@ -151,6 +151,11 @@ test_that("dob_from_chi errors properly", {
   ),
   regexp = "max_date must have Date or POSIXct class"
   )
+
+  expect_error(dob_from_chi("0101625707",
+                            min_date = as.Date("2020-01-01"),
+                            max_date = as.Date("1930-01-01")),
+               regexp = "min_date <= max_date is not TRUE")
 })
 
 test_that("dob_from_chi gives messages when returning NA", {
