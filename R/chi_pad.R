@@ -10,7 +10,7 @@
 #'
 #' The first six digits of a CHI number are a patient's date of birth in
 #' DD/MM/YY format. The first digit of a CHI number must, therefore, be 3 or
-#' less. Depending on the source, CHI numbers are sometimes mising a leading
+#' less. Depending on the source, CHI numbers are sometimes missing a leading
 #' zero.
 #'
 #' While a CHI number is made up exclusively of numeric digits, it cannot be

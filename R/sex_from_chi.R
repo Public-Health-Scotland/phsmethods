@@ -20,8 +20,8 @@
 #' @param chi_number a CHI number or a vector of CHI numbers with \code{character} class.
 #' @param male_value,female_value optionally supply custom values for Male and Female. Note
 #' that that these must be of the same class.
-#' @param as_factor logical, optionally return as a factor with lables \code{'Male'}
-#' and \code{'Female'}. Note that this will overide any custom values supplied with
+#' @param as_factor logical, optionally return as a factor with labels \code{'Male'}
+#' and \code{'Female'}. Note that this will override any custom values supplied with
 #' \code{male_value} or \code{female_value}.
 #' @param chi_check logical, optionally skip checking the CHI for validity which will be
 #' faster but should only be used if you have previously checked the CHI(s).
