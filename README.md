@@ -74,28 +74,29 @@ To access the help file for any of `phsmethods`’ functions, type
 ?format_postcode
 ```
 
-### create\_age\_groups
+### create_age_groups
 
 ``` r
-a <- c(54, 7, 77, 1, 26, 101)
+ages <- c(54, 7, 77, 1, 26, 101)
 
 # By default create_age_groups goes in 5 year increments from 0 to 90+
-create_age_groups(a)
+create_age_groups(ages)
 #> [1] "50-54" "5-9"   "75-79" "0-4"   "25-29" "90+"
 
 # But these settings can be changed
-create_age_groups(a, from = 0, to = 80, by = 10)
+create_age_groups(ages, from = 0, to = 80, by = 10)
 #> [1] "50-59" "0-9"   "70-79" "0-9"   "20-29" "80+"
 ```
 
-### chi\_check
+### chi_check
 
 ``` r
 # chi_check returns specific feedback on why a CHI number might be invalid
 library(dplyr)
-b <- tibble(chi = c("0101011237", "0101336489", "3213201234", "123456789", "12345678900", "010120123?", NA))
-b %>% mutate(validity = chi_check(chi))
-#> # A tibble: 7 x 2
+chi_data <- tibble(chi = c("0101011237", "0101336489", "3213201234", "123456789", "12345678900", "010120123?", NA))
+chi_data %>% 
+  mutate(validity = chi_check(chi))
+#> # A tibble: 7 × 2
 #>   chi         validity                    
 #>   <chr>       <chr>                       
 #> 1 0101011237  Valid CHI                   
@@ -107,23 +108,25 @@ b %>% mutate(validity = chi_check(chi))
 #> 7 <NA>        Missing
 ```
 
-### chi\_pad
+### chi_pad
 
 ``` r
+chi_numbers <- c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw")
 # Only nine-digit characters comprised exclusively of numeric digits are prefixed with a zero
-chi_pad(c("101011237", "101201234", "123223", "abcdefghi", "12345tuvw"))
+chi_pad(chi_numbers)
 #> [1] "0101011237" "0101201234" "123223"     "abcdefghi"  "12345tuvw"
 ```
 
-### sex\_from\_chi
+### sex_from_chi
 
 ``` r
 # By default it will check that the CHI is valid before extracting the sex.
 library(dplyr)
-b <- tibble(chi = c("0101011237", "0101336489", "123456789", "12345678900", "010120123?", NA))
+chi_data <- tibble(chi = c("0101011237", "0101336489", "123456789", "12345678900", "010120123?", NA))
 
-b %>% mutate(chi_sex = sex_from_chi(chi))
-#> # A tibble: 6 x 2
+chi_data %>% 
+  mutate(chi_sex = sex_from_chi(chi))
+#> # A tibble: 6 × 2
 #>   chi         chi_sex
 #>   <chr>         <int>
 #> 1 0101011237        1
@@ -134,10 +137,11 @@ b %>% mutate(chi_sex = sex_from_chi(chi))
 #> 6 <NA>             NA
 
 # Use custom values for male and female
-b %>% mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
+chi_data %>% 
+  mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
 #> Using custom values: Male = M Female = F.
 #> The return variable will be character.
-#> # A tibble: 6 x 2
+#> # A tibble: 6 × 2
 #>   chi         chi_sex
 #>   <chr>       <chr>  
 #> 1 0101011237  M      
@@ -148,8 +152,9 @@ b %>% mutate(chi_sex = sex_from_chi(chi, male_value = "M", female_value = "F"))
 #> 6 <NA>        <NA>
 
 # Alternatively return the result as a factor (with labels 'Male' and 'Female')
-b %>% mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
-#> # A tibble: 6 x 2
+chi_data %>% 
+  mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
+#> # A tibble: 6 × 2
 #>   chi         chi_sex
 #>   <chr>       <fct>  
 #> 1 0101011237  Male   
@@ -160,12 +165,12 @@ b %>% mutate(chi_sex = sex_from_chi(chi, as_factor = TRUE))
 #> 6 <NA>        <NA>
 ```
 
-### file\_size
+### file_size
 
 ``` r
 # Names and sizes of all files in the tests/testthat/files folder
 file_size(testthat::test_path("files"))
-#> # A tibble: 8 x 2
+#> # A tibble: 8 × 2
 #>   name             size       
 #>   <chr>            <chr>      
 #> 1 airquality.xls   Excel 26 KB
@@ -173,36 +178,37 @@ file_size(testthat::test_path("files"))
 #> 3 iris.csv         CSV 4 KB   
 #> 4 mtcars.sav       SPSS 4 KB  
 #> 5 plant-growth.rds RDS 316 B  
-#> 6 puromycin.txt    Text 442 B 
+#> 6 puromycin.txt    Text 418 B 
 #> 7 stackloss.fst    FST 897 B  
 #> 8 swiss.tsv        TSV 1 KB
 
 # Names and sizes of Excel files only in the tests/testthat/files folder
 file_size(testthat::test_path("files"), pattern = "\\.xlsx?$")
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>   name           size       
 #>   <chr>          <chr>      
 #> 1 airquality.xls Excel 26 KB
 #> 2 bod.xlsx       Excel 5 KB
 ```
 
-### extract\_fin\_year
+### extract_fin_year
 
 ``` r
-c <- lubridate::dmy(c(21012017, 04042017, 17112017))
-extract_fin_year(c)
+dates <- lubridate::dmy(c(21012017, 04042017, 17112017))
+extract_fin_year(dates)
 #> [1] "2016/17" "2017/18" "2017/18"
 ```
 
-### match\_area
+### match_area
 
 ``` r
 match_area("S13002781")
 #> [1] "Ayr North"
 
 d <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013", "S13002605"))
-d %>% mutate(name = match_area(code))
-#> # A tibble: 5 x 2
+d %>% 
+  mutate(name = match_area(code))
+#> # A tibble: 5 × 2
 #>   code      name               
 #>   <chr>     <chr>              
 #> 1 S02000656 Govan and Linthouse
@@ -212,7 +218,7 @@ d %>% mutate(name = match_area(code))
 #> 5 S13002605 Steòrnabhagh a Deas
 ```
 
-### format\_postcode
+### format_postcode
 
 ``` r
 # The default is pc7 format
@@ -225,8 +231,9 @@ format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 # postcode accounts for irregular spacing and lower case letters
 e <- tibble(pc = c("G 4 2 9 B A", "g207al", "Dg98bS", "DD37J    y"))
-e %>% mutate(pc = format_postcode(pc))
-#> # A tibble: 4 x 1
+e %>% 
+  mutate(pc = format_postcode(pc))
+#> # A tibble: 4 × 1
 #>   pc     
 #>   <chr>  
 #> 1 G42 9BA
@@ -235,7 +242,7 @@ e %>% mutate(pc = format_postcode(pc))
 #> 4 DD3 7JY
 ```
 
-### qtr, qtr\_end, qtr\_next and qtr\_prev
+### qtr, qtr_end, qtr_next and qtr_prev
 
 ``` r
 f <- lubridate::dmy(c(26032012, 04052012, 23092012))
@@ -273,19 +280,19 @@ qtr_prev(f, format = "short")
 #> [1] "Oct-Dec 2011" "Jan-Mar 2012" "Apr-Jun 2012"
 ```
 
-### age\_calculate
+### age_calculate
 
 ``` r
-my_date <- lubridate::ymd("2020-02-29")
+birth_date <- lubridate::ymd("2020-02-29")
 end_date <- lubridate::ymd("2022-02-21")
 
 # Change the argument of date_class can make a difference.
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "period") * 365.25
+age_calculate(birth_date, end_date, round_down = FALSE, date_class = "period") * 365.25
 #> [1] 723.0625
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
+age_calculate(birth_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
 #> [1] 723
 
-# For a start date in leap year, age increases on 1st March every year. 
+# If the start day is leap day (February 29th), age increases on 1st March every year. 
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
 
@@ -293,14 +300,13 @@ age_calculate(leap1, leap2, date_class = "period")
 #> [1] 1
 ```
 
-### dob\_from\_chi
+### dob_from_chi
 
 ``` r
 dob_from_chi("0101336489")
 #> [1] "1933-01-01"
 
 library(tibble)
-#> Warning: package 'tibble' was built under R version 3.6.3
 library(dplyr)
 data <- tibble(chi = c(
  "0101336489",
@@ -314,7 +320,7 @@ data <- tibble(chi = c(
 
 data %>%
  mutate(chi_dob = dob_from_chi(chi))
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   chi        adm_date   chi_dob   
 #>   <chr>      <date>     <date>    
 #> 1 0101336489 1950-01-01 1933-01-01
@@ -326,7 +332,7 @@ data %>%
    min_date = as.Date("1930-01-01"),
    max_date = adm_date
  ))
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   chi        adm_date   chi_dob   
 #>   <chr>      <date>     <date>    
 #> 1 0101336489 1950-01-01 1933-01-01
@@ -334,7 +340,7 @@ data %>%
 #> 3 0101625707 2020-01-01 1962-01-01
 ```
 
-### age\_from\_chi
+### age_from_chi
 
 ``` r
 age_from_chi("0101336489")
@@ -354,7 +360,7 @@ data <- tibble(chi = c(
 
 data %>%
  mutate(chi_age = age_from_chi(chi))
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   chi        dis_date   chi_age
 #>   <chr>      <date>       <dbl>
 #> 1 0101336489 1950-01-01      89
@@ -364,7 +370,7 @@ data %>%
 data %>%
  mutate(chi_age = age_from_chi(chi, min_age = 18, max_age = 65))
 #> 2 CHI numbers produced ambiguous dates and will be given NA for DoB, if possible try different values for min_date and/or max_date
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   chi        dis_date   chi_age
 #>   <chr>      <date>       <dbl>
 #> 1 0101336489 1950-01-01      NA
@@ -375,7 +381,7 @@ data %>%
  mutate(chi_age = age_from_chi(chi,
    ref_date = dis_date
  ))
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   chi        dis_date   chi_age
 #>   <chr>      <date>       <dbl>
 #> 1 0101336489 1950-01-01      17
@@ -403,14 +409,14 @@ useful contribution. Fixing typos in documentation, for example, isn’t
 the most glamorous way to contribute, but is of great help to the
 package maintainers. Please see this [blog post by Jim
 Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more
-information on getting started with contributing to open source
+information on getting started with contributing to open-source
 software.
 
 When contributing, please create a
 [branch](https://github.com/Public-Health-Scotland/phsmethods/branches)
 in this repository and carry out all work on it. Please ensure you have
 linked RStudio to your GitHub account using `usethis::edit_git_config()`
-before making your contribution. When you are ready for a review,
+prior to making your contribution. When you are ready for a review,
 please create a [pull
 request](https://github.com/Public-Health-Scotland/phsmethods/pulls) and
 assign **both** of the package maintainers as reviewers. One or both of
@@ -433,8 +439,8 @@ guidance](https://github.com/Public-Health-Scotland/GitHub-guidance).
 
 Please feel free to add yourself to the ‘Authors’ section of the
 `Description` file when contributing. As a rule of thumb, please assign
-your role as an author (`"aut"`) when writing an exported function, and as
-a contributor (`"ctb"`) for anything else.
+your role as author (`"aut"`) when writing an exported function, and as
+contributor (`"ctb"`) for anything else.
 
 `phsmethods` will, as much as possible, adhere to the [tidyverse style
 guide](https://style.tidyverse.org/) and the [rOpenSci package
@@ -468,6 +474,6 @@ of existing functions within this package as a point of reference.
 Please note that this README may fail to ‘Knit’ at times as a result of
 network security settings. This will likely be due to the badges for the
 package’s release version, continuous integration status and test
-coverage at the top of the document. If you are editing the `README.Rmd`
-document and are unable to successfully get it to ‘Knit’, please contact
-the package maintainers for assistance.
+coverage at the top of the document. You should only make edits to the
+`.Rmd` version, you can then knit yourself, or a GitHub action should
+run and knit it for you when you open a pull request.
