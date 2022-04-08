@@ -390,7 +390,7 @@ Fu](https://github.com/Tina815).
 
 This package is intended to be in continuous development and
 contributions may be made by anyone within PHS. If you would like to
-make a contribution, please first create an
+contribute, please first create an
 [issue](https://github.com/Public-Health-Scotland/phsmethods/issues) on
 GitHub and assign **both** of the package maintainers to it. This is to
 ensure that no duplication of effort occurs in the case of multiple
@@ -401,7 +401,7 @@ While the most obvious and eyecatching (as well as intimidating) way of
 contributing is by writing a function, this isn’t the only way to make a
 useful contribution. Fixing typos in documentation, for example, isn’t
 the most glamorous way to contribute, but is of great help to the
-package maintainers. Please see this [blogpost by Jim
+package maintainers. Please see this [blog post by Jim
 Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more
 information on getting started with contributing to open source
 software.
@@ -410,12 +410,12 @@ When contributing, please create a
 [branch](https://github.com/Public-Health-Scotland/phsmethods/branches)
 in this repository and carry out all work on it. Please ensure you have
 linked RStudio to your GitHub account using `usethis::edit_git_config()`
-prior to making your contribution. When you are ready for a review,
+before making your contribution. When you are ready for a review,
 please create a [pull
 request](https://github.com/Public-Health-Scotland/phsmethods/pulls) and
 assign **both** of the package maintainers as reviewers. One or both of
 them will conduct a review, provide feedback and, if necessary, request
-changes prior to merging your branch.
+changes before merging your branch.
 
 Please be mindful of information governance when contributing to this
 package. No data files (aside from publicly available and downloadable
@@ -433,8 +433,8 @@ guidance](https://github.com/Public-Health-Scotland/GitHub-guidance).
 
 Please feel free to add yourself to the ‘Authors’ section of the
 `Description` file when contributing. As a rule of thumb, please assign
-your role as author (`"aut"`) when writing an exported function, and as
-contributor (`"ctb"`) for anything else.
+your role as an author (`"aut"`) when writing an exported function, and as
+a contributor (`"ctb"`) for anything else.
 
 `phsmethods` will, as much as possible, adhere to the [tidyverse style
 guide](https://style.tidyverse.org/) and the [rOpenSci package
