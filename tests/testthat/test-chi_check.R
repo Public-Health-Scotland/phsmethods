@@ -32,6 +32,7 @@ test_that("Letter fails chi_check", {
 
 test_that("Length < 10 fails chi_check", {
   expect_equal(chi_check("123"), "Too few characters")
+  expect_equal(chi_check(""), "Missing (Blank)")
 })
 
 test_that("Length > 10 fails chi_check", {
@@ -63,7 +64,7 @@ test_that("Invalid checksum fails chi_check", {
 })
 
 test_that("Missing value fails chi_check", {
-  expect_equal(chi_check(NA_character_), "Missing")
+  expect_equal(chi_check(NA_character_), "Missing (NA)")
 })
 
 test_that("Vector entry works in chi_check", {
@@ -78,6 +79,7 @@ test_that("Vector entry works in chi_check", {
       "12345678900",
       "010120123?",
       NA,
+      "",
       "1904851231"
     )),
     c(
@@ -89,7 +91,8 @@ test_that("Vector entry works in chi_check", {
       "Too few characters",
       "Too many characters",
       "Invalid character(s) present",
-      "Missing",
+      "Missing (NA)",
+      "Missing (Blank)",
       "Valid CHI"
     )
   )
