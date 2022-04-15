@@ -58,7 +58,8 @@ age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date()
   }
 
   if (any(age < 0, na.rm = TRUE)) warning("There are age less than 0")
-  if (any(age > 130, na.rm = TRUE)) warning("There are age greater than 130")
+  if (units == "years" & any(age > 130, na.rm = TRUE)) warning("There are age greater than 130 years")
+  if (units == "months" & any(age / 12 > 130, na.rm = TRUE)) warning("There are age greater than 130 years")
 
   return(age)
 }
