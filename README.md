@@ -105,7 +105,7 @@ chi_data %>%
 #> 4 123456789   Too few characters          
 #> 5 12345678900 Too many characters         
 #> 6 010120123?  Invalid character(s) present
-#> 7 <NA>        Missing
+#> 7 <NA>        Missing (NA)
 ```
 
 ### chi_pad
@@ -286,18 +286,20 @@ qtr_prev(dates, format = "short")
 birth_date <- lubridate::ymd("2020-02-29")
 end_date <- lubridate::ymd("2022-02-21")
 
-# Change the argument of date_class can make a difference.
-age_calculate(birth_date, end_date, round_down = FALSE, date_class = "period") * 365.25
-#> [1] 723.0625
-age_calculate(birth_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
-#> [1] 723
+age_calculate(birth_date, end_date)
+#> [1] 1
+age_calculate(birth_date, end_date, units = "months")
+#> [1] 23
 
 # If the start day is leap day (February 29th), age increases on 1st March every year. 
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
+leap3 <- lubridate::ymd("2022-03-01")
 
-age_calculate(leap1, leap2, date_class = "period")
+age_calculate(leap1, leap2)
 #> [1] 1
+age_calculate(leap1, leap3)
+#> [1] 2
 ```
 
 ### dob_from_chi
