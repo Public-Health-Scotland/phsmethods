@@ -8,7 +8,6 @@ age_calculate(
   start,
   end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
   units = "years",
-  date_class = c("period", "duration"),
   round_down = TRUE
 )
 }
@@ -22,18 +21,12 @@ can be used to store dates as an appropriate class.}
 \item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt} class.
 Default is `Sys.Date()` or `Sys.time()` depending on the class of `start`.}
 
-\item{units}{Type of units to be used. Seconds, minutes, hours, days, weeks, months and years are accepted.}
-
-\item{date_class}{Type of `lubridate` date class. Accepted arguments are "period" and "duration".
-For details please see \code{\link[lubridate:as.period]{lubridate::as.period()}} and \code{\link[lubridate:as.duration]{lubridate::as.duration()}}.}
+\item{units}{Type of units to be used. years and months are accepted. Default is \code{years}.}
 
 \item{round_down}{Should returned ages be rounded down to the nearest whole number. Default is \code{TRUE}.}
 }
 \description{
-This function calculates the age between two dates using `lubridate` periods and durations.
-`lubridate` duration is measured in seconds whereas period is human interpretable
-unit and varies depending on the temporal context.
-Easily switch between the two with the `date_class` argument. Default is "period".
+This function calculates the age between two dates using `lubridate`.
 }
 \examples{
 \dontrun{
@@ -43,25 +36,15 @@ my_date <- ymd("2020-02-29")
 end_date <- today()
 age_calculate(my_date, end_date)
 age_calculate(my_date, end_date, round_down = FALSE)
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "period")
-age_calculate(my_date, end_date, units = "days")
-
-# Default date class is period
-age_calculate(my_date, end_date, round_down = FALSE) * 365.25
-age_calculate(my_date, end_date, round_down = FALSE, date_class = "duration") * 365.25
-
-# Can switch between date classes easily
-( dst1 <- ymd_hms("2021-10-31 00:30:00", tz = "GB") )
-( dst2 <- dst1 + days(1) )
-age_calculate(dst1, dst2, unit = "hours", date_class = "duration")
-age_calculate(dst1, dst2, unit = "hours", date_class = "period")
+age_calculate(my_date, end_date, units = "months")
 
 # It's worth noting that `lubridate` periods classify leap year birthdays
 # slightly differently to UK law where (in the UK) legally speaking
 # leaplings become a year older on the 1st March on non-leap years.
 leap1 <- dmy("29-02-2020")
 leap2 <- dmy("28-02-2022")
-age_calculate(leap1, leap2, date_class = "duration")
-age_calculate(leap1, leap2, date_class = "period")
+leap3 <- dmy("01-03-2022")
+age_calculate(leap1, leap2)
+age_calculate(leap1, leap3)
 }
 }
