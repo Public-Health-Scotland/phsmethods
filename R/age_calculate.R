@@ -1,6 +1,7 @@
 #' Calculate age between two dates
 #'
 #' @description This function calculates the age between two dates using `lubridate`.
+#' It calculates age in either years or months.
 #'
 #' @param start A start date (e.g. date of birth) which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt}
 #' class. \code{\link[base:as.Date]{as.Date()}},
@@ -32,7 +33,7 @@
 #' }
 #' @export
 age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
-                          units = "years", round_down = TRUE){
+                          units = c("years", "months"), round_down = TRUE){
 
   if (!inherits(start, c("Date", "POSIXt"))) {
     stop("The start date must have Date or POSIXct or POSIXlt class")
@@ -51,15 +52,11 @@ age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date()
 
   age_interval <- lubridate::as.period(age_interval, unit = units)
 
-  if (round_down) {
-    age <- age_interval %/% unit_time
-  } else {
-    age <- age_interval / unit_time
-  }
+  age <- age_interval / unit_time
 
-  if (any(age < 0, na.rm = TRUE)) warning("There are age less than 0")
-  if (units == "years" & any(age > 130, na.rm = TRUE)) warning("There are age greater than 130 years")
-  if (units == "months" & any(age / 12 > 130, na.rm = TRUE)) warning("There are age greater than 130 years")
-
+  if (min(age, na.rm = TRUE) < 0) warning("There are ages less than 0")
+  if (units == "years" && max(age, na.rm = TRUE) > 130) warning("There are ages greater than 130 years")
+  if (units == "months" && max(age, na.rm = TRUE) > (12 * 130)) warning("There are ages greater than 130 years")
+  if (round_down) age <- trunc(age)
   return(age)
 }

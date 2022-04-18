@@ -135,6 +135,47 @@ test_that("Can supply different max dates per CHI", {
   )
 })
 
+test_that("Can fill in date of today where max_date is missing", {
+  expect_equal(
+    dob_from_chi(c(
+      "0101336489",
+      "0101405073",
+      "0101625707"
+    ),
+    max_date = as.Date(c(NA, NA, "2021-01-03"))
+    ),
+    as.Date(c(
+      "1933-01-01",
+      "1940-01-01",
+      "1962-01-01"
+    ))
+  )
+})
+
+test_that("any max_date where it is a future date is changed to date of today", {
+  expect_equal(
+    suppressWarnings(dob_from_chi(c(
+      "0101336489",
+      "0101405073",
+      "0101625707"
+    ),
+    max_date = as.Date(c(
+      "2030-01-01",
+      "2040-01-02",
+      "2050-01-03"
+    ))
+    )),
+    as.Date(c(
+      "1933-01-01",
+      "1940-01-01",
+      "1962-01-01"
+    ))
+  )
+
+  expect_warning(dob_from_chi("0101336489", max_date = as.Date("2030-01-01")),
+                 regexp = "any max_date where it is a future date is changed to date of today")
+})
+
 test_that("dob_from_chi errors properly", {
   expect_error(dob_from_chi(1010101129),
     regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"

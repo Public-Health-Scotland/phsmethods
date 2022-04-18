@@ -7,7 +7,7 @@
 age_calculate(
   start,
   end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
-  units = "years",
+  units = c("years", "months"),
   round_down = TRUE
 )
 }
@@ -27,6 +27,7 @@ Default is `Sys.Date()` or `Sys.time()` depending on the class of `start`.}
 }
 \description{
 This function calculates the age between two dates using `lubridate`.
+It calculates age in either years or months.
 }
 \examples{
 \dontrun{
