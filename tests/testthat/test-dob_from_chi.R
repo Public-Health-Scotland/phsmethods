@@ -71,12 +71,13 @@ test_that("Returns correct DoB - unusual fixed dates", {
   expect_equal(
     suppressMessages(
       dob_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      min_date = as.Date("1950-01-01")
+      )
     ),
-    min_date = as.Date("1950-01-01")
-    )),
     as.Date(c(NA, NA, "1962-01-01"))
   )
 })
@@ -173,7 +174,8 @@ test_that("any max_date where it is a future date is changed to date of today", 
   )
 
   expect_warning(dob_from_chi("0101336489", max_date = as.Date("2030-01-01")),
-                 regexp = "any max_date where it is a future date is changed to date of today")
+    regexp = "any max_date where it is a future date is changed to date of today"
+  )
 })
 
 test_that("dob_from_chi errors properly", {
@@ -194,9 +196,11 @@ test_that("dob_from_chi errors properly", {
   )
 
   expect_error(dob_from_chi("0101625707",
-                            min_date = as.Date("2020-01-01"),
-                            max_date = as.Date("1930-01-01")),
-               regexp = "min_date <= max_date is not TRUE")
+    min_date = as.Date("2020-01-01"),
+    max_date = as.Date("1930-01-01")
+  ),
+  regexp = "min_date <= max_date is not TRUE"
+  )
 })
 
 test_that("dob_from_chi gives messages when returning NA", {
@@ -235,7 +239,8 @@ test_that("Returns correct age - no options", {
 
   # Century leap year (hard to test as 1900 is a long time ago!)
   expect_equal(
-    age_from_chi(gen_real_chi(290200)), 22)
+    age_from_chi(gen_real_chi(290200)), 22
+  )
 })
 
 test_that("Returns correct age - fixed age supplied", {
@@ -264,7 +269,8 @@ test_that("Returns correct age - unusual fixed age", {
         "0101625707"
       ),
       max_age = 72
-      )),
+      )
+    ),
     c(NA_real_, NA_real_, 60)
   )
 })
@@ -319,23 +325,23 @@ test_that("Can supply different reference dates per CHI", {
 
 test_that("age_from_chi errors properly", {
   expect_error(age_from_chi(1010101129),
-               regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
+    regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
   )
 
   expect_error(age_from_chi("0101625707",
-                            ref_date = "01-01-2020"
+    ref_date = "01-01-2020"
   ),
   regexp = "ref_date must have Date or POSIXct class"
   )
 
   expect_error(age_from_chi("0101625707",
-                            min_age = -2
+    min_age = -2
   ),
   regexp = "min_age >= 0 is not TRUE"
   )
 
   expect_error(age_from_chi("0101625707",
-                            min_age = 20, max_age = 10
+    min_age = 20, max_age = 10
   ),
   regexp = "max_age >= min_age is not TRUE"
   )
@@ -345,10 +351,10 @@ test_that("age_from_chi gives messages when returning NA", {
 
   # Invalid CHI numbers
   expect_message(age_from_chi("1234567890"),
-                 regexp = "^1 CHI number was invalid and will be given NA for DoB"
+    regexp = "^1 CHI number was invalid and will be given NA for DoB"
   )
 
   expect_message(age_from_chi(rep("1234567890", 99999)),
-                 regexp = "^99,999 CHI numbers were invalid and will be given NA for DoB"
+    regexp = "^99,999 CHI numbers were invalid and will be given NA for DoB"
   )
 })

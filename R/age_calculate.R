@@ -33,8 +33,7 @@
 #' }
 #' @export
 age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
-                          units = c("years", "months"), round_down = TRUE){
-
+                          units = c("years", "months"), round_down = TRUE) {
   if (!inherits(start, c("Date", "POSIXt"))) {
     stop("The start date must have Date or POSIXct or POSIXlt class")
   }
@@ -47,8 +46,10 @@ age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date()
 
   age_interval <- lubridate::interval(start, end)
 
-  unit_time <- do.call(get("period", asNamespace("lubridate")),
-                       list(num = 1, units = units))
+  unit_time <- do.call(
+    get("period", asNamespace("lubridate")),
+    list(num = 1, units = units)
+  )
 
   age_interval <- lubridate::as.period(age_interval, unit = units)
 
