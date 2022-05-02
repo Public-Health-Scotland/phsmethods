@@ -1,7 +1,7 @@
 #' Create age groups
 #'
 #' @description
-#' \code{age_group()} takes a numeric vector and assigns each age to the
+#' \code{create_age_groups()} takes a numeric vector and assigns each age to the
 #' appropriate age group.
 #'
 #' @param x a vector of numeric values
@@ -31,42 +31,40 @@
 #' @examples
 #' age <- c(54, 7, 77, 1, 26, 101)
 #'
-#' age_group(age)
-#' age_group(age, from = 0, to = 80, by = 10)
+#' create_age_groups(age)
+#' create_age_groups(age, from = 0, to = 80, by = 10)
 #'
 #' # Final group may start below 'to'
-#' age_group(age, from = 0, to = 65, by = 10)
+#' create_age_groups(age, from = 0, to = 65, by = 10)
 #'
 #' # To get the output as a factor:
-#' age_group(age, as_factor = TRUE)
-#'
+#' create_age_groups(age, as_factor = TRUE)
 #' @export
-age_group <- function(x,
-                      from = 0,
-                      to = 90,
-                      by = 5,
-                      as_factor = FALSE) {
-
+create_age_groups <- function(x,
+                              from = 0,
+                              to = 90,
+                              by = 5,
+                              as_factor = FALSE) {
   breaks <- seq(from, to, by)
   breaks <- c(breaks, Inf)
   breaks <- sort(unique(breaks))
 
   # Create labels based on consecutive values in breaks
-  labels <- paste0(utils::head(breaks, -1), "-", utils::tail(breaks,-1) - 1)
+  labels <- paste0(utils::head(breaks, -1), "-", utils::tail(breaks, -1) - 1)
 
   # Reformat label for last value
   labels <- gsub("-Inf", "+", labels)
 
   agegroup <- cut(x,
-                  breaks = breaks,
-                  labels = labels,
-                  right = FALSE,
-                  ordered_result = TRUE)
+    breaks = breaks,
+    labels = labels,
+    right = FALSE,
+    ordered_result = TRUE
+  )
 
   if (as_factor == FALSE) {
     agegroup <- as.character(agegroup)
   }
 
   agegroup
-
 }

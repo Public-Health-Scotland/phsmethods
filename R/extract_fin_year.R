@@ -1,6 +1,6 @@
 #' @title Assign a date to a financial year
 #'
-#' @description \code{fin_year} takes a date and assigns it to the correct
+#' @description \code{extract_fin_year} takes a date and assigns it to the correct
 #' financial year in the PHS specified format.
 #'
 #' @details The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
@@ -13,11 +13,9 @@
 #'
 #' @examples
 #' x <- lubridate::dmy(c(21012017, 04042017, 17112017))
-#' fin_year(x)
-#'
+#' extract_fin_year(x)
 #' @export
-fin_year <- function(date) {
-
+extract_fin_year <- function(date) {
   if (!inherits(date, c("Date", "POSIXct"))) {
     stop("The input must have Date or POSIXct class")
   }
@@ -29,21 +27,28 @@ fin_year <- function(date) {
   # performance for large inputs.
 
   x <- tibble::tibble(dates = unique(date)) %>%
-    dplyr::mutate(fyear = paste0(ifelse(lubridate::month(.data$dates) >= 4,
-                                        lubridate::year(.data$dates),
-                                        lubridate::year(.data$dates) - 1),
-                                 "/",
-                                 substr(
-                                   ifelse(lubridate::month(.data$dates) >= 4,
-                                          lubridate::year(.data$dates) + 1,
-                                          lubridate::year(.data$dates)),
-                                   3, 4)),
-                  fyear = ifelse(is.na(.data$dates),
-                                 NA_character_,
-                                 .data$fyear))
+    dplyr::mutate(
+      fyear = paste0(
+        ifelse(lubridate::month(.data$dates) >= 4,
+          lubridate::year(.data$dates),
+          lubridate::year(.data$dates) - 1
+        ),
+        "/",
+        substr(
+          ifelse(lubridate::month(.data$dates) >= 4,
+            lubridate::year(.data$dates) + 1,
+            lubridate::year(.data$dates)
+          ),
+          3, 4
+        )
+      ),
+      fyear = ifelse(is.na(.data$dates),
+        NA_character_,
+        .data$fyear
+      )
+    )
 
   tibble::tibble(dates = date) %>%
     dplyr::left_join(x, by = "dates") %>%
     dplyr::pull(.data$fyear)
-
 }

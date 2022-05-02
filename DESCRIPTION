@@ -1,6 +1,6 @@
 Package: phsmethods
 Title: Standard Methods for use in Public Health Scotland
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(
     person("David", "Caldwell", email = "David.Caldwell@phs.scot", role = c("aut", "cre")),
     person("Lucinda", "Lawrie", email = "Lucinda.Lawrie@phs.scot", role = "rev"),
@@ -12,7 +12,8 @@ Authors@R: c(
     person("Graeme", "Gowans", email = "Graeme.Gowans@phs.scot", role = "aut"),
     person("Alice", "Byers", role = "ctb"),
     person("Alan", "Yeung", email = "Alan.Yeung@phs.scot", role = "ctb"),
-    person("James", "McMahon", email = "James.McMahon@phs.scot", role = "aut")
+    person("James", "McMahon", email = "James.McMahon@phs.scot", role = "aut"),
+    person("Nicolaos", "Christofidis", email = "nicolaos.christofidis@phs.scot", role = "aut")
     )
 Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
 License: GPL (>= 2)
@@ -31,7 +32,8 @@ Imports:
     stringr,
     tibble,
     utils,
-    readr
+    readr,
+    lifecycle
 Suggests: 
     spelling,
     covr,
@@ -42,3 +44,4 @@ LazyData: true
 RoxygenNote: 7.1.2
 Config/testthat/edition: 3
 Language: en-GB
+RdMacros: lifecycle
