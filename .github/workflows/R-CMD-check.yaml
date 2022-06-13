@@ -19,7 +19,7 @@ jobs:
       matrix:
         config:
           # Latest R versions on all OSs
-          - {os: macOS-latest,    r: 'release'}
+          # - {os: macOS-latest,    r: 'release'}
           - {os: windows-latest,  r: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
 
