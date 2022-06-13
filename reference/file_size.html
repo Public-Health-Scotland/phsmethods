@@ -65,22 +65,29 @@ which match the given pattern.</p>
     <dl><dt>filepath</dt>
 <dd><p>A character string denoting a filepath. Defaults to the
 working directory, <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code>.</p></dd>
+
+
 <dt>pattern</dt>
 <dd><p>An optional character string denoting a
 <code><a href="https://rdrr.io/r/base/regex.html" class="external-link">regular expression</a></code> pattern. Only file names which
 match the regular expression will be returned. See the <strong>See Also</strong>
 section for resources regarding how to write regular expressions.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></code> listing the names of files within
+    
+
+<p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></code> listing the names of files within
 <code>filepath</code> which match <code>pattern</code> and their respective sizes. The
 column names of this tibble are `name` and `size`. If no <code>pattern</code> is
 specified, <code>file_size</code> returns the names and sizes of all files within
 <code>filepath</code>. File names and sizes are returned in alphabetical order of
 file name. Sub-folders contained within <code>filepath</code> will return a file
-size of `0 B`.
-If <code>filepath</code> is an empty folder, or <code>pattern</code> matches no files
+size of `0 B`.</p>
+
+
+<p>If <code>filepath</code> is an empty folder, or <code>pattern</code> matches no files
 within <code>filepath</code>, <code>file_size</code> returns <code>NULL</code>.</p>
     </div>
     <div class="section level2">
@@ -160,7 +167,7 @@ from the <code><a href="https://stringr.tidyverse.org/reference/stringr-package.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

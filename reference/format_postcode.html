@@ -74,25 +74,39 @@ which adhere to the standard UK postcode format may be upper or lower case
 and will be formatted regardless of existing spacing. Any input values which
 do not adhere to the standard UK postcode format will generate an NA and a
 warning message - see <strong>Value</strong> section for more information.</p></dd>
+
+
 <dt>format</dt>
 <dd><p>A character string denoting the desired output format. Valid
 options are `pc7` and `pc8`. The default is `pc7`. See <strong>Value</strong>
 section for more information on the string length of output values.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>When <code>format</code> is set equal to <code>pc7</code>, <code>format_postcode</code>returns a character string of length 7. 5 character postcodes have two
+    
+
+<p>When <code>format</code> is set equal to <code>pc7</code>, <code>format_postcode</code></p>
+
+
+<p>returns a character string of length 7. 5 character postcodes have two
 spaces after the 2nd character; 6 character postcodes have 1 space after the
-3rd character; and 7 character postcodes have no spaces.
-When <code>format</code> is set equal to <code>pc8</code>, <code>format_postcode</code> returns a
+3rd character; and 7 character postcodes have no spaces.</p>
+
+
+<p>When <code>format</code> is set equal to <code>pc8</code>, <code>format_postcode</code> returns a
 character string with maximum length 8. All postcodes, whether 5, 6 or 7
-characters, have one space before the last 3 characters.
-Any input values which do not adhere to the standard UK postcode format will
+characters, have one space before the last 3 characters.</p>
+
+
+<p>Any input values which do not adhere to the standard UK postcode format will
 generate an NA output value and a warning message. A warning is generated
 rather than an error so as not to let one erroneously recorded postcode in a
 large input vector prevent the remaining entries from being appropriately
-formatted.
-Any input values which do adhere to the standard UK postcode format but
+formatted.</p>
+
+
+<p>Any input values which do adhere to the standard UK postcode format but
 contain lower case letters will generate a warning message explaining that
 these letters will be capitalised.</p>
     </div>
@@ -142,7 +156,7 @@ of spacing and capitalises any lower case letters.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
