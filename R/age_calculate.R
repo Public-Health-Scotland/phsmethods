@@ -1,6 +1,6 @@
 #' Calculate age between two dates
 #'
-#' @description This function calculates the age between two dates using `lubridate`.
+#' @description This function calculates the age between two dates using functions in \code{lubridate}.
 #' It calculates age in either years or months.
 #'
 #' @param start A start date (e.g. date of birth) which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt}
@@ -9,7 +9,7 @@
 #' \code{\link[base:as.POSIXlt]{as.POSIXct()}} are examples of functions which
 #' can be used to store dates as an appropriate class.
 #' @param end An end date which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt} class.
-#' Default is `Sys.Date()` or `Sys.time()` depending on the class of `start`.
+#' Default is \code{Sys.Date()} or \code{Sys.time()} depending on the class of \code{start}.
 #' @param units Type of units to be used. years and months are accepted. Default is \code{years}.
 #' @param round_down Should returned ages be rounded down to the nearest whole number. Default is \code{TRUE}.
 #' @examples
