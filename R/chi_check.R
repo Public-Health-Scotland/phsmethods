@@ -68,8 +68,8 @@ chi_check <- function(x) {
 
   # Replace entries containing invalid characters (letters and punctuation)
   # with NA
-  x <- ifelse(grepl("[[:punct:][:alpha:]]", x),
-    NA,
+  x <- dplyr::if_else(grepl("[^0-9]", x),
+    NA_character_,
     x
   )
 
