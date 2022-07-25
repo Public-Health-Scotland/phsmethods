@@ -83,36 +83,7 @@ chi_check <- function(x) {
     n_chars > 10 ~ "Too many characters",
     n_chars < 10 ~ "Too few characters",
     is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y")) ~ "Invalid date",
-    checksum(x) == FALSE ~ "Invalid checksum",
+    !valid_checksum(x) ~ "Invalid checksum",
     TRUE ~ "Valid CHI"
   )
-}
-
-checksum <- function(x) {
-
-  # Multiply by weights and add together
-  i <- sub_num(x, 1) + sub_num(x, 2) +
-    sub_num(x, 3) + sub_num(x, 4) +
-    sub_num(x, 5) + sub_num(x, 6) +
-    sub_num(x, 7) + sub_num(x, 8) +
-    sub_num(x, 9)
-
-  j <- floor(i / 11) # Discard remainder
-  k <- 11 * (j + 1) - i # Checksum calculation
-  k <- ifelse(k == 11, 0, k) # If 11, make 0
-
-  # Check if output matches the checksum
-  ifelse(k == substr(x, 10, 10), TRUE, FALSE)
-}
-
-sub_num <- function(x, num) {
-
-  # Weight factor for checksum calculation
-  wg <- 10:2
-
-  # Extract character by position
-  x_ex <- substr(x, num, num)
-
-  # Multiply by weight factor
-  as.numeric(x_ex) * wg[num]
 }

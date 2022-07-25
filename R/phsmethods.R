@@ -14,6 +14,11 @@
 #' @importFrom lifecycle deprecated
 NULL
 
+## usethis namespace: start
+#' @useDynLib phsmethods, .registration = TRUE
+## usethis namespace: end
+NULL
+
 # Stops notes from appearing in R CMD check because of undefined global
 # variable '.' and allows area_lookup dataset to be used inside match_area
 # function
