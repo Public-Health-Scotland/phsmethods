@@ -19,14 +19,14 @@ class. \code{\link[base:as.Date]{as.Date()}},
 can be used to store dates as an appropriate class.}
 
 \item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt} class.
-Default is `Sys.Date()` or `Sys.time()` depending on the class of `start`.}
+Default is \code{Sys.Date()} or \code{Sys.time()} depending on the class of \code{start}.}
 
 \item{units}{Type of units to be used. years and months are accepted. Default is \code{years}.}
 
 \item{round_down}{Should returned ages be rounded down to the nearest whole number. Default is \code{TRUE}.}
 }
 \description{
-This function calculates the age between two dates using `lubridate`.
+This function calculates the age between two dates using functions in \code{lubridate}.
 It calculates age in either years or months.
 }
 \examples{

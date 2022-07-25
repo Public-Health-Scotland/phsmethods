@@ -29,9 +29,9 @@ knitr::opts_chunk$set(
 - `match_area()` converts geography codes into area names
 - `format_postcode()` formats improperly recorded postcodes
 - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a quarter
-- `age_calculate` calculates age between two dates
-- `dob_from_chi` extracts Date of Birth (DoB) from the CHI number
-- `age_from_chi` extracts age from the CHI number
+- `age_calculate()` calculates age between two dates
+- `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number
+- `age_from_chi()` extracts age from the CHI number
 
 `phsmethods` can be used on both the [server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of RStudio.
 
