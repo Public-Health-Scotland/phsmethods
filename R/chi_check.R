@@ -73,13 +73,15 @@ chi_check <- function(x) {
     x
   )
 
+  n_chars <- nchar(x)
+
   # Perform checks and return feedback
   dplyr::case_when(
     is.na(y) ~ "Missing (NA)",
     x == "" ~ "Missing (Blank)",
     is.na(x) ~ "Invalid character(s) present",
-    nchar(x) > 10 ~ "Too many characters",
-    nchar(x) < 10 ~ "Too few characters",
+    n_chars > 10 ~ "Too many characters",
+    n_chars < 10 ~ "Too few characters",
     is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y")) ~ "Invalid date",
     checksum(x) == FALSE ~ "Invalid checksum",
     TRUE ~ "Valid CHI"
