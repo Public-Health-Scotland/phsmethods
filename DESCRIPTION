@@ -22,6 +22,7 @@ BugReports: https://github.com/Health-SocialCare-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:
+    cli,
     dplyr,
     gdata,
     glue,
