@@ -74,37 +74,29 @@ format_postcode <- function(x, format = c("pc7", "pc8")) {
 
   # Calculate the number of non-NA values in the input which do not adhere to
   # the standard UK postcode format
-  n <- length(x[!is.na(x)][!stringr::str_detect(x[!is.na(x)], uk_pc_regex)])
+  n_bad_format <- sum(!stringr::str_detect(x, uk_pc_regex), na.rm = TRUE)
 
-  # If n is one, the warning message describing the number of values which
-  # do not adhere to the standard format should use singular verbs
-  # Otherwise, use plural ones
-  singular <- "value does"
-  multiple <- "values do"
-
-  if (!all(stringr::str_detect(x[!is.na(x)], uk_pc_regex))) {
-    warning(glue::glue(
-      "{n} non-NA input {ifelse(n == 1, singular, multiple)} ",
-      "not adhere to the standard UK postcode format (with ",
-      "or without spaces) and will be coded as NA. The ",
-      "standard format is:\n",
-      "\U2022 1 or 2 letters, followed by\n",
-      "\U2022 1 number, followed by\n",
-      "\U2022 1 optional letter or number, followed by\n",
-      "\U2022 1 number, followed by\n",
-      "\U2022 2 letters"
+  if (n_bad_format > 0) {
+    cli::cli_warn(c(
+      "{n_bad_format} non-NA input value{?s} {?does/do} not adhere to the standard UK
+              postcode format (with or without spaces) and will be coded as NA.",
+      "The standard format is:",
+      "*" = "1 or 2 letters, followed by",
+      "*" = "1 number, followed by",
+      "*" = "1 optional letter or number, followed by",
+      "*" = "1 number, followed by",
+      "*" = "2 letters"
     ))
+
+    # Replace postcodes which do not adhere to the standard format with NA (this
+    # will also 'replace' NA with NA)
+    x <- replace(x, !stringr::str_detect(x, uk_pc_regex), NA_character_)
   }
 
-  # Replace postcodes which do not adhere to the standard format with NA (this
-  # will also 'replace' NA with NA)
-  x <- replace(x, !stringr::str_detect(x, uk_pc_regex), NA_character_)
 
   if (any(grepl("[a-z]", x))) {
-    warning(
-      "Lower case letters in any input value(s) adhering to the ",
-      "standard UK postcode format will be converted to upper case"
-    )
+    cli::cli_warn("Lower case letters in any input value(s) adhering to the
+                  standard UK postcode format will be converted to upper case.")
   }
 
   x <- toupper(x)
@@ -121,7 +113,6 @@ format_postcode <- function(x, format = c("pc7", "pc8")) {
       nchar(x) == 7 ~ x
     ))
   } else {
-
     # pc8 format requires all valid postcodes to be of maximum length 8
     # All postcodes, whether 5, 6 or 7 characters, have one space before the
     # last 3 characters
