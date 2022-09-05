@@ -36,7 +36,7 @@
 #' qtr_end(x, format = "short")
 #' qtr_next(x)
 #' qtr_prev(x, format = "short")
-
+#'
 #' @export
 #' @rdname qtr
 qtr <- function(date, format = c("long", "short")) {
@@ -44,7 +44,7 @@ qtr <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -80,7 +80,7 @@ qtr_end <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -116,7 +116,7 @@ qtr_next <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
@@ -152,7 +152,7 @@ qtr_prev <- function(date, format = c("long", "short")) {
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
