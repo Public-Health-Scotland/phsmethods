@@ -180,26 +180,26 @@ test_that("any max_date where it is a future date is changed to date of today", 
 
 test_that("dob_from_chi errors properly", {
   expect_error(dob_from_chi(1010101129),
-    regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
+    regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
   expect_error(dob_from_chi("0101625707",
     min_date = "01-01-2020"
   ),
-  regexp = "min_date must have Date or POSIXct class"
+  regexp = "`min_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(dob_from_chi("0101625707",
     max_date = "01-01-2020"
   ),
-  regexp = "max_date must have Date or POSIXct class"
+  regexp = "`max_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(dob_from_chi("0101625707",
     min_date = as.Date("2020-01-01"),
     max_date = as.Date("1930-01-01")
   ),
-  regexp = "min_date <= max_date is not TRUE"
+  regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
   )
 })
 
@@ -325,25 +325,25 @@ test_that("Can supply different reference dates per CHI", {
 
 test_that("age_from_chi errors properly", {
   expect_error(age_from_chi(1010101129),
-    regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
+    regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
   expect_error(age_from_chi("0101625707",
     ref_date = "01-01-2020"
   ),
-  regexp = "ref_date must have Date or POSIXct class"
+  regexp = "`ref_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(age_from_chi("0101625707",
     min_age = -2
   ),
-  regexp = "min_age >= 0 is not TRUE"
+  regexp = "`min_age` must be a positive integer\\.$"
   )
 
   expect_error(age_from_chi("0101625707",
     min_age = 20, max_age = 10
   ),
-  regexp = "max_age >= min_age is not TRUE"
+  regexp = "`max_age`, must always be greater than or equal to `min_age`\\.$"
   )
 })
 

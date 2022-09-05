@@ -40,18 +40,24 @@
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE) {
 
   # Do type checking on the params
-  stopifnot(typeof(chi_number) == "character")
+  if (!inherits(chi_number, "character")) {
+    cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
+  }
 
   if (!is.null(min_date) & !inherits(min_date, c("Date", "POSIXct"))) {
-    stop("min_date must have Date or POSIXct class")
+    cli::cli_abort("{.arg min_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(min_date)}} vector.")
   }
 
   if (!is.null(max_date) & !inherits(max_date, c("Date", "POSIXct"))) {
-    stop("max_date must have Date or POSIXct class")
+    cli::cli_abort("{.arg max_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(max_date)}} vector.")
   }
 
   # min and max date are in a reasonable range
-  if (!is.null(min_date) & !is.null(max_date)) stopifnot(min_date <= max_date)
+  if (!is.null(min_date) & !is.null(max_date)) {
+    if (max_date < min_date) {
+      cli::cli_abort("{.arg max_date}, must always be greater than or equal to {.arg min_date}.")
+    }
+  }
 
   # Default the max_date to today (person can't be born after today)
   if (is.null(max_date)) max_date <- Sys.Date()
@@ -169,16 +175,24 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NULL, chi_check = TRUE) {
 
   # Do type checking on the params
-  stopifnot(typeof(chi_number) == "character")
+  if (!inherits(chi_number, "character")) {
+    cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
+  }
 
   if (!is.null(ref_date) & !inherits(ref_date, c("Date", "POSIXct"))) {
-    stop("ref_date must have Date or POSIXct class")
+    cli::cli_abort("{.arg ref_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(ref_date)}} vector.")
   }
 
   # min and max ages are in a reasonable range
-  stopifnot(min_age >= 0)
+  if (min_age < 0) {
+    cli::cli_abort("{.arg min_age} must be a positive integer.")
+  }
 
-  if (!is.null(max_age)) stopifnot(max_age >= min_age)
+  if (!is.null(max_age)) {
+    if (max_age < min_age) {
+      cli::cli_abort("{.arg max_age}, must always be greater than or equal to {.arg min_age}.")
+    }
+  }
 
   if (is.null(ref_date)) ref_date <- Sys.Date()
 
