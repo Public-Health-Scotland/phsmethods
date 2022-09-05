@@ -135,7 +135,7 @@ test_that("Return warning if age is less than 0", {
         "2020-01-01"
       )
     )
-  ), regexp = "There are ages less than 0")
+  ), regexp = "There are ages less than 0\\.$")
 })
 
 test_that("Return warning if age is greater than 130", {
@@ -154,7 +154,7 @@ test_that("Return warning if age is greater than 130", {
         "2020-01-01"
       )
     )
-  ), regexp = "There are ages greater than 130 years")
+  ), regexp = "There are ages greater than 130 years\\.$")
   expect_warning(age_calculate(as.Date(
     c(
       "1889-01-01",
@@ -170,5 +170,5 @@ test_that("Return warning if age is greater than 130", {
     )
   ),
   units = "months"
-  ), regexp = "There are ages greater than 130 years")
+  ), regexp = "There are ages greater than 130 years\\.$")
 })
