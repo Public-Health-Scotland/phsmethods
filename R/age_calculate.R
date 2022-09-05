@@ -31,11 +31,11 @@
 age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
                           units = c("years", "months"), round_down = TRUE) {
   if (!inherits(start, c("Date", "POSIXt"))) {
-    stop("The start date must have Date or POSIXct or POSIXlt class")
+    cli::cli_abort("{.arg start} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(start)}} vector.")
   }
 
   if (!inherits(end, c("Date", "POSIXt"))) {
-    stop("The end date must have Date or POSIXct or POSIXlt class")
+    cli::cli_abort("{.arg end} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(end)}} vector.")
   }
 
   units <- match.arg(tolower(units), c("years", "months"))
