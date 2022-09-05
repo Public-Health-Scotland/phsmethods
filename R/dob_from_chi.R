@@ -84,7 +84,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
     new_na_count <- sum(is.na(chi_number)) - na_count
 
     if (new_na_count > 0) {
-      message(glue::glue("{format(new_na_count, big.mark = ',')} CHI number{ifelse(new_na_count > 1, 's were', ' was')} invalid and will be given NA for DoB"))
+      cli::cli_alert_warning(("{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} {?is/are} invalid and will be given {.val NA} for {?its/their} Date{?s} of Birth."))
     }
   }
 
@@ -123,9 +123,11 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   new_na_count <- sum(is.na(guess_dob)) - na_count
 
   if (new_na_count > 0) {
-    message(glue::glue("{format(new_na_count, big.mark = ',')} CHI number{ifelse(new_na_count > 1, 's produced ambiguous dates', ' produced an ambiguous date')} and will be given NA for DoB, if possible try different values for min_date and/or max_date"))
+    cli::cli_inform(c(
+      "!" = "{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} produced {?an/} ambiguous date{?s} and will be given {.val NA} for {?its/their} Date{?s} of Birth.",
+      "v" = "Try different values for {.arg min_date} and/or {.arg max_date}."
+    ))
   }
-
 
   return(guess_dob)
 }
