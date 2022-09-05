@@ -74,14 +74,12 @@
 #' @export
 
 file_size <- function(filepath = getwd(), pattern = NULL) {
-
   if (!file.exists(filepath)) {
-    stop("A valid filepath must be supplied")
+    cli::cli_abort("A valid {.arg filepath} must be supplied.")
   }
 
   if (!inherits(pattern, c("character", "NULL"))) {
-    stop("A specified pattern must be of character class in order to be ",
-         "evaluated as a regular expression")
+    cli::cli_abort("{.arg pattern} must be a {.cls character}, not a {.cls {class(pattern)}}.")
   }
 
   x <- dir(path = filepath, pattern = pattern)
