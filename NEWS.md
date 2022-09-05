@@ -4,7 +4,7 @@
 
 - Improve "Using phsmethods" section in readme to be shorter and more accessible. 
 
-- Fix the warning message in `format_postcode()` using package "cli". 
+- Update all errors, warnings and messages to use the `cli` package. 
 
 # phsmethods 0.2.1 (2022-02-11)
 
