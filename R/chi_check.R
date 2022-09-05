@@ -60,7 +60,7 @@
 
 chi_check <- function(x) {
   if (!inherits(x, "character")) {
-    stop("The input must be of character class")
+    cli::cli_abort("{.arg x} must be a {.cls character} vector, not a {.cls {class(x)}} vector.")
   }
 
   # Calculate the number of characters
