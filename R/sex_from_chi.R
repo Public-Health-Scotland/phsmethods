@@ -54,10 +54,9 @@ sex_from_chi <- function(chi_number, male_value = 1L, female_value = 2L, as_fact
 
   # Show message if using custom values for male/female
   if (male_value != 1L | female_value != 2L) {
-    message(paste0(
-      "Using custom values: Male = ",
-      male_value, " Female = ", female_value,
-      ".\nThe return variable will be ", male_class, "."
+    cli::cli_inform(c(
+      "Using custom values: Male = {.val {male_value}}, Female = {.val {female_value}}",
+      "The return variable will be {.cls {male_class}}."
     ))
   }
 
