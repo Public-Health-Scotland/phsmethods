@@ -64,7 +64,7 @@ test_that("sex_from_chi works with custom values", {
     sex_from_chi("0101011237",
       male_value = "M"
     ),
-    "^Supplied male and female values must be of the same class.+?$"
+    "`male_value` and `female_value` must be of the same class\\..*?$"
   )
 
   expect_error(
@@ -72,7 +72,7 @@ test_that("sex_from_chi works with custom values", {
       male_value = 1,
       female_value = 2L
     ),
-    "^Supplied male and female values must be of the same class.+?$"
+    "`male_value` and `female_value` must be of the same class\\..*?$"
   )
 })
 

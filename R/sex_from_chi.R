@@ -42,13 +42,13 @@
 sex_from_chi <- function(chi_number, male_value = 1L, female_value = 2L, as_factor = FALSE, chi_check = TRUE) {
 
   # Do type checking on male/female values
-  male_type <- class(male_value)
-  female_type <- class(female_value)
-  if (male_type != female_type) {
-    stop(paste0(
-      "Supplied male and female values must be of the same class ",
-      "(male_value is: ", male_type,
-      ", female_value is: ", female_type, ")."
+  male_class <- class(male_value)
+  female_class <- class(female_value)
+  if (male_class != female_class) {
+    cli::cli_abort(c(
+      "{.arg male_value} and {.arg female_value} must be of the same class.",
+      "*" = "Supplied {.arg male_value} is {.cls {male_class}}",
+      "*" = "Supplied {.arg female_value} is {.cls {female_class}}"
     ))
   }
 
@@ -57,7 +57,7 @@ sex_from_chi <- function(chi_number, male_value = 1L, female_value = 2L, as_fact
     message(paste0(
       "Using custom values: Male = ",
       male_value, " Female = ", female_value,
-      ".\nThe return variable will be ", male_type, "."
+      ".\nThe return variable will be ", male_class, "."
     ))
   }
 
