@@ -54,7 +54,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 
   # min and max date are in a reasonable range
   if (!is.null(min_date) & !is.null(max_date)) {
-    if (max_date < min_date) {
+    if (any(max_date < min_date)) {
       cli::cli_abort("{.arg max_date}, must always be greater than or equal to {.arg min_date}.")
     }
   }
@@ -191,7 +191,7 @@ age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NUL
   }
 
   if (!is.null(max_age)) {
-    if (max_age < min_age) {
+    if (any(max_age < min_age)) {
       cli::cli_abort("{.arg max_age}, must always be greater than or equal to {.arg min_age}.")
     }
   }
