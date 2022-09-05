@@ -69,7 +69,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   if (any(max_date > Sys.Date())) {
     to_replace <- max_date > Sys.Date()
     max_date[to_replace] <- Sys.Date()
-    warning("any max_date where it is a future date is changed to date of today")
+    cli::cli_warn(c("!" = "Any {.arg max_date} values which are in the future will be set to today: {.val {Sys.Date()}}."))
   }
 
   # Default the min_date to 1 Jan 1900

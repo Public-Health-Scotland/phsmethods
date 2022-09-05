@@ -174,7 +174,7 @@ test_that("any max_date where it is a future date is changed to date of today", 
   )
 
   expect_warning(dob_from_chi("0101336489", max_date = as.Date("2030-01-01")),
-    regexp = "any max_date where it is a future date is changed to date of today"
+    regexp = "Any `max_date` values which are in the future will be set to today: .*?$"
   )
 })
 
