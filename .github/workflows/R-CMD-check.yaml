@@ -11,24 +11,29 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
-
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    continue-on-error: ${{ matrix.config.must_pass }}
 
     strategy:
       fail-fast: false
       matrix:
         config:
           # Latest R versions on all OSs
-          # - {os: macOS-latest,    r: 'release'}
-          - {os: windows-latest,  r: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: macOS-latest,    r: 'release', must_pass: false}
+          - {os: windows-latest,  r: 'release', must_pass: true}
+          - {os: ubuntu-latest,   r: 'release', must_pass: true}
+
+          # Development and recent releases
+          - {os: ubuntu-latest, r: 'devel', http-user-agent: 'release', must_pass: false}
+          - {os: ubuntu-latest, r: 'oldrel-1', must_pass: true}
+          - {os: ubuntu-latest, r: 'oldrel-2', must_pass: true}
 
           # An approximation for the PHS RStudio Desktop installation
-          - {os: windows-latest,  r: '3.6'}
+          - {os: windows-latest,  r: '3.6.1', must_pass: true}
 
           # An approximation of the PHS RStudio Server Pro setup
-          - {os: ubuntu-latest,   r: '3.6'}
-          - {os: ubuntu-latest,   r: '3.5'}
+          - {os: ubuntu-latest,   r: '3.6.1', must_pass: true}
+          - {os: ubuntu-latest,   r: '3.5.1', must_pass: false}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
