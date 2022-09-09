@@ -18,8 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          # Latest R versions on all OSs
-          - {os: macOS-latest,    r: 'release', must_pass: false}
+          # Latest R versions
           - {os: windows-latest,  r: 'release', must_pass: true}
           - {os: ubuntu-latest,   r: 'release', must_pass: true}
 
