@@ -32,10 +32,8 @@ ORDER BY ?geo_code "
 qd <- SPARQL::SPARQL(endpoint, query)
 
 area_lookup <- qd[["results"]] %>%
-
   # Extract the code only
   dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
-
   # Drop codes with no area name
   # Storing them isn't necessary as codes without a corresponding area name
   # will generate an NA from match_area regardless of whether the code is
@@ -66,26 +64,31 @@ area_lookup %<>%
 
 # Manually add some additional codes which aren't present in the lookup file
 other_areas <- tibble::tibble(
-  area_name = c("Scotland",
-                "Non-NHS Provider/Location",
-                "Not applicable",
-                "Golden Jubilee Hospital",
-                "The State Hospital",
-                "No Fixed Abode",
-                "Rest of UK (Outside Scotland)",
-                "Outside the UK",
-                "Unknown residency",
-                "Rest of UK (Outside Scotland)",
-                "No Fixed Abode",
-                "Unknown residency",
-                "Outside the UK"),
-  geo_code = c("S00000001",
-               "S27000001",
-               "S27000002",
-               "S08100001",
-               "S08100008",
-               sprintf("RA270%d", seq(1:4)),
-               sprintf("S0820000%d", seq(1:4))))
+  area_name = c(
+    "Scotland",
+    "Non-NHS Provider/Location",
+    "Not applicable",
+    "Golden Jubilee Hospital",
+    "The State Hospital",
+    "No Fixed Abode",
+    "Rest of UK (Outside Scotland)",
+    "Outside the UK",
+    "Unknown residency",
+    "Rest of UK (Outside Scotland)",
+    "No Fixed Abode",
+    "Unknown residency",
+    "Outside the UK"
+  ),
+  geo_code = c(
+    "S00000001",
+    "S27000001",
+    "S27000002",
+    "S08100001",
+    "S08100008",
+    sprintf("RA270%d", seq(1:4)),
+    sprintf("S0820000%d", seq(1:4))
+  )
+)
 
 # Should the lookup file ever be updated to include any of the additional codes,
 # this will prevent those codes from being duplicated in the final file
