@@ -28,7 +28,7 @@
 
 chi_pad <- function(x) {
   if (!inherits(x, "character")) {
-    cli::cli_abort("{.arg x} must be a {.cls character} vector, not a {.cls {class(x)}} vector.")
+    cli::cli_abort("The input must be a {.cls character} vector, not a {.cls {class(x)}} vector.")
   }
 
   # Add a leading zero to any string comprised of nine numeric digits
