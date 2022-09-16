@@ -57,7 +57,7 @@ match_area <- function(x) {
   # Calculate the number of non-NA input geography codes which are not 9
   # characters in length or one of the exceptions
   n_not_9_char <- length(x[!is.na(x)][nchar(x[!is.na(x)]) != 9 &
-                             !x[!is.na(x)] %in% sprintf("RA270%d", seq(1:4))])
+    !x[!is.na(x)] %in% sprintf("RA270%d", seq(1:4))])
 
   if (n_not_9_char > 0) {
     cli::cli_warn(c(
@@ -75,15 +75,15 @@ match_area <- function(x) {
 
   # Transform variable into data frame to allow merging with lookup
   code_var <- tibble::enframe(code_var,
-                              name = NULL,
-                              value = "geo_code")
+    name = NULL,
+    value = "geo_code"
+  )
 
   # Merge lookup with code variable and retrieving only the name
   dplyr::left_join(code_var,
-                   area_lookup,
-                   by = "geo_code") %>%
-
+    area_lookup,
+    by = "geo_code"
+  ) %>%
     # dplyr::pull takes the last variable if none is specified
     dplyr::pull()
-
 }
