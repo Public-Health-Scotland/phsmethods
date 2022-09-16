@@ -40,7 +40,7 @@ test_that("Length > 10 fails chi_check", {
 })
 
 test_that("Non-character input fails chi_check", {
-  expect_error(chi_check(123), "`x` must be a <character> vector, not a <numeric> vector\\.$")
+  expect_error(chi_check(123), "The input must be a <character> vector, not a <numeric> vector\\.$")
 })
 
 test_that("Zero day fails chi_check", {
