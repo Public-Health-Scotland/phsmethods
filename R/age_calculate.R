@@ -31,11 +31,11 @@
 age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
                           units = c("years", "months"), round_down = TRUE) {
   if (!inherits(start, c("Date", "POSIXt"))) {
-    stop("The start date must have Date or POSIXct or POSIXlt class")
+    cli::cli_abort("{.arg start} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(start)}} vector.")
   }
 
   if (!inherits(end, c("Date", "POSIXt"))) {
-    stop("The end date must have Date or POSIXct or POSIXlt class")
+    cli::cli_abort("{.arg end} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(end)}} vector.")
   }
 
   units <- match.arg(tolower(units), c("years", "months"))
@@ -51,9 +51,23 @@ age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date()
 
   age <- age_interval / unit_time
 
-  if (any(age < 0, na.rm = TRUE)) warning("There are ages less than 0")
-  if (units == "years" & any(age > 130, na.rm = TRUE)) warning("There are ages greater than 130 years")
-  if (units == "months" & any(age / 12 > 130, na.rm = TRUE)) warning("There are ages greater than 130 years")
-  if (round_down) age <- trunc(age)
+  if (any(age < 0, na.rm = TRUE)) {
+    cli::cli_warn(c("!" = "There are ages less than 0."))
+  }
+
+  if (units == "years") {
+    if (any(age > 130, na.rm = TRUE)) {
+      cli::cli_warn(c("!" = "There are ages greater than 130 years."))
+    }
+  } else if (units == "months") {
+    if (any(age / 12 > 130, na.rm = TRUE)) {
+      cli::cli_warn(c("!" = "There are ages greater than 130 years."))
+    }
+  }
+
+  if (round_down) {
+    age <- trunc(age)
+  }
+
   return(age)
 }

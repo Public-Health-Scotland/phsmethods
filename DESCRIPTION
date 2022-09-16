@@ -2,47 +2,50 @@ Package: phsmethods
 Title: Standard Methods for use in Public Health Scotland
 Version: 0.2.1
 Authors@R: c(
-    person("David", "Caldwell", email = "David.Caldwell@phs.scot", role = c("aut", "cre")),
-    person("Lucinda", "Lawrie", email = "Lucinda.Lawrie@phs.scot", role = "rev"),
-    person("Jack", "Hannah", email = "jack.hannah2@phs.scot", role = "aut"),
-    person("Tina", "Fu", email = "Yuyan.Fu2@phs.scot", role = "aut"),
-    person("Ciara", "Gribben", email = "Ciara.Gribben@phs.scot", role = "aut"),
-    person("Chris", "Deans", email = "Chris.Deans2@phs.scot", role = "aut"),
-    person("Jaime", "Villacampa", email = "Jaime.Villacampa@phs.scot", role = "aut"),
-    person("Graeme", "Gowans", email = "Graeme.Gowans@phs.scot", role = "aut"),
+    person("David", "Caldwell", , "David.Caldwell@phs.scot", role = c("aut", "cre")),
+    person("Lucinda", "Lawrie", , "Lucinda.Lawrie@phs.scot", role = "rev"),
+    person("Jack", "Hannah", , "jack.hannah2@phs.scot", role = "aut"),
+    person("Tina", "Fu", , "Yuyan.Fu2@phs.scot", role = "aut"),
+    person("Ciara", "Gribben", , "Ciara.Gribben@phs.scot", role = "aut"),
+    person("Chris", "Deans", , "Chris.Deans2@phs.scot", role = "aut"),
+    person("Jaime", "Villacampa", , "Jaime.Villacampa@phs.scot", role = "aut"),
+    person("Graeme", "Gowans", , "Graeme.Gowans@phs.scot", role = "aut"),
     person("Alice", "Byers", role = "ctb"),
-    person("Alan", "Yeung", email = "Alan.Yeung@phs.scot", role = "ctb"),
-    person("James", "McMahon", email = "James.McMahon@phs.scot", role = "aut"),
-    person("Nicolaos", "Christofidis", email = "nicolaos.christofidis@phs.scot", role = "aut")
-    )
-Description: Bespoke functions for commonly undertaken analytical tasks in Public Health Scotland.
+    person("Alan", "Yeung", , "Alan.Yeung@phs.scot", role = "ctb"),
+    person("James", "McMahon", , "James.McMahon@phs.scot", role = "aut"),
+    person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut")
+  )
+Description: Bespoke functions for commonly undertaken analytical tasks in
+    Public Health Scotland.
 License: GPL (>= 2)
-URL: https://github.com/Health-SocialCare-Scotland/phsmethods, https://public-health-scotland.github.io/phsmethods/
-BugReports: https://github.com/Health-SocialCare-Scotland/phsmethods/issues
+URL: https://github.com/Health-SocialCare-Scotland/phsmethods,
+    https://public-health-scotland.github.io/phsmethods/
+BugReports: 
+    https://github.com/Health-SocialCare-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:
     cli,
     dplyr,
     gdata,
-    glue,
+    lifecycle,
     lubridate,
     magrittr,
     purrr,
+    readr,
     rlang,
     stringr,
     tibble,
-    utils,
-    readr,
-    lifecycle
+    utils
 Suggests: 
-    spelling,
     covr,
     here,
+    spelling,
     testthat (>= 3.0.0)
+RdMacros: 
+    lifecycle
+Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-GB
 LazyData: true
 RoxygenNote: 7.2.1
-Config/testthat/edition: 3
-Language: en-GB
-RdMacros: lifecycle

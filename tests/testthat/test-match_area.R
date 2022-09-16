@@ -54,6 +54,6 @@ test_that("Produces no warning for codes of valid length with no match", {
 })
 
 test_that("Warns about the appropriate number of entries", {
-  expect_warning(match_area(123223), "^1")
-  expect_warning(match_area(c(NA, sprintf("RA270%d", seq(1:7)))), "^3")
+  expect_warning(match_area(123223), "1 non-NA input geography.*")
+  expect_warning(match_area(c(NA, paste0("RA270", 1:7))), "3 non-NA input geographies.*")
 })
