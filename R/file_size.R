@@ -63,7 +63,9 @@
 #'
 #' # Size only of alphabetically first file in working directory
 #' library(magrittr)
-#' file_size() %>% dplyr::pull(size) %>% extract(1)
+#' file_size() %>%
+#'   dplyr::pull(size) %>%
+#'   extract(1)
 #'
 #' @seealso For more information on using regular expressions, see this
 #' \href{https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/}{Jumping Rivers blog post}
@@ -89,8 +91,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
   }
 
   y <- x %>%
-    purrr::map_dbl(~file.info(paste0(filepath, "/", .))$size) %>%
-
+    purrr::map_dbl(~ file.info(paste0(filepath, "/", .))$size) %>%
     # The gdata package defines a kilobyte (KB) as 1,000 bytes, and a
     # kibibyte (KiB) as 1,024 bytes
     # In PHS a kilobyte is normally taken to be 1,024 bytes
@@ -116,7 +117,8 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     TRUE ~ ""
   )
 
-  tibble::tibble(name = list.files(filepath, pattern),
-                 size = paste0(z, y))
-
+  tibble::tibble(
+    name = list.files(filepath, pattern),
+    size = paste0(z, y)
+  )
 }
