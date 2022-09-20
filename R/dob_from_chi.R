@@ -42,6 +42,8 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   # Do type checking on the params
   stopifnot(typeof(chi_number) == "character")
 
+  make_inheritance_checks(list(min_date=min_date, max_date=max_date), target_classes = c("Date", "POSIXct"))
+
   if (!is.null(min_date) & !inherits(min_date, c("Date", "POSIXct"))) {
     stop("min_date must have Date or POSIXct class")
   }
