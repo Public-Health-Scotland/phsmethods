@@ -44,14 +44,6 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 
   make_inheritance_checks(list(min_date=min_date, max_date=max_date), target_classes = c("Date", "POSIXct"))
 
-  if (!is.null(min_date) & !inherits(min_date, c("Date", "POSIXct"))) {
-    stop("min_date must have Date or POSIXct class")
-  }
-
-  if (!is.null(max_date) & !inherits(max_date, c("Date", "POSIXct"))) {
-    stop("max_date must have Date or POSIXct class")
-  }
-
   # min and max date are in a reasonable range
   if (!is.null(min_date) & !is.null(max_date)) stopifnot(min_date <= max_date)
 
