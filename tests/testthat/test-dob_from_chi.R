@@ -9,7 +9,6 @@ gen_real_chi <- function(first_6) {
 }
 
 test_that("Returns correct DoB - no options", {
-
   # Some standard CHIs / dates
   expect_equal(
     dob_from_chi(c(
@@ -83,12 +82,11 @@ test_that("Returns correct DoB - unusual fixed dates", {
 })
 
 test_that("Returns NA when DoB is ambiguous", {
-
   # Default is min 1 Jan 1900, max today.
   # So any dates 1 Jan 2000 to today are 'ambiguous'
   expect_message(
     dob_from_chi(gen_real_chi(010101)),
-    regexp = "^1 CHI number produced an ambiguous date and will be given NA for DoB"
+    regexp = "1 CHI number produced an ambiguous date"
   )
 
   expect_message(
@@ -97,7 +95,7 @@ test_that("Returns NA when DoB is ambiguous", {
       gen_real_chi(010110),
       gen_real_chi(010120)
     )),
-    regexp = "^3 CHI numbers produced ambiguous dates and will be given NA for DoB"
+    regexp = "3 CHI numbers produced ambiguous dates"
   )
 
   expect_equal(
@@ -111,7 +109,6 @@ test_that("Returns NA when DoB is ambiguous", {
     as.Date(c(NA, NA, NA))
   )
 })
-
 
 test_that("Can supply different max dates per CHI", {
   # Some standard CHIs / dates
@@ -174,49 +171,47 @@ test_that("any max_date where it is a future date is changed to date of today", 
   )
 
   expect_warning(dob_from_chi("0101336489", max_date = as.Date("2030-01-01")),
-    regexp = "any max_date where it is a future date is changed to date of today"
+    regexp = "Any `max_date` values which are in the future will be set to today: .*?$"
   )
 })
 
 test_that("dob_from_chi errors properly", {
   expect_error(dob_from_chi(1010101129),
-    regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
+    regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
   expect_error(dob_from_chi("0101625707",
     min_date = "01-01-2020"
   ),
-  regexp = "min_date must have Date or POSIXct class"
+  regexp = "`min_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(dob_from_chi("0101625707",
     max_date = "01-01-2020"
   ),
-  regexp = "max_date must have Date or POSIXct class"
+  regexp = "`max_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(dob_from_chi("0101625707",
     min_date = as.Date("2020-01-01"),
     max_date = as.Date("1930-01-01")
   ),
-  regexp = "min_date <= max_date is not TRUE"
+  regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
   )
 })
 
 test_that("dob_from_chi gives messages when returning NA", {
-
   # Invalid CHI numbers
   expect_message(dob_from_chi("1234567890"),
-    regexp = "^1 CHI number was invalid and will be given NA for DoB"
+    regexp = "1 CHI number is invalid"
   )
 
   expect_message(dob_from_chi(rep("1234567890", 99999)),
-    regexp = "^99,999 CHI numbers were invalid and will be given NA for DoB"
+    regexp = "99,999 CHI numbers are invalid"
   )
 })
 
 test_that("Returns correct age - no options", {
-
   # Some standard CHIs
   expect_equal(
     age_from_chi(c(
@@ -276,11 +271,10 @@ test_that("Returns correct age - unusual fixed age", {
 })
 
 test_that("Returns NA when DoB is ambiguous so can't return age", {
-
   # Default is min_age as 0. max_age is NULL and will be set to the age from 1900-01-01.
   expect_message(
     age_from_chi(gen_real_chi(010101)),
-    regexp = "^1 CHI number produced an ambiguous date and will be given NA for DoB"
+    regexp = "1 CHI number produced an ambiguous date"
   )
 
   expect_message(
@@ -289,7 +283,7 @@ test_that("Returns NA when DoB is ambiguous so can't return age", {
       gen_real_chi(010110),
       gen_real_chi(010120)
     )),
-    regexp = "^3 CHI numbers produced ambiguous dates and will be given NA for DoB"
+    regexp = "3 CHI numbers produced ambiguous dates"
   )
 
   expect_equal(
@@ -325,36 +319,35 @@ test_that("Can supply different reference dates per CHI", {
 
 test_that("age_from_chi errors properly", {
   expect_error(age_from_chi(1010101129),
-    regexp = "typeof\\(chi_number\\) == \"character\" is not TRUE"
+    regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
   expect_error(age_from_chi("0101625707",
     ref_date = "01-01-2020"
   ),
-  regexp = "ref_date must have Date or POSIXct class"
+  regexp = "`ref_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(age_from_chi("0101625707",
     min_age = -2
   ),
-  regexp = "min_age >= 0 is not TRUE"
+  regexp = "`min_age` must be a positive integer\\.$"
   )
 
   expect_error(age_from_chi("0101625707",
     min_age = 20, max_age = 10
   ),
-  regexp = "max_age >= min_age is not TRUE"
+  regexp = "`max_age`, must always be greater than or equal to `min_age`\\.$"
   )
 })
 
 test_that("age_from_chi gives messages when returning NA", {
-
   # Invalid CHI numbers
   expect_message(age_from_chi("1234567890"),
-    regexp = "^1 CHI number was invalid and will be given NA for DoB"
+    regexp = "1 CHI number is invalid"
   )
 
   expect_message(age_from_chi(rep("1234567890", 99999)),
-    regexp = "^99,999 CHI numbers were invalid and will be given NA for DoB"
+    regexp = "99,999 CHI numbers are invalid"
   )
 })

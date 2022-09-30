@@ -17,7 +17,7 @@
 #' @export
 extract_fin_year <- function(date) {
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   # Simply converting all elements of the input vector resulted in poor

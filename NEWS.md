@@ -1,3 +1,11 @@
+# phsmethods 0.2.2 (2022-08-29)
+
+- Improve `chi_check()` function to make it more efficient and run faster.
+
+- Improve "Using phsmethods" section in readme to be shorter and more accessible. 
+
+- Update all errors, warnings and messages to use the `cli` package. 
+
 # phsmethods 0.2.1 (2022-02-11)
 
 - Three functions renamed to improve code clarity: `postcode()` to `format_postcode()`; `age_group()` to `create_age_groups()`; `fin_year()` to `extract_fin_year()`. The old functions will still work but will produce a warning. After a reasonable amount of time they will be removed completely.

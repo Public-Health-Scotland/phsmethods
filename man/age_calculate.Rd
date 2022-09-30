@@ -19,33 +19,28 @@ class. \code{\link[base:as.Date]{as.Date()}},
 can be used to store dates as an appropriate class.}
 
 \item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt} class.
-Default is `Sys.Date()` or `Sys.time()` depending on the class of `start`.}
+Default is \code{Sys.Date()} or \code{Sys.time()} depending on the class of \code{start}.}
 
 \item{units}{Type of units to be used. years and months are accepted. Default is \code{years}.}
 
 \item{round_down}{Should returned ages be rounded down to the nearest whole number. Default is \code{TRUE}.}
 }
 \description{
-This function calculates the age between two dates using `lubridate`.
+This function calculates the age between two dates using functions in \code{lubridate}.
 It calculates age in either years or months.
 }
 \examples{
-\dontrun{
-library(phsmethods)
 library(lubridate)
-my_date <- ymd("2020-02-29")
-end_date <- today()
-age_calculate(my_date, end_date)
-age_calculate(my_date, end_date, round_down = FALSE)
-age_calculate(my_date, end_date, units = "months")
+birth_date <- lubridate::ymd("2020-02-29")
+end_date <- lubridate::ymd("2022-02-21")
+age_calculate(birth_date, end_date)
+age_calculate(birth_date, end_date, units = "months")
 
-# It's worth noting that `lubridate` periods classify leap year birthdays
-# slightly differently to UK law where (in the UK) legally speaking
-# leaplings become a year older on the 1st March on non-leap years.
-leap1 <- dmy("29-02-2020")
-leap2 <- dmy("28-02-2022")
-leap3 <- dmy("01-03-2022")
+# If the start day is leap day (February 29th), age increases on 1st March every year.
+leap1 <- lubridate::ymd("2020-02-29")
+leap2 <- lubridate::ymd("2022-02-28")
+leap3 <- lubridate::ymd("2022-03-01")
+
 age_calculate(leap1, leap2)
 age_calculate(leap1, leap3)
-}
 }

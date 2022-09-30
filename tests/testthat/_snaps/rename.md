@@ -59,13 +59,14 @@
       expect_equal(unique(formatted_hampden), "G42 9BA")
       expect_true(is.na(suppressWarnings(postcode("G2?QE"))))
       expect_warning(postcode(c("G207AL", "G2O07AL")))
-    Warning <simpleWarning>
-      1 non-NA input value does not adhere to the standard UK postcode format (with or without spaces) and will be coded as NA. The standard format is:
-      • 1 or 2 letters, followed by
-      • 1 number, followed by
-      • 1 optional letter or number, followed by
-      • 1 number, followed by
-      • 2 letters
+    Warning <rlang_warning>
+      1 non-NA input value does not adhere to the standard UK postcode format (with or without spaces) and will be coded as NA.
+      The standard format is:
+      * 1 or 2 letters, followed by
+      * 1 number, followed by
+      * 1 optional letter or number, followed by
+      * 1 number, followed by
+      * 2 letters
     Code
       expect_equal(suppressWarnings(postcode(c("EH7 5QG", NA, "EH11 2NL", "EH5 2HF*"))),
       c("EH7 5QG", NA, "EH112NL", NA))
