@@ -6,14 +6,15 @@
 #' @param ignore_null boolean. Indicates whether to ignore arguments with value NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.
 
 make_inheritance_checks <- function(arguments, target_classes, ignore_null = T) {
-  caller_func <- deparse(sys.calls()[[sys.nframe()-1]])
+  caller_func <- deparse(sys.calls()[[sys.nframe() - 1]])
   failures <- lapply(names(arguments), FUN = function(argument) {
     if (is.null(arguments[[argument]])) {
       if (ignore_null) {
         cli_alert_info("{.fn make_inheritance_checks}: Argument {.arg { argument }} is {.val NULL}, but argument {.strong {.code ignore_null = TRUE}}.")
         return(NULL)
-        }
-      else { return(glue("Argument {.arg {.strong {% argument %}}} is {.val NULL} and argument {.strong {.code ignore_null = FALSE}}", .open = "{%", .close = "%}")) }
+      } else {
+        return(glue("Argument {.arg {.strong {% argument %}}} is {.val NULL} and argument {.strong {.code ignore_null = FALSE}}", .open = "{%", .close = "%}"))
+      }
     }
     if (!inherits(arguments[[argument]], target_classes) & !is.null(arguments[[argument]])) {
       return(glue("Argument {.arg {.strong {% argument %}}} has class {.cls {% class(arguments[[argument]]) %}}, but must have any of classes {.cls {target_classes}}", .open = "{%", .close = "%}"))
@@ -23,7 +24,7 @@ make_inheritance_checks <- function(arguments, target_classes, ignore_null = T) 
   failures <- Filter(function(x) !is.null(x), failures)
   if (!all(sapply(failures, is.null))) {
     failures_out <- sapply(names(failures), FUN = function(argument) {
-      if(!is.null(failures[[argument]])) {
+      if (!is.null(failures[[argument]])) {
         return(failures[[argument]])
       }
     })
