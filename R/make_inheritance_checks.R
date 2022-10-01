@@ -3,6 +3,7 @@
 #' Argument must have AT LEAST ONE of the specified classes to pass.
 #' @param arguments a list object containing argument_name=argument pairs for each argument. Argument names must be provided or else they will be ignored.
 #' @param target_classes array of classes (string).
+#' @param ignore_null boolean. Indicates whether to ignore arguments with value NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.
 
 make_inheritance_checks <- function(arguments, target_classes, ignore_null = T) {
   caller_func <- deparse(sys.calls()[[sys.nframe()-1]])
@@ -26,7 +27,6 @@ make_inheritance_checks <- function(arguments, target_classes, ignore_null = T) 
         return(failures[[argument]])
       }
     })
-    cli_rule()
     cli_abort(c(
       "x" = "inheritance checks {col_red('failed')} in function call: {.strong {.code {caller_func}}} due to following errors:",
       failures_out
