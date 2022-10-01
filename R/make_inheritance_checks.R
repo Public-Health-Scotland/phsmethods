@@ -17,7 +17,7 @@ make_inheritance_checks <- function(arguments, target_classes, ignore_null = T) 
       }
     }
     if (!inherits(arguments[[argument]], target_classes) & !is.null(arguments[[argument]])) {
-      return(glue("Argument {.arg {.strong {% argument %}}} has class {.cls {% class(arguments[[argument]]) %}}, but must have any of classes {.cls {target_classes}}", .open = "{%", .close = "%}"))
+      return(glue("Argument {.arg {.strong {% argument %}}} has class {.cls {% class(arguments[[argument]]) %}}, but must have {qty(target_classes)} {?any of the} class{?es}: {.cls {target_classes}}", .open = "{%", .close = "%}"))
     }
   })
   names(failures) <- names(arguments)
