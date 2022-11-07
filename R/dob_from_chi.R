@@ -44,7 +44,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
     cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
   }
 
-  make_inheritance_checks(list(min_date=min_date, max_date=max_date), target_classes = c("Date", "POSIXct"))
+  make_inheritance_checks(list(min_date = min_date, max_date = max_date), target_classes = c("Date", "POSIXct"))
 
   # min and max date are in a reasonable range
   if (!is.null(min_date) & !is.null(max_date)) {

@@ -183,13 +183,7 @@ test_that("dob_from_chi errors properly", {
   expect_error(dob_from_chi("0101625707",
     min_date = "01-01-2020"
   ),
-  regexp = "`min_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
-  )
-
-  expect_error(dob_from_chi("0101625707",
-    max_date = "01-01-2020"
-  ),
-  regexp = "`max_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
+  regexp = '`min_date` has class <character>, but must be any of <Date/POSIXct>.*'
   )
 
   expect_error(dob_from_chi("0101625707",

@@ -31,7 +31,7 @@
 age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
                           units = c("years", "months"), round_down = TRUE) {
 
-  make_inheritance_checks(list(start=start, end=end), target_classes = c("Date", "POSIXt"), ignore_null = FALSE)
+  make_inheritance_checks(list(start = start, end = end), target_classes = c("Date", "POSIXt"), ignore_null = FALSE)
 
   units <- match.arg(tolower(units), c("years", "months"))
 
