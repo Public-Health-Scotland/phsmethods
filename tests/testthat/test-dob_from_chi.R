@@ -192,7 +192,6 @@ test_that("dob_from_chi errors properly", {
     regexp = "`min_date` has class <character>, but must be any of <Date/POSIXct>.*"
   )
 
-<<<<<<< HEAD
   expect_error(dob_from_chi("0101625707",
                             max_date = "01-01-2020"
   ),
@@ -203,15 +202,14 @@ test_that("dob_from_chi errors properly", {
     min_date = as.Date("2020-01-01"),
     max_date = as.Date("1930-01-01")
   ),
-  regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
-=======
+  regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$")
+
   expect_error(
     dob_from_chi("0101625707",
       min_date = as.Date("2020-01-01"),
       max_date = as.Date("1930-01-01")
     ),
     regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
->>>>>>> a7dbc64aa92d6451523408ef10044bf2ee4cd4bb
   )
 })
 
