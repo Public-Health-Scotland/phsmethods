@@ -9,12 +9,12 @@ test_that("two character argument passes check for character", {
 })
 
 test_that("single numeric argument passes check for numeric", {
-  args <- list(arg1 =  0.5)
+  args <- list(arg1 = 0.5)
   expect_equal(make_inheritance_checks(args, target_classes = "numeric"), NULL)
 })
 
 test_that("two numeric argument passes check for numeric", {
-  args <- list(arg1 = 1, arg2 =  0.5)
+  args <- list(arg1 = 1, arg2 = 0.5)
   expect_equal(make_inheritance_checks(args, target_classes = "numeric"), NULL)
 })
 
@@ -30,21 +30,30 @@ test_that("single factor argument passes check for factor", {
 
 test_that("make_inheritance_checks errors properly", {
   expect_error(make_inheritance_checks(list(arg1 = "1"), target_classes = "numeric"),
-               regexp = "`arg1` has class <character>, but must be <numeric>\\.$"
+    regexp = "`arg1` has class <character>, but must be <numeric>\\.$"
   )
 
   expect_error(make_inheritance_checks(list(arg1 = 1), target_classes = "character"),
-               regexp = "`arg1` has class <numeric>, but must be <character>\\.$")
+    regexp = "`arg1` has class <numeric>, but must be <character>\\.$"
+  )
 
-  expect_error(make_inheritance_checks(list(arg1 = "22.10.1888", arg2 = 22),
-                                       target_classes = c("DATE", "POSIX")),
-               regexp = "`arg1` has class <character>, but must be any of <DATE/POSIX>\\.
-`arg2` has class <numeric>, but must be any of <DATE/POSIX>\\.$")
+  expect_error(
+    make_inheritance_checks(list(arg1 = "22.10.1888", arg2 = 22),
+      target_classes = c("DATE", "POSIX")
+    ),
+    regexp = "`arg1` has class <character>, but must be any of <DATE/POSIX>\\.
+`arg2` has class <numeric>, but must be any of <DATE/POSIX>\\.$"
+  )
 
   expect_error(make_inheritance_checks("1", target_classes = "numeric"),
-               regexp = "make_inheritance_checks failed: 'arguments' must be a list\\.$")
+    regexp = "make_inheritance_checks failed: 'arguments' must be a list\\.$"
+  )
 
-  expect_error(make_inheritance_checks(list(arg1 = NULL), target_classes = "character",
-                                       ignore_null = FALSE),
-               regexp = '`arg1` is "NULL" but must be <character>\\.$')
+  expect_error(
+    make_inheritance_checks(list(arg1 = NULL),
+      target_classes = "character",
+      ignore_null = FALSE
+    ),
+    regexp = '`arg1` is "NULL" but must be <character>\\.$'
+  )
 })
