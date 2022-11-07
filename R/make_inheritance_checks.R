@@ -6,10 +6,10 @@
 #' @param ignore_null boolean. Indicates whether to ignore arguments with value NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.
 
 make_inheritance_checks <- function(arguments, target_classes, ignore_null = TRUE) {
-
   caller_func <- ifelse(length(sys.calls()) > 1,
-                        deparse(sys.calls()[[sys.nframe() - 1]]),
-                        NA)
+    deparse(sys.calls()[[sys.nframe() - 1]]),
+    NA
+  )
 
   if (!is.list(arguments)) {
     cli::cli_abort(
