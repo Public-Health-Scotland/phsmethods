@@ -22,11 +22,11 @@ make_inheritance_checks <- function(arguments, target_classes, ignore_null = TRU
       if (ignore_null) {
         return(NULL)
       } else {
-        return(glue::glue("{.arg {% argument %}} is {.val NULL} but must be {cli::qty(target_classes)} {?any of }{.cls {target_classes}}.", .open = "{%", .close = "%}"))
+        return(stringr::str_glue("{.arg {% argument %}} is {.val NULL} but must be {cli::qty(target_classes)} {?any of }{.cls {target_classes}}.", .open = "{%", .close = "%}"))
       }
     }
     if (!inherits(arguments[[argument]], target_classes) & !is.null(arguments[[argument]])) {
-      return(glue::glue("{.arg {% argument %}} has class {.cls {% class(arguments[[argument]]) %}}, but must be {cli::qty(target_classes)} {?any of }{.cls {target_classes}}.", .open = "{%", .close = "%}"))
+      return(stringr::str_glue("{.arg {% argument %}} has class {.cls {% class(arguments[[argument]]) %}}, but must be {cli::qty(target_classes)} {?any of }{.cls {target_classes}}.", .open = "{%", .close = "%}"))
     }
   })
   names(failures) <- names(arguments)
