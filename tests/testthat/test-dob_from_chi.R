@@ -48,13 +48,14 @@ test_that("Returns correct DoB - fixed dates supplied", {
   # Some standard CHIs / dates
   # Fixed min date e.g. All patients are younger than X
   expect_equal(
-    dob_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
-    ),
-    min_date = as.Date("1921-01-01"),
-    max_date = as.Date("2021-01-01")
+    dob_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      min_date = as.Date("1921-01-01"),
+      max_date = as.Date("2021-01-01")
     ),
     as.Date(c(
       "1933-01-01",
@@ -69,12 +70,13 @@ test_that("Returns correct DoB - unusual fixed dates", {
   # Dates which would change the 'usual'
   expect_equal(
     suppressMessages(
-      dob_from_chi(c(
-        "0101336489",
-        "0101405073",
-        "0101625707"
-      ),
-      min_date = as.Date("1950-01-01")
+      dob_from_chi(
+        c(
+          "0101336489",
+          "0101405073",
+          "0101625707"
+        ),
+        min_date = as.Date("1950-01-01")
       )
     ),
     as.Date(c(NA, NA, "1962-01-01"))
@@ -114,16 +116,17 @@ test_that("Can supply different max dates per CHI", {
   # Some standard CHIs / dates
   # Max date per CHI, e.g. Date of admission
   expect_equal(
-    dob_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
-    ),
-    max_date = as.Date(c(
-      "2021-01-01",
-      "2021-01-02",
-      "2021-01-03"
-    ))
+    dob_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      max_date = as.Date(c(
+        "2021-01-01",
+        "2021-01-02",
+        "2021-01-03"
+      ))
     ),
     as.Date(c(
       "1933-01-01",
@@ -135,12 +138,13 @@ test_that("Can supply different max dates per CHI", {
 
 test_that("Can fill in date of today where max_date is missing", {
   expect_equal(
-    dob_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
-    ),
-    max_date = as.Date(c(NA, NA, "2021-01-03"))
+    dob_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      max_date = as.Date(c(NA, NA, "2021-01-03"))
     ),
     as.Date(c(
       "1933-01-01",
@@ -152,16 +156,17 @@ test_that("Can fill in date of today where max_date is missing", {
 
 test_that("any max_date where it is a future date is changed to date of today", {
   expect_equal(
-    suppressWarnings(dob_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
-    ),
-    max_date = as.Date(c(
-      "2030-01-01",
-      "2040-01-02",
-      "2050-01-03"
-    ))
+    suppressWarnings(dob_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      max_date = as.Date(c(
+        "2030-01-01",
+        "2040-01-02",
+        "2050-01-03"
+      ))
     )),
     as.Date(c(
       "1933-01-01",
@@ -180,23 +185,34 @@ test_that("dob_from_chi errors properly", {
     regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
-  expect_error(dob_from_chi("0101625707",
-    min_date = "01-01-2020"
-  ),
-  regexp = "`min_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
+  expect_error(
+    dob_from_chi("0101625707",
+      min_date = "01-01-2020"
+    ),
+    regexp = "`min_date` has class <character>, but must be any of <Date/POSIXct>.*"
   )
 
-  expect_error(dob_from_chi("0101625707",
-    max_date = "01-01-2020"
-  ),
-  regexp = "`max_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
+  expect_error(
+    dob_from_chi("0101625707",
+      max_date = "01-01-2020"
+    ),
+    regexp = "max_date` has class <character>, but must be any of <Date/POSIXct>\\.$"
   )
 
-  expect_error(dob_from_chi("0101625707",
-    min_date = as.Date("2020-01-01"),
-    max_date = as.Date("1930-01-01")
-  ),
-  regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
+  expect_error(
+    dob_from_chi("0101625707",
+      min_date = as.Date("2020-01-01"),
+      max_date = as.Date("1930-01-01")
+    ),
+    regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
+  )
+
+  expect_error(
+    dob_from_chi("0101625707",
+      min_date = as.Date("2020-01-01"),
+      max_date = as.Date("1930-01-01")
+    ),
+    regexp = "`max_date`, must always be greater than or equal to `min_date`\\.$"
   )
 })
 
@@ -242,13 +258,14 @@ test_that("Returns correct age - fixed age supplied", {
   # Some standard CHIs
   # Fixed min age e.g. All patients are younger than X
   expect_equal(
-    age_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
-    ),
-    min_age = 1,
-    max_age = 101
+    age_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      min_age = 1,
+      max_age = 101
     ),
     c(89, 82, 60)
   )
@@ -258,12 +275,13 @@ test_that("Returns correct age - unusual fixed age", {
   # Some standard CHIs
   expect_equal(
     suppressMessages(
-      age_from_chi(c(
-        "0101336489",
-        "0101405073",
-        "0101625707"
-      ),
-      max_age = 72
+      age_from_chi(
+        c(
+          "0101336489",
+          "0101405073",
+          "0101625707"
+        ),
+        max_age = 72
       )
     ),
     c(NA_real_, NA_real_, 60)
@@ -302,16 +320,17 @@ test_that("Can supply different reference dates per CHI", {
   # Some standard CHIs / dates
   # Reference date per CHI, e.g. Date of discharge
   expect_equal(
-    age_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
-    ),
-    ref_date = as.Date(c(
-      "1950-01-01",
-      "2000-01-01",
-      "2020-01-01"
-    ))
+    age_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      ref_date = as.Date(c(
+        "1950-01-01",
+        "2000-01-01",
+        "2020-01-01"
+      ))
     ),
     c(17, 60, 58)
   )
@@ -322,22 +341,25 @@ test_that("age_from_chi errors properly", {
     regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
-  expect_error(age_from_chi("0101625707",
-    ref_date = "01-01-2020"
-  ),
-  regexp = "`ref_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
+  expect_error(
+    age_from_chi("0101625707",
+      ref_date = "01-01-2020"
+    ),
+    regexp = "`ref_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
-  expect_error(age_from_chi("0101625707",
-    min_age = -2
-  ),
-  regexp = "`min_age` must be a positive integer\\.$"
+  expect_error(
+    age_from_chi("0101625707",
+      min_age = -2
+    ),
+    regexp = "`min_age` must be a positive integer\\.$"
   )
 
-  expect_error(age_from_chi("0101625707",
-    min_age = 20, max_age = 10
-  ),
-  regexp = "`max_age`, must always be greater than or equal to `min_age`\\.$"
+  expect_error(
+    age_from_chi("0101625707",
+      min_age = 20, max_age = 10
+    ),
+    regexp = "`max_age`, must always be greater than or equal to `min_age`\\.$"
   )
 })
 

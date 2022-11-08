@@ -30,13 +30,8 @@
 #' @export
 age_calculate <- function(start, end = if (lubridate::is.Date(start)) Sys.Date() else Sys.time(),
                           units = c("years", "months"), round_down = TRUE) {
-  if (!inherits(start, c("Date", "POSIXt"))) {
-    cli::cli_abort("{.arg start} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(start)}} vector.")
-  }
 
-  if (!inherits(end, c("Date", "POSIXt"))) {
-    cli::cli_abort("{.arg end} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(end)}} vector.")
-  }
+  make_inheritance_checks(list(start = start, end = end), target_classes = c("Date", "POSIXt"), ignore_null = FALSE)
 
   units <- match.arg(tolower(units), c("years", "months"))
 
