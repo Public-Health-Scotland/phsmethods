@@ -1,4 +1,4 @@
-# phsmethods 0.2.2 (2022-08-29)
+# phsmethods 0.2.2
 
 - Improve `chi_check()` function to make it more efficient and run faster.
 
