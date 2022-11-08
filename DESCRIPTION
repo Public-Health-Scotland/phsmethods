@@ -12,7 +12,8 @@ Authors@R: c(
     person("Graeme", "Gowans", , "Graeme.Gowans@phs.scot", role = "aut"),
     person("Alice", "Byers", role = "ctb"),
     person("Alan", "Yeung", , "Alan.Yeung@phs.scot", role = "ctb"),
-    person("James", "McMahon", , "James.McMahon@phs.scot", role = "aut"),
+    person("James", "McMahon", , "James.McMahon@phs.scot", role = "aut",
+           comment = c(ORCID = "0000-0002-5380-2029")),
     person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut")
   )
 Description: Bespoke functions for commonly undertaken analytical tasks in
