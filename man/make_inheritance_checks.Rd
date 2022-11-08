@@ -2,21 +2,21 @@
 % Please edit documentation in R/make_inheritance_checks.R
 \name{make_inheritance_checks}
 \alias{make_inheritance_checks}
-\title{Performs checks if arguments have classes specified by 'target_classes' and prints out each argument which is lacking the specified class or is NULL.
+\title{Check that a set of arguments inherits from a set of classes
 Throws an exception if one argument does not pass the checks.
 Argument must have AT LEAST ONE of the specified classes to pass.}
 \usage{
-make_inheritance_checks(arguments, target_classes, ignore_null = T)
+make_inheritance_checks(arguments, target_classes, ignore_null = TRUE)
 }
 \arguments{
 \item{arguments}{a list object containing argument_name=argument pairs for each argument. Argument names must be provided or else they will be ignored.}
 
-\item{target_classes}{array of classes (string).}
+\item{target_classes}{character vector of the classes to check for.}
 
 \item{ignore_null}{boolean. Indicates whether to ignore arguments with value NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.}
 }
 \description{
-Performs checks if arguments have classes specified by 'target_classes' and prints out each argument which is lacking the specified class or is NULL.
+Check that a set of arguments inherits from a set of classes
 Throws an exception if one argument does not pass the checks.
 Argument must have AT LEAST ONE of the specified classes to pass.
 }
