@@ -1,8 +1,8 @@
-pandoc: 2.7.3
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-11-14T16:03Z
+last_built: 2022-11-14T16:39Z
 urls:
   reference: https://public-health-scotland.github.io/phsmethods/reference
   article: https://public-health-scotland.github.io/phsmethods/articles
