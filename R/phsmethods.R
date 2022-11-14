@@ -17,4 +17,4 @@ NULL
 # Stops notes from appearing in R CMD check because of undefined global
 # variable '.' and allows area_lookup dataset to be used inside match_area
 # function
-if(getRversion() >= "2.15.1") utils::globalVariables(c(".", "area_lookup"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c(".", "area_lookup"))

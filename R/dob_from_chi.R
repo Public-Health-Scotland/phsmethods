@@ -40,18 +40,18 @@
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE) {
 
   # Do type checking on the params
-  stopifnot(typeof(chi_number) == "character")
-
-  if (!is.null(min_date) & !inherits(min_date, c("Date", "POSIXct"))) {
-    stop("min_date must have Date or POSIXct class")
+  if (!inherits(chi_number, "character")) {
+    cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
   }
 
-  if (!is.null(max_date) & !inherits(max_date, c("Date", "POSIXct"))) {
-    stop("max_date must have Date or POSIXct class")
-  }
+  make_inheritance_checks(list(min_date = min_date, max_date = max_date), target_classes = c("Date", "POSIXct"))
 
   # min and max date are in a reasonable range
-  if (!is.null(min_date) & !is.null(max_date)) stopifnot(min_date <= max_date)
+  if (!is.null(min_date) & !is.null(max_date)) {
+    if (any(max_date < min_date)) {
+      cli::cli_abort("{.arg max_date}, must always be greater than or equal to {.arg min_date}.")
+    }
+  }
 
   # Default the max_date to today (person can't be born after today)
   if (is.null(max_date)) max_date <- Sys.Date()
@@ -63,7 +63,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   if (any(max_date > Sys.Date())) {
     to_replace <- max_date > Sys.Date()
     max_date[to_replace] <- Sys.Date()
-    warning("any max_date where it is a future date is changed to date of today")
+    cli::cli_warn(c("!" = "Any {.arg max_date} values which are in the future will be set to today: {.val {Sys.Date()}}."))
   }
 
   # Default the min_date to 1 Jan 1900
@@ -78,7 +78,7 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
     new_na_count <- sum(is.na(chi_number)) - na_count
 
     if (new_na_count > 0) {
-      message(glue::glue("{format(new_na_count, big.mark = ',')} CHI number{ifelse(new_na_count > 1, 's were', ' was')} invalid and will be given NA for DoB"))
+      cli::cli_alert_warning(("{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} {?is/are} invalid and will be given {.val NA} for {?its/their} Date{?s} of Birth."))
     }
   }
 
@@ -117,9 +117,11 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
   new_na_count <- sum(is.na(guess_dob)) - na_count
 
   if (new_na_count > 0) {
-    message(glue::glue("{format(new_na_count, big.mark = ',')} CHI number{ifelse(new_na_count > 1, 's produced ambiguous dates', ' produced an ambiguous date')} and will be given NA for DoB, if possible try different values for min_date and/or max_date"))
+    cli::cli_inform(c(
+      "!" = "{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} produced {?an/} ambiguous date{?s} and will be given {.val NA} for {?its/their} Date{?s} of Birth.",
+      "v" = "Try different values for {.arg min_date} and/or {.arg max_date}."
+    ))
   }
-
 
   return(guess_dob)
 }
@@ -169,16 +171,24 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NULL, chi_check = TRUE) {
 
   # Do type checking on the params
-  stopifnot(typeof(chi_number) == "character")
+  if (!inherits(chi_number, "character")) {
+    cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
+  }
 
   if (!is.null(ref_date) & !inherits(ref_date, c("Date", "POSIXct"))) {
-    stop("ref_date must have Date or POSIXct class")
+    cli::cli_abort("{.arg ref_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(ref_date)}} vector.")
   }
 
   # min and max ages are in a reasonable range
-  stopifnot(min_age >= 0)
+  if (min_age < 0) {
+    cli::cli_abort("{.arg min_age} must be a positive integer.")
+  }
 
-  if (!is.null(max_age)) stopifnot(max_age >= min_age)
+  if (!is.null(max_age)) {
+    if (any(max_age < min_age)) {
+      cli::cli_abort("{.arg max_age}, must always be greater than or equal to {.arg min_age}.")
+    }
+  }
 
   if (is.null(ref_date)) ref_date <- Sys.Date()
 

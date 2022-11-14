@@ -60,57 +60,59 @@
 
 chi_check <- function(x) {
   if (!inherits(x, "character")) {
-    stop("The input must be of character class")
+    cli::cli_abort("The input must be a {.cls character} vector, not a {.cls {class(x)}} vector.")
   }
 
-  # Store unchanged input for checking missing values
-  y <- x
+  # Calculate the number of characters
+  nc <- nchar(x)
 
-  # Replace entries containing invalid characters (letters and punctuation)
-  # with NA
-  x <- ifelse(grepl("[[:punct:][:alpha:]]", x),
-    NA,
-    x
-  )
+  # Initialise the output vector to be a character vector
+  out <- character(length(x))
+  # Check if the first six digits denote a valid date
+  out[is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y"))] <- "Invalid date"
+  # Check if the number of characters is less than 10 digits
+  out[nc < 10] <- "Too few characters"
+  # Check if the number of characters is more than 10 digits
+  out[nc > 10] <- "Too many characters"
+  # Check if it contains non-numeric characters (e.g. letters and punctuation)
+  out[grepl("[^0-9]", x)] <- "Invalid character(s) present"
+  # Check if any are empty strings
+  out[!is.na(x) & x == ""] <- "Missing (Blank)"
+  # Check if any are are missing values
+  out[is.na(x)] <- "Missing (NA)"
+  # Check if the checksum digit is valid
+  out[out == ""] <- ifelse(checksum(x[out == ""]), "Valid CHI", "Invalid checksum")
 
-  # Perform checks and return feedback
-  dplyr::case_when(
-    is.na(y) ~ "Missing (NA)",
-    x == "" ~ "Missing (Blank)",
-    is.na(x) ~ "Invalid character(s) present",
-    nchar(x) > 10 ~ "Too many characters",
-    nchar(x) < 10 ~ "Too few characters",
-    is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y")) ~ "Invalid date",
-    checksum(x) == FALSE ~ "Invalid checksum",
-    TRUE ~ "Valid CHI"
-  )
+  out
 }
 
 checksum <- function(x) {
+  # Get unique values of input to improve efficiency
+  xu <- unique(x)
 
-  # Multiply by weights and add together
-  i <- sub_num(x, 1) + sub_num(x, 2) +
-    sub_num(x, 3) + sub_num(x, 4) +
-    sub_num(x, 5) + sub_num(x, 6) +
-    sub_num(x, 7) + sub_num(x, 8) +
-    sub_num(x, 9)
+  # Change from character to numeric
+  xu_num <- as.numeric(xu)
+  # Create a vector to help separate each CHI digit
+  denom <- 1000000000 / 10^(0:9)
+
+  # Separate each CHI digit into a matrix
+  chi_matrix <- outer(xu_num, denom, function(x, y) x %/% y %% 10)
+  # Extract the first nine digits
+  chi_matrix_nine <- chi_matrix[, 1:9]
+  # Extract the tenth digit
+  chi_matrix_ten <- chi_matrix[, 10]
+
+  # Weight factor for checksum calculation
+  wg <- 10:2
+  # Matrix multiplication
+  i <- c(chi_matrix_nine %*% wg)
 
   j <- floor(i / 11) # Discard remainder
   k <- 11 * (j + 1) - i # Checksum calculation
   k <- ifelse(k == 11, 0, k) # If 11, make 0
 
-  # Check if output matches the checksum
-  ifelse(k == substr(x, 10, 10), TRUE, FALSE)
-}
-
-sub_num <- function(x, num) {
-
-  # Weight factor for checksum calculation
-  wg <- 10:2
-
-  # Extract character by position
-  x_ex <- substr(x, num, num)
-
-  # Multiply by weight factor
-  as.numeric(x_ex) * wg[num]
+  # Return TRUE if k is equal to the tenth digit
+  out <- k == chi_matrix_ten
+  # Spread the results to all inputs
+  out[match(x, xu)]
 }

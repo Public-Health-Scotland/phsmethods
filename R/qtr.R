@@ -36,147 +36,211 @@
 #' qtr_end(x, format = "short")
 #' qtr_next(x)
 #' qtr_prev(x, format = "short")
-
+#'
 #' @export
 #' @rdname qtr
 qtr <- function(date, format = c("long", "short")) {
-
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
 
   if (format == "long") {
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("January to March ",
-                                lubridate::year(date)),
-      quarter_num == 2 ~ paste0("April to June ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("July to September ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("October to December ",
-                                lubridate::year(date))))
+      quarter_num == 1 ~ paste0(
+        "January to March ",
+        lubridate::year(date)
+      ),
+      quarter_num == 2 ~ paste0(
+        "April to June ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "July to September ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "October to December ",
+        lubridate::year(date)
+      )
+    ))
   } else {
-
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("Jan-Mar ",
-                                lubridate::year(date)),
-      quarter_num == 2 ~ paste0("Apr-Jun ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("Jul-Sep ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("Oct-Dec ",
-                                lubridate::year(date))))
+      quarter_num == 1 ~ paste0(
+        "Jan-Mar ",
+        lubridate::year(date)
+      ),
+      quarter_num == 2 ~ paste0(
+        "Apr-Jun ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "Jul-Sep ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "Oct-Dec ",
+        lubridate::year(date)
+      )
+    ))
   }
 }
 
 #' @export
 #' @rdname qtr
 qtr_end <- function(date, format = c("long", "short")) {
-
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
 
   if (format == "long") {
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("March ",
-                                lubridate::year(date)),
-      quarter_num == 2 ~ paste0("June ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("September ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("December ",
-                                lubridate::year(date))))
+      quarter_num == 1 ~ paste0(
+        "March ",
+        lubridate::year(date)
+      ),
+      quarter_num == 2 ~ paste0(
+        "June ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "September ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "December ",
+        lubridate::year(date)
+      )
+    ))
   } else {
-
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("Mar ",
-                                lubridate::year(date)),
-      quarter_num == 2 ~ paste0("Jun ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("Sep ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("Dec ",
-                                lubridate::year(date))))
+      quarter_num == 1 ~ paste0(
+        "Mar ",
+        lubridate::year(date)
+      ),
+      quarter_num == 2 ~ paste0(
+        "Jun ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "Sep ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "Dec ",
+        lubridate::year(date)
+      )
+    ))
   }
 }
 
 #' @export
 #' @rdname qtr
 qtr_next <- function(date, format = c("long", "short")) {
-
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
 
   if (format == "long") {
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("April to June ",
-                                lubridate::year(date)),
-      quarter_num == 2 ~ paste0("July to September ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("October to December ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("January to March ",
-                                lubridate::year(date) + 1)))
+      quarter_num == 1 ~ paste0(
+        "April to June ",
+        lubridate::year(date)
+      ),
+      quarter_num == 2 ~ paste0(
+        "July to September ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "October to December ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "January to March ",
+        lubridate::year(date) + 1
+      )
+    ))
   } else {
-
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("Apr-Jun ",
-                                lubridate::year(date)),
-      quarter_num == 2 ~ paste0("Jul-Sep ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("Oct-Dec ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("Jan-Mar ",
-                                lubridate::year(date) + 1)))
+      quarter_num == 1 ~ paste0(
+        "Apr-Jun ",
+        lubridate::year(date)
+      ),
+      quarter_num == 2 ~ paste0(
+        "Jul-Sep ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "Oct-Dec ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "Jan-Mar ",
+        lubridate::year(date) + 1
+      )
+    ))
   }
 }
 
 #' @export
 #' @rdname qtr
 qtr_prev <- function(date, format = c("long", "short")) {
-
   format <- match.arg(format)
 
   if (!inherits(date, c("Date", "POSIXct"))) {
-    stop("The input must have Date or POSIXct class")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
   }
 
   quarter_num <- lubridate::quarter(date)
 
   if (format == "long") {
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("October to December ",
-                                lubridate::year(date) - 1),
-      quarter_num == 2 ~ paste0("January to March ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("April to June ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("July to September ",
-                                lubridate::year(date))))
+      quarter_num == 1 ~ paste0(
+        "October to December ",
+        lubridate::year(date) - 1
+      ),
+      quarter_num == 2 ~ paste0(
+        "January to March ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "April to June ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "July to September ",
+        lubridate::year(date)
+      )
+    ))
   } else {
-
     return(dplyr::case_when(
-      quarter_num == 1 ~ paste0("Oct-Dec ",
-                                lubridate::year(date) - 1),
-      quarter_num == 2 ~ paste0("Jan-Mar ",
-                                lubridate::year(date)),
-      quarter_num == 3 ~ paste0("Apr-Jun ",
-                                lubridate::year(date)),
-      quarter_num == 4 ~ paste0("Jul-Sep ",
-                                lubridate::year(date))))
+      quarter_num == 1 ~ paste0(
+        "Oct-Dec ",
+        lubridate::year(date) - 1
+      ),
+      quarter_num == 2 ~ paste0(
+        "Jan-Mar ",
+        lubridate::year(date)
+      ),
+      quarter_num == 3 ~ paste0(
+        "Apr-Jun ",
+        lubridate::year(date)
+      ),
+      quarter_num == 4 ~ paste0(
+        "Jul-Sep ",
+        lubridate::year(date)
+      )
+    ))
   }
 }
