@@ -2,9 +2,9 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    paths: ["**.[rR]", "**.[rR]md", "**.[rR]markdown", "**.[rR]nw"]
+    paths: ["**.[rR]", "**.[qrR]md", "**.[rR]markdown", "**.[rR]nw"]
   pull_request:
-    paths: ["**.[rR]", "**.[rR]md", "**.[rR]markdown", "**.[rR]nw"]
+    paths: ["**.[rR]", "**.[qrR]md", "**.[rR]markdown", "**.[rR]nw"]
 
 name: Style
 
@@ -15,7 +15,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -38,15 +38,17 @@ jobs:
         id: styler-location
         run: |
           cat(
-            "##[set-output name=location;]",
+            "location=",
             styler::cache_info(format = "tabular")$location,
             "\n",
+            file = Sys.getenv("GITHUB_OUTPUT"),
+            append = TRUE,
             sep = ""
           )
         shell: Rscript {0}
 
       - name: Cache styler
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.styler-location.outputs.location }}
           key: ${{ runner.os }}-styler-${{ github.sha }}
@@ -58,7 +60,20 @@ jobs:
         run: styler::style_pkg(filetype = c(".R", ".Rmd", ".Rmarkdown", ".Rnw"))
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Commit and create a Pull Request on master
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "Style code"
+          branch: style_master
+          delete-branch: true
+          title: Additional code styling for master branch
+          labels: documentation,Maintainance
+          assignees: ${{ github.actor }}
+          reviewers: ${{ github.actor }}
+
+      - name: Commit and push changes on all other branches
+        if: ${{ github.ref != 'refs/heads/master' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Style code"
