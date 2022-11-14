@@ -60,7 +60,20 @@ jobs:
         run: styler::style_pkg(filetype = c(".R", ".Rmd", ".Rmarkdown", ".Rnw"))
         shell: Rscript {0}
 
-      - name: Commit and push changes
+      - name: Commit and create a Pull Request on master
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: "Style code"
+          branch: style_master
+          delete-branch: true
+          title: Additional code styling for master branch
+          labels: documentation,Maintainance
+          assignees: ${{ github.actor }}
+          reviewers: ${{ github.actor }}
+
+      - name: Commit and push changes on all other branches
+        if: ${{ github.ref != 'refs/heads/master' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Style code"
