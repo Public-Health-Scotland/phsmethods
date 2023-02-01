@@ -1,5 +1,5 @@
 test_that("Returns a tibble", {
-  expect_true(tibble::is_tibble(file_size(test_path("files"))))
+  expect_s3_class(file_size(test_path("files")), "tbl")
 })
 
 test_that("Identifies correct number of files", {
@@ -10,11 +10,21 @@ test_that("Identifies correct number of files", {
 })
 
 test_that("Returns sizes with correct prefix", {
-  expect_true(stringr::str_detect(
-    file_size(test_path("files"), ".tsv$") %>%
+  expect_match(
+    file_size(test_path("files"), "tsv") %>%
       dplyr::pull(size),
-    "^TSV\\s[0-9]*\\s[A-Z]?B$"
-  ))
+    "^TSV 1 kB$"
+  )
+  expect_match(
+    file_size(test_path("files"), "csv") %>%
+      dplyr::pull(size),
+    "^CSV 4 kB$"
+  )
+  expect_match(
+    file_size(test_path("files"), "fst") %>%
+      dplyr::pull(size),
+    "^FST 897 B$"
+  )
 })
 
 test_that("Returns sizes in alphabetical order", {
@@ -25,6 +35,11 @@ test_that("Returns sizes in alphabetical order", {
       dplyr::arrange(name) %>%
       dplyr::pull(name)
   )
+})
+
+test_that("Output is identical over time", {
+  expect_snapshot(file_size(test_path("files")))
+  expect_snapshot(file_size(test_path("files"), "xlsx?"))
 })
 
 test_that("Errors if supplied with invalid filepath", {
