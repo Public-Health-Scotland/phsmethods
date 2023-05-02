@@ -17,11 +17,11 @@ warning message - see \strong{Value} section for more information.}
 options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
 section for more information on the string length of output values.}
 
-\item{quiet}{By default [format_postcode()] will give messages and warnings
-when the input contains unexpected values. If you are using this function to
-'clean up' rather than 'check' postcodes and you know there will be lots of
-'bad' values you can set `quiet` to `TRUE` to suppress messages. This will
-also make the function a bit quicker as fewer checks are performed.}
+\item{quite}{(optional) If quiet is `TRUE` all messages and warnings will be
+suppressed. This is useful in a production context and when you are sure of
+the data or you are specifically using this function to remove invalid
+postcodes. This will also make the function a bit quicker as fewer checks
+are performed.}
 }
 \value{
 When \code{format} is set equal to \code{pc7}, \code{format_postcode}
