@@ -1,3 +1,5 @@
+# phsmethods (development version)
+
 # phsmethods 0.2.2
 
 - Improve `chi_check()` function to make it more efficient and run faster.
