@@ -114,3 +114,22 @@ test_that("Warning gives true number of values that don't adhere to format", {
   }
   )
 })
+
+test_that("The quiet parameter suppresses messages correctly", {
+  expect_equal(
+    format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!"), quiet = TRUE),
+    c("KY1 1RZ", NA, NA, NA)
+  )
+  expect_equal(
+    format_postcode(c("KY1 1RZ", "ky1 1rz"), quiet = TRUE),
+    c("KY1 1RZ", "KY1 1RZ")
+  )
+  expect_equal(
+    format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!"), quiet = TRUE),
+    suppressWarnings(format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!")))
+  )
+  expect_equal(
+    format_postcode(c("KY1 1RZ", "ky1 1rz"), quiet = TRUE),
+    suppressWarnings(format_postcode(c("KY1 1RZ", "ky1 1rz")))
+  )
+})
