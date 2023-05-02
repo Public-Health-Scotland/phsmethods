@@ -19,9 +19,9 @@
 #' \href{https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/283357/ILRSpecification2013_14Appendix_C_Dec2012_v1.pdf}{UK government regulations}
 #' mandate which letters and numbers can be used in specific sections of a
 #' postcode. However, these regulations are liable to change over time. For
-#' this reason, \code{format_postcode} does not validate whether a given postcode
-#' actually exists, or whether specific numbers and letters are being used in
-#' the appropriate places. It only assesses whether the given input is
+#' this reason, \code{format_postcode} does not validate whether a given
+#' postcode actually exists, or whether specific numbers and letters are being
+#' used in the appropriate places. It only assesses whether the given input is
 #' consistent with the above format and, if so, assigns the appropriate amount
 #' of spacing and capitalises any lower case letters.
 #'
@@ -44,8 +44,8 @@
 #' spaces after the 2nd character; 6 character postcodes have 1 space after the
 #' 3rd character; and 7 character postcodes have no spaces.
 #'
-#' When \code{format} is set equal to \code{pc8}, \code{format_postcode} returns a
-#' character string with maximum length 8. All postcodes, whether 5, 6 or 7
+#' When \code{format} is set equal to \code{pc8}, \code{format_postcode} returns
+#'  a character string with maximum length 8. All postcodes, whether 5, 6 or 7
 #' characters, have one space before the last 3 characters.
 #'
 #' Any input values which do not adhere to the standard UK postcode format will
@@ -64,7 +64,8 @@
 #'
 #' library(dplyr)
 #' df <- tibble(postcode = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
-#' df %>% mutate(postcode = format_postcode(postcode))
+#' df %>%
+#'   mutate(postcode = format_postcode(postcode))
 #' @export
 format_postcode <- function(x, format = c("pc7", "pc8"), quiet = FALSE) {
   if (!inherits(x, "character")) {
