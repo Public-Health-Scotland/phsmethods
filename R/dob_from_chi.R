@@ -38,7 +38,6 @@
 #'     max_date = adm_date
 #'   ))
 dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE) {
-
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
     cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
@@ -169,7 +168,6 @@ dob_from_chi <- function(chi_number, min_date = NULL, max_date = NULL, chi_check
 #'     ref_date = dis_date
 #'   ))
 age_from_chi <- function(chi_number, ref_date = NULL, min_age = 0, max_age = NULL, chi_check = TRUE) {
-
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
     cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")

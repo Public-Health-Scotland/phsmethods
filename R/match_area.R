@@ -49,7 +49,6 @@
 #' @export
 
 match_area <- function(x) {
-
   # Coerce input to character to prevent any warning messages appearing about
   # type conversion in dplyr::left_join
   code_var <- as.character(x)
