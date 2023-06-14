@@ -61,8 +61,11 @@
 #' df <- tibble(postcode = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
 #' df %>% mutate(postcode = format_postcode(postcode))
 #' @export
-
 format_postcode <- function(x, format = c("pc7", "pc8")) {
+  if (!inherits(x, "character")) {
+    cli::cli_abort("The input must be a {.cls character} vector,
+                   not a {.cls {class(x)}} vector.")
+  }
   format <- match.arg(format)
 
   # The standard regex for a UK postcode
