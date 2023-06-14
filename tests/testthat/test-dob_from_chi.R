@@ -1,3 +1,5 @@
+# A helper function to generate a 'real' CHI number i.e. one which passes
+# `chi_check`, given the first 6 chars i.e. the DoB
 gen_real_chi <- function(first_6) {
   for (i in 1111:9999) {
     chi <- chi_pad(as.character(first_6 * 10000 + i))
@@ -6,6 +8,19 @@ gen_real_chi <- function(first_6) {
       return(chi)
     }
   }
+}
+
+# A helper function to work out ages as time passes: Given the age at a given
+# date, work out what the age would be today. "2022-04-01" was chosen as the
+# default arbitrarily.
+expected_age <- function(
+    expected_ages,
+    expected_at = lubridate::make_date(year = 2022, month = 4, day = 1)
+) {
+  expected_ages + floor(lubridate::time_length(
+    lubridate::interval(expected_at, Sys.Date()),
+    "years"
+  ))
 }
 
 test_that("Returns correct DoB - no options", {
@@ -235,7 +250,7 @@ test_that("Returns correct age - no options", {
       "0101405073",
       "0101625707"
     )),
-    c(89, 82, 60)
+    expected_age(c(89, 82, 60))
   )
 
   # Leap years
@@ -245,12 +260,13 @@ test_that("Returns correct age - no options", {
       gen_real_chi(290236),
       gen_real_chi(290296)
     )),
-    c(94, 86, 26)
+    expected_age(c(94, 86, 26))
   )
 
   # Century leap year (hard to test as 1900 is a long time ago!)
   expect_equal(
-    age_from_chi(gen_real_chi(290200)), 22
+    age_from_chi(gen_real_chi(290200)),
+    expected_age(22)
   )
 })
 
@@ -267,7 +283,7 @@ test_that("Returns correct age - fixed age supplied", {
       min_age = 1,
       max_age = 101
     ),
-    c(89, 82, 60)
+    expected_age(c(89, 82, 60))
   )
 })
 
@@ -284,7 +300,7 @@ test_that("Returns correct age - unusual fixed age", {
         max_age = 72
       )
     ),
-    c(NA_real_, NA_real_, 60)
+    expected_age(c(NA_real_, NA_real_, 60))
   )
 })
 
