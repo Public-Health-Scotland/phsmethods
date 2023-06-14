@@ -77,7 +77,8 @@ format_postcode <- function(x, format = c("pc7", "pc8")) {
 
   # Calculate the number of non-NA values in the input which do not adhere to
   # the standard UK postcode format
-  n_bad_format <- sum(!stringr::str_detect(x, uk_pc_regex), na.rm = TRUE)
+  bad_format <- stringr::str_detect(x_upper, uk_pc_regex, negate = TRUE)
+  n_bad_format <- sum(bad_format, na.rm = TRUE)
 
   if (n_bad_format > 0) {
     cli::cli_warn(c(
