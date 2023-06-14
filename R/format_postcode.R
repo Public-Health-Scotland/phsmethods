@@ -33,6 +33,11 @@
 #' @param format A character string denoting the desired output format. Valid
 #' options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
 #' section for more information on the string length of output values.
+#' @param quiet By default [format_postcode()] will give messages and warnings
+#' when the input contains unexpected values. If you are using this function to
+#' 'clean up' rather than 'check' postcodes and you know there will be lots of
+#' 'bad' values you can set `quiet` to `TRUE` to suppress messages. This will
+#' also make the function a bit quicker as fewer checks are performed.
 #'
 #' @return When \code{format} is set equal to \code{pc7}, \code{format_postcode}
 #' returns a character string of length 7. 5 character postcodes have two
@@ -61,19 +66,35 @@
 #' df <- tibble(postcode = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
 #' df %>% mutate(postcode = format_postcode(postcode))
 #' @export
-format_postcode <- function(x, format = c("pc7", "pc8")) {
+format_postcode <- function(x, format = c("pc7", "pc8"), quiet = FALSE) {
   if (!inherits(x, "character")) {
     cli::cli_abort("The input must be a {.cls character} vector,
                    not a {.cls {class(x)}} vector.")
   }
+  if (!inherits(quiet, "logical")) {
+    cli::cli_abort(
+      "{.arg quiet} must be a {.cls logical}, not a {.cls {class(x)}}."
+      )
+  }
   format <- match.arg(format)
 
+  x_upper <- stringr::str_to_upper(x)
+
+  if (!quiet) {
+    n_lowercase <- sum(x != x_upper, na.rm = TRUE)
+    if (n_lowercase > 0) {
+      cli::cli_warn(
+        "{n_lowercase} value{?s} {?has/have} lower case letters these will be
+        converted to upper case."
+      )
+    }
+  }
   # The standard regex for a UK postcode
-  uk_pc_regex <- "^[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[0-9][A-Za-z]{2}$"
+  uk_pc_regex <- "^[A-Z]{1,2}[0-9][A-Z0-9]?[0-9][A-Z]{2}$"
 
   # Strip out all spaces from the input, so they can be added in again later at
   # the appropriate juncture
-  x <- gsub("\\s", "", x)
+  x_upper <- gsub(" ", "", x_upper, fixed = TRUE)
 
   # Calculate the number of non-NA values in the input which do not adhere to
   # the standard UK postcode format
@@ -81,50 +102,46 @@ format_postcode <- function(x, format = c("pc7", "pc8")) {
   n_bad_format <- sum(bad_format, na.rm = TRUE)
 
   if (n_bad_format > 0) {
-    cli::cli_warn(c(
-      "{n_bad_format} non-NA input value{?s} {?does/do} not adhere to the standard UK
-              postcode format (with or without spaces) and will be coded as NA.",
-      "The standard format is:",
-      "*" = "1 or 2 letters, followed by",
-      "*" = "1 number, followed by",
-      "*" = "1 optional letter or number, followed by",
-      "*" = "1 number, followed by",
-      "*" = "2 letters"
-    ))
+    if (!quiet) {
+      cli::cli_warn(c(
+        "{n_bad_format} non-NA input value{?s} {?does/do} not adhere to the
+        standard UK postcode format (with or without spaces) and will be
+        coded as NA.",
+        "The standard format is:",
+        "*" = "1 or 2 letters, followed by",
+        "*" = "1 number, followed by",
+        "*" = "1 optional letter or number, followed by",
+        "*" = "1 number, followed by",
+        "*" = "2 letters"
+      ))
+    }
 
-    # Replace postcodes which do not adhere to the standard format with NA (this
-    # will also 'replace' NA with NA)
-    x <- replace(x, !stringr::str_detect(x, uk_pc_regex), NA_character_)
+    # Replace postcodes which do not adhere to the standard format with NA
+    # (this will also 'replace' NA with NA)
+    x_upper <- replace(x_upper, bad_format, NA_character_)
   }
-
-
-  if (any(grepl("[a-z]", x))) {
-    cli::cli_warn("Lower case letters in any input value(s) adhering to the
-                  standard UK postcode format will be converted to upper case.")
-  }
-
-  x <- toupper(x)
 
   # pc7 format requires all valid postcodes to be of length 7, meaning:
   # 5 character postcodes have 2 spaces after the 2nd character;
   # 6 character postcodes have 1 space after the 3rd character;
   # 7 character postcodes have no spaces
+  x_upper_len <- nchar(x_upper)
   if (format == "pc7") {
     return(dplyr::case_when(
-      is.na(x) ~ NA_character_,
-      nchar(x) == 5 ~ sub("(.{2})", "\\1  ", x),
-      nchar(x) == 6 ~ sub("(.{3})", "\\1 ", x),
-      nchar(x) == 7 ~ x
+      is.na(x_upper) ~ NA_character_,
+      x_upper_len == 5 ~ paste0(substr(x_upper, 1, 2), "  ", substr(x_upper, 3, 5)),
+      x_upper_len == 6 ~ paste0(substr(x_upper, 1, 3), " ", substr(x_upper, 4, 6)),
+      x_upper_len == 7 ~ x_upper
     ))
   } else {
-    # pc8 format requires all valid postcodes to be of maximum length 8
+    # pc8 format requires all valid postcodes to be of max_upperimum length 8
     # All postcodes, whether 5, 6 or 7 characters, have one space before the
     # last 3 characters
     return(dplyr::case_when(
-      is.na(x) ~ NA_character_,
-      nchar(x) %in% 5:7 ~ paste(
-        stringr::str_sub(x, end = -4),
-        stringr::str_sub(x, start = -3)
+      is.na(x_upper) ~ NA_character_,
+      x_upper_len %in% 5:7 ~ paste(
+        stringr::str_sub(x_upper, end = -4),
+        stringr::str_sub(x_upper, start = -3)
       )
     ))
   }

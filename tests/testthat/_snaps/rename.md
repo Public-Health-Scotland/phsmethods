@@ -80,16 +80,34 @@
     Warning <lifecycle_warning_deprecated>
       `postcode()` was deprecated in phsmethods 0.2.1.
       i Please use `format_postcode()` instead.
+    Warning <rlang_warning>
+      1 non-NA input value does not adhere to the standard UK postcode format (with or without spaces) and will be coded as NA.
+      The standard format is:
+      * 1 or 2 letters, followed by
+      * 1 number, followed by
+      * 1 optional letter or number, followed by
+      * 1 number, followed by
+      * 2 letters
     Code
       expect_warning(postcode(c("DG98BS", "dg98b")), "^1")
     Warning <lifecycle_warning_deprecated>
       `postcode()` was deprecated in phsmethods 0.2.1.
       i Please use `format_postcode()` instead.
+    Warning <rlang_warning>
+      1 non-NA input value does not adhere to the standard UK postcode format (with or without spaces) and will be coded as NA.
+      The standard format is:
+      * 1 or 2 letters, followed by
+      * 1 number, followed by
+      * 1 optional letter or number, followed by
+      * 1 number, followed by
+      * 2 letters
     Code
       expect_warning(postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!")), "^3")
     Warning <lifecycle_warning_deprecated>
       `postcode()` was deprecated in phsmethods 0.2.1.
       i Please use `format_postcode()` instead.
+    Warning <rlang_warning>
+      1 value has lower case letters these will be converted to upper case.
     Code
       expect_warning(postcode(c("ML53RB", NA, "ML5", "???", 53, as.factor("ML53RB"))),
       "^4")

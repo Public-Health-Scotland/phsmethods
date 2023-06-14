@@ -1,12 +1,14 @@
 test_that("Creates strings of correct length", {
-  expect_equal(stringr::str_length(format_postcode("G26QE", format = "pc7")), 7)
-  expect_equal(stringr::str_length(format_postcode("G26QE", format = "pc8")), 6)
-  expect_equal(stringr::str_length(format_postcode(c("KA89NB", "PA152TY"),
-    format = "pc7"
-  )), c(7, 7))
-  expect_equal(stringr::str_length(format_postcode(c("KA89NB", "PA152TY"),
-    format = "pc8"
-  )), c(7, 8))
+  expect_equal(nchar(format_postcode("G26QE", format = "pc7")), 7)
+  expect_equal(nchar(format_postcode("G26QE", format = "pc8")), 6)
+  expect_equal(
+    nchar(format_postcode(c("KA89NB", "PA152TY"), format = "pc7")),
+    c(7, 7)
+  )
+  expect_equal(
+    nchar(format_postcode(c("KA89NB", "PA152TY"), format = "pc8")),
+    c(7, 8)
+  )
 })
 
 test_that("Handles all valid outcode formats", {
@@ -37,6 +39,57 @@ test_that("Correctly handles values which don't adhere to standard format", {
   )
 })
 
+test_that("Output is the same with the quiet param set to TRUE", {
+  # Creates strings of correct length
+  expect_equal(
+    nchar(format_postcode("G26QE", format = "pc7", quiet = TRUE)),
+    7
+  )
+  expect_equal(
+    nchar(format_postcode("G26QE", format = "pc8", quiet = TRUE)),
+    6
+  )
+  expect_equal(
+    nchar(format_postcode(
+      c("KA89NB", "PA152TY"),
+      format = "pc7",
+      quiet = TRUE
+    )),
+    c(7, 7)
+  )
+  expect_equal(
+    nchar(format_postcode(
+      c("KA89NB", "PA152TY"),
+      format = "pc8",
+      quiet = TRUE
+    )),
+    c(7, 8)
+  )
+
+  # Handles all valid outcode formats
+    expect_equal(format_postcode("G36RB", quiet = TRUE), "G3  6RB")
+    expect_equal(format_postcode("G432XR", quiet = TRUE), "G43 2XR")
+    expect_equal(format_postcode("DG29BA", quiet = TRUE), "DG2 9BA")
+    expect_equal(format_postcode("FK101RY", quiet = TRUE), "FK101RY")
+    expect_equal(format_postcode("E1W3TJ", quiet = TRUE), "E1W 3TJ")
+    expect_equal(format_postcode("EC1Y8SE", quiet = TRUE), "EC1Y8SE")
+
+  # Parses multiple input formats
+  input_hampden <- c("G429BA", "g429ba", "G42 9BA", "G 4 2 9 B A", "G429b    a")
+  formatted_hampden <- format_postcode(input_hampden, quiet = TRUE)
+
+  expect_length(unique(formatted_hampden), 1)
+  expect_equal(unique(formatted_hampden), "G42 9BA")
+
+  # Correctly handles values which don't adhere to standard format
+  expect_true(is.na(format_postcode("G2?QE", quiet = TRUE)))
+  expect_no_warning(format_postcode(c("G207AL", "G2O07AL"), quiet = TRUE))
+  expect_equal(
+    format_postcode(c("EH7 5QG", NA, "EH11 2NL", "EH5 2HF*"), quiet = TRUE),
+    c("EH7 5QG", NA, "EH112NL", NA)
+  )
+})
+
 test_that("Produces correct number of warning messages", {
   dens_postcodes <- c("Dd37Jy", "DD37JY", "D  d 337JY")
   format_postcode(dens_postcodes) %>%
@@ -49,14 +102,15 @@ test_that("Produces correct number of warning messages", {
 })
 
 test_that("Warning gives true number of values that don't adhere to format", {
-  expect_warning(format_postcode("g2"), "^1")
-  expect_warning(format_postcode(c("DG98BS", "dg98b")), "^1")
-  expect_warning(format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!")), "^3")
-  expect_warning(
-    format_postcode(c(
-      "ML53RB", NA, "ML5",
-      "???", 53, as.factor("ML53RB")
-    )),
-    "^4"
+  expect_snapshot(format_postcode("g2"))
+  expect_snapshot(format_postcode(c("DG98BS", "dg98b")))
+  expect_snapshot(
+    format_postcode(c("ML53RB", NA, "ML5", "???", 53, as.factor("ML53RB")))
+  )
+
+  expect_snapshot({
+    format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!"), quiet = TRUE)
+    format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!"), quiet = FALSE)
+  }
   )
 })

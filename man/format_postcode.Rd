@@ -4,7 +4,7 @@
 \alias{format_postcode}
 \title{Format a postcode}
 \usage{
-format_postcode(x, format = c("pc7", "pc8"))
+format_postcode(x, format = c("pc7", "pc8"), quiet = FALSE)
 }
 \arguments{
 \item{x}{A character string or vector of character strings. Input values
@@ -16,6 +16,12 @@ warning message - see \strong{Value} section for more information.}
 \item{format}{A character string denoting the desired output format. Valid
 options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
 section for more information on the string length of output values.}
+
+\item{quiet}{By default [format_postcode()] will give messages and warnings
+when the input contains unexpected values. If you are using this function to
+'clean up' rather than 'check' postcodes and you know there will be lots of
+'bad' values you can set `quiet` to `TRUE` to suppress messages. This will
+also make the function a bit quicker as fewer checks are performed.}
 }
 \value{
 When \code{format} is set equal to \code{pc7}, \code{format_postcode}
