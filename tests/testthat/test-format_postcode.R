@@ -22,7 +22,7 @@ test_that("Parses multiple input formats", {
   input_hampden <- c("G429BA", "g429ba", "G42 9BA", "G 4 2 9 B A", "G429b    a")
   formatted_hampden <- suppressWarnings(format_postcode(input_hampden))
 
-  expect_true(length(unique(formatted_hampden)) == 1)
+  expect_length(unique(formatted_hampden), 1)
   expect_equal(unique(formatted_hampden), "G42 9BA")
 })
 
@@ -30,22 +30,22 @@ test_that("Correctly handles values which don't adhere to standard format", {
   expect_true(is.na(suppressWarnings(format_postcode("G2?QE"))))
   expect_warning(format_postcode(c("G207AL", "G2O07AL")))
   expect_equal(
-    suppressWarnings(format_postcode(c(
-      "EH7 5QG", NA,
-      "EH11 2NL", "EH5 2HF*"
-    ))),
+    suppressWarnings(format_postcode(
+      c("EH7 5QG", NA, "EH11 2NL", "EH5 2HF*")
+    )),
     c("EH7 5QG", NA, "EH112NL", NA)
   )
 })
 
 test_that("Produces correct number of warning messages", {
-  input_dens <- c("Dd37Jy", "DD37JY", "D  d 337JY")
-  warnings_dens <- capture_warnings(format_postcode(input_dens))
-  expect_length(warnings_dens, 1)
+  dens_postcodes <- c("Dd37Jy", "DD37JY", "D  d 337JY")
+  format_postcode(dens_postcodes) %>%
+    expect_warning()
 
-  input_pittodrie <- c("ab245qh", NA, "ab245q", "A  B245QH")
-  warnings_pittodrie <- capture_warnings(format_postcode(input_pittodrie))
-  expect_length(warnings_pittodrie, 2)
+  pittodrie_postcodes <- c("ab245qh", NA, "ab245q", "A  B245QH")
+  format_postcode(pittodrie_postcodes) %>%
+    expect_warning() %>%
+    expect_warning()
 })
 
 test_that("Warning gives true number of values that don't adhere to format", {
