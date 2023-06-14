@@ -67,12 +67,12 @@ test_that("Output is the same with the quiet param set to TRUE", {
   )
 
   # Handles all valid outcode formats
-    expect_equal(format_postcode("G36RB", quiet = TRUE), "G3  6RB")
-    expect_equal(format_postcode("G432XR", quiet = TRUE), "G43 2XR")
-    expect_equal(format_postcode("DG29BA", quiet = TRUE), "DG2 9BA")
-    expect_equal(format_postcode("FK101RY", quiet = TRUE), "FK101RY")
-    expect_equal(format_postcode("E1W3TJ", quiet = TRUE), "E1W 3TJ")
-    expect_equal(format_postcode("EC1Y8SE", quiet = TRUE), "EC1Y8SE")
+  expect_equal(format_postcode("G36RB", quiet = TRUE), "G3  6RB")
+  expect_equal(format_postcode("G432XR", quiet = TRUE), "G43 2XR")
+  expect_equal(format_postcode("DG29BA", quiet = TRUE), "DG2 9BA")
+  expect_equal(format_postcode("FK101RY", quiet = TRUE), "FK101RY")
+  expect_equal(format_postcode("E1W3TJ", quiet = TRUE), "E1W 3TJ")
+  expect_equal(format_postcode("EC1Y8SE", quiet = TRUE), "EC1Y8SE")
 
   # Parses multiple input formats
   input_hampden <- c("G429BA", "g429ba", "G42 9BA", "G 4 2 9 B A", "G429b    a")
@@ -111,8 +111,7 @@ test_that("Warning gives true number of values that don't adhere to format", {
   expect_snapshot({
     format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!"), quiet = TRUE)
     format_postcode(c("KY1 1RZ", "ky1rz", "KY11 R", "KY11R!"), quiet = FALSE)
-  }
-  )
+  })
 })
 
 test_that("The quiet parameter suppresses messages correctly", {
