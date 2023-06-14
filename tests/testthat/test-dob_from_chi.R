@@ -15,8 +15,7 @@ gen_real_chi <- function(first_6) {
 # default arbitrarily.
 expected_age <- function(
     expected_ages,
-    expected_at = lubridate::make_date(year = 2022, month = 4, day = 1)
-) {
+    expected_at = lubridate::make_date(year = 2022, month = 4, day = 1)) {
   expected_ages + floor(lubridate::time_length(
     lubridate::interval(expected_at, Sys.Date()),
     "years"
