@@ -1,7 +1,7 @@
-#' @title Assign a date to a financial year
+#' @title Extract the formatted financial year from a date
 #'
-#' @description \code{extract_fin_year} takes a date and assigns it to the correct
-#' financial year in the PHS specified format.
+#' @description \code{extract_fin_year} takes a date and extracts the
+#' correct financial year in the PHS specified format from it.
 #'
 #' @details The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
 #'
@@ -17,7 +17,8 @@
 #' @export
 extract_fin_year <- function(date) {
   if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector,
+                   not a {.cls {class(date)}} vector.")
   }
 
   # Simply converting all elements of the input vector resulted in poor
@@ -26,29 +27,18 @@ extract_fin_year <- function(date) {
   # and then match them back on to the original input. This vastly improves
   # performance for large inputs.
 
-  x <- tibble::tibble(dates = unique(date)) %>%
-    dplyr::mutate(
-      fyear = paste0(
-        ifelse(lubridate::month(.data$dates) >= 4,
-          lubridate::year(.data$dates),
-          lubridate::year(.data$dates) - 1
-        ),
-        "/",
-        substr(
-          ifelse(lubridate::month(.data$dates) >= 4,
-            lubridate::year(.data$dates) + 1,
-            lubridate::year(.data$dates)
-          ),
-          3, 4
-        )
-      ),
-      fyear = ifelse(is.na(.data$dates),
-        NA_character_,
-        .data$fyear
-      )
-    )
+  unique_date <- unique(date)
 
-  tibble::tibble(dates = date) %>%
-    dplyr::left_join(x, by = "dates") %>%
-    dplyr::pull(.data$fyear)
+  unique_fy_q <-
+    lubridate::year(unique_date) - (lubridate::month(unique_date) %in% 1:3)
+
+  unique_fy <- ifelse(
+    is.na(unique_date),
+    NA_character_,
+    paste0(unique_fy_q, "/", (unique_fy_q %% 100L) + 1L)
+  )
+
+  fin_years <- unique_fy[match(date, unique_date)]
+
+  return(fin_years)
 }

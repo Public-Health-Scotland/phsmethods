@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_fin_year.R
 \name{extract_fin_year}
 \alias{extract_fin_year}
-\title{Assign a date to a financial year}
+\title{Extract the formatted financial year from a date}
 \usage{
 extract_fin_year(date)
 }
@@ -14,8 +14,8 @@ class. \code{\link[base:as.Date]{as.Date()}},
 can be used to store dates as an appropriate class.}
 }
 \description{
-\code{extract_fin_year} takes a date and assigns it to the correct
-financial year in the PHS specified format.
+\code{extract_fin_year} takes a date and extracts the
+correct financial year in the PHS specified format from it.
 }
 \details{
 The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.

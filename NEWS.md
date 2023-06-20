@@ -1,5 +1,7 @@
 # phsmethods (development version)
 
+- `extract_fin_year()` is now much faster and will use less memory, especially for smaller vectors (1 to 1,000).
+
 # phsmethods 0.2.2
 
 - Improve `chi_check()` function to make it more efficient and run faster.
