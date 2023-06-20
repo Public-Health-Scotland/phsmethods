@@ -1,7 +1,7 @@
 #' @title Extract the formatted financial year from a date
 #'
-#' @description \code{extract_fin_year} takes a date and assigns it to the
-#' correct financial year in the PHS specified format.
+#' @description \code{extract_fin_year} takes a date and extracts the
+#' correct financial year in the PHS specified format from it.
 #'
 #' @details The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
 #'
