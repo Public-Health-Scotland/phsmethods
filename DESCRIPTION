@@ -28,13 +28,13 @@ Depends:
 Imports:
     cli,
     dplyr,
-    gdata,
     lifecycle,
     lubridate,
     magrittr,
     purrr,
     readr,
     rlang,
+    scales (>= 1.0.0),
     stringr,
     tibble,
     utils
