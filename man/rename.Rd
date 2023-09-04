@@ -16,9 +16,9 @@ fin_year(date)
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 phsmethods 0.2.1 renamed a number of functions
-to improve code clarity. The old functions will still
-work but will produce a warning. After a reasonable
-amount of time they will be removed completely.
+to improve code clarity. The old functions no longer
+work and will error. At the next update they will be
+removed completely.
 \itemize{
 \item \code{postcode()} -> \code{format_postcode()}
 \item \code{age_group()} -> \code{create_age_groups()}

@@ -50,7 +50,8 @@ test_that("postcode is deprecated", {
       )),
       "^4"
     )
-  })
+  },
+  error = TRUE)
 })
 
 test_that("age_group is deprecated", {
@@ -114,7 +115,8 @@ test_that("age_group is deprecated", {
 
     # This is true even if all elements are numbers stored as character
     expect_error(age_group(c("26", "9", "78", "81"), as_factor = FALSE))
-  })
+  },
+  error = TRUE)
 })
 
 test_that("fin_year is deprecated", {
@@ -135,5 +137,6 @@ test_that("fin_year is deprecated", {
     expect_error(fin_year(as.factor("28-Oct-2019")))
 
     expect_equal(fin_year(c(lubridate::dmy(05012020), NA)), c("2019/20", NA))
-  })
+  },
+  error = TRUE)
 })
