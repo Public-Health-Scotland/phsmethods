@@ -34,20 +34,26 @@ RStudio.
 
 ## Installation
 
-To install `phsmethods`, the package `remotes` is required, and can be
-installed with `install.packages("remotes")`.
-
-You can then install `phsmethods` on RStudio server from GitHub with:
+If you are using the PHS Posit Workbench the default repository is the
+PHS Posit Package Manager, the benefit of this is that `phsmethods` is
+listed there so you can install it with:
 
 ``` r
-remotes::install_github("Public-Health-Scotland/phsmethods",
-  upgrade = "never"
-)
+install.packages("phsmethods")
 ```
 
-Network security settings may prevent `remotes::install_github()` from
-working on RStudio desktop. If this is the case, `phsmethods` can be
-installed by downloading the [zip of the
+To install `phsmethods` directly from GitHub, the package `remotes` is
+required, and can be installed with `install.packages("remotes")`.
+
+You can then install `phsmethods` from GitHub with:
+
+``` r
+remotes::install_github("Public-Health-Scotland/phsmethods")
+```
+
+However, network security settings may prevent
+`remotes::install_github()` from working on RStudio desktop. If this is
+the case, `phsmethods` can be installed by downloading the [zip of the
 repository](https://github.com/Public-Health-Scotland/phsmethods/archive/master.zip)
 and running the following code (replacing the section marked `<>`,
 including the arrows themselves):
