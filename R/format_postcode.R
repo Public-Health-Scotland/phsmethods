@@ -33,7 +33,7 @@
 #' @param format A character string denoting the desired output format. Valid
 #' options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
 #' section for more information on the string length of output values.
-#' @param quite (optional) If quiet is `TRUE` all messages and warnings will be
+#' @param quiet (optional) If quiet is `TRUE` all messages and warnings will be
 #' suppressed. This is useful in a production context and when you are sure of
 #' the data or you are specifically using this function to remove invalid
 #' postcodes. This will also make the function a bit quicker as fewer checks
