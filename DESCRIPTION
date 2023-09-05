@@ -19,10 +19,10 @@ Authors@R: c(
 Description: Bespoke functions for commonly undertaken analytical tasks in
     Public Health Scotland.
 License: GPL (>= 2)
-URL: https://github.com/Health-SocialCare-Scotland/phsmethods,
+URL: https://github.com/Public-Health-Scotland/phsmethods,
     https://public-health-scotland.github.io/phsmethods/
 BugReports: 
-    https://github.com/Health-SocialCare-Scotland/phsmethods/issues
+    https://github.com/Public-Health-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:

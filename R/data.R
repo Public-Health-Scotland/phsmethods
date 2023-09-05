@@ -11,7 +11,7 @@
 #' Settlements (S20) and Scotland.
 #'
 #' @seealso The script used to create the \code{area_lookup} dataset on
-#' \href{https://github.com/Health-SocialCare-Scotland/phsmethods/blob/master/data-raw/area_lookup.R}{GitHub}.
+#' \href{https://github.com/Public-Health-Scotland/phsmethods/blob/master/data-raw/area_lookup.R}{GitHub}.
 #'
 #' @format A \code{\link[tibble]{tibble}} with 2 variables and over 17,000 rows:
 #' \describe{

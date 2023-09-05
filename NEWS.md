@@ -25,7 +25,7 @@
 
 # phsmethods 0.2.0 (2020-04-17)
 
-- New functions added: `age_group()`([#23](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/23), [@chrisdeans](https://github.com/chrisdeans)); `chi_check()`([#30](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); `chi_pad()`([#30](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); and `match_area()`([#13](https://github.com/Health-SocialCare-Scotland/phsmethods/issues/13), [@jvillacampa](https://github.com/jvillacampa)).
+- New functions added: `age_group()`([#23](https://github.com/Public-Health-Scotland/phsmethods/issues/23), [@chrisdeans](https://github.com/chrisdeans)); `chi_check()`([#30](https://github.com/Public-Health-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); `chi_pad()`([#30](https://github.com/Public-Health-Scotland/phsmethods/issues/30), [@graemegowans](https://github.com/graemegowans)); and `match_area()`([#13](https://github.com/Public-Health-Scotland/phsmethods/issues/13), [@jvillacampa](https://github.com/jvillacampa)).
 
 - The first argument of `postcode()` is now `x`, as opposed to `string`. This is unlikely to break much, if any, existing code. `postcode()` is also now slightly faster.
 

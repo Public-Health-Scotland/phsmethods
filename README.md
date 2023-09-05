@@ -7,29 +7,29 @@
 date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest)
 [![Build
 Status](https://github.com/Public-Health-Scotland/phsmethods/workflows/R-CMD-check/badge.svg)](https://github.com/Public-Health-Scotland/phsmethods/actions)
-[![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
+[![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Public-Health-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
 (PHS)](https://www.publichealthscotland.scot/):
 
-- `create_age_groups()` categorises ages into groups
-- `chi_check()` assesses the validity of a CHI number
-- `chi_pad()` adds a leading zero to nine-digit CHI numbers
-- `sex_from_chi()` extracts the sex of a person from a CHI number
-- `file_size()` returns the names and sizes of files in a directory
-- `extract_fin_year()` assigns a date to a financial year in the format
-  `YYYY/YY`
-- `match_area()` converts geography codes into area names
-- `format_postcode()` formats improperly recorded postcodes
-- `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a
-  quarter
-- `age_calculate()` calculates age between two dates
-- `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number
-- `age_from_chi()` extracts age from the CHI number
+-   `create_age_groups()` categorises ages into groups
+-   `chi_check()` assesses the validity of a CHI number
+-   `chi_pad()` adds a leading zero to nine-digit CHI numbers
+-   `sex_from_chi()` extracts the sex of a person from a CHI number
+-   `file_size()` returns the names and sizes of files in a directory
+-   `extract_fin_year()` assigns a date to a financial year in the
+    format `YYYY/YY`
+-   `match_area()` converts geography codes into area names
+-   `format_postcode()` formats improperly recorded postcodes
+-   `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to
+    a quarter
+-   `age_calculate()` calculates age between two dates
+-   `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number
+-   `age_from_chi()` extracts age from the CHI number
 
-`phsmethods` can be used on both the
-[server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
+`phsmethods` can be used on both the [PHS
+server](https://pwb.publichealthscotland.org/) and desktop versions of
 RStudio.
 
 ## Installation
@@ -147,17 +147,17 @@ guide](https://style.tidyverse.org/) and the [rOpenSci package
 development guide](https://devguide.ropensci.org/). The most pertinent
 points to take from these are:
 
-- All function names should be in lower case, with words separated by an
-  underscore
-- Put a space after a comma, never before
-- Put a space before and after infix operators such as `<-`, `==` and
-  `+`
-- Limit code to 80 characters per line
-- Function documentation should be generated using
-  [`roxygen2`](https://github.com/r-lib/roxygen2)
-- All functions should be tested using
-  [`testthat`](https://github.com/r-lib/testthat)
-- The package should always pass `devtools::check()`
+-   All function names should be in lower case, with words separated by
+    an underscore
+-   Put a space after a comma, never before
+-   Put a space before and after infix operators such as `<-`, `==` and
+    `+`
+-   Limit code to 80 characters per line
+-   Function documentation should be generated using
+    [`roxygen2`](https://github.com/r-lib/roxygen2)
+-   All functions should be tested using
+    [`testthat`](https://github.com/r-lib/testthat)
+-   The package should always pass `devtools::check()`
 
 It’s not necessary to have experience with GitHub or of building an R
 package to contribute to `phsmethods`. If you wish to contribute code
