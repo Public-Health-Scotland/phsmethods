@@ -2,10 +2,10 @@ Package: phsmethods
 Title: Standard Methods for use in Public Health Scotland
 Version: 0.2.2.9000
 Authors@R: c(
-    person("David", "Caldwell", , "David.Caldwell@phs.scot", role = c("aut", "cre")),
+    person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
     person("Lucinda", "Lawrie", , "Lucinda.Lawrie@phs.scot", role = "rev"),
     person("Jack", "Hannah", , "jack.hannah2@phs.scot", role = "aut"),
-    person("Tina", "Fu", , "Yuyan.Fu2@phs.scot", role = "aut"),
+    person("Tina", "Fu", , "Yuyan.Fu2@phs.scot", role = c("aut", "cre")),
     person("Ciara", "Gribben", , "Ciara.Gribben@phs.scot", role = "aut"),
     person("Chris", "Deans", , "Chris.Deans2@phs.scot", role = "aut"),
     person("Jaime", "Villacampa", , "Jaime.Villacampa@phs.scot", role = "aut"),
