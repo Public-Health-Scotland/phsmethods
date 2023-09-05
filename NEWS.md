@@ -1,20 +1,26 @@
 # phsmethods (development version)
 
+- The [{gdata}](https://github.com/r-gregmisc/gdata) import has been dropped and replaced with [{scales}](https://scales.r-lib.org/).
+
 - `extract_fin_year()` is now much faster and will use less memory, especially for smaller vectors (1 to 1,000).
+
+- `format_postcode()` is now faster and also gains a `quiet` parameter, the default value is `FALSE` but setting it to `TRUE` will skip some of the checks and messages, this is useful when using `format_postcode()` to 'clean-up' and format a vector of postcodes, rather than wanting to check them. Because of the skipped checks `quiet = TRUE` should also run faster.
+
+- The installation instructions in the README have been updated.
 
 # phsmethods 0.2.2
 
-- Improve `chi_check()` function to make it more efficient and run faster.
+- Improved `chi_check()` to make it more efficient and run faster.
 
-- Improve "Using phsmethods" section in readme to be shorter and more accessible. 
+- Improved the "Using phsmethods" section in the README to be shorter and more accessible. 
 
-- Update all errors, warnings and messages to use the `cli` package. 
+- Update all errors, warnings and messages to use [{cli}](https://cli.r-lib.org/). 
 
 - Improve errors when giving incorrect types to some functions.
 
 # phsmethods 0.2.1 (2022-02-11)
 
-- Three functions renamed to improve code clarity: `postcode()` to `format_postcode()`; `age_group()` to `create_age_groups()`; `fin_year()` to `extract_fin_year()`. The old functions will still work but will produce a warning. After a reasonable amount of time they will be removed completely.
+- Three functions renamed to improve code clarity: `postcode()` to `format_postcode()`; `age_group()` to `create_age_groups()`; `fin_year()` to `extract_fin_year()`. The old functions will still work but will produce a warning. After a reasonable amount of time, they will be removed completely.
 
 - New functions added:
 `age_calculate()`([#65](https://github.com/Public-Health-Scotland/phsmethods/issues/65), [@Nic-chr](https://github.com/Nic-Chr));
