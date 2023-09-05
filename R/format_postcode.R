@@ -75,7 +75,7 @@ format_postcode <- function(x, format = c("pc7", "pc8"), quiet = FALSE) {
   if (!inherits(quiet, "logical")) {
     cli::cli_abort(
       "{.arg quiet} must be a {.cls logical}, not a {.cls {class(x)}}."
-      )
+    )
   }
   format <- match.arg(format)
 
