@@ -11,7 +11,7 @@
       3 iris.csv         CSV 4 kB   
       4 mtcars.sav       SPSS 4 kB  
       5 plant-growth.rds RDS 316 B  
-      6 puromycin.txt    Text 418 B 
+      6 puromycin.txt    Text 442 B 
       7 stackloss.fst    FST 897 B  
       8 swiss.tsv        TSV 1 kB   
 
