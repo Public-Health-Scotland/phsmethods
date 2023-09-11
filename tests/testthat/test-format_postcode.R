@@ -132,3 +132,21 @@ test_that("The quiet parameter suppresses messages correctly", {
     suppressWarnings(format_postcode(c("KY1 1RZ", "ky1 1rz")))
   )
 })
+
+test_that("Errors on invalid inputs", {
+  expect_error(format_postcode(NA))
+  expect_error(format_postcode(123))
+  expect_error(format_postcode(123))
+
+  expect_error(format_postcode("G26QE", format = 7))
+  expect_error(format_postcode("G26QE", format = "7"))
+
+  expect_error(format_postcode("G26QE", quiet = 1))
+  expect_error(format_postcode("G26QE", quiet = "TRUE"))
+
+  expect_error(format_postcode("G26QE", "G26QE"))
+  expect_error(format_postcode("G26QE", "G26QE", "G26QE"))
+
+  expect_error(format_postcode(NA, NA))
+  expect_error(format_postcode(NA, NA, NA))
+})
