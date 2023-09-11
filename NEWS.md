@@ -1,4 +1,4 @@
-# phsmethods (development version)
+# phsmethods 0.2.3 (2023-09-11)
 
 - The [{gdata}](https://github.com/r-gregmisc/gdata) import has been dropped and replaced with [{scales}](https://scales.r-lib.org/).
 
@@ -8,7 +8,7 @@
 
 - The installation instructions in the README have been updated.
 
-# phsmethods 0.2.2
+# phsmethods 0.2.2 (2022-11-14)
 
 - Improved `chi_check()` to make it more efficient and run faster.
 
