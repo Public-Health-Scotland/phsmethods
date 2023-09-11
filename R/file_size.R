@@ -107,7 +107,7 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     stringr::str_detect(file_list, "\\.html$") ~ "HTML ",
     stringr::str_detect(file_list, "\\.ppt(m|x)?$") ~ "PowerPoint ",
     stringr::str_detect(file_list, "\\.md$") ~ "Markdown ",
-    TRUE ~ ""
+    .default = ""
   )
 
   tibble::tibble(
