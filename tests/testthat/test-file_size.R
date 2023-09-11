@@ -43,7 +43,7 @@ test_that("Output is identical over time", {
 })
 
 test_that("Errors if supplied with invalid filepath", {
-  expect_error(file_size(here::here("reference_files")))
+  expect_error(file_size(test_path("reference_files")))
   expect_error(file_size(NA))
   expect_error(file_size(NULL))
 })
