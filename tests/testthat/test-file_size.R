@@ -38,12 +38,19 @@ test_that("Returns sizes in alphabetical order", {
 })
 
 test_that("Output is identical over time", {
-  expect_snapshot(file_size(test_path("files")))
-  expect_snapshot(file_size(test_path("files"), "xlsx?"))
+  # Text files report as larger on Windows so snapshot per OS
+  os <- ifelse(
+    "windows" %in% tolower(Sys.info()[["sysname"]]),
+    "windows",
+    "UNIX"
+  )
+
+  expect_snapshot(file_size(test_path("files")), variant = os)
+  expect_snapshot(file_size(test_path("files"), "xlsx?"), variant = os)
 })
 
 test_that("Errors if supplied with invalid filepath", {
-  expect_error(file_size(here::here("reference_files")))
+  expect_error(file_size(test_path("reference_files")))
   expect_error(file_size(NA))
   expect_error(file_size(NULL))
 })
