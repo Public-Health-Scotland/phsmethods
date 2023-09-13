@@ -8,6 +8,8 @@
 
 - The installation instructions in the README have been updated.
 
+- A new article has been added to the documentation - [Working with CHI numbers](https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html).
+
 # phsmethods 0.2.2 (2022-11-14)
 
 - Improved `chi_check()` to make it more efficient and run faster.

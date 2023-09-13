@@ -41,7 +41,10 @@ Imports:
     utils
 Suggests: 
     covr,
+    ggplot2,
     here,
+    knitr,
+    rmarkdown,
     spelling,
     testthat (>= 3.0.0)
 RdMacros: 
@@ -51,3 +54,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 RoxygenNote: 7.2.3
+VignetteBuilder: knitr
