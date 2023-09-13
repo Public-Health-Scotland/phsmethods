@@ -229,16 +229,16 @@ data %>%
 
 data %>%
   mutate(age = age_from_chi(
-    chi, 
-    ref_date = event_date, 
-    min_age = 60, 
-    max_age = 120)
-    )
+    chi,
+    ref_date = event_date,
+    min_age = 60,
+    max_age = 120
+  ))
 
 data %>%
   mutate(age = age_from_chi(
-    chi, 
-    min_age = 60, 
-    max_age = 120)
-    )
+    chi,
+    min_age = 60,
+    max_age = 120
+  ))
 ```
