@@ -33,14 +33,20 @@ jobs:
       - name: Render README.Rmd
         run:  Rscript -e 'rmarkdown::render("README.Rmd")'
 
-      - name: Commit and create a Pull Request
+      - name: Commit and create a Pull Request on master
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: peter-evans/create-pull-request@v4
         with:
-          add-paths: README.md
-          commit-message: Render `README.md` after changes to the `.Rmd` version
-          branch: render_readme
+          commit-message: "Automated re-knit of the README"
+          branch: document_master
           delete-branch: true
-          title: Automated re-knit of the README
+          title: Re-knit README.md due to changes made to README.Rmd
           labels: documentation,Maintainance
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
+
+      - name: Commit and push changes on all other branches
+        if: ${{ github.ref != 'refs/heads/master' }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automated re-knit of the README"
