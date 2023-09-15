@@ -1,11 +1,12 @@
 Package: phsmethods
 Title: Standard Methods for use in Public Health Scotland
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(
-    person("David", "Caldwell", , "David.Caldwell@phs.scot", role = c("aut", "cre")),
+    person("Public Health Scotland", , , "phs.source@phs.scot", role = "cph"),
+    person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
     person("Lucinda", "Lawrie", , "Lucinda.Lawrie@phs.scot", role = "rev"),
     person("Jack", "Hannah", , "jack.hannah2@phs.scot", role = "aut"),
-    person("Tina", "Fu", , "Yuyan.Fu2@phs.scot", role = "aut"),
+    person("Tina", "Fu", , "Yuyan.Fu2@phs.scot", role = c("aut", "cre")),
     person("Ciara", "Gribben", , "Ciara.Gribben@phs.scot", role = "aut"),
     person("Chris", "Deans", , "Chris.Deans2@phs.scot", role = "aut"),
     person("Jaime", "Villacampa", , "Jaime.Villacampa@phs.scot", role = "aut"),
@@ -19,28 +20,27 @@ Authors@R: c(
 Description: Bespoke functions for commonly undertaken analytical tasks in
     Public Health Scotland.
 License: GPL (>= 2)
-URL: https://github.com/Health-SocialCare-Scotland/phsmethods,
+URL: https://github.com/Public-Health-Scotland/phsmethods,
     https://public-health-scotland.github.io/phsmethods/
 BugReports: 
-    https://github.com/Health-SocialCare-Scotland/phsmethods/issues
+    https://github.com/Public-Health-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:
     cli,
     dplyr,
-    gdata,
     lifecycle,
     lubridate,
     magrittr,
     purrr,
     readr,
     rlang,
+    scales (>= 1.0.0),
     stringr,
     tibble,
     utils
 Suggests: 
     covr,
-    here,
     spelling,
     testthat (>= 3.0.0)
 RdMacros: 
@@ -49,4 +49,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

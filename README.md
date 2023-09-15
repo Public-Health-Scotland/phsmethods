@@ -7,7 +7,7 @@
 date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest)
 [![Build
 Status](https://github.com/Public-Health-Scotland/phsmethods/workflows/R-CMD-check/badge.svg)](https://github.com/Public-Health-Scotland/phsmethods/actions)
-[![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Scotland/phsmethods)
+[![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Public-Health-Scotland/phsmethods)
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
@@ -28,26 +28,32 @@ in [Public Health Scotland
 - `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number
 - `age_from_chi()` extracts age from the CHI number
 
-`phsmethods` can be used on both the
-[server](https://rstudio.nhsnss.scot.nhs.uk/) and desktop versions of
+`phsmethods` can be used on both the [PHS
+server](https://pwb.publichealthscotland.org/) and desktop versions of
 RStudio.
 
 ## Installation
 
-To install `phsmethods`, the package `remotes` is required, and can be
-installed with `install.packages("remotes")`.
-
-You can then install `phsmethods` on RStudio server from GitHub with:
+If you are using the PHS Posit Workbench the default repository is the
+PHS Posit Package Manager, the benefit of this is that `phsmethods` is
+listed there so you can install it with:
 
 ``` r
-remotes::install_github("Public-Health-Scotland/phsmethods",
-  upgrade = "never"
-)
+install.packages("phsmethods")
 ```
 
-Network security settings may prevent `remotes::install_github()` from
-working on RStudio desktop. If this is the case, `phsmethods` can be
-installed by downloading the [zip of the
+To install `phsmethods` directly from GitHub, the package `remotes` is
+required, and can be installed with `install.packages("remotes")`.
+
+You can then install `phsmethods` from GitHub with:
+
+``` r
+remotes::install_github("Public-Health-Scotland/phsmethods")
+```
+
+However, network security settings may prevent
+`remotes::install_github()` from working on RStudio desktop. If this is
+the case, `phsmethods` can be installed by downloading the [zip of the
 repository](https://github.com/Public-Health-Scotland/phsmethods/archive/master.zip)
 and running the following code (replacing the section marked `<>`,
 including the arrows themselves):

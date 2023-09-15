@@ -40,7 +40,6 @@
 #' df <- tibble(chi = c("0101011237", "0101336489", NA))
 #' df %>% mutate(chi_sex = sex_from_chi(chi))
 sex_from_chi <- function(chi_number, male_value = 1L, female_value = 2L, as_factor = FALSE, chi_check = TRUE) {
-
   # Do type checking on male/female values
   male_class <- class(male_value)
   female_class <- class(female_value)

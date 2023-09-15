@@ -84,41 +84,34 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     cli::cli_abort("{.arg pattern} must be a {.cls character}, not a {.cls {class(pattern)}}.")
   }
 
-  x <- dir(path = filepath, pattern = pattern)
+  file_list <- list.files(path = filepath, pattern = pattern)
 
-  if (length(x) == 0) {
+  if (length(file_list) == 0) {
     return(NULL)
   }
 
-  y <- x %>%
-    purrr::map_dbl(~ file.info(paste0(filepath, "/", .))$size) %>%
-    # The gdata package defines a kilobyte (KB) as 1,000 bytes, and a
-    # kibibyte (KiB) as 1,024 bytes
-    # In PHS a kilobyte is normally taken to be 1,024 bytes
-    # As a workaround, calculate file sizes in kibibytes (or higher), then
-    # drop the `i` from the output
-    gdata::humanReadable(standard = "IEC", digits = 0) %>%
-    gsub("i", "", .) %>%
-    trimws()
+  formatted_size <- file.path(filepath, file_list) %>%
+    file.size() %>%
+    scales::number_bytes(units = "si")
 
-  z <- dplyr::case_when(
-    stringr::str_detect(x, "\\.xls(b|m|x)?$") ~ "Excel ",
-    stringr::str_detect(x, "\\.csv$") ~ "CSV ",
-    stringr::str_detect(x, "\\.z?sav$") ~ "SPSS ",
-    stringr::str_detect(x, "\\.doc(m|x)?$") ~ "Word ",
-    stringr::str_detect(x, "\\.rds$") ~ "RDS ",
-    stringr::str_detect(x, "\\.txt$") ~ "Text ",
-    stringr::str_detect(x, "\\.fst$") ~ "FST ",
-    stringr::str_detect(x, "\\.pdf$") ~ "PDF ",
-    stringr::str_detect(x, "\\.tsv$") ~ "TSV ",
-    stringr::str_detect(x, "\\.html$") ~ "HTML ",
-    stringr::str_detect(x, "\\.ppt(m|x)?$") ~ "PowerPoint ",
-    stringr::str_detect(x, "\\.md$") ~ "Markdown ",
-    TRUE ~ ""
+  file_type <- dplyr::case_when(
+    stringr::str_detect(file_list, "\\.xls(b|m|x)?$") ~ "Excel ",
+    stringr::str_detect(file_list, "\\.csv$") ~ "CSV ",
+    stringr::str_detect(file_list, "\\.z?sav$") ~ "SPSS ",
+    stringr::str_detect(file_list, "\\.doc(m|x)?$") ~ "Word ",
+    stringr::str_detect(file_list, "\\.rds$") ~ "RDS ",
+    stringr::str_detect(file_list, "\\.txt$") ~ "Text ",
+    stringr::str_detect(file_list, "\\.fst$") ~ "FST ",
+    stringr::str_detect(file_list, "\\.pdf$") ~ "PDF ",
+    stringr::str_detect(file_list, "\\.tsv$") ~ "TSV ",
+    stringr::str_detect(file_list, "\\.html$") ~ "HTML ",
+    stringr::str_detect(file_list, "\\.ppt(m|x)?$") ~ "PowerPoint ",
+    stringr::str_detect(file_list, "\\.md$") ~ "Markdown ",
+    .default = ""
   )
 
   tibble::tibble(
-    name = list.files(filepath, pattern),
-    size = paste0(z, y)
+    name = file_list,
+    size = paste0(file_type, formatted_size)
   )
 }
