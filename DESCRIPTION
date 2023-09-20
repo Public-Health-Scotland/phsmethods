@@ -2,7 +2,7 @@ Package: phsmethods
 Title: Standard Methods for use in Public Health Scotland
 Version: 0.2.3
 Authors@R: c(
-    person("Public Health Scotland", , , "phs.source@phs.scot", role = "cph"),
+    person("Public Health Scotland", , , "phs.datascience@phs.scot", role = "cph"),
     person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
     person("Lucinda", "Lawrie", , "Lucinda.Lawrie@phs.scot", role = "rev"),
     person("Jack", "Hannah", , "jack.hannah2@phs.scot", role = "aut"),
