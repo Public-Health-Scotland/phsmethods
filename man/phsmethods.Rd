@@ -9,5 +9,5 @@ Standard Methods for use in PHS.
 }
 \details{
 See the README on
-\href{https://github.com/Health-SocialCare-Scotland/phsmethods#readme}{GitHub}.
+\href{https://github.com/Public-Health-Scotland/phsmethods#readme}{GitHub}.
 }
