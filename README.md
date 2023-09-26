@@ -28,8 +28,7 @@ in [Public Health Scotland
 - `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number
 - `age_from_chi()` extracts age from the CHI number
 
-`phsmethods` can be used on both the [PHS
-server](https://pwb.publichealthscotland.org/) and desktop versions of
+`phsmethods` can be used on both the PHS server and desktop versions of
 RStudio.
 
 ## Installation

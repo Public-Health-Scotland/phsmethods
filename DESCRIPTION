@@ -1,5 +1,5 @@
 Package: phsmethods
-Title: Standard Methods for use in Public Health Scotland
+Title: Standard Methods for Use in Public Health Scotland
 Version: 0.2.3
 Authors@R: c(
     person("Public Health Scotland", , , "phs.datascience@phs.scot", role = "cph"),
