@@ -30,7 +30,7 @@
 #' Files with extensions not contained within this list will have their size
 #' returned with no prefix. To request that a certain extension be explicitly
 #' catered for, please create an issue on
-#' [GitHub](https://github.com/Health-SocialCare-Scotland/phsmethods/issues).
+#' [GitHub](https://github.com/Public-Health-Scotland/phsmethods/issues).
 #'
 #' File sizes are returned as the appropriate multiple of the unit byte
 #' (bytes (B), kilobytes (KB), megabytes (MB), etc.). Each multiple is taken to
@@ -74,7 +74,6 @@
 #' from the [`stringr()`][stringr::stringr-package] package.
 #'
 #' @export
-
 file_size <- function(filepath = getwd(), pattern = NULL) {
   if (!file.exists(filepath)) {
     cli::cli_abort("A valid {.arg filepath} must be supplied.")

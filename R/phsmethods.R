@@ -3,7 +3,7 @@
 #' Standard Methods for use in PHS.
 #'
 #' See the README on
-#' [GitHub](https://github.com/Health-SocialCare-Scotland/phsmethods#readme).
+#' [GitHub](https://github.com/Public-Health-Scotland/phsmethods#readme).
 #'
 #' @docType package
 #' @name phsmethods
