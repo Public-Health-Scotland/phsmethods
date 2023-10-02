@@ -56,8 +56,12 @@ test_that("Default value for age groups", {
 
 test_that("Handling of non-numeric values for x", {
   # If x is not numeric cut will error
-  expect_error(create_age_groups(c("1", "57", "apple", "12"), as_factor = FALSE))
+  expect_error(
+    create_age_groups(c("1", "57", "apple", "12"), as_factor = FALSE)
+  )
 
   # This is true even if all elements are numbers stored as character
-  expect_error(create_age_groups(c("26", "9", "78", "81"), as_factor = FALSE))
+  expect_error(
+    create_age_groups(c("26", "9", "78", "81"), as_factor = FALSE)
+  )
 })

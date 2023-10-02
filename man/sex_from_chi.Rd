@@ -13,26 +13,29 @@ sex_from_chi(
 )
 }
 \arguments{
-\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
+\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character}
+class.}
 
-\item{male_value, female_value}{optionally supply custom values for Male and Female. Note
-that that these must be of the same class.}
+\item{male_value, female_value}{optionally supply custom values for Male and
+Female. Note that that these must be of the same class.}
 
 \item{as_factor}{logical, optionally return as a factor with labels \code{'Male'}
 and \code{'Female'}. Note that this will override any custom values supplied with
 \code{male_value} or \code{female_value}.}
 
-\item{chi_check}{logical, optionally skip checking the CHI for validity which will be
-faster but should only be used if you have previously checked the CHI(s).}
+\item{chi_check}{logical, optionally skip checking the CHI for validity which
+will be faster but should only be used if you have previously checked the
+CHI(s).}
 }
 \value{
-a vector with the same class as \code{male_value} and \code{female_value}, (integer
-by default) unless \code{as_factor} is \code{TRUE} in which case a factor will be returned.
+a vector with the same class as \code{male_value} and \code{female_value},
+(integer by default) unless \code{as_factor} is \code{TRUE} in which case a factor will
+be returned.
 }
 \description{
 \code{sex_from_chi} takes a CHI number or a vector of CHI numbers
-and returns the sex as implied by the CHI number(s). The default return type is
-an integer but this can be modified.
+and returns the sex as implied by the CHI number(s). The default return type
+is an integer but this can be modified.
 }
 \details{
 The Community Health Index (CHI) is a register of all patients in
@@ -46,12 +49,16 @@ The default behaviour for \code{sex_from_chi} is to first check the CHI number i
 valid using \code{check_chi} and then to return 1 for male and 2 for female.
 
 There are options to return custom values e.g. \code{'M'} and \code{'F'} or to return
-a factor which will have labels \code{'Male'} and \code{'Female')}
+a factor which will have labels \code{'Male'} and \verb{'Female')}
 }
 \examples{
 sex_from_chi("0101011237")
 sex_from_chi(c("0101011237", "0101336489", NA))
-sex_from_chi(c("0101011237", "0101336489", NA), male_value = "M", female_value = "F")
+sex_from_chi(
+  c("0101011237", "0101336489", NA),
+  male_value = "M",
+  female_value = "F"
+)
 sex_from_chi(c("0101011237", "0101336489", NA), as_factor = TRUE)
 
 library(dplyr)

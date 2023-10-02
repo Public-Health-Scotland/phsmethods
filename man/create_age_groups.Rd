@@ -32,7 +32,7 @@ The \code{from}, \code{to} and \code{by} values are used to create distinct
 age groups. \code{from} dictates the starting age of the lowest age group,
 and \code{by} indicates how wide each group should be. \code{to} stipulates
 the cut-off point at which all ages equal to or greater than this value
-should be categorised together in a \code{to+} group. If the specified value
+should be categorised together in a \verb{to+} group. If the specified value
 of \code{to} is not a multiple of \code{by}, the value of \code{to} is
 rounded down to the nearest multiple of \code{by}.
 

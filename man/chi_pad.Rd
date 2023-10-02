@@ -9,6 +9,9 @@ chi_pad(x)
 \arguments{
 \item{x}{a CHI number or a vector of CHI numbers with \code{character} class.}
 }
+\value{
+The original character vector with CHI numbers padded if applicable.
+}
 \description{
 \code{chi_pad} takes a nine-digit CHI number with
 \code{character} class and prefixes it with a zero. Any values provided
@@ -29,7 +32,7 @@ stored with \code{numeric} class in R. This is because leading zeros in
 numeric values are silently dropped, a practice not exclusive to R. For this
 reason, \code{chi_pad} accepts input values of \code{character} class
 only, and returns values of the same class. It does not assess the validity
-of a CHI number - please see \code{\link{chi_check}} for that.
+of a CHI number - please see \code{\link[=chi_check]{chi_check()}} for that.
 }
 \examples{
 chi_pad(c("101011237", "101201234"))

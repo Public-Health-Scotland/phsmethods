@@ -13,24 +13,31 @@ age_from_chi(
 )
 }
 \arguments{
-\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
+\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character}
+class.}
 
-\item{ref_date}{calculate the age at this date, default is to use \code{Sys.Date()} i.e. today.}
+\item{ref_date}{calculate the age at this date, default is to use
+\code{Sys.Date()} i.e. today.}
 
-\item{min_age, max_age}{optional min and/or max dates that the Date of Birth could take as the century needs to be guessed.
-Must be either length 1 for a 'fixed' age or the same length as \code{chi_number} for an age per CHI number.
-min_age can be age based on common sense in the dataset, whilst max_age can be age when an event happens such as the age at discharge.}
+\item{min_age, max_age}{optional min and/or max dates that the DoB could take
+as the century needs to be guessed.
+Must be either length 1 for a 'fixed' age or the same length as \code{chi_number}
+for an age per CHI number.
+\code{min_age} can be age based on common sense in the dataset, whilst \code{max_age}
+can be age when an event happens such as the age at discharge.}
 
-\item{chi_check}{logical, optionally skip checking the CHI for validity which will be
-faster but should only be used if you have previously checked the CHI(s), the default (TRUE) will to check the CHI numbers.}
+\item{chi_check}{logical, optionally skip checking the CHI for validity which
+will be faster but should only be used if you have previously checked the
+CHI(s), the default (TRUE) will to check the CHI numbers.}
 }
 \value{
-an integer vector of ages in years truncated to the nearest year. It will be the same length as \code{chi_number}.
+an integer vector of ages in years truncated to the nearest year.
+It will be the same length as \code{chi_number}.
 }
 \description{
 \code{age_from_chi} takes a CHI number or a vector of CHI numbers
-and returns the age as implied by the CHI number(s). If the DoB is ambiguous
-it will return NA. It uses \code{dob_from_chi}.
+and returns the age as implied by the CHI number(s). If the Date of Birth
+(DoB) is ambiguous it will return NA. It uses \code{\link[=dob_from_chi]{dob_from_chi()}}.
 }
 \examples{
 age_from_chi("0101336489")

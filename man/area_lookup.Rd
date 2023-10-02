@@ -5,10 +5,10 @@
 \alias{area_lookup}
 \title{Codes and names of Scottish geographical and administrative areas.}
 \format{
-A \code{\link[tibble]{tibble}} with 2 variables and over 17,000 rows:
+A \code{\link[tibble:tibble]{tibble::tibble()}} with 2 variables and over 17,000 rows:
 \describe{
-  \item{geo_code}{Standard geography code - 9 characters}
-  \item{area_name}{Name of the area the code represents}
+\item{geo_code}{Standard geography code - 9 characters}
+\item{area_name}{Name of the area the code represents}
 }
 }
 \source{
@@ -19,7 +19,7 @@ area_lookup
 }
 \description{
 A dataset containing Scotland's geography codes and associated area names.
-It is used within \code{\link{match_area}}.
+It is used within \code{\link[=match_area]{match_area()}}.
 }
 \details{
 \code{geo_code} contains geography codes pertaining to Health

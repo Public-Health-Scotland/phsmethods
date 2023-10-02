@@ -11,18 +11,18 @@ file_size(filepath = getwd(), pattern = NULL)
 working directory, \code{getwd()}.}
 
 \item{pattern}{An optional character string denoting a
-\code{\link[base:regex]{regular expression}} pattern. Only file names which
+\code{\link[base:regex]{regular expression()}} pattern. Only file names which
 match the regular expression will be returned. See the \strong{See Also}
 section for resources regarding how to write regular expressions.}
 }
 \value{
-A \code{\link[tibble]{tibble}} listing the names of files within
+A \code{\link[tibble:tibble]{tibble::tibble()}} listing the names of files within
 \code{filepath} which match \code{pattern} and their respective sizes. The
-column names of this tibble are `name` and `size`. If no \code{pattern} is
+column names of this tibble are \code{name} and \code{size}. If no \code{pattern} is
 specified, \code{file_size} returns the names and sizes of all files within
 \code{filepath}. File names and sizes are returned in alphabetical order of
 file name. Sub-folders contained within \code{filepath} will return a file
-size of `0 B`.
+size of \verb{0 B}.
 
 If \code{filepath} is an empty folder, or \code{pattern} matches no files
 within \code{filepath}, \code{file_size} returns \code{NULL}.
@@ -35,25 +35,25 @@ which match the given pattern.
 \details{
 The sizes of files with certain extensions are returned with the
 type of file prefixed. For example, the size of a 12 KB \code{.xlsx} file is
-returned as `Excel 12 KB`. The complete list of explicitly catered-for file
+returned as \verb{Excel 12 KB}. The complete list of explicitly catered-for file
 extensions and their prefixes are as follows:
 
 \itemize{
 \item \code{.xls}, \code{.xlsb}, \code{.xlsm} and \code{.xlsx} files are
-prefixed with `Excel`
-\item \code{.csv} files are prefixed with `CSV`
-\item \code{.sav} and \code{.zsav} files are prefixed with `SPSS`
+prefixed with \code{Excel}
+\item \code{.csv} files are prefixed with \code{CSV}
+\item \code{.sav} and \code{.zsav} files are prefixed with \code{SPSS}
 \item \code{.doc}, \code{.docm} and \code{.docx} files are prefixed with
-`Word`
-\item \code{.rds} files are prefixed with `RDS`
-\item \code{.txt} files are prefixed with `Text`,
-\item \code{.fst} files are prefixed with `FST`,
-\item \code{.pdf} files are prefixed with `PDF`,
-\item \code{.tsv} files are prefixed with `TSV`,
-\item \code{.html} files are prefixed with `HTML`,
+\code{Word}
+\item \code{.rds} files are prefixed with \code{RDS}
+\item \code{.txt} files are prefixed with \code{Text},
+\item \code{.fst} files are prefixed with \code{FST},
+\item \code{.pdf} files are prefixed with \code{PDF},
+\item \code{.tsv} files are prefixed with \code{TSV},
+\item \code{.html} files are prefixed with \code{HTML},
 \item \code{.ppt}, \code{.pptm} and \code{.pptx} files are prefixed with
-`PowerPoint`,
-\item \code{.md} files are prefixed with `Markdown`
+\code{PowerPoint},
+\item \code{.md} files are prefixed with \code{Markdown}
 }
 
 Files with extensions not contained within this list will have their size
@@ -84,5 +84,5 @@ For more information on using regular expressions, see this
 \href{https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/}{Jumping Rivers blog post}
 and this
 \href{https://stringr.tidyverse.org/articles/regular-expressions.html}{vignette}
-from the \code{\link[stringr:stringr-package]{stringr}} package.
+from the \code{\link[stringr:stringr-package]{stringr()}} package.
 }

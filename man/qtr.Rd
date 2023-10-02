@@ -19,8 +19,11 @@ qtr_prev(date, format = c("long", "short"))
 \item{date}{A date which must be supplied with \code{Date} or \code{POSIXct}}
 
 \item{format}{A \code{character} string specifying the format the quarter
-should be displayed in. Valid options are `long` (January to March 2018) and
-`short` (Jan-Mar 2018). The default is `long`.}
+should be displayed in. Valid options are \code{long} (January to March 2018) and
+\code{short} (Jan-Mar 2018). The default is \code{long}.}
+}
+\value{
+A character vector of financial quarters in the specified format.
 }
 \description{
 The qtr functions take a date input and calculate the relevant
