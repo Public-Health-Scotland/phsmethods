@@ -18,10 +18,9 @@ test_that("postcode is deprecated", {
       expect_equal(postcode("EC1Y8SE"), "EC1Y8SE")
 
       input_hampden <- c("G429BA", "g429ba", "G42 9BA", "G 4 2 9 B A", "G429b    a")
-      formatted_hampden <- suppressWarnings(postcode(input_hampden))
 
-      expect_true(length(unique(formatted_hampden)) == 1)
-      expect_equal(unique(formatted_hampden), "G42 9BA")
+      expect_true(length(unique(postcode(input_hampden))) == 1)
+      expect_equal(unique(postcode(input_hampden)), "G42 9BA")
 
       expect_true(is.na(suppressWarnings(postcode("G2?QE"))))
       expect_warning(postcode(c("G207AL", "G2O07AL")))
@@ -34,12 +33,10 @@ test_that("postcode is deprecated", {
       )
 
       input_dens <- c("Dd37Jy", "DD37JY", "D  d 337JY")
-      warnings_dens <- capture_warnings(postcode(input_dens))
-      expect_length(warnings_dens, 2)
+      expect_length(capture_warnings(postcode(input_dens)), 2)
 
       input_pittodrie <- c("ab245qh", NA, "ab245q", "A  B245QH")
-      warnings_pittodrie <- capture_warnings(postcode(input_pittodrie))
-      expect_length(warnings_pittodrie, 3)
+      expect_length(capture_warnings(postcode(input_pittodrie)), 3)
 
       expect_warning(postcode("g2"), "^1")
       expect_warning(postcode(c("DG98BS", "dg98b")), "^1")
