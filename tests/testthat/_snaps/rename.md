@@ -64,21 +64,17 @@
       i Please use `format_postcode()` instead.
     Code
       input_hampden <- c("G429BA", "g429ba", "G42 9BA", "G 4 2 9 B A", "G429b    a")
-      formatted_hampden <- suppressWarnings(postcode(input_hampden))
+      expect_true(length(unique(postcode(input_hampden))) == 1)
     Condition
       Error:
       ! `postcode()` was deprecated in phsmethods 0.2.1 and is now defunct.
       i Please use `format_postcode()` instead.
     Code
-      expect_true(length(unique(formatted_hampden)) == 1)
+      expect_equal(unique(postcode(input_hampden)), "G42 9BA")
     Condition
-      Error in `unique()`:
-      ! object 'formatted_hampden' not found
-    Code
-      expect_equal(unique(formatted_hampden), "G42 9BA")
-    Condition
-      Error in `unique()`:
-      ! object 'formatted_hampden' not found
+      Error:
+      ! `postcode()` was deprecated in phsmethods 0.2.1 and is now defunct.
+      i Please use `format_postcode()` instead.
     Code
       expect_true(is.na(suppressWarnings(postcode("G2?QE"))))
     Condition
@@ -100,28 +96,18 @@
       i Please use `format_postcode()` instead.
     Code
       input_dens <- c("Dd37Jy", "DD37JY", "D  d 337JY")
-      warnings_dens <- capture_warnings(postcode(input_dens))
+      expect_length(capture_warnings(postcode(input_dens)), 2)
     Condition
       Error:
       ! `postcode()` was deprecated in phsmethods 0.2.1 and is now defunct.
       i Please use `format_postcode()` instead.
-    Code
-      expect_length(warnings_dens, 2)
-    Condition
-      Error in `eval_bare()`:
-      ! object 'warnings_dens' not found
     Code
       input_pittodrie <- c("ab245qh", NA, "ab245q", "A  B245QH")
-      warnings_pittodrie <- capture_warnings(postcode(input_pittodrie))
+      expect_length(capture_warnings(postcode(input_pittodrie)), 3)
     Condition
       Error:
       ! `postcode()` was deprecated in phsmethods 0.2.1 and is now defunct.
       i Please use `format_postcode()` instead.
-    Code
-      expect_length(warnings_pittodrie, 3)
-    Condition
-      Error in `eval_bare()`:
-      ! object 'warnings_pittodrie' not found
     Code
       expect_warning(postcode("g2"), "^1")
     Condition
