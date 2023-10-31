@@ -1,9 +1,9 @@
-#' \code{phsmethods} package
+#' `phsmethods` package
 #'
 #' Standard Methods for use in PHS.
 #'
 #' See the README on
-#' \href{https://github.com/Public-Health-Scotland/phsmethods#readme}{GitHub}.
+#' [GitHub](https://github.com/Public-Health-Scotland/phsmethods#readme).
 #'
 #' @docType package
 #' @name phsmethods

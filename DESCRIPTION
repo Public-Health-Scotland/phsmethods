@@ -32,7 +32,6 @@ Imports:
     lifecycle,
     lubridate,
     magrittr,
-    purrr,
     readr,
     rlang,
     scales (>= 1.0.0),
@@ -50,3 +49,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)

@@ -1,15 +1,17 @@
 #' @title Extract the formatted financial year from a date
 #'
-#' @description \code{extract_fin_year} takes a date and extracts the
+#' @description `extract_fin_year` takes a date and extracts the
 #' correct financial year in the PHS specified format from it.
 #'
 #' @details The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
 #'
-#' @param date A date which must be supplied with \code{Date} or \code{POSIXct}
-#' class. \code{\link[base:as.Date]{as.Date()}},
-#' \code{\link[lubridate:ymd]{lubridate::dmy()}} and
-#' \code{\link[base:as.POSIXlt]{as.POSIXct()}} are examples of functions which
+#' @param date A date which must be supplied with `Date` or `POSIXct`
+#' class. [base::as.Date()],
+#' [`lubridate::dmy()`][lubridate::ymd] and
+#' [`as.POSIXct()`][base::as.POSIXlt] are examples of functions which
 #' can be used to store dates as an appropriate class.
+#'
+#' @return A character vector of financial years in the form '2017/18'.
 #'
 #' @examples
 #' x <- lubridate::dmy(c(21012017, 04042017, 17112017))

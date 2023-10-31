@@ -7,22 +7,26 @@
 dob_from_chi(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE)
 }
 \arguments{
-\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
+\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character}
+class.}
 
-\item{min_date, max_date}{optional min and/or max dates that the Date of Birth could take as the century needs to be guessed.
-Must be either length 1 for a 'fixed' date or the same length as \code{chi_number} for a date per CHI number.
-min_date can be date based on common sense in the dataset, whilst max_date can be date when an event happens such as discharge date.}
+\item{min_date, max_date}{optional min and/or max dates that the
+DoB could take as the century needs to be guessed. Must be either length 1
+for a 'fixed' date or the same length as \code{chi_number} for a date
+per CHI number. \code{min_date} can be date based on common sense in the dataset,
+whilst \code{max_date} can be date when an event happens such as discharge date.}
 
-\item{chi_check}{logical, optionally skip checking the CHI for validity which will be
-faster but should only be used if you have previously checked the CHI(s). The default (TRUE) will check the CHI numbers.}
+\item{chi_check}{logical, optionally skip checking the CHI for validity which
+will be faster but should only be used if you have previously checked the
+CHI(s). The default (TRUE) will check the CHI numbers.}
 }
 \value{
 a date vector of DoB. It will be the same length as \code{chi_number}.
 }
 \description{
 \code{dob_from_chi} takes a CHI number or a vector of CHI numbers
-and returns the DoB as implied by the CHI number(s). If the DoB is ambiguous
-it will return NA
+and returns the Date of Birth (DoB) as implied by the CHI number(s). If the
+DoB is ambiguous it will return NA.
 }
 \examples{
 dob_from_chi("0101336489")

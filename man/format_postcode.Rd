@@ -14,10 +14,10 @@ do not adhere to the standard UK postcode format will generate an NA and a
 warning message - see \strong{Value} section for more information.}
 
 \item{format}{A character string denoting the desired output format. Valid
-options are `pc7` and `pc8`. The default is `pc7`. See \strong{Value}
+options are \code{pc7} and \code{pc8}. The default is \code{pc7}. See \strong{Value}
 section for more information on the string length of output values.}
 
-\item{quiet}{(optional) If quiet is `TRUE` all messages and warnings will be
+\item{quiet}{(optional) If quiet is \code{TRUE} all messages and warnings will be
 suppressed. This is useful in a production context and when you are sure of
 the data or you are specifically using this function to remove invalid
 postcodes. This will also make the function a bit quicker as fewer checks
@@ -30,7 +30,7 @@ spaces after the 2nd character; 6 character postcodes have 1 space after the
 3rd character; and 7 character postcodes have no spaces.
 
 When \code{format} is set equal to \code{pc8}, \code{format_postcode} returns
- a character string with maximum length 8. All postcodes, whether 5, 6 or 7
+a character string with maximum length 8. All postcodes, whether 5, 6 or 7
 characters, have one space before the last 3 characters.
 
 Any input values which do not adhere to the standard UK postcode format will
@@ -44,9 +44,9 @@ contain lower case letters will generate a warning message explaining that
 these letters will be capitalised.
 }
 \description{
-\code{format_postcode} takes a character string or vector of character
-strings. It extracts the input values which adhere to the standard UK
-postcode format (with or without spaces), assigns the appropriate amount
+\code{format_postcode} takes a character string or vector of
+character strings. It extracts the input values which adhere to the standard
+UK postcode format (with or without spaces), assigns the appropriate amount
 of spacing to them (for both pc7 and pc8 formats) and ensures all letters
 are capitalised.
 }

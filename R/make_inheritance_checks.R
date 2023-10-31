@@ -1,11 +1,15 @@
 #' Check that a set of arguments inherits from a set of classes
 #' Throws an exception if one argument does not pass the checks.
 #' Argument must have AT LEAST ONE of the specified classes to pass.
-#' @param arguments a list object containing argument_name=argument pairs for each argument. Argument names must be provided or else they will be ignored.
+#' @param arguments a list object containing argument_name=argument pairs for
+#' each argument. Argument names must be provided or else they will be ignored.
 #' @param target_classes character vector of the classes to check for.
-#' @param ignore_null boolean. Indicates whether to ignore arguments with value NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.
+#' @param ignore_null boolean. Indicates whether to ignore arguments with value
+#' NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.
 
-make_inheritance_checks <- function(arguments, target_classes, ignore_null = TRUE) {
+make_inheritance_checks <- function(arguments,
+                                    target_classes,
+                                    ignore_null = TRUE) {
   caller_func <- ifelse(length(sys.calls()) > 1,
     deparse(sys.calls()[[sys.nframe() - 1]]),
     NA
@@ -22,7 +26,13 @@ make_inheritance_checks <- function(arguments, target_classes, ignore_null = TRU
       if (ignore_null) {
         return(NULL)
       } else {
-        return(stringr::str_glue("{.arg {% argument %}} is {.val NULL} but must be {cli::qty(target_classes)} {?any of }{.cls {target_classes}}.", .open = "{%", .close = "%}"))
+        return(
+          stringr::str_glue(
+            "{.arg {% argument %}} is {.val NULL} but must be {cli::qty(target_classes)} {?any of }{.cls {target_classes}}.",
+            .open = "{%",
+            .close = "%}"
+          )
+        )
       }
     }
     if (!inherits(arguments[[argument]], target_classes) & !is.null(arguments[[argument]])) {

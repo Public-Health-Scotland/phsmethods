@@ -20,9 +20,9 @@ to improve code clarity. The old functions no longer
 work and will error. At the next update they will be
 removed completely.
 \itemize{
-\item \code{postcode()} -> \code{format_postcode()}
-\item \code{age_group()} -> \code{create_age_groups()}
-\item \code{fin_year()} -> \code{extract_fin_year()}
+\item \code{postcode()} → \code{format_postcode()}
+\item \code{age_group()} → \code{create_age_groups()}
+\item \code{fin_year()} → \code{extract_fin_year()}
 }
 }
 \keyword{internal}

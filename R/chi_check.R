@@ -1,7 +1,7 @@
 #' @title Check the validity of a CHI number
 #'
-#' @description \code{chi_check} takes a CHI number or a vector of CHI numbers
-#' with \code{character} class. It returns feedback on the validity of the
+#' @description `chi_check` takes a CHI number or a vector of CHI numbers
+#' with `character` class. It returns feedback on the validity of the
 #' entered CHI number and, if found to be invalid, provides an explanation as
 #' to why.
 #'
@@ -16,44 +16,46 @@
 #' even for female. The tenth digit is a check digit, denoted `checksum`.
 #'
 #' While a CHI number is made up exclusively of numeric digits, it cannot be
-#' stored with \code{numeric} class in R. This is because leading zeros in
+#' stored with `numeric` class in R. This is because leading zeros in
 #' numeric values are silently dropped, a practice not exclusive to R. For this
-#' reason, \code{chi_check} accepts input values of \code{character} class
+#' reason, `chi_check` accepts input values of `character` class
 #' only. A leading zero can be added to a nine-digit CHI number using
-#' \code{\link{chi_pad}}.
+#' [chi_pad()].
 #'
-#' \code{chi_check} assesses whether an entered CHI number is valid by checking
+#' `chi_check` assesses whether an entered CHI number is valid by checking
 #' whether the answer to each of the following criteria is `Yes`:
 #'
-#' \itemize{
-#' \item Does it contain no non-numeric characters?
-#' \item Is it ten digits in length?
-#' \item Do the first six digits denote a valid date?
-#' \item Is the checksum digit correct?
-#' }
+#' * Does it contain no non-numeric characters?
+#' * Is it ten digits in length?
+#' * Do the first six digits denote a valid date?
+#' * Is the checksum digit correct?
 #'
-#' @param x a CHI number or a vector of CHI numbers with \code{character} class.
+#' @param x a CHI number or a vector of CHI numbers with `character` class.
 #'
-#' @return \code{chi_check} returns a character string. Depending on the
+#' @return `chi_check` returns a character string. Depending on the
 #' validity of the entered CHI number, it will return one of the following:
 #'
-#' \itemize{
-#' \item `Valid CHI`
-#' \item `Invalid character(s) present`
-#' \item `Too many characters`
-#' \item `Too few characters`
-#' \item `Invalid date`
-#' \item `Invalid checksum`
-#' \item `Missing (NA)`
-#' \item `Missing (Blank)`
-#' }
+#' * `Valid CHI`
+#' * `Invalid character(s) present`
+#' * `Too many characters`
+#' * `Too few characters`
+#' * `Invalid date`
+#' * `Invalid checksum`
+#' * `Missing (NA)`
+#' * `Missing (Blank)`
 #'
 #' @examples
 #' chi_check("0101011237")
 #' chi_check(c("0101201234", "3201201234"))
 #'
 #' library(dplyr)
-#' df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?", NA))
+#' df <- tibble(chi = c(
+#'   "3213201234",
+#'   "123456789",
+#'   "12345678900",
+#'   "010120123?",
+#'   NA
+#' ))
 #' df %>%
 #'   mutate(validity = chi_check(chi))
 #' @export
