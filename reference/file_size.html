@@ -69,7 +69,7 @@ working directory, <code><a href="https://rdrr.io/r/base/getwd.html" class="exte
 
 <dt>pattern</dt>
 <dd><p>An optional character string denoting a
-<code><a href="https://rdrr.io/r/base/regex.html" class="external-link">regular expression</a></code> pattern. Only file names which
+<code><a href="https://rdrr.io/r/base/regex.html" class="external-link">regular expression()</a></code> pattern. Only file names which
 match the regular expression will be returned. See the <strong>See Also</strong>
 section for resources regarding how to write regular expressions.</p></dd>
 
@@ -78,13 +78,13 @@ section for resources regarding how to write regular expressions.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></code> listing the names of files within
+<p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> listing the names of files within
 <code>filepath</code> which match <code>pattern</code> and their respective sizes. The
-column names of this tibble are `name` and `size`. If no <code>pattern</code> is
+column names of this tibble are <code>name</code> and <code>size</code>. If no <code>pattern</code> is
 specified, <code>file_size</code> returns the names and sizes of all files within
 <code>filepath</code>. File names and sizes are returned in alphabetical order of
 file name. Sub-folders contained within <code>filepath</code> will return a file
-size of `0 B`.</p>
+size of <code>0 B</code>.</p>
 
 
 <p>If <code>filepath</code> is an empty folder, or <code>pattern</code> matches no files
@@ -94,23 +94,23 @@ within <code>filepath</code>, <code>file_size</code> returns <code>NULL</code>.<
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The sizes of files with certain extensions are returned with the
 type of file prefixed. For example, the size of a 12 KB <code>.xlsx</code> file is
-returned as `Excel 12 KB`. The complete list of explicitly catered-for file
+returned as <code>Excel 12 KB</code>. The complete list of explicitly catered-for file
 extensions and their prefixes are as follows:</p>
 <ul><li><p><code>.xls</code>, <code>.xlsb</code>, <code>.xlsm</code> and <code>.xlsx</code> files are
-prefixed with `Excel`</p></li>
-<li><p><code>.csv</code> files are prefixed with `CSV`</p></li>
-<li><p><code>.sav</code> and <code>.zsav</code> files are prefixed with `SPSS`</p></li>
+prefixed with <code>Excel</code></p></li>
+<li><p><code>.csv</code> files are prefixed with <code>CSV</code></p></li>
+<li><p><code>.sav</code> and <code>.zsav</code> files are prefixed with <code>SPSS</code></p></li>
 <li><p><code>.doc</code>, <code>.docm</code> and <code>.docx</code> files are prefixed with
-`Word`</p></li>
-<li><p><code>.rds</code> files are prefixed with `RDS`</p></li>
-<li><p><code>.txt</code> files are prefixed with `Text`,</p></li>
-<li><p><code>.fst</code> files are prefixed with `FST`,</p></li>
-<li><p><code>.pdf</code> files are prefixed with `PDF`,</p></li>
-<li><p><code>.tsv</code> files are prefixed with `TSV`,</p></li>
-<li><p><code>.html</code> files are prefixed with `HTML`,</p></li>
+<code>Word</code></p></li>
+<li><p><code>.rds</code> files are prefixed with <code>RDS</code></p></li>
+<li><p><code>.txt</code> files are prefixed with <code>Text</code>,</p></li>
+<li><p><code>.fst</code> files are prefixed with <code>FST</code>,</p></li>
+<li><p><code>.pdf</code> files are prefixed with <code>PDF</code>,</p></li>
+<li><p><code>.tsv</code> files are prefixed with <code>TSV</code>,</p></li>
+<li><p><code>.html</code> files are prefixed with <code>HTML</code>,</p></li>
 <li><p><code>.ppt</code>, <code>.pptm</code> and <code>.pptx</code> files are prefixed with
-`PowerPoint`,</p></li>
-<li><p><code>.md</code> files are prefixed with `Markdown`</p></li>
+<code>PowerPoint</code>,</p></li>
+<li><p><code>.md</code> files are prefixed with <code>Markdown</code></p></li>
 </ul><p>Files with extensions not contained within this list will have their size
 returned with no prefix. To request that a certain extension be explicitly
 catered for, please create an issue on
@@ -125,7 +125,7 @@ be 1,024 units of the preceding denomination.</p>
 <a href="https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/" class="external-link">Jumping Rivers blog post</a>
 and this
 <a href="https://stringr.tidyverse.org/articles/regular-expressions.html" class="external-link">vignette</a>
-from the <code><a href="https://stringr.tidyverse.org/reference/stringr-package.html" class="external-link">stringr</a></code> package.</p></div>
+from the <code><a href="https://stringr.tidyverse.org/reference/stringr-package.html" class="external-link">stringr()</a></code> package.</p></div>
     </div>
 
     <div class="section level2">
@@ -136,7 +136,7 @@ from the <code><a href="https://stringr.tidyverse.org/reference/stringr-package.
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name                   size      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Rplot001.png           1 kB      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> age_calculate.html     HTML 13 kB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> age_calculate.html     HTML 14 kB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> age_from_chi.html      HTML 17 kB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> area_lookup.html       HTML 8 kB </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> chi_check.html         HTML 13 kB</span>

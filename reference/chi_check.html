@@ -74,17 +74,14 @@ to why.</p>
     
 
 <p><code>chi_check</code> returns a character string. Depending on the
-validity of the entered CHI number, it will return one of the following:</p>
-
-
-<ul><li><p>`Valid CHI`</p></li>
-<li><p>`Invalid character(s) present`</p></li>
-<li><p>`Too many characters`</p></li>
-<li><p>`Too few characters`</p></li>
-<li><p>`Invalid date`</p></li>
-<li><p>`Invalid checksum`</p></li>
-<li><p>`Missing (NA)`</p></li>
-<li><p>`Missing (Blank)`</p></li>
+validity of the entered CHI number, it will return one of the following:</p><ul><li><p><code>Valid CHI</code></p></li>
+<li><p><code>Invalid character(s) present</code></p></li>
+<li><p><code>Too many characters</code></p></li>
+<li><p><code>Too few characters</code></p></li>
+<li><p><code>Invalid date</code></p></li>
+<li><p><code>Invalid checksum</code></p></li>
+<li><p><code>Missing (NA)</code></p></li>
+<li><p><code>Missing (Blank)</code></p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -94,16 +91,15 @@ each patient on the index.</p>
 <p>The first six digits of a CHI number are a patient's date of birth in
 DD/MM/YY format.</p>
 <p>The ninth digit of a CHI number identifies a patient's sex: odd for male,
-even for female. The tenth digit is a check digit, denoted `checksum`.</p>
+even for female. The tenth digit is a check digit, denoted <code>checksum</code>.</p>
 <p>While a CHI number is made up exclusively of numeric digits, it cannot be
 stored with <code>numeric</code> class in R. This is because leading zeros in
 numeric values are silently dropped, a practice not exclusive to R. For this
 reason, <code>chi_check</code> accepts input values of <code>character</code> class
 only. A leading zero can be added to a nine-digit CHI number using
-<code><a href="chi_pad.html">chi_pad</a></code>.</p>
+<code><a href="chi_pad.html">chi_pad()</a></code>.</p>
 <p><code>chi_check</code> assesses whether an entered CHI number is valid by checking
-whether the answer to each of the following criteria is `Yes`:</p>
-<ul><li><p>Does it contain no non-numeric characters?</p></li>
+whether the answer to each of the following criteria is <code>Yes</code>:</p><ul><li><p>Does it contain no non-numeric characters?</p></li>
 <li><p>Is it ten digits in length?</p></li>
 <li><p>Do the first six digits denote a valid date?</p></li>
 <li><p>Is the checksum digit correct?</p></li>
@@ -117,7 +113,13 @@ whether the answer to each of the following criteria is `Yes`:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Invalid checksum" "Invalid date"    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>chi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"3213201234"</span>, <span class="st">"123456789"</span>, <span class="st">"12345678900"</span>, <span class="st">"010120123?"</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>chi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"3213201234"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"123456789"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"12345678900"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"010120123?"</span>,</span></span>
+<span class="r-in"><span>  <span class="cn">NA</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>validity <span class="op">=</span> <span class="fu">chi_check</span><span class="op">(</span><span class="va">chi</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
