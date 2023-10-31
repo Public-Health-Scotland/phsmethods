@@ -17,13 +17,16 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-5380-2029")),
     person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut")
   )
-Description: Bespoke functions for commonly undertaken analytical tasks in
-    Public Health Scotland.
+Description: A collection of methods for commonly undertaken analytical tasks, 
+    primarily developed for Public Health Scoltand (PHS) analysts, but the package is also 
+    generally useful to others working in the healthcare space, particularly since it has
+    functions for working with Community Health Index (CHI) numbers. 
+    The package can help to make data manipulation and analysis more 
+    efficient and reproducible.
 License: GPL (>= 2)
 URL: https://github.com/Public-Health-Scotland/phsmethods,
     https://public-health-scotland.github.io/phsmethods/
-BugReports: 
-    https://github.com/Public-Health-Scotland/phsmethods/issues
+BugReports: https://github.com/Public-Health-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:
