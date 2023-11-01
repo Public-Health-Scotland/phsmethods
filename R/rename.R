@@ -15,7 +15,7 @@
 #' @keywords internal
 #' @name rename
 #' @aliases NULL
-#' @return NULL
+#' @returns `r lifecycle::badge('deprecated')`
 NULL
 
 #' @rdname rename
