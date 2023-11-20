@@ -24,47 +24,73 @@ test_that("NAs are handled correctly", {
 })
 
 test_that("YYYY/YY format applied correctly", {
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/April/1999"), NA)),
-               c(NA, "1999/00", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/April/2000"), NA)),
-               c(NA, "2000/01", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/April/2001"), NA)),
-               c(NA, "2001/02", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "31/March/1999"), NA)),
-               c(NA, "1998/99", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "31/March/2000"), NA)),
-               c(NA, "1999/00", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "31/March/2001"), NA)),
-               c(NA, "2000/01", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/December/1999"), NA)),
-               c(NA, "1999/00", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/December/2000"), NA)),
-               c(NA, "2000/01", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/December/2999"), NA)),
-               c(NA, "2999/00", NA))
-  expect_equal(extract_fin_year(c(lubridate::dmy(NA, "01/December/3000"), NA)),
-               c(NA, "3000/01", NA))
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/April/1999"), NA)),
+    c(NA, "1999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/April/2000"), NA)),
+    c(NA, "2000/01", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/April/2001"), NA)),
+    c(NA, "2001/02", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "31/March/1999"), NA)),
+    c(NA, "1998/99", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "31/March/2000"), NA)),
+    c(NA, "1999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "31/March/2001"), NA)),
+    c(NA, "2000/01", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/1999"), NA)),
+    c(NA, "1999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/2000"), NA)),
+    c(NA, "2000/01", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/2999"), NA)),
+    c(NA, "2999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/3000"), NA)),
+    c(NA, "3000/01", NA)
+  )
 
-  expect_equal(extract_fin_year(
-    lubridate::as_datetime(
-      c(lubridate::dmy(NA, "01/April/1999"), NA)
-    )
-  ),
-  c(NA, "1999/00", NA))
+  expect_equal(
+    extract_fin_year(
+      lubridate::as_datetime(
+        c(lubridate::dmy(NA, "01/April/1999"), NA)
+      )
+    ),
+    c(NA, "1999/00", NA)
+  )
 
-  expect_equal(extract_fin_year(
-    lubridate::as_datetime(
-      c(lubridate::dmy(NA, "01/December/2000"), NA)
-    )
-  ),
-  c(NA, "2000/01", NA))
+  expect_equal(
+    extract_fin_year(
+      lubridate::as_datetime(
+        c(lubridate::dmy(NA, "01/December/2000"), NA)
+      )
+    ),
+    c(NA, "2000/01", NA)
+  )
 
-  expect_equal(extract_fin_year(
-    lubridate::as_datetime(
-      c(lubridate::dmy(NA, "01/April/0001"), NA)
-    )
-  ),
-  c(NA, "0001/02", NA))
+  expect_equal(
+    extract_fin_year(
+      lubridate::as_datetime(
+        c(lubridate::dmy(NA, "01/April/0001"), NA)
+      )
+    ),
+    c(NA, "0001/02", NA)
+  )
 })
 
 test_that("Correct outputs", {
@@ -75,9 +101,10 @@ test_that("Correct outputs", {
 
   df <- data.frame(x = x, fin_years = fin_years)
   out <- dplyr::summarise(df,
-                          start = min(x),
-                          end = max(x),
-                          n = dplyr::n(),
-                          .by = fin_years)
+    start = min(x),
+    end = max(x),
+    n = dplyr::n(),
+    .by = fin_years
+  )
   expect_snapshot(out)
 })
