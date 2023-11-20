@@ -33,8 +33,8 @@ extract_fin_year <- function(date) {
   # We only need integers for our purposes
   posix <- as.POSIXlt(date, tz = lubridate::tz(date))
   y <- posix$year + 1900L
-  m <- posix$mon + 1L
-  fy <- y - ( (m - 3L) %/% 1L <= 0L )
+  m <- posix$mon
+  fy <- y - (m < 3L)
   next_fy <- (fy + 1L) %% 100L
   out <- sprintf("%.4d/%02d", fy, next_fy)
   out[is.na(date)] <- NA_character_
