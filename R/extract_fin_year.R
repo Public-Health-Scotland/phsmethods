@@ -18,8 +18,8 @@
 #' extract_fin_year(x)
 #' @export
 extract_fin_year <- function(date) {
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector,
+  if (!inherits(date, c("Date", "POSIXt"))) {
+    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXt} vector,
                    not a {.cls {class(date)}} vector.")
   }
 
@@ -29,18 +29,14 @@ extract_fin_year <- function(date) {
   # and then match them back on to the original input. This vastly improves
   # performance for large inputs.
 
-  unique_date <- unique(date)
-
-  unique_fy_q <-
-    lubridate::year(unique_date) - (lubridate::month(unique_date) %in% 1:3)
-
-  unique_fy <- ifelse(
-    is.na(unique_date),
-    NA_character_,
-    paste0(unique_fy_q, "/", (unique_fy_q %% 100L) + 1L)
-  )
-
-  fin_years <- unique_fy[match(date, unique_date)]
-
-  return(fin_years)
+  # Note: lubridate year and month coerce to double
+  # We only need integers for our purposes
+  posix <- as.POSIXlt(date, tz = lubridate::tz(date))
+  y <- posix$year + 1900L
+  m <- posix$mon + 1L
+  fy <- y - ( (m - 3L) %/% 1L <= 0L )
+  next_fy <- (fy + 1L) %% 100L
+  out <- sprintf("%.4d/%02d", fy, next_fy)
+  out[is.na(date)] <- NA_character_
+  out
 }
