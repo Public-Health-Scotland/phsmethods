@@ -94,17 +94,21 @@ test_that("YYYY/YY format applied correctly", {
 })
 
 test_that("Correct outputs", {
-  start <- lubridate::dmy("01/04/1999")
-  end <- lubridate::dmy("31/03/2011")
-  x <- seq(start, end, by = "day")
-  fin_years <- extract_fin_year(x)
+  expect_snapshot({
+    start <- lubridate::make_date(1999, 4, 1)
+    end <- lubridate::make_date(2100, 3, 31)
+    dates <- seq(start, end, by = "day")
 
-  df <- data.frame(x = x, fin_years = fin_years)
-  out <- dplyr::summarise(df,
-    start = min(x),
-    end = max(x),
-    n = dplyr::n(),
-    .by = fin_years
-  )
-  expect_snapshot(out)
+    df <- data.frame(
+      date = dates,
+      fin_year = extract_fin_year(dates)
+    )
+
+    dplyr::summarise(df,
+      first_date = min(date),
+      last_date = max(date),
+      days = dplyr::n(),
+      .by = fin_year
+    )
+  })
 })
