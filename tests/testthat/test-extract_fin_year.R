@@ -69,38 +69,15 @@ test_that("YYYY/YY format applied correctly", {
 
 test_that("Correct outputs", {
   start <- lubridate::dmy("01/04/1999")
-  end <- lubridate::dmy("31/03/2024")
+  end <- lubridate::dmy("31/03/2011")
   x <- seq(start, end, by = "day")
-  year_breaks <- start + lubridate::years(0:25)
   fin_years <- extract_fin_year(x)
 
-  df <- dplyr::tibble(x = x, fin_years = fin_years)
+  df <- data.frame(x = x, fin_years = fin_years)
   out <- dplyr::summarise(df,
                           start = min(x),
                           end = max(x),
                           n = dplyr::n(),
                           .by = fin_years)
-
-  # We'll compare the above output by first creating an expected result
-  # This will be a tibble of start and end dates for each financial year
-  # We then use that find the number of days that lie between
-  # each pair
-
-  start_end_df <- dplyr::tibble(start = seq(start, end, by = "year"))
-  start_end_df$end <- start_end_df$start + lubridate::years(1) - lubridate::days(1)
-
-  start_end_df <- start_end_df %>%
-    dplyr::group_by(start, end) %>%
-    dplyr::mutate(n = sum(dplyr::between(x, start, end)))
-
-  expected_years <- lubridate::year(start_end_df$start)
-  expected_years2 <- lubridate::year(start_end_df$end) %% 100
-  expected_years2_padded <- stringr::str_pad(expected_years2, width = 2,
-                                             side = "left", pad = "0")
-  expected_fin_years <- paste0(expected_years, "/", expected_years2_padded)
-
-  expect_equal(out$fin_years, expected_fin_years)
-  expect_equal(out$start, start_end_df$start)
-  expect_equal(out$end, start_end_df$end)
-  expect_equal(out$n, start_end_df$n)
+  expect_snapshot(out)
 })
