@@ -23,12 +23,6 @@ extract_fin_year <- function(date) {
                    not a {.cls {class(date)}} vector.")
   }
 
-  # Simply converting all elements of the input vector resulted in poor
-  # performance for large vectors. The function was rewritten to extract
-  # a vector of unique elements from the input, convert those to financial year
-  # and then match them back on to the original input. This vastly improves
-  # performance for large inputs.
-
   # Note: lubridate year and month coerce to double
   # We only need integers for our purposes
   posix <- as.POSIXlt(date, tz = lubridate::tz(date))
