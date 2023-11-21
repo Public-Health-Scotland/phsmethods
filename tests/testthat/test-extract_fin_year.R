@@ -22,3 +22,93 @@ test_that("Non-date formats produce an error", {
 test_that("NAs are handled correctly", {
   expect_equal(extract_fin_year(c(lubridate::dmy(05012020), NA)), c("2019/20", NA))
 })
+
+test_that("YYYY/YY format applied correctly", {
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/April/1999"), NA)),
+    c(NA, "1999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/April/2000"), NA)),
+    c(NA, "2000/01", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/April/2001"), NA)),
+    c(NA, "2001/02", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "31/March/1999"), NA)),
+    c(NA, "1998/99", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "31/March/2000"), NA)),
+    c(NA, "1999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "31/March/2001"), NA)),
+    c(NA, "2000/01", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/1999"), NA)),
+    c(NA, "1999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/2000"), NA)),
+    c(NA, "2000/01", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/2999"), NA)),
+    c(NA, "2999/00", NA)
+  )
+  expect_equal(
+    extract_fin_year(c(lubridate::dmy(NA, "01/December/3000"), NA)),
+    c(NA, "3000/01", NA)
+  )
+
+  expect_equal(
+    extract_fin_year(
+      lubridate::as_datetime(
+        c(lubridate::dmy(NA, "01/April/1999"), NA)
+      )
+    ),
+    c(NA, "1999/00", NA)
+  )
+
+  expect_equal(
+    extract_fin_year(
+      lubridate::as_datetime(
+        c(lubridate::dmy(NA, "01/December/2000"), NA)
+      )
+    ),
+    c(NA, "2000/01", NA)
+  )
+
+  expect_equal(
+    extract_fin_year(
+      lubridate::as_datetime(
+        c(lubridate::dmy(NA, "01/April/0001"), NA)
+      )
+    ),
+    c(NA, "0001/02", NA)
+  )
+})
+
+test_that("Correct outputs", {
+  expect_snapshot({
+    start <- lubridate::make_date(1999, 4, 1)
+    end <- lubridate::make_date(2100, 3, 31)
+    dates <- seq(start, end, by = "day")
+
+    df <- data.frame(
+      date = dates,
+      fin_year = extract_fin_year(dates)
+    )
+
+    dplyr::summarise(df,
+      first_date = min(date),
+      last_date = max(date),
+      days = dplyr::n(),
+      .by = fin_year
+    )
+  })
+})
