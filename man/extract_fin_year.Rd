@@ -7,11 +7,14 @@
 extract_fin_year(date)
 }
 \arguments{
-\item{date}{A date which must be supplied with \code{Date} or \code{POSIXct}
-class. \code{\link[base:as.Date]{as.Date()}},
+\item{date}{A date which must be supplied with \code{Date}, \code{POSIXct}, \code{POSIXlt} or
+\code{POSIXt} class. \code{\link[base:as.Date]{base::as.Date()}},
 \code{\link[lubridate:ymd]{lubridate::dmy()}} and
 \code{\link[base:as.POSIXlt]{as.POSIXct()}} are examples of functions which
 can be used to store dates as an appropriate class.}
+}
+\value{
+A character vector of financial years in the form '2017/18'.
 }
 \description{
 \code{extract_fin_year} takes a date and extracts the

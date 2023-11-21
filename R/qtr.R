@@ -7,13 +7,13 @@
 #' value.
 #'
 #' \itemize{
-#' \item \code{qtr} returns the current quarter
+#' \item `qtr` returns the current quarter
 #'
-#' \item \code{qtr_end} returns the last month in the quarter
+#' \item `qtr_end` returns the last month in the quarter
 #'
-#' \item \code{qtr_next} returns the next quarter
+#' \item `qtr_next` returns the next quarter
 #'
-#' \item \code{qtr_prev} returns the previous quarter
+#' \item `qtr_prev` returns the previous quarter
 #' }
 #'
 #' @details Quarters are defined as:
@@ -25,10 +25,12 @@
 #' \item October to December (Oct-Dec)
 #' }
 #'
-#' @param date A date which must be supplied with \code{Date} or \code{POSIXct}
-#' @param format A \code{character} string specifying the format the quarter
+#' @param date A date which must be supplied with `Date` or `POSIXct`
+#' @param format A `character` string specifying the format the quarter
 #' should be displayed in. Valid options are `long` (January to March 2018) and
 #' `short` (Jan-Mar 2018). The default is `long`.
+#'
+#' @return A character vector of financial quarters in the specified format.
 #'
 #' @examples
 #' x <- lubridate::dmy(c(26032012, 04052012, 23092012))

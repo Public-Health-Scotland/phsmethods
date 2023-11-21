@@ -1,3 +1,7 @@
+# phsmethods 1.0.0 (2023-09-26)
+
+- This is the first new major release to CRAN. 
+
 # phsmethods 0.2.3 (2023-09-11)
 
 - The [{gdata}](https://github.com/r-gregmisc/gdata) import has been dropped and replaced with [{scales}](https://scales.r-lib.org/).

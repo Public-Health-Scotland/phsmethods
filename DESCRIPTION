@@ -1,8 +1,8 @@
 Package: phsmethods
-Title: Standard Methods for use in Public Health Scotland
-Version: 0.2.3
+Title: Standard Methods for Use in Public Health Scotland
+Version: 1.0.0
 Authors@R: c(
-    person("Public Health Scotland", , , "phs.source@phs.scot", role = "cph"),
+    person("Public Health Scotland", , , "phs.datascience@phs.scot", role = "cph"),
     person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
     person("Lucinda", "Lawrie", , "Lucinda.Lawrie@phs.scot", role = "rev"),
     person("Jack", "Hannah", , "jack.hannah2@phs.scot", role = "aut"),
@@ -17,13 +17,16 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-5380-2029")),
     person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut")
   )
-Description: Bespoke functions for commonly undertaken analytical tasks in
-    Public Health Scotland.
+Description: A collection of methods for commonly undertaken analytical
+    tasks, primarily developed for Public Health Scotland (PHS) analysts,
+    but the package is also generally useful to others working in the
+    healthcare space, particularly since it has functions for working with
+    Community Health Index (CHI) numbers. The package can help to make
+    data manipulation and analysis more efficient and reproducible.
 License: GPL (>= 2)
 URL: https://github.com/Public-Health-Scotland/phsmethods,
     https://public-health-scotland.github.io/phsmethods/
-BugReports: 
-    https://github.com/Public-Health-Scotland/phsmethods/issues
+BugReports: https://github.com/Public-Health-Scotland/phsmethods/issues
 Depends:
     R (>= 2.10)
 Imports:
@@ -32,7 +35,6 @@ Imports:
     lifecycle,
     lubridate,
     magrittr,
-    purrr,
     readr,
     rlang,
     scales (>= 1.0.0),
@@ -53,5 +55,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr

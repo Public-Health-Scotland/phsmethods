@@ -1,31 +1,31 @@
 #' Create age groups
 #'
 #' @description
-#' \code{create_age_groups()} takes a numeric vector and assigns each age to the
+#' `create_age_groups()` takes a numeric vector and assigns each age to the
 #' appropriate age group.
 #'
 #' @param x a vector of numeric values
-#' @param from the start of the smallest age group. The default is \code{0}.
-#' @param to the end point of the age groups. The default is \code{90}.
-#' @param by the size of the age groups. The default is \code{5}.
+#' @param from the start of the smallest age group. The default is `0`.
+#' @param to the end point of the age groups. The default is `90`.
+#' @param by the size of the age groups. The default is `5`.
 #' @param as_factor The default behaviour is to return a character vector. Use
-#' \code{TRUE} to return a factor vector instead.
+#' `TRUE` to return a factor vector instead.
 #'
 #' @return A character vector, where each element is the age group for the
-#' corresponding element in \code{x}. If \code{as_factor = TRUE}, a factor
+#' corresponding element in `x`. If `as_factor = TRUE`, a factor
 #' vector is returned instead.
 #'
 #' @details
-#' The \code{from}, \code{to} and \code{by} values are used to create distinct
-#' age groups. \code{from} dictates the starting age of the lowest age group,
-#' and \code{by} indicates how wide each group should be. \code{to} stipulates
+#' The `from`, `to` and `by` values are used to create distinct
+#' age groups. `from` dictates the starting age of the lowest age group,
+#' and `by` indicates how wide each group should be. `to` stipulates
 #' the cut-off point at which all ages equal to or greater than this value
-#' should be categorised together in a \code{to+} group. If the specified value
-#' of \code{to} is not a multiple of \code{by}, the value of \code{to} is
-#' rounded down to the nearest multiple of \code{by}.
+#' should be categorised together in a `to+` group. If the specified value
+#' of `to` is not a multiple of `by`, the value of `to` is
+#' rounded down to the nearest multiple of `by`.
 #'
-#' The default values of \code{from}, \code{to} and \code{by} correspond to the
-#' \href{https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69}{European Standard Population}
+#' The default values of `from`, `to` and `by` correspond to the
+#' [European Standard Population](https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69)
 #' age groups.
 #'
 #' @examples

@@ -8,14 +8,14 @@
 #' work and will error. At the next update they will be
 #' removed completely.
 #'
-#' * `postcode()` -> `format_postcode()`
-#' * `age_group()` -> `create_age_groups()`
-#' * `fin_year()` -> `extract_fin_year()`
+#' * `postcode()` &rarr; `format_postcode()`
+#' * `age_group()` &rarr; `create_age_groups()`
+#' * `fin_year()` &rarr; `extract_fin_year()`
 #'
 #' @keywords internal
 #' @name rename
 #' @aliases NULL
-#' @md
+#' @returns `r lifecycle::badge('deprecated')`
 NULL
 
 #' @rdname rename

@@ -12,16 +12,15 @@ chi_check(x)
 \value{
 \code{chi_check} returns a character string. Depending on the
 validity of the entered CHI number, it will return one of the following:
-
 \itemize{
-\item `Valid CHI`
-\item `Invalid character(s) present`
-\item `Too many characters`
-\item `Too few characters`
-\item `Invalid date`
-\item `Invalid checksum`
-\item `Missing (NA)`
-\item `Missing (Blank)`
+\item \verb{Valid CHI}
+\item \verb{Invalid character(s) present}
+\item \verb{Too many characters}
+\item \verb{Too few characters}
+\item \verb{Invalid date}
+\item \verb{Invalid checksum}
+\item \code{Missing (NA)}
+\item \code{Missing (Blank)}
 }
 }
 \description{
@@ -39,18 +38,17 @@ The first six digits of a CHI number are a patient's date of birth in
 DD/MM/YY format.
 
 The ninth digit of a CHI number identifies a patient's sex: odd for male,
-even for female. The tenth digit is a check digit, denoted `checksum`.
+even for female. The tenth digit is a check digit, denoted \code{checksum}.
 
 While a CHI number is made up exclusively of numeric digits, it cannot be
 stored with \code{numeric} class in R. This is because leading zeros in
 numeric values are silently dropped, a practice not exclusive to R. For this
 reason, \code{chi_check} accepts input values of \code{character} class
 only. A leading zero can be added to a nine-digit CHI number using
-\code{\link{chi_pad}}.
+\code{\link[=chi_pad]{chi_pad()}}.
 
 \code{chi_check} assesses whether an entered CHI number is valid by checking
-whether the answer to each of the following criteria is `Yes`:
-
+whether the answer to each of the following criteria is \code{Yes}:
 \itemize{
 \item Does it contain no non-numeric characters?
 \item Is it ten digits in length?
@@ -63,7 +61,13 @@ chi_check("0101011237")
 chi_check(c("0101201234", "3201201234"))
 
 library(dplyr)
-df <- tibble(chi = c("3213201234", "123456789", "12345678900", "010120123?", NA))
+df <- tibble(chi = c(
+  "3213201234",
+  "123456789",
+  "12345678900",
+  "010120123?",
+  NA
+))
 df \%>\%
   mutate(validity = chi_check(chi))
 }

@@ -12,22 +12,29 @@ age_calculate(
 )
 }
 \arguments{
-\item{start}{A start date (e.g. date of birth) which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt}
-class. \code{\link[base:as.Date]{as.Date()}},
+\item{start}{A start date (e.g. date of birth) which must be supplied with
+\code{Date} or \code{POSIXct} or \code{POSIXlt}
+class. \code{\link[base:as.Date]{base::as.Date()}},
 \code{\link[lubridate:ymd]{lubridate::dmy()}} and
 \code{\link[base:as.POSIXlt]{as.POSIXct()}} are examples of functions which
 can be used to store dates as an appropriate class.}
 
-\item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} or \code{POSIXlt} class.
-Default is \code{Sys.Date()} or \code{Sys.time()} depending on the class of \code{start}.}
+\item{end}{An end date which must be supplied with \code{Date} or \code{POSIXct} or
+\code{POSIXlt} class. Default is \code{Sys.Date()} or \code{Sys.time()} depending on the
+class of \code{start}.}
 
-\item{units}{Type of units to be used. years and months are accepted. Default is \code{years}.}
+\item{units}{Type of units to be used. years and months are accepted.
+Default is \code{years}.}
 
-\item{round_down}{Should returned ages be rounded down to the nearest whole number. Default is \code{TRUE}.}
+\item{round_down}{Should returned ages be rounded down to the nearest whole
+number. Default is \code{TRUE}.}
+}
+\value{
+A numeric vector representing the ages in the given units.
 }
 \description{
-This function calculates the age between two dates using functions in \code{lubridate}.
-It calculates age in either years or months.
+This function calculates the age between two dates using
+functions in \code{lubridate}. It calculates age in either years or months.
 }
 \examples{
 library(lubridate)
@@ -36,7 +43,8 @@ end_date <- lubridate::ymd("2022-02-21")
 age_calculate(birth_date, end_date)
 age_calculate(birth_date, end_date, units = "months")
 
-# If the start day is leap day (February 29th), age increases on 1st March every year.
+# If the start day is leap day (February 29th), age increases on 1st March
+# every year.
 leap1 <- lubridate::ymd("2020-02-29")
 leap2 <- lubridate::ymd("2022-02-28")
 leap3 <- lubridate::ymd("2022-03-01")

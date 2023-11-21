@@ -9,11 +9,13 @@ Argument must have AT LEAST ONE of the specified classes to pass.}
 make_inheritance_checks(arguments, target_classes, ignore_null = TRUE)
 }
 \arguments{
-\item{arguments}{a list object containing argument_name=argument pairs for each argument. Argument names must be provided or else they will be ignored.}
+\item{arguments}{a list object containing argument_name=argument pairs for
+each argument. Argument names must be provided or else they will be ignored.}
 
 \item{target_classes}{character vector of the classes to check for.}
 
-\item{ignore_null}{boolean. Indicates whether to ignore arguments with value NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.}
+\item{ignore_null}{boolean. Indicates whether to ignore arguments with value
+NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.}
 }
 \description{
 Check that a set of arguments inherits from a set of classes

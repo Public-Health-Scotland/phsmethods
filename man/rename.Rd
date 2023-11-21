@@ -12,6 +12,9 @@ age_group(x, from = 0, to = 90, by = 5, as_factor = FALSE)
 
 fin_year(date)
 }
+\value{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
@@ -20,9 +23,9 @@ to improve code clarity. The old functions no longer
 work and will error. At the next update they will be
 removed completely.
 \itemize{
-\item \code{postcode()} -> \code{format_postcode()}
-\item \code{age_group()} -> \code{create_age_groups()}
-\item \code{fin_year()} -> \code{extract_fin_year()}
+\item \code{postcode()} → \code{format_postcode()}
+\item \code{age_group()} → \code{create_age_groups()}
+\item \code{fin_year()} → \code{extract_fin_year()}
 }
 }
 \keyword{internal}
