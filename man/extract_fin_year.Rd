@@ -4,7 +4,7 @@
 \alias{extract_fin_year}
 \title{Extract the formatted financial year from a date}
 \usage{
-extract_fin_year(date)
+extract_fin_year(date, format = c("full", "numeric"))
 }
 \arguments{
 \item{date}{A date which must be supplied with \code{Date}, \code{POSIXct}, \code{POSIXlt} or
@@ -12,6 +12,12 @@ extract_fin_year(date)
 \code{\link[lubridate:ymd]{lubridate::dmy()}} and
 \code{\link[base:as.POSIXlt]{as.POSIXct()}} are examples of functions which
 can be used to store dates as an appropriate class.}
+
+\item{format}{The format to return the Financial Year
+\itemize{
+\item (Default) As a character vector in the form '2017/18'
+\item As an integer e.g. 2017 for '2017/18'.
+}}
 }
 \value{
 A character vector of financial years in the form '2017/18'.
