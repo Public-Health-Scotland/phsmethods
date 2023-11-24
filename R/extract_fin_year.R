@@ -27,11 +27,7 @@ extract_fin_year <- function(date, format = c("full", "numeric")) {
                    not a {.cls {class(date)}} vector.")
   }
 
-  if (missing(format)) {
-    format <- "full"
-  } else {
-    format <- match.arg(format)
-  }
+  format <- rlang::arg_match(format)
 
   if (inherits(date, "POSIXlt")) {
     posix <- date
