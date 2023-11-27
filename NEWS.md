@@ -1,3 +1,10 @@
+# phsmethods 1.0.1 (2023-11-27)
+
+- Fix a bug in `extract_fin_year()` to make sure financial years are displayed 
+correctly from 1999/20 to 2008/09. 
+
+- A new article has been added to the documentation - [Working with CHI numbers](https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html).
+
 # phsmethods 1.0.0 (2023-09-26)
 
 - This is the first new major release to CRAN. 
@@ -11,8 +18,6 @@
 - `format_postcode()` is now faster and also gains a `quiet` parameter, the default value is `FALSE` but setting it to `TRUE` will skip some of the checks and messages, this is useful when using `format_postcode()` to 'clean-up' and format a vector of postcodes, rather than wanting to check them. Because of the skipped checks `quiet = TRUE` should also run faster.
 
 - The installation instructions in the README have been updated.
-
-- A new article has been added to the documentation - [Working with CHI numbers](https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html).
 
 # phsmethods 0.2.2 (2022-11-14)
 
