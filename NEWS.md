@@ -1,3 +1,10 @@
+# phsmethods 1.0.1 (2023-11-27)
+
+- Fix a bug in `extract_fin_year()` to make sure financial years are displayed 
+correctly from 1999/20 to 2008/09. 
+
+- A new article has been added to the documentation - [Working with CHI numbers](https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html).
+
 # phsmethods 1.0.0 (2023-09-26)
 
 - This is the first new major release to CRAN. 
