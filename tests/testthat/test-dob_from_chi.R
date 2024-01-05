@@ -10,18 +10,6 @@ gen_real_chi <- function(first_6) {
   }
 }
 
-# A helper function to work out ages as time passes: Given the age at a given
-# date, work out what the age would be today. "2022-04-01" was chosen as the
-# default arbitrarily.
-expected_age <- function(
-    expected_ages,
-    expected_at = lubridate::make_date(year = 2022, month = 4, day = 1)) {
-  expected_ages + floor(lubridate::time_length(
-    lubridate::interval(expected_at, Sys.Date()),
-    "years"
-  ))
-}
-
 test_that("Returns correct DoB - no options", {
   # Some standard CHIs / dates
   expect_equal(
@@ -241,15 +229,16 @@ test_that("dob_from_chi gives messages when returning NA", {
   )
 })
 
-test_that("Returns correct age - no options", {
+test_that("Returns correct age - no options except fixed reference date", {
   # Some standard CHIs
   expect_equal(
     age_from_chi(c(
       "0101336489",
       "0101405073",
       "0101625707"
-    )),
-    expected_age(c(89, 82, 60))
+    ),
+    ref_date = as.Date("2023-11-01")),
+    c(90, 83, 61)
   )
 
   # Leap years
@@ -258,18 +247,20 @@ test_that("Returns correct age - no options", {
       gen_real_chi(290228),
       gen_real_chi(290236),
       gen_real_chi(290296)
-    )),
-    expected_age(c(94, 86, 26))
+    ),
+    ref_date = as.Date("2023-03-01")),
+    c(95, 87, 27)
   )
 
   # Century leap year (hard to test as 1900 is a long time ago!)
   expect_equal(
-    age_from_chi(gen_real_chi(290200)),
-    expected_age(22)
+    age_from_chi(gen_real_chi(290200),
+                 ref_date = as.Date("2023-03-01")),
+    23
   )
 })
 
-test_that("Returns correct age - fixed age supplied", {
+test_that("Returns correct age - fixed age and reference date supplied", {
   # Some standard CHIs
   # Fixed min age e.g. All patients are younger than X
   expect_equal(
@@ -280,13 +271,14 @@ test_that("Returns correct age - fixed age supplied", {
         "0101625707"
       ),
       min_age = 1,
-      max_age = 101
+      max_age = 101,
+      ref_date = as.Date("2023-11-01")
     ),
-    expected_age(c(89, 82, 60))
+    c(90, 83, 61)
   )
 })
 
-test_that("Returns correct age - unusual fixed age", {
+test_that("Returns correct age - unusual fixed age with fixed reference date", {
   # Some standard CHIs
   expect_equal(
     suppressMessages(
@@ -296,10 +288,11 @@ test_that("Returns correct age - unusual fixed age", {
           "0101405073",
           "0101625707"
         ),
-        max_age = 72
+        max_age = 72,
+        ref_date = as.Date("2023-11-01")
       )
     ),
-    expected_age(c(NA_real_, NA_real_, 60))
+    c(NA_real_, NA_real_, 61)
   )
 })
 
