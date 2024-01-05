@@ -232,30 +232,35 @@ test_that("dob_from_chi gives messages when returning NA", {
 test_that("Returns correct age - no options except fixed reference date", {
   # Some standard CHIs
   expect_equal(
-    age_from_chi(c(
-      "0101336489",
-      "0101405073",
-      "0101625707"
+    age_from_chi(
+      c(
+        "0101336489",
+        "0101405073",
+        "0101625707"
+      ),
+      ref_date = as.Date("2023-11-01")
     ),
-    ref_date = as.Date("2023-11-01")),
     c(90, 83, 61)
   )
 
   # Leap years
   expect_equal(
-    age_from_chi(c(
-      gen_real_chi(290228),
-      gen_real_chi(290236),
-      gen_real_chi(290296)
+    age_from_chi(
+      c(
+        gen_real_chi(290228),
+        gen_real_chi(290236),
+        gen_real_chi(290296)
+      ),
+      ref_date = as.Date("2023-03-01")
     ),
-    ref_date = as.Date("2023-03-01")),
     c(95, 87, 27)
   )
 
   # Century leap year (hard to test as 1900 is a long time ago!)
   expect_equal(
     age_from_chi(gen_real_chi(290200),
-                 ref_date = as.Date("2023-03-01")),
+      ref_date = as.Date("2023-03-01")
+    ),
     23
   )
 })
