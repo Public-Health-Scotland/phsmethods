@@ -1,8 +1,8 @@
 # phsmethods 1.0.2 (2024-01-05)
 
-- Fix some tests for `age_from_chi()` due to a helper function `expected_age()` 
-caused the tests fail when the new year comes. It has been replaced with a fixed 
-reference date. 
+- No user-facing changes. Fix some tests for `age_from_chi()` due to a helper 
+function `expected_age()` caused the tests fail when the new year comes. It has 
+been replaced with a fixed reference date. 
 
 # phsmethods 1.0.1 (2023-11-27)
 
