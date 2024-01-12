@@ -3,11 +3,16 @@
 
 # phsmethods
 
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/phsmethods)](https://CRAN.R-project.org/package=phsmethods)
 [![GitHub release (latest by
 date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods)](https://github.com/Public-Health-Scotland/phsmethods/releases/latest)
 [![Build
 Status](https://github.com/Public-Health-Scotland/phsmethods/workflows/R-CMD-check/badge.svg)](https://github.com/Public-Health-Scotland/phsmethods/actions)
 [![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Public-Health-Scotland/phsmethods)
+<!-- badges: end -->
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
