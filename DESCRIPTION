@@ -40,7 +40,8 @@ Imports:
     scales (>= 1.0.0),
     stringr,
     tibble,
-    utils
+    utils,
+    withr
 Suggests: 
     covr,
     ggplot2,
