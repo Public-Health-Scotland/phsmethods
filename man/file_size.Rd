@@ -28,6 +28,8 @@ If \code{filepath} is an empty folder, or \code{pattern} matches no files
 within \code{filepath}, \code{file_size} returns \code{NULL}.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 \code{file_size} takes a filepath and an optional regular
 expression pattern. It returns the size of all files within that directory
 which match the given pattern.
@@ -76,7 +78,7 @@ file_size(pattern = "\\\\.xlsx$")
 library(magrittr)
 file_size() \%>\%
   dplyr::pull(size) \%>\%
-  extract(1)
+  magrittr::extract(1)
 
 }
 \seealso{
@@ -86,3 +88,4 @@ and this
 \href{https://stringr.tidyverse.org/articles/regular-expressions.html}{vignette}
 from the \code{\link[stringr:stringr-package]{stringr()}} package.
 }
+\keyword{internal}
