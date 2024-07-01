@@ -1,6 +1,6 @@
 Package: phsmethods
 Title: Standard Methods for Use in Public Health Scotland
-Version: 1.0.2
+Version: 1.0.2.9000
 Authors@R: c(
     person("Public Health Scotland", , , "phs.datascience@phs.scot", role = "cph"),
     person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
