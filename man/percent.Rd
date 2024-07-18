@@ -22,7 +22,7 @@ overwritten using \code{format()}. It's worth noting that the digits argument in
 \code{format.percent} uses decimal rounding instead of significant digit rounding.
 }
 \examples{
-library(percent)
+library(phsmethods)
 
 # Convert proportions to percentages
 as_percent(seq(0, 1, 0.1))
