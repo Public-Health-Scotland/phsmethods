@@ -28,7 +28,7 @@ URL: https://github.com/Public-Health-Scotland/phsmethods,
     https://public-health-scotland.github.io/phsmethods/
 BugReports: https://github.com/Public-Health-Scotland/phsmethods/issues
 Depends:
-    R (>= 3.6.1)
+    R (>= 3.6)
 Imports:
     cli,
     dplyr,
