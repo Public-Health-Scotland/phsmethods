@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/404.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/index.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/age_calculate.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/age_from_chi.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/area_lookup.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/chi_check.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/chi_pad.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/create_age_groups.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/dob_from_chi.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/extract_fin_year.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/file_size.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/format_postcode.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/make_inheritance_checks.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/match_area.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/phsmethods.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/qtr.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/rename.html</loc>
-  </url>
-  <url>
-    <loc>https://public-health-scotland.github.io/phsmethods/reference/sex_from_chi.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://public-health-scotland.github.io/phsmethods/404.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/articles/index.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/authors.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/index.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/news/index.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/age_calculate.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/age_from_chi.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/area_lookup.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/chi_check.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/chi_pad.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/create_age_groups.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/dob_from_chi.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/extract_fin_year.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/file_size.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/format_postcode.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/index.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/make_inheritance_checks.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/match_area.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/phsmethods.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/qtr.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/rename.html</loc></url>
+<url><loc>https://public-health-scotland.github.io/phsmethods/reference/sex_from_chi.html</loc></url>
 </urlset>
+
