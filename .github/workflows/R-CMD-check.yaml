@@ -35,11 +35,9 @@ jobs:
           - {os: ubuntu-latest, r: 'oldrel-2', must_pass: false}
 
           # An approximation for the PHS RStudio Desktop installation
-          - {os: windows-latest,  r: '3.6.1', must_pass: true}
           - {os: windows-latest,  r: '4.0.1', must_pass: true}
 
           # An approximation of the PHS RStudio setup on Posit Workbench
-          - {os: ubuntu-latest,   r: '3.6.1', must_pass: true}
           - {os: ubuntu-latest,   r: '4.0.2', must_pass: true}
           - {os: ubuntu-latest,   r: '4.1.2', must_pass: true}
 
