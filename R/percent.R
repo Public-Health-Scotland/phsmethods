@@ -171,7 +171,10 @@ Math.percent <- function(x, ...){
                           `round` =,
                           `signif` = TRUE, FALSE)
   x <- unclass(x)
-  if (rounding_math){
+
+  if (switch(.Generic, `sign` = TRUE, FALSE)){
+    NextMethod(.Generic)
+  } else if (rounding_math){
     x <- x * 100
     if (.Generic == "round"){
       out <- do.call(round_half_up, list(x, ...))
