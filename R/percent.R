@@ -1,18 +1,32 @@
 #' Percentages
 #'
 #' @description
-#' `percent` is a lightweight S3 class allowing for pretty
-#' printing of proportions as percentages.
 #'
-#' @param x [numeric] vector of proportions.
+#' `percent` is a lightweight S3 class allowing for pretty
+#' printing of proportions as percentages. \cr
+#' It aims to remove the need for creating character vectors of percentages.
+#'
+#' @param x [`numeric`] vector of proportions.
 #'
 #' @returns
 #' A class of object `percent`.
 #'
 #' @details
+#'
+#' ### Rounding
+#'
+#' The rounding for percent vectors differs to that of base R rounding,
+#' namely in that halves are rounded up instead of rounded to even.
+#' This means that `round(x)` will round the percent vector `x` using
+#' halves-up rounding (like in the janitor package).
+#'
+#' ### Formatting
+#'
 #' By default all percentages are formatted to 2 decimal places which can be
-#' overwritten using `format()`. It's worth noting that the digits argument in
-#' `format.percent` uses decimal rounding instead of significant digit rounding.
+#' overwritten using `format()` or using `round()` if your required digits are
+#' less than 2. It's worth noting that the digits argument in
+#' `format.percent` uses decimal rounding instead of the usual
+#' significant digit rounding that `format.default()` uses.
 #'
 #' @examples
 #' library(phsmethods)

@@ -7,19 +7,33 @@
 as_percent(x)
 }
 \arguments{
-\item{x}{\link{numeric} vector of proportions.}
+\item{x}{\code{\link{numeric}} vector of proportions.}
 }
 \value{
 A class of object \code{percent}.
 }
 \description{
 \code{percent} is a lightweight S3 class allowing for pretty
-printing of proportions as percentages.
+printing of proportions as percentages. \cr
+It aims to remove the need for creating character vectors of percentages.
 }
 \details{
+\subsection{Rounding}{
+
+The rounding for percent vectors differs to that of base R rounding,
+namely in that halves are rounded up instead of rounded to even.
+This means that \code{round(x)} will round the percent vector \code{x} using
+halves-up rounding (like in the janitor package).
+}
+
+\subsection{Formatting}{
+
 By default all percentages are formatted to 2 decimal places which can be
-overwritten using \code{format()}. It's worth noting that the digits argument in
-\code{format.percent} uses decimal rounding instead of significant digit rounding.
+overwritten using \code{format()} or using \code{round()} if your required digits are
+less than 2. It's worth noting that the digits argument in
+\code{format.percent} uses decimal rounding instead of the usual
+significant digit rounding that \code{format.default()} uses.
+}
 }
 \examples{
 library(phsmethods)
