@@ -62,8 +62,8 @@
 #' @export
 #' @rdname percent
 as_percent <- function(x){
-  if (!is.numeric(x)){
-    stop("x must be a numeric vector of proportions")
+  if (!identical(class(x), "numeric")){
+    cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
   }
   new_percent(x)
 }
