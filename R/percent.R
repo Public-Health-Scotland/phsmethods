@@ -78,23 +78,18 @@ signif_half_up <- function(x, digits = 6){
 
 #' @export
 as.character.percent <- function(x, digits = 2, ...){
-  if (length(x) == 0){
-    character()
-  } else {
-    paste0(unclass(round(x, digits) * 100), "%")
-  }
+  stringr::str_c(unclass(round(x, digits) * 100), "%")
 }
 
 #' @export
 format.percent <- function(x, symbol = "%", trim = TRUE,
                            digits = 2,
                            ...){
-  if (length(x) == 0){
-    out <- character()
-  } else {
-    out <- paste0(format(unclass(round(x, digits) * 100), trim = trim, digits = NULL, ...),
-                  symbol)
-  }
+  out <- stringr::str_c(
+    format(unclass(round(x, digits) * 100), trim = trim, digits = NULL, ...),
+    symbol
+  )
+  out[is.na(x)] <- NA
   names(out) <- names(x)
   out
 }
@@ -116,8 +111,11 @@ print.percent <- function(x, max = NULL, trim = TRUE,
   max <- min(max, N)
   if (max < N) {
     out <- out[seq_len(max)]
-    suffix <- paste(" [ reached 'max' / getOption(\"max.print\") -- omitted",
-                    N - max, "entries ]\n")
+    suffix <- stringr::str_c(
+      " [ reached 'max' / getOption(\"max.print\") -- omitted",
+      N - max, "entries ]\n",
+      sep = " "
+    )
   }
   print(format(out, trim = trim, digits = digits), ...)
   cat(suffix)
