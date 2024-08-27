@@ -115,7 +115,7 @@ print.percent <- function(x, max = NULL, trim = TRUE,
   out <- x
   N <- length(out)
   if (N == 0){
-    print("percent(numeric())")
+    print("as_percent(numeric())")
     return(invisible(x))
   }
   if (is.null(max)) {
