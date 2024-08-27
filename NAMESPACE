@@ -2,9 +2,10 @@
 
 S3method("[",percent)
 S3method(Math,percent)
-S3method(Ops,percent)
+S3method(Summary,percent)
 S3method(as.character,percent)
 S3method(format,percent)
+S3method(mean,percent)
 S3method(print,percent)
 S3method(rep,percent)
 S3method(unique,percent)

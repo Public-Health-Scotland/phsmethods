@@ -153,22 +153,6 @@ rep.percent <- function(x, ...){
 }
 
 #' @export
-Ops.percent <- function(e1, e2){
-  math <- switch(.Generic,
-                 `+` =,
-                 `-` =,
-                 `*` =,
-                 `/` =,
-                 `^` =,
-                 `%%` =,
-                 `%/%` = TRUE, FALSE)
-  if (inherits(e2, "percent") && !inherits(e1, "percent")){
-    e1 <- unclass(e1)
-    e2 <- unclass(e2)
-  }
-  NextMethod(.Generic)
-}
-#' @export
 Math.percent <- function(x, ...){
   rounding_math <- switch(.Generic,
                           `floor` =,
@@ -191,4 +175,23 @@ Math.percent <- function(x, ...){
     out <- NextMethod(.Generic)
     new_percent(out)
   }
+}
+#' @export
+Summary.percent <- function(x, ...){
+  summary_math <- switch(.Generic,
+                          `sum` =,
+                          `prod` =,
+                          `min` =,
+                          `max` =,
+                          `range` = TRUE, FALSE)
+  x <- unclass(x)
+  out <- NextMethod(.Generic)
+  if (summary_math){
+    out <- new_percent(out)
+  }
+  out
+}
+#' @export
+mean.percent <- function(x, ...){
+  new_percent(mean(unclass(x), ...))
 }
