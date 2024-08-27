@@ -36,8 +36,6 @@ significant digit rounding that \code{format.default()} uses.
 }
 }
 \examples{
-library(phsmethods)
-
 # Convert proportions to percentages
 as_percent(seq(0, 1, 0.1))
 
