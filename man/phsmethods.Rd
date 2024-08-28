@@ -2,6 +2,7 @@
 % Please edit documentation in R/phsmethods.R
 \docType{package}
 \name{phsmethods}
+\alias{phsmethods-package}
 \alias{phsmethods}
 \title{\code{phsmethods} package}
 \description{
@@ -10,4 +11,37 @@ Standard Methods for use in PHS.
 \details{
 See the README on
 \href{https://github.com/Public-Health-Scotland/phsmethods#readme}{GitHub}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Public-Health-Scotland/phsmethods}
+  \item \url{https://public-health-scotland.github.io/phsmethods/}
+  \item Report bugs at \url{https://github.com/Public-Health-Scotland/phsmethods/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Tina Fu \email{Yuyan.Fu2@phs.scot}
+
+Authors:
+\itemize{
+  \item David Caldwell \email{David.Caldwell@phs.scot}
+  \item Jack Hannah \email{jack.hannah2@phs.scot}
+  \item Ciara Gribben \email{Ciara.Gribben@phs.scot}
+  \item Chris Deans \email{Chris.Deans2@phs.scot}
+  \item Jaime Villacampa \email{Jaime.Villacampa@phs.scot}
+  \item Graeme Gowans \email{Graeme.Gowans@phs.scot}
+  \item James McMahon \email{James.McMahon@phs.scot} (\href{https://orcid.org/0000-0002-5380-2029}{ORCID})
+  \item Nicolaos Christofidis \email{nicolaos.christofidis@phs.scot}
+}
+
+Other contributors:
+\itemize{
+  \item Public Health Scotland \email{phs.datascience@phs.scot} [copyright holder]
+  \item Lucinda Lawrie \email{Lucinda.Lawrie@phs.scot} [reviewer]
+  \item Alice Byers [contributor]
+  \item Alan Yeung \email{Alan.Yeung@phs.scot} [contributor]
+}
+
 }
