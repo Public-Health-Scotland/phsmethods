@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   chi-operations: chi-operations.html
-last_built: 2024-08-30T15:52Z
+last_built: 2024-11-18T13:59Z
 urls:
   reference: https://public-health-scotland.github.io/phsmethods/reference
   article: https://public-health-scotland.github.io/phsmethods/articles
