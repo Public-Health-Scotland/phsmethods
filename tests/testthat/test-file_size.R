@@ -1,9 +1,9 @@
-  # Text files report as larger on Windows so snapshot per OS
-  os <- ifelse(
-    "windows" %in% tolower(Sys.info()[["sysname"]]),
-    "windows",
-    "UNIX"
-  )
+# Text files report as larger on Windows so snapshot per OS
+os <- ifelse(
+  "windows" %in% tolower(Sys.info()[["sysname"]]),
+  "windows",
+  "UNIX"
+)
 
 test_that("Returns a tibble", {
   withr::local_options(lifecycle_verbosity = "quiet")
