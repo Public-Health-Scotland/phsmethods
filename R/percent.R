@@ -90,7 +90,7 @@ signif_half_up <- function(x, digits = 6){
 
 #' @export
 as.character.percent <- function(x, digits = 2, ...){
-  stringr::str_c(unclass(round(x, digits) * 100), "%")
+  stringr::str_c(as.character(unclass(round(x, digits) * 100), ...), "%")
 }
 
 #' @export
