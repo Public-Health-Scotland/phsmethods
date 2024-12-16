@@ -6,10 +6,14 @@
 #' printing of proportions as percentages. \cr
 #' It aims to remove the need for creating character vectors of percentages.
 #'
-#' @param x [`numeric`] vector of proportions.
+#' @param x `[numeric]` vector of proportions.
+#' @param digits `[numeric(1)]` - The number of digits that will be used for
+#' formatting. This is by default 2 and is applied whenever `format()`,
+#'  `as.character()` and `print()` are called. This can also be controlled
+#' directly via `format()`.
 #'
 #' @returns
-#' A class of object `percent`.
+#' An object of class `percent`.
 #'
 #' @details
 #'
@@ -44,7 +48,7 @@
 #'
 #' # We can do basic math operations as usual
 #'
-#' # Order of operations matters
+#' # Order of operations doesn't matter
 #' 10 * as_percent(c(0, 0.5, 2))
 #' as_percent(c(0, 0.5, 2)) * 10
 #'
@@ -59,17 +63,28 @@
 #'   mutate(perc = as_percent(n/sum(n))) %>%
 #'   arrange(desc(perc))  %>% # We can do numeric sorting with percent vectors
 #'   mutate(perc_rounded = round(perc))
-#' @export
 #' @rdname percent
-as_percent <- function(x){
-  if (!(identical(class(x), "integer") || identical(class(x), "numeric"))){
+#' @export
+as_percent <- function(x, digits = 2){
+  if (inherits(x, "percent")){
+    return(new_percent(x, digits))
+  }
+  if (!inherits(x, c("numeric", "integer", "logical"))){
     cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
   }
-  new_percent(x)
+  new_percent(as.numeric(x), digits = digits)
 }
-new_percent <- function(x){
+#' @rdname percent
+#' @export
+NA_percent_ <- structure(NA_real_, class = "percent", .digits = 2)
+
+new_percent <- function(x, digits = 2){
   class(x) <- "percent"
+  attr(x, ".digits") <- digits
   x
+}
+get_perc_digits <- function(x){
+  attr(x, ".digits") %||% 2
 }
 round_half_up <- function(x, digits = 0){
   if (is.null(digits) || (length(digits) == 1 && digits == Inf)){
@@ -89,13 +104,18 @@ signif_half_up <- function(x, digits = 6){
 }
 
 #' @export
-as.character.percent <- function(x, digits = 2, ...){
-  stringr::str_c(as.character(unclass(round(x, digits) * 100), ...), "%")
+as.character.percent <- function(x, digits = get_perc_digits(x), ...){
+  out <- stringr::str_c(
+    format(unclass(round(x, digits) * 100), trim = TRUE, digits = NULL),
+    "%"
+  )
+  out[is.na(x)] <- NA
+  out
 }
 
 #' @export
 format.percent <- function(x, symbol = "%", trim = TRUE,
-                           digits = 2,
+                           digits = get_perc_digits(x),
                            ...){
   out <- stringr::str_c(
     format(unclass(round(x, digits) * 100), trim = trim, digits = NULL, ...),
@@ -108,7 +128,7 @@ format.percent <- function(x, symbol = "%", trim = TRUE,
 
 #' @export
 print.percent <- function(x, max = NULL, trim = TRUE,
-                          digits = 2,
+                          digits = get_perc_digits(x),
                           ...){
   out <- x
   N <- length(out)
@@ -140,16 +160,17 @@ print.percent <- function(x, max = NULL, trim = TRUE,
   class(x) <- NULL
   out <- NextMethod("[")
   class(out) <- cl
+  attr(out, ".digits") <- get_perc_digits(x)
   out
 }
 
 #' @export
-unique.percent <- function(x, incomparables = FALSE,
-                           fromLast = FALSE, nmax = NA, ...){
+unique.percent <- function(x, incomparables = FALSE, ...){
   cl <- oldClass(x)
   class(x) <- NULL
   out <- NextMethod("unique")
   class(out) <- cl
+  attr(out, ".digits") <- get_perc_digits(x)
   out
 }
 
@@ -159,6 +180,7 @@ rep.percent <- function(x, ...){
   class(x) <- NULL
   out <- NextMethod("rep")
   class(out) <- cl
+  attr(out, ".digits") <- get_perc_digits(x)
   out
 }
 
@@ -183,10 +205,10 @@ Math.percent <- function(x, ...){
     } else {
       out <- NextMethod(.Generic)
     }
-    new_percent(out / 100)
+    new_percent(out / 100, get_perc_digits(x))
   } else {
     out <- NextMethod(.Generic)
-    new_percent(out)
+    new_percent(out, get_perc_digits(x))
   }
 }
 #' @export
@@ -200,11 +222,11 @@ Summary.percent <- function(x, ...){
   x <- unclass(x)
   out <- NextMethod(.Generic)
   if (summary_math){
-    out <- new_percent(out)
+    out <- new_percent(out, get_perc_digits(x))
   }
   out
 }
 #' @export
 mean.percent <- function(x, ...){
-  new_percent(mean(unclass(x), ...))
+  new_percent(mean(unclass(x), ...), get_perc_digits(x))
 }
