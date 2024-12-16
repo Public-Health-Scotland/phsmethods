@@ -9,7 +9,7 @@ test_that("as_percent works correctly", {
   expect_equal(as.character(as_percent(0.005)), "0.5%")
   expect_equal(as.character(as_percent(0.0005)), "0.05%")
   expect_equal(as.character(as_percent(0.00005)), "0.01%")
-  
+
   expect_equal(format(as_percent(50)), "5,000%")
   expect_equal(format(as_percent(5)), "500%")
   expect_equal(format(as_percent(0.5)), "50%")
