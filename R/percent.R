@@ -87,17 +87,43 @@ get_perc_digits <- function(x){
   attr(x, ".digits") %||% 2
 }
 round_half_up <- function(x, digits = 0){
-  if (is.null(digits) || (length(digits) == 1 && digits == Inf)){
+  if (!inherits(x, c("numeric", "integer", "logical"))){
+    cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
+  }
+  x <- as.numeric(x)
+  if (is.null(digits)){
     return(x)
   }
-  trunc(
-    abs(x) * 10^digits + 0.5 +
-      sqrt(.Machine$double.eps)
-  ) /
-    10^digits * sign(x)
+
+  if (length(digits) == 1 && digits == Inf){
+    out <- x
+  } else {
+
+    out <- (
+      trunc(
+        abs(x) * 10^digits + 0.5 +
+          sqrt(.Machine$double.eps)
+      ) /
+        (10^digits)
+    ) * sign(x)
+
+    is_inf <- digits == Inf
+
+    # Account for base R recycling
+    if (length(x) != 0 && length(digits) != 0 && length(x) != length(digits)){
+      is_inf <- rep_len(is_inf, max(length(x), length(digits)))
+    }
+
+    out[is_inf] <- x[is_inf]
+  }
+  out
 }
 signif_half_up <- function(x, digits = 6){
-  if (is.null(digits) || (length(digits) == 1 && digits == Inf)){
+  if (!inherits(x, c("numeric", "integer", "logical"))){
+    cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
+  }
+  x <- as.numeric(x)
+  if (is.null(digits)){
     return(x)
   }
   round_half_up(x, digits - ceiling(log10(abs(x))))
