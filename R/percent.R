@@ -156,7 +156,7 @@ print.percent <- function(x, max = NULL, trim = TRUE,
   out <- x
   N <- length(out)
   if (N == 0){
-    print("as_percent(numeric())")
+    cat(paste("A", cli::col_blue("<percent>"), "vector of length 0"))
     return(invisible(x))
   }
   if (is.null(max)) {
