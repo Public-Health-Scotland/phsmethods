@@ -1,6 +1,4 @@
-
 test_that("as_percent", {
-
   expect_error(as_percent(NULL))
   expect_error(as_percent("1"))
 
@@ -11,7 +9,6 @@ test_that("as_percent", {
 
   expect_equal(format(as_percent(0.045), digits = 0), "5%")
   expect_equal(round(as_percent(0.045)), as_percent(0.05))
-
 })
 
 test_that("as_percent works correctly", {
@@ -85,7 +82,6 @@ test_that("signif_half_up works correctly", {
 })
 
 test_that("rounding and recycling", {
-
   x <- seq(-10, by = 0.05, length = 90)
   dig <- c(0, 1, 2)
 
@@ -183,7 +179,6 @@ test_that("rounding and recycling", {
 
   expect_equal(format(as_percent(0.045), digits = 0), "5%")
   expect_equal(round(as_percent(0.045)), as_percent(0.05))
-
 })
 
 test_that("as.character.percent works correctly", {
