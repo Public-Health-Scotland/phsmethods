@@ -1,3 +1,4 @@
+
 test_that("as_percent", {
 
   expect_error(as_percent(NULL))
@@ -88,6 +89,36 @@ test_that("rounding and recycling", {
   x <- seq(-10, by = 0.05, length = 90)
   dig <- c(0, 1, 2)
 
+  # No digits
+
+  expect_equal(
+    round_half_up(x, digits = NULL),
+    x
+  )
+  expect_equal(
+    signif_half_up(x, digits = NULL),
+    x
+  )
+
+  # Inf digits
+  expect_equal(
+    round_half_up(x, digits = Inf),
+    x
+  )
+  expect_equal(
+    signif_half_up(x, digits = Inf),
+    x
+  )
+
+  expect_equal(
+    round_half_up(x, digits = c(Inf, 5, Inf)),
+    x
+  )
+  expect_equal(
+    signif_half_up(x, digits = c(Inf, 5, Inf)),
+    x
+  )
+
   # 0-length inputs
   expect_equal(
     round_half_up(numeric(), digits = numeric()),
@@ -171,6 +202,7 @@ test_that("format.percent works correctly", {
 test_that("print.percent works correctly", {
   expect_output(print(as_percent(0.1234)), "12.34%")
   expect_output(print(as_percent(0.567890)), "56.79%")
+  expect_output(print(as_percent(numeric())), "A <percent> vector of length 0")
 })
 
 test_that("subsetting percent objects works correctly", {
