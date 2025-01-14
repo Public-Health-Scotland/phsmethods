@@ -111,7 +111,7 @@ round_half_up <- function(x, digits = 0){
 
     # Account for base R recycling
     if (length(x) != 0 && length(digits) != 0 && length(x) != length(digits)){
-      is_inf <- rep_len(is_inf, max(length(x), length(digits)))
+      is_inf <- which(rep_len(is_inf, max(length(x), length(digits))))
     }
 
     out[is_inf] <- x[is_inf]
@@ -130,21 +130,13 @@ signif_half_up <- function(x, digits = 6){
 }
 
 #' @export
-as.character.percent <- function(x, digits = get_perc_digits(x), ...){
-  out <- stringr::str_c(
-    format(unclass(round(x, digits) * 100), trim = TRUE, digits = NULL),
-    "%"
-  )
-  out[is.na(x)] <- NA
-  out
-}
-
-#' @export
-format.percent <- function(x, symbol = "%", trim = TRUE,
+format.percent <- function(x, symbol = "%",
+                           trim = TRUE, big.mark = ",",
                            digits = get_perc_digits(x),
                            ...){
   out <- stringr::str_c(
-    format(unclass(round(x, digits) * 100), trim = trim, digits = NULL, ...),
+    format(unclass(round(x, digits) * 100), trim = trim, digits = NULL,
+           big.mark = big.mark, ...),
     symbol
   )
   out[is.na(x)] <- NA
@@ -152,6 +144,11 @@ format.percent <- function(x, symbol = "%", trim = TRUE,
   out
 }
 
+
+#' @export
+as.character.percent <- function(x, digits = get_perc_digits(x), ...){
+  format(unname(x), digits = digits)
+}
 #' @export
 print.percent <- function(x, max = NULL, trim = TRUE,
                           digits = get_perc_digits(x),
