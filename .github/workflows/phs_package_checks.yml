@@ -1,0 +1,14 @@
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+name: phs_package_checks.yaml
+
+jobs:
+  PHS-checks:
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@v1.0.0
+    permissions: write-all
+    secrets: inherit
