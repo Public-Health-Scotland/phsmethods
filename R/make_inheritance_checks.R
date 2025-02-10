@@ -6,7 +6,8 @@
 #' @param target_classes character vector of the classes to check for.
 #' @param ignore_null boolean. Indicates whether to ignore arguments with value
 #' NULL (TRUE) or to throw an exception (FALSE). Default = TRUE.
-
+#' @keywords internal
+#' @noRd
 make_inheritance_checks <- function(arguments,
                                     target_classes,
                                     ignore_null = TRUE) {
