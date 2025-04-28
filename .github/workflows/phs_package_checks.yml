@@ -9,6 +9,6 @@ name: phs_package_checks.yaml
 
 jobs:
   PHS-checks:
-    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@v1.5.0
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@v1.6.0
     permissions: write-all
     secrets: inherit
