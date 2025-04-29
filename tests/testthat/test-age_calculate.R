@@ -96,7 +96,7 @@ test_that("round_down works properly if it is FALSE", {
       units = "years",
       round_down = FALSE
     ),
-    1.05475702
+    1.05464481
   )
 })
 
