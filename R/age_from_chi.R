@@ -58,31 +58,57 @@ age_from_chi <- function(
     cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
   }
 
-  if (!is.null(ref_date) & !inherits(ref_date, c("Date", "POSIXct"))) {
+  if (!is.null(ref_date) && !inherits(ref_date, c("Date", "POSIXct"))) {
     cli::cli_abort("{.arg ref_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(ref_date)}} vector.")
   }
 
+  # Handle NULL and NA values in ref_date
+  if (is.null(ref_date)) {
+    ref_date <- Sys.Date()
+  } else if (anyNA(ref_date)) {
+    # If ref_date is a vector, fill in today's date where it's missing
+    ref_date[is.na(ref_date)] <- Sys.Date()
+  }
+
+
   # min and max ages are in a reasonable range
-  if (min_age < 0) {
+  # Handle NA values in min_age
+  if (any(min_age < 0, na.rm = TRUE)) {
     cli::cli_abort("{.arg min_age} must be a positive integer.")
   }
-
-  if (!is.null(max_age)) {
-    if (any(max_age < min_age)) {
-      cli::cli_abort("{.arg max_age}, must always be greater than or equal to {.arg min_age}.")
-    }
+  # If min_age is a vector, fill in 0 where it's missing
+  if (any(is.na(min_age))) {
+    min_age[is.na(min_age)] <- 0
+  }
+  # Ensure min_age is replicated if length 1
+  if (length(min_age) == 1 && length(chi_number) > 1) {
+    min_age <- rep(min_age, length(chi_number))
   }
 
-  if (is.null(ref_date)) ref_date <- Sys.Date()
 
-  max_date.age <- ref_date - lubridate::years(min_age)
-
+  # Handle NULL and NA values in max_age
   if (is.null(max_age)) {
-    min_date.age <- NULL
-  } else {
-    min_date.age <- ref_date - lubridate::years(max_age)
+    # If max_age is NULL, set it to a very large number (e.g., age from 1900-01-01)
+    # This corresponds to the default min_date behaviour in dob_from_chi
+    max_age <- age_calculate(as.Date("1900-01-01"), ref_date)
+  } else if (anyNA(max_age)) {
+    # If max_age is a vector, fill in the age from 1900-01-01 where it's missing
+    max_age[is.na(max_age)] <- age_calculate(as.Date("1900-01-01"), ref_date[is.na(max_age)])
   }
 
+
+  # Check max_age vs min_age after handling NAs
+  if (any(max_age < min_age, na.rm = TRUE)) {
+    cli::cli_abort("{.arg max_age}, must always be greater than or equal to {.arg min_age}.")
+  }
+
+
+  # Convert age ranges to date ranges relative to the reference date
+  # NA values in ref_date, min_age, or max_age will propagate NA correctly here
+  max_date.age <- ref_date - lubridate::years(min_age)
+  min_date.age <- ref_date - lubridate::years(max_age)
+
+  # Call dob_from_chi with the calculated date ranges
   guess_dob <- dob_from_chi(
     chi_number = chi_number,
     min_date = min_date.age,
@@ -90,6 +116,8 @@ age_from_chi <- function(
     chi_check = chi_check
   )
 
+  # Calculate age from the guessed date of birth and reference date
+  # NA values in guess_dob or ref_date will result in NA age
   guess_age <- age_calculate(guess_dob, ref_date)
 
   return(guess_age)

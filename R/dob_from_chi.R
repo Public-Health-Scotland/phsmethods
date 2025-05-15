@@ -60,21 +60,23 @@ dob_from_chi <- function(
 
   # min and max date are in a reasonable range
   if (!is.null(min_date) & !is.null(max_date)) {
-    if (any(max_date < min_date)) {
+    if (any(max_date < min_date, na.rm = TRUE)) {
       cli::cli_abort(
         "{.arg max_date}, must always be greater than or equal to {.arg min_date}."
       )
     }
   }
 
-  # Default the max_date to today (person can't be born after today)
-  if (is.null(max_date)) max_date <- Sys.Date()
+  if (is.null(max_date)) {
+    # Default the max_date to today (person can't be born after today)
+    max_date <- Sys.Date()
+  } else if (anyNA(max_date)) {
+    # Fill in today's date to where max_date is missing
+    max_date[is.na(max_date)] <- Sys.Date()
+  }
 
-  # Fill in today's date to where max_date is missing
-  if (any(is.na(max_date))) max_date[is.na(max_date)] <- Sys.Date()
-
-  # max_date should not be a future date
   if (any(max_date > Sys.Date())) {
+    # max_date should not be a future date
     to_replace <- max_date > Sys.Date()
     max_date[to_replace] <- Sys.Date()
     cli::cli_warn(
@@ -82,8 +84,13 @@ dob_from_chi <- function(
     )
   }
 
-  # Default the min_date to 1 Jan 1900
-  if (is.null(min_date)) min_date <- as.Date("1900-01-01")
+  if (is.null(min_date)) {
+    # Default the min_date to 1 Jan 1900
+    min_date <- as.Date("1900-01-01")
+  } else if (anyNA(min_date)) {
+    # Fill in 1 Jan 1900 where min_date is missing
+    min_date[is.na(min_date)] <- as.Date("1900-01-01")
+  }
 
   # Default behaviour: Check the CHI number
   # for invalid CHIs we will return NA
