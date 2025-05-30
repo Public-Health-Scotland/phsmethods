@@ -5,7 +5,7 @@
 #'
 #' @details The PHS accepted format for financial year is YYYY/YY e.g. 2017/18.
 #'
-#' @param date A date which must be supplied with `Date`, `POSIXct`, `POSIXlt` or 
+#' @param date A date which must be supplied with `Date`, `POSIXct`, `POSIXlt` or
 #' `POSIXt` class. [base::as.Date()],
 #' [`lubridate::dmy()`][lubridate::ymd] and
 #' [`as.POSIXct()`][base::as.POSIXlt] are examples of functions which
