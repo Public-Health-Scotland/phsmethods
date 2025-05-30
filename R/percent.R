@@ -60,16 +60,16 @@
 #' library(dplyr)
 #' starwars %>%
 #'   count(eye_color) %>%
-#'   mutate(perc = as_percent(n/sum(n))) %>%
-#'   arrange(desc(perc))  %>% # We can do numeric sorting with percent vectors
+#'   mutate(perc = as_percent(n / sum(n))) %>%
+#'   arrange(desc(perc)) %>% # We can do numeric sorting with percent vectors
 #'   mutate(perc_rounded = round(perc))
 #' @rdname percent
 #' @export
-as_percent <- function(x, digits = 2){
-  if (inherits(x, "percent")){
+as_percent <- function(x, digits = 2) {
+  if (inherits(x, "percent")) {
     return(new_percent(x, digits))
   }
-  if (!inherits(x, c("numeric", "integer", "logical"))){
+  if (!inherits(x, c("numeric", "integer", "logical"))) {
     cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
   }
   new_percent(as.numeric(x), digits = digits)
@@ -78,27 +78,26 @@ as_percent <- function(x, digits = 2){
 #' @export
 NA_percent_ <- structure(NA_real_, class = "percent", .digits = 2)
 
-new_percent <- function(x, digits = 2){
+new_percent <- function(x, digits = 2) {
   class(x) <- "percent"
   attr(x, ".digits") <- digits
   x
 }
-get_perc_digits <- function(x){
+get_perc_digits <- function(x) {
   attr(x, ".digits") %||% 2
 }
-round_half_up <- function(x, digits = 0){
-  if (!inherits(x, c("numeric", "integer", "logical"))){
+round_half_up <- function(x, digits = 0) {
+  if (!inherits(x, c("numeric", "integer", "logical"))) {
     cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
   }
   x <- as.numeric(x)
-  if (is.null(digits)){
+  if (is.null(digits)) {
     return(x)
   }
 
-  if (length(digits) == 1 && digits == Inf){
+  if (length(digits) == 1 && digits == Inf) {
     out <- x
   } else {
-
     out <- (
       trunc(
         abs(x) * 10^digits + 0.5 +
@@ -110,7 +109,7 @@ round_half_up <- function(x, digits = 0){
     is_inf <- digits == Inf
 
     # Account for base R recycling
-    if (length(x) != 0 && length(digits) != 0 && length(x) != length(digits)){
+    if (length(x) != 0 && length(digits) != 0 && length(x) != length(digits)) {
       is_inf <- which(rep_len(is_inf, max(length(x), length(digits))))
     }
 
@@ -118,12 +117,12 @@ round_half_up <- function(x, digits = 0){
   }
   out
 }
-signif_half_up <- function(x, digits = 6){
-  if (!inherits(x, c("numeric", "integer", "logical"))){
+signif_half_up <- function(x, digits = 6) {
+  if (!inherits(x, c("numeric", "integer", "logical"))) {
     cli::cli_abort("{.arg x} must be a {.cls numeric} vector, not a {.cls {class(x)}} vector.")
   }
   x <- as.numeric(x)
-  if (is.null(digits)){
+  if (is.null(digits)) {
     return(x)
   }
   round_half_up(x, digits - ceiling(log10(abs(x))))
@@ -133,10 +132,12 @@ signif_half_up <- function(x, digits = 6){
 format.percent <- function(x, symbol = "%",
                            trim = TRUE, big.mark = ",",
                            digits = get_perc_digits(x),
-                           ...){
+                           ...) {
   out <- stringr::str_c(
-    format(unclass(round(x, digits) * 100), trim = trim, digits = NULL,
-           big.mark = big.mark, ...),
+    format(unclass(round(x, digits) * 100),
+      trim = trim, digits = NULL,
+      big.mark = big.mark, ...
+    ),
     symbol
   )
   out[is.na(x)] <- NA
@@ -146,16 +147,16 @@ format.percent <- function(x, symbol = "%",
 
 
 #' @export
-as.character.percent <- function(x, digits = get_perc_digits(x), ...){
+as.character.percent <- function(x, digits = get_perc_digits(x), ...) {
   format(unname(x), digits = digits)
 }
 #' @export
 print.percent <- function(x, max = NULL, trim = TRUE,
                           digits = get_perc_digits(x),
-                          ...){
+                          ...) {
   out <- x
   N <- length(out)
-  if (N == 0){
+  if (N == 0) {
     cat(paste("A", cli::col_blue("<percent>"), "vector of length 0"))
     return(invisible(x))
   }
@@ -178,7 +179,7 @@ print.percent <- function(x, max = NULL, trim = TRUE,
 }
 
 #' @export
-`[.percent` <- function(x, ..., drop = TRUE){
+`[.percent` <- function(x, ..., drop = TRUE) {
   cl <- oldClass(x)
   class(x) <- NULL
   out <- NextMethod("[")
@@ -188,7 +189,7 @@ print.percent <- function(x, max = NULL, trim = TRUE,
 }
 
 #' @export
-unique.percent <- function(x, incomparables = FALSE, ...){
+unique.percent <- function(x, incomparables = FALSE, ...) {
   cl <- oldClass(x)
   class(x) <- NULL
   out <- NextMethod("unique")
@@ -198,7 +199,7 @@ unique.percent <- function(x, incomparables = FALSE, ...){
 }
 
 #' @export
-rep.percent <- function(x, ...){
+rep.percent <- function(x, ...) {
   cl <- oldClass(x)
   class(x) <- NULL
   out <- NextMethod("rep")
@@ -208,22 +209,27 @@ rep.percent <- function(x, ...){
 }
 
 #' @export
-Math.percent <- function(x, ...){
+Math.percent <- function(x, ...) {
   rounding_math <- switch(.Generic,
-                          `floor` =,
-                          `ceiling` =,
-                          `trunc` =,
-                          `round` =,
-                          `signif` = TRUE, FALSE)
+    `floor` = ,
+    `ceiling` = ,
+    `trunc` = ,
+    `round` = ,
+    `signif` = TRUE,
+    FALSE
+  )
   x <- unclass(x)
 
-  if (switch(.Generic, `sign` = TRUE, FALSE)){
+  if (switch(.Generic,
+    `sign` = TRUE,
+    FALSE
+  )) {
     NextMethod(.Generic)
-  } else if (rounding_math){
+  } else if (rounding_math) {
     x <- x * 100
-    if (.Generic == "round"){
+    if (.Generic == "round") {
       out <- do.call(round_half_up, list(x, ...))
-    } else if (.Generic == "signif"){
+    } else if (.Generic == "signif") {
       out <- do.call(signif_half_up, list(x, ...))
     } else {
       out <- NextMethod(.Generic)
@@ -235,21 +241,23 @@ Math.percent <- function(x, ...){
   }
 }
 #' @export
-Summary.percent <- function(x, ...){
+Summary.percent <- function(x, ...) {
   summary_math <- switch(.Generic,
-                          `sum` =,
-                          `prod` =,
-                          `min` =,
-                          `max` =,
-                          `range` = TRUE, FALSE)
+    `sum` = ,
+    `prod` = ,
+    `min` = ,
+    `max` = ,
+    `range` = TRUE,
+    FALSE
+  )
   x <- unclass(x)
   out <- NextMethod(.Generic)
-  if (summary_math){
+  if (summary_math) {
     out <- new_percent(out, get_perc_digits(x))
   }
   out
 }
 #' @export
-mean.percent <- function(x, ...){
+mean.percent <- function(x, ...) {
   new_percent(mean(unclass(x), ...), get_perc_digits(x))
 }
