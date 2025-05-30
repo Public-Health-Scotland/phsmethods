@@ -75,8 +75,8 @@ format(as_percent(2.674 / 100), digits = 2, symbol = " (\%)")
 library(dplyr)
 starwars \%>\%
   count(eye_color) \%>\%
-  mutate(perc = as_percent(n/sum(n))) \%>\%
-  arrange(desc(perc))  \%>\% # We can do numeric sorting with percent vectors
+  mutate(perc = as_percent(n / sum(n))) \%>\%
+  arrange(desc(perc)) \%>\% # We can do numeric sorting with percent vectors
   mutate(perc_rounded = round(perc))
 }
 \keyword{datasets}
