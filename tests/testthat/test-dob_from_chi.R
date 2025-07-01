@@ -70,8 +70,8 @@ test_that("Returns correct DoB - fixed dates supplied", {
 test_that("Returns correct DoB - unusual fixed dates", {
   # Some standard CHIs / dates
   # Dates which would change the 'usual'
-  expect_equal(
-    suppressMessages(
+  expect_message(
+    expect_equal(
       dob_from_chi(
         c(
           "0101336489",
@@ -79,9 +79,10 @@ test_that("Returns correct DoB - unusual fixed dates", {
           "0101625707"
         ),
         min_date = as.Date("1950-01-01")
-      )
+      ),
+      as.Date(c(NA, NA, "1962-01-01"))
     ),
-    as.Date(c(NA, NA, "1962-01-01"))
+    "2 CHI numbers produced ambiguous dates"
   )
 })
 
@@ -102,15 +103,16 @@ test_that("Returns NA when DoB is ambiguous", {
     regexp = "3 CHI numbers produced ambiguous dates"
   )
 
-  expect_equal(
-    suppressMessages(
+  expect_message(
+    expect_equal(
       dob_from_chi(c(
         gen_real_chi(010101),
         gen_real_chi(010110),
         gen_real_chi(010120)
-      ))
+      )),
+      as.Date(c(NA, NA, NA))
     ),
-    as.Date(c(NA, NA, NA))
+    "3 CHI numbers produced ambiguous dates"
   )
 })
 
@@ -193,52 +195,54 @@ test_that("Can fill in date of today where max_date is missing and min_date is s
 })
 
 test_that("any max_date where it is a future date is changed to date of today", {
-  expect_equal(
-    suppressWarnings(dob_from_chi(
-      c(
-        "0101336489",
-        "0101405073",
-        "0101625707"
+  expect_warning(
+    expect_equal(
+      dob_from_chi(
+        c(
+          "0101336489",
+          "0101405073",
+          "0101625707"
+        ),
+        max_date = as.Date(c(
+          "2030-01-01",
+          "2040-01-02",
+          "2050-01-03"
+        ))
       ),
-      max_date = as.Date(c(
-        "2030-01-01",
-        "2040-01-02",
-        "2050-01-03"
+      as.Date(c(
+        "1933-01-01",
+        "1940-01-01",
+        "1962-01-01"
       ))
-    )),
-    as.Date(c(
-      "1933-01-01",
-      "1940-01-01",
-      "1962-01-01"
-    ))
+    ),
+    "Any `max_date` values which are in the future will be set to today"
   )
 
-  expect_warning(dob_from_chi("0101336489", max_date = as.Date("2030-01-01")),
+  expect_warning(
+    dob_from_chi("0101336489", max_date = as.Date("2030-01-01")),
     regexp = "Any `max_date` values which are in the future will be set to today: .*?$"
   )
 })
 
 test_that("dob_from_chi errors properly", {
-  expect_error(dob_from_chi(1010101129),
+  expect_error(
+    dob_from_chi(1010101129),
     regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
   expect_error(
-    dob_from_chi("0101625707",
-      min_date = "01-01-2020"
-    ),
+    dob_from_chi("0101625707", min_date = "01-01-2020"),
     regexp = "`min_date` has class <character>, but must be any of <Date/POSIXct>.*"
   )
 
   expect_error(
-    dob_from_chi("0101625707",
-      max_date = "01-01-2020"
-    ),
+    dob_from_chi("0101625707", max_date = "01-01-2020"),
     regexp = "max_date` has class <character>, but must be any of <Date/POSIXct>\\.$"
   )
 
   expect_error(
-    dob_from_chi("0101625707",
+    dob_from_chi(
+      "0101625707",
       min_date = as.Date("2020-01-01"),
       max_date = as.Date("1930-01-01")
     ),
@@ -246,7 +250,8 @@ test_that("dob_from_chi errors properly", {
   )
 
   expect_error(
-    dob_from_chi("0101625707",
+    dob_from_chi(
+      "0101625707",
       min_date = as.Date("2020-01-01"),
       max_date = as.Date("1930-01-01")
     ),
@@ -256,11 +261,10 @@ test_that("dob_from_chi errors properly", {
 
 test_that("dob_from_chi gives messages when returning NA", {
   # Invalid CHI numbers
-  expect_message(dob_from_chi("1234567890"),
-    regexp = "1 CHI number is invalid"
-  )
+  expect_message(dob_from_chi("1234567890"), regexp = "1 CHI number is invalid")
 
-  expect_message(dob_from_chi(rep("1234567890", 99999)),
+  expect_message(
+    dob_from_chi(rep("1234567890", 99999)),
     regexp = "99,999 CHI numbers are invalid"
   )
 })

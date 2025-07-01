@@ -39,9 +39,7 @@ test_that("Returns correct age - no options except fixed reference date", {
 
   # Century leap year (hard to test as 1900 is a long time ago!)
   expect_equal(
-    age_from_chi(gen_real_chi(290200),
-      ref_date = as.Date("2023-03-01")
-    ),
+    age_from_chi(gen_real_chi(290200), ref_date = as.Date("2023-03-01")),
     23
   )
 })
@@ -66,8 +64,8 @@ test_that("Returns correct age - fixed age and reference date supplied", {
 
 test_that("Returns correct age - unusual fixed age with fixed reference date", {
   # Some standard CHIs
-  expect_equal(
-    suppressMessages(
+  expect_message(
+    expect_equal(
       age_from_chi(
         c(
           "0101336489",
@@ -76,37 +74,33 @@ test_that("Returns correct age - unusual fixed age with fixed reference date", {
         ),
         max_age = 72,
         ref_date = as.Date("2023-11-01")
-      )
+      ),
+      c(NA_real_, NA_real_, 61)
     ),
-    c(NA_real_, NA_real_, 61)
+    "2 CHI numbers produced ambiguous dates"
   )
 })
 
 test_that("Returns NA when DoB is ambiguous so can't return age", {
   # Default is min_age as 0. max_age is NULL and will be set to the age from 1900-01-01.
   expect_message(
-    age_from_chi(gen_real_chi(010101)),
+    expect_equal(
+      age_from_chi(gen_real_chi(010101)),
+      NA_integer_
+    ),
     regexp = "1 CHI number produced an ambiguous date"
   )
 
   expect_message(
-    age_from_chi(c(
-      gen_real_chi(010101),
-      gen_real_chi(010110),
-      gen_real_chi(010120)
-    )),
-    regexp = "3 CHI numbers produced ambiguous dates"
-  )
-
-  expect_equal(
-    suppressMessages(
+    expect_equal(
       age_from_chi(c(
         gen_real_chi(010101),
         gen_real_chi(010110),
         gen_real_chi(010120)
-      ))
+      )),
+      c(NA_real_, NA_real_, NA_real_)
     ),
-    c(NA_real_, NA_real_, NA_real_)
+    regexp = "3 CHI numbers produced ambiguous dates"
   )
 })
 
@@ -131,39 +125,33 @@ test_that("Can supply different reference dates per CHI", {
 })
 
 test_that("age_from_chi errors properly", {
-  expect_error(age_from_chi(1010101129),
+  expect_error(
+    age_from_chi(1010101129),
     regexp = "`chi_number` must be a <character> vector, not a <numeric> vector\\.$"
   )
 
   expect_error(
-    age_from_chi("0101625707",
-      ref_date = "01-01-2020"
-    ),
+    age_from_chi("0101625707", ref_date = "01-01-2020"),
     regexp = "`ref_date` must be a <Date> or <POSIXct> vector, not a <character> vector\\.$"
   )
 
   expect_error(
-    age_from_chi("0101625707",
-      min_age = -2
-    ),
+    age_from_chi("0101625707", min_age = -2),
     regexp = "`min_age` must be a positive integer\\.$"
   )
 
   expect_error(
-    age_from_chi("0101625707",
-      min_age = 20, max_age = 10
-    ),
+    age_from_chi("0101625707", min_age = 20, max_age = 10),
     regexp = "`max_age`, must always be greater than or equal to `min_age`\\.$"
   )
 })
 
 test_that("age_from_chi gives messages when returning NA", {
   # Invalid CHI numbers
-  expect_message(age_from_chi("1234567890"),
-    regexp = "1 CHI number is invalid"
-  )
+  expect_message(age_from_chi("1234567890"), regexp = "1 CHI number is invalid")
 
-  expect_message(age_from_chi(rep("1234567890", 99999)),
+  expect_message(
+    age_from_chi(rep("1234567890", 99999)),
     regexp = "99,999 CHI numbers are invalid"
   )
 })
@@ -217,7 +205,10 @@ test_that("age_from_chi handles NA values in vectorised ref_date", {
 
   # Test with all NA ref_dates
   all_na_ref_dates <- as.Date(c(NA, NA, NA))
-  expected_ages_all_na <- age_calculate(as.Date(c("1933-01-01", "1940-01-01", "1962-01-01")), Sys.Date())
+  expected_ages_all_na <- age_calculate(
+    as.Date(c("1933-01-01", "1940-01-01", "1962-01-01")),
+    Sys.Date()
+  )
 
   expect_equal(
     age_from_chi(chis, ref_date = all_na_ref_dates),
@@ -235,7 +226,12 @@ test_that("age_from_chi handles NA values in vectorised min_age", {
 
   expect_message(
     expect_equal(
-      age_from_chi(chis, ref_date = ref_date, min_age = min_ages, max_age = 120),
+      age_from_chi(
+        chis,
+        ref_date = ref_date,
+        min_age = min_ages,
+        max_age = 120
+      ),
       c(91, 84, NA_real_)
     )
   )
@@ -243,7 +239,12 @@ test_that("age_from_chi handles NA values in vectorised min_age", {
   # Test with all NA min_ages (should all default to 0)
   all_na_min_ages <- c(NA, NA, NA)
   expect_equal(
-    age_from_chi(chis, ref_date = ref_date, min_age = all_na_min_ages, max_age = 120),
+    age_from_chi(
+      chis,
+      ref_date = ref_date,
+      min_age = all_na_min_ages,
+      max_age = 120
+    ),
     c(91, 84, 62)
   )
 })
@@ -266,7 +267,12 @@ test_that("age_from_chi handles NA values in vectorised max_age", {
   # Test with all NA max_ages (should all default to age from 1900-01-01)
   all_na_max_ages <- c(NA, NA, NA)
   expect_equal(
-    age_from_chi(chis, ref_date = ref_date, min_age = 0, max_age = all_na_max_ages),
+    age_from_chi(
+      chis,
+      ref_date = ref_date,
+      min_age = 0,
+      max_age = all_na_max_ages
+    ),
     c(91, 84, 62) # All ages are <= 124
   )
 })
@@ -286,7 +292,12 @@ test_that("age_from_chi handles mixed NA values in vectorised inputs", {
   expected_age_2nd <- age_calculate(as.Date("1940-01-01"), Sys.Date())
 
   expect_equal(
-    age_from_chi(chis, ref_date = ref_dates, min_age = min_ages, max_age = max_ages),
+    age_from_chi(
+      chis,
+      ref_date = ref_dates,
+      min_age = min_ages,
+      max_age = max_ages
+    ),
     c(67, expected_age_2nd, 58)
   )
 })
