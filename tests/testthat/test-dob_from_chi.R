@@ -297,3 +297,38 @@ test_that("dob_from_chi returns correct DoB when chi_check = FALSE", {
     )
   )
 })
+
+test_that("min_date validation works correctly", {
+  expect_error(
+    dob_from_chi(
+      "0101336489",
+      min_date = as.Date(c("1990-01-01", "1991-01-01")),
+      max_date = as.Date("2000-01-01")
+    ),
+    regexp = "must be size 1 or 1"
+  )
+})
+
+test_that("max_date validation works correctly", {
+  expect_error(
+    dob_from_chi(
+      "0101336489",
+      min_date = as.Date("1990-01-01"),
+      max_date = as.Date(c("2000-01-01", "2001-01-01"))
+    ),
+    regexp = "must be size 1 or 1"
+  )
+
+  expect_error(
+    dob_from_chi(
+      c(
+        "0101336489",
+        gen_real_chi(150790),
+        gen_real_chi(150190)
+      ),
+      min_date = as.Date("1990-01-01"),
+      max_date = as.Date(c("2000-01-01", "2001-01-01"))
+    ),
+    regexp = "must be size 1 or 3"
+  )
+})

@@ -66,12 +66,32 @@ age_from_chi <- function(
     )
   }
 
+  if (!inherits(min_age, c("integer", "numeric"))) {
+    cli::cli_abort(
+      "{.arg min_age} must be a {.cls integer} vector, not a {.cls {class(min_age)}} vector."
+    )
+  }
+
+  if (!is.null(max_age) && !inherits(max_age, c("integer", "numeric"))) {
+    cli::cli_abort(
+      "{.arg max_age} must be a {.cls integer} vector, not a {.cls {class(max_age)}} vector."
+    )
+  }
+
   # Handle NULL and NA values in ref_date
   if (is.null(ref_date)) {
     ref_date <- Sys.Date()
   } else if (anyNA(ref_date)) {
     # If ref_date is a vector, fill in today's date where it's missing
     ref_date[is.na(ref_date)] <- Sys.Date()
+  }
+
+  n_chis <- length(chi_number)
+
+  if (length(ref_date) != 1L && n_chis != length(ref_date)) {
+    cli::cli_abort(
+      "{.arg ref_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(ref_date)}."
+    )
   }
 
   # Ensure ref_date is replicated if length 1
@@ -94,6 +114,18 @@ age_from_chi <- function(
     max_age[is.na(max_age)] <- age_calculate(
       as.Date("1900-01-01"),
       ref_date[is.na(max_age)]
+    )
+  }
+
+  if (length(max_age) != 1L && n_chis != length(max_age)) {
+    cli::cli_abort(
+      "{.arg max_age} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(max_age)}."
+    )
+  }
+
+  if (length(min_age) != 1L && n_chis != length(min_age)) {
+    cli::cli_abort(
+      "{.arg min_age} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(min_age)}."
     )
   }
 

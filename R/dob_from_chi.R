@@ -66,12 +66,26 @@ dob_from_chi <- function(
     max_date[is.na(max_date)] <- Sys.Date()
   }
 
+  n_chis <- length(chi_number)
+
+  if (length(max_date) != 1L && n_chis != length(max_date)) {
+    cli::cli_abort(
+      "{.arg max_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(max_date)}."
+    )
+  }
+
   if (is.null(min_date)) {
     # Default the min_date to 1 Jan 1900
     min_date <- as.Date("1900-01-01")
   } else if (anyNA(min_date)) {
     # Fill in 1 Jan 1900 where min_date is missing
     min_date[is.na(min_date)] <- as.Date("1900-01-01")
+  }
+
+  if (length(min_date) != 1L && n_chis != length(min_date)) {
+    cli::cli_abort(
+      "{.arg min_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(min_date)}."
+    )
   }
 
   # min and max date are in a reasonable range

@@ -181,6 +181,18 @@ test_that("age_from_chi returns correct age when chi_check = FALSE", {
       c(39, NA_real_, 33)
     )
   )
+
+  expect_message(
+    expect_equal(
+      age_from_chi(
+        mixed_chis,
+        ref_date = ref_date,
+        max_age = 35,
+        chi_check = FALSE
+      ),
+      c(NA_real_, NA_real_, 33)
+    )
+  )
 })
 
 test_that("age_from_chi handles NA values in vectorised ref_date", {
@@ -237,7 +249,7 @@ test_that("age_from_chi handles NA values in vectorised min_age", {
   )
 
   # Test with all NA min_ages (should all default to 0)
-  all_na_min_ages <- c(NA, NA, NA)
+  all_na_min_ages <- as.integer(c(NA, NA, NA))
   expect_equal(
     age_from_chi(
       chis,
@@ -265,7 +277,7 @@ test_that("age_from_chi handles NA values in vectorised max_age", {
   )
 
   # Test with all NA max_ages (should all default to age from 1900-01-01)
-  all_na_max_ages <- c(NA, NA, NA)
+  all_na_max_ages <- as.integer(c(NA, NA, NA))
   expect_equal(
     age_from_chi(
       chis,
@@ -299,5 +311,92 @@ test_that("age_from_chi handles mixed NA values in vectorised inputs", {
       max_age = max_ages
     ),
     c(67, expected_age_2nd, 58)
+  )
+})
+
+test_that("min_age validation works correctly", {
+  expect_error(
+    age_from_chi(
+      "0101336489",
+      ref_date = as.Date("2025-01-01"),
+      min_age = 0:10
+    ),
+    regexp = "must be size 1 or 1"
+  )
+
+  expect_error(
+    age_from_chi(
+      c(
+        "0101336489",
+        gen_real_chi(150790),
+        gen_real_chi(150190)
+      ),
+      min_age = c(20, 50)
+    ),
+    regexp = "must be size 1 or 3"
+  )
+})
+
+test_that("max_age validation works correctly", {
+  expect_error(
+    age_from_chi(
+      "0101336489",
+      max_age = 1:10
+    ),
+    regexp = "must be size 1 or 1"
+  )
+
+  expect_error(
+    age_from_chi(
+      c(
+        "0101336489",
+        gen_real_chi(150790),
+        gen_real_chi(150190)
+      ),
+      max_age = 1:10
+    ),
+    regexp = "must be size 1 or 3"
+  )
+})
+
+test_that("ref_date validation works correctly", {
+  expect_error(
+    age_from_chi(
+      "0101336489",
+      ref_date = seq.Date(
+        as.Date("1990-01-01"),
+        as.Date("2000-01-01"),
+        by = "year"
+      )
+    ),
+    regexp = "must be size 1 or 1"
+  )
+
+  expect_error(
+    age_from_chi(
+      c(
+        "0101336489",
+        gen_real_chi(150790),
+        gen_real_chi(150190)
+      ),
+      ref_date = seq.Date(
+        as.Date("1990-01-01"),
+        as.Date("2000-01-01"),
+        by = "year"
+      )
+    ),
+    regexp = "must be size 1 or 3"
+  )
+})
+
+test_that("Checking types works", {
+  expect_error(
+    age_from_chi(gen_real_chi(150790), min_age = "12"),
+    "`min_age` must be a "
+  )
+
+  expect_error(
+    age_from_chi(gen_real_chi(150790), max_age = "50"),
+    "`max_age` must be a "
   )
 })
