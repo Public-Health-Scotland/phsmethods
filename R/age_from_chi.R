@@ -50,16 +50,20 @@
 age_from_chi <- function(
     chi_number,
     ref_date = NULL,
-    min_age = 0,
+    min_age = 0L,
     max_age = NULL,
     chi_check = TRUE) {
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
-    cli::cli_abort("{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector.")
+    cli::cli_abort(
+      "{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector."
+    )
   }
 
   if (!is.null(ref_date) && !inherits(ref_date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg ref_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(ref_date)}} vector.")
+    cli::cli_abort(
+      "{.arg ref_date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(ref_date)}} vector."
+    )
   }
 
   # Handle NULL and NA values in ref_date
@@ -70,21 +74,10 @@ age_from_chi <- function(
     ref_date[is.na(ref_date)] <- Sys.Date()
   }
 
-
-  # min and max ages are in a reasonable range
-  # Handle NA values in min_age
-  if (any(min_age < 0, na.rm = TRUE)) {
-    cli::cli_abort("{.arg min_age} must be a positive integer.")
+  # Ensure ref_date is replicated if length 1
+  if (length(ref_date) == 1L && length(chi_number) > 1L) {
+    ref_date <- rep(ref_date, length(chi_number))
   }
-  # If min_age is a vector, fill in 0 where it's missing
-  if (any(is.na(min_age))) {
-    min_age[is.na(min_age)] <- 0
-  }
-  # Ensure min_age is replicated if length 1
-  if (length(min_age) == 1 && length(chi_number) > 1) {
-    min_age <- rep(min_age, length(chi_number))
-  }
-
 
   # Handle NULL and NA values in max_age
   if (is.null(max_age)) {
@@ -92,16 +85,40 @@ age_from_chi <- function(
     # This corresponds to the default min_date behaviour in dob_from_chi
     max_age <- age_calculate(as.Date("1900-01-01"), ref_date)
   } else if (anyNA(max_age)) {
+    # Ensure max_age is replicated if length 1
+    if (length(max_age) == 1L && length(chi_number) > 1L) {
+      max_age <- rep(max_age, length(chi_number))
+    }
+
     # If max_age is a vector, fill in the age from 1900-01-01 where it's missing
-    max_age[is.na(max_age)] <- age_calculate(as.Date("1900-01-01"), ref_date[is.na(max_age)])
+    max_age[is.na(max_age)] <- age_calculate(
+      as.Date("1900-01-01"),
+      ref_date[is.na(max_age)]
+    )
   }
 
+  # If min_age is a vector, fill in 0 where it's missing
+  if (anyNA(min_age)) {
+    min_age[is.na(min_age)] <- 0L
+  }
+
+  # min and max ages are in a reasonable range
+  # Handle NA values in min_age
+  if (any(min_age < 0L)) {
+    cli::cli_abort("{.arg min_age} must be a positive integer.")
+  }
+
+  # Ensure min_age is replicated if length 1
+  if (length(min_age) == 1L && length(chi_number) > 1L) {
+    min_age <- rep(min_age, length(chi_number))
+  }
 
   # Check max_age vs min_age after handling NAs
-  if (any(max_age < min_age, na.rm = TRUE)) {
-    cli::cli_abort("{.arg max_age}, must always be greater than or equal to {.arg min_age}.")
+  if (any(max_age < min_age)) {
+    cli::cli_abort(
+      "{.arg max_age}, must always be greater than or equal to {.arg min_age}."
+    )
   }
-
 
   # Convert age ranges to date ranges relative to the reference date
   # NA values in ref_date, min_age, or max_age will propagate NA correctly here

@@ -7,7 +7,7 @@
 age_from_chi(
   chi_number,
   ref_date = NULL,
-  min_age = 0,
+  min_age = 0L,
   max_age = NULL,
   chi_check = TRUE
 )

@@ -58,30 +58,12 @@ dob_from_chi <- function(
     target_classes = c("Date", "POSIXct")
   )
 
-  # min and max date are in a reasonable range
-  if (!is.null(min_date) & !is.null(max_date)) {
-    if (any(max_date < min_date, na.rm = TRUE)) {
-      cli::cli_abort(
-        "{.arg max_date}, must always be greater than or equal to {.arg min_date}."
-      )
-    }
-  }
-
   if (is.null(max_date)) {
     # Default the max_date to today (person can't be born after today)
     max_date <- Sys.Date()
   } else if (anyNA(max_date)) {
     # Fill in today's date to where max_date is missing
     max_date[is.na(max_date)] <- Sys.Date()
-  }
-
-  if (any(max_date > Sys.Date())) {
-    # max_date should not be a future date
-    to_replace <- max_date > Sys.Date()
-    max_date[to_replace] <- Sys.Date()
-    cli::cli_warn(
-      c("!" = "Any {.arg max_date} values which are in the future will be set to today: {.val {Sys.Date()}}.")
-    )
   }
 
   if (is.null(min_date)) {
@@ -92,12 +74,34 @@ dob_from_chi <- function(
     min_date[is.na(min_date)] <- as.Date("1900-01-01")
   }
 
+  # min and max date are in a reasonable range
+  if (any(max_date < min_date)) {
+    cli::cli_abort(
+      "{.arg max_date}, must always be greater than or equal to {.arg min_date}."
+    )
+  }
+
+  if (any(max_date > Sys.Date())) {
+    # max_date should not be a future date
+    to_replace <- max_date > Sys.Date()
+    max_date[to_replace] <- Sys.Date()
+    cli::cli_warn(
+      c(
+        "!" = "Any {.arg max_date} values which are in the future will be set to today: {.val {Sys.Date()}}."
+      )
+    )
+  }
+
   # Default behaviour: Check the CHI number
   # for invalid CHIs we will return NA
   if (chi_check) {
     # Don't use any CHIs which don't pass the validity check
     na_count <- sum(is.na(chi_number))
-    chi_number <- dplyr::if_else(chi_check(chi_number) == "Valid CHI", chi_number, NA_character_)
+    chi_number <- dplyr::if_else(
+      chi_check(chi_number) == "Valid CHI",
+      chi_number,
+      NA_character_
+    )
     new_na_count <- sum(is.na(chi_number)) - na_count
 
     if (new_na_count > 0) {
@@ -134,11 +138,13 @@ dob_from_chi <- function(
     # When 20XX date is in the valid range and the 19XX date isn't,
     # 20XX is guessed.
     (date_2000 >= min_date & date_2000 <= max_date) &
-      !(date_1900 >= min_date & date_1900 <= max_date) ~ date_2000,
+      !(date_1900 >= min_date & date_1900 <= max_date) ~
+      date_2000,
     # When 19XX date is in the valid range and the 20XX date isn't,
     # 19XX is guessed.
     (date_1900 >= min_date & date_1900 <= max_date) &
-      !(date_2000 >= min_date & date_2000 <= max_date) ~ date_1900
+      !(date_2000 >= min_date & date_2000 <= max_date) ~
+      date_1900
   ))
 
   new_na_count <- sum(is.na(guess_dob)) - na_count
