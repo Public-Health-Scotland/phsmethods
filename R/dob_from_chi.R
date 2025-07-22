@@ -68,9 +68,13 @@ dob_from_chi <- function(
 
   n_chis <- length(chi_number)
 
-  if (length(max_date) != 1L && n_chis != length(max_date)) {
+  if (length(max_date) != 1L && n_chis != 1L && n_chis != length(max_date)) {
     cli::cli_abort(
       "{.arg max_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(max_date)}."
+    )
+  } else if (length(max_date) != 1L && n_chis == 1L) {
+    cli::cli_abort(
+      "{.arg max_date} must be size 1 (the same as {.arg chi_number}) not {length(max_date)}."
     )
   }
 
@@ -82,9 +86,13 @@ dob_from_chi <- function(
     min_date[is.na(min_date)] <- as.Date("1900-01-01")
   }
 
-  if (length(min_date) != 1L && n_chis != length(min_date)) {
+  if (length(min_date) != 1L && n_chis != 1L && n_chis != length(min_date)) {
     cli::cli_abort(
       "{.arg min_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(min_date)}."
+    )
+  } else if (length(min_date) != 1L && n_chis == 1L) {
+    cli::cli_abort(
+      "{.arg min_date} must be size 1 (the same as {.arg chi_number}) not {length(min_date)}."
     )
   }
 

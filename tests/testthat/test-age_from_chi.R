@@ -321,7 +321,7 @@ test_that("min_age validation works correctly", {
       ref_date = as.Date("2025-01-01"),
       min_age = 0:10
     ),
-    regexp = "must be size 1 or 1"
+    regexp = "must be size 1"
   )
 
   expect_error(
@@ -343,7 +343,7 @@ test_that("max_age validation works correctly", {
       "0101336489",
       max_age = 1:10
     ),
-    regexp = "must be size 1 or 1"
+    regexp = "must be size 1"
   )
 
   expect_error(
@@ -369,7 +369,7 @@ test_that("ref_date validation works correctly", {
         by = "year"
       )
     ),
-    regexp = "must be size 1 or 1"
+    regexp = "must be size 1"
   )
 
   expect_error(

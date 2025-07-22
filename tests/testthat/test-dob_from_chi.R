@@ -305,7 +305,7 @@ test_that("min_date validation works correctly", {
       min_date = as.Date(c("1990-01-01", "1991-01-01")),
       max_date = as.Date("2000-01-01")
     ),
-    regexp = "must be size 1 or 1"
+    regexp = "must be size 1"
   )
 })
 
@@ -316,7 +316,7 @@ test_that("max_date validation works correctly", {
       min_date = as.Date("1990-01-01"),
       max_date = as.Date(c("2000-01-01", "2001-01-01"))
     ),
-    regexp = "must be size 1 or 1"
+    regexp = "must be size 1"
   )
 
   expect_error(

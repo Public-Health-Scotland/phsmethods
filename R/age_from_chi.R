@@ -88,9 +88,13 @@ age_from_chi <- function(
 
   n_chis <- length(chi_number)
 
-  if (length(ref_date) != 1L && n_chis != length(ref_date)) {
+  if (length(ref_date) != 1L && n_chis != 1L && n_chis != length(ref_date)) {
     cli::cli_abort(
       "{.arg ref_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(ref_date)}."
+    )
+  } else if (length(ref_date) != 1L && n_chis == 1L) {
+    cli::cli_abort(
+      "{.arg ref_date} must be size 1 (the same as {.arg chi_number}) not {length(ref_date)}."
     )
   }
 
@@ -117,25 +121,33 @@ age_from_chi <- function(
     )
   }
 
-  if (length(max_age) != 1L && n_chis != length(max_age)) {
+  if (length(max_age) != 1L && n_chis != 1L && n_chis != length(max_age)) {
     cli::cli_abort(
       "{.arg max_age} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(max_age)}."
     )
-  }
-
-  if (length(min_age) != 1L && n_chis != length(min_age)) {
+  } else if (length(max_age) != 1L && n_chis == 1L) {
     cli::cli_abort(
-      "{.arg min_age} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(min_age)}."
+      "{.arg max_age} must be size 1 (the same as {.arg chi_number}) not {length(max_age)}."
     )
   }
 
+  if (length(min_age) != 1L && n_chis != 1L && n_chis != length(min_age)) {
+    cli::cli_abort(
+      "{.arg min_age} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(min_age)}."
+    )
+  } else if (length(min_age) != 1L && n_chis == 1L) {
+    cli::cli_abort(
+      "{.arg min_age} must be size 1 (the same as {.arg chi_number}) not {length(min_age)}."
+    )
+  }
+
+  # Handle NA values in min_age
   # If min_age is a vector, fill in 0 where it's missing
   if (anyNA(min_age)) {
     min_age[is.na(min_age)] <- 0L
   }
 
   # min and max ages are in a reasonable range
-  # Handle NA values in min_age
   if (any(min_age < 0L)) {
     cli::cli_abort("{.arg min_age} must be a positive integer.")
   }
