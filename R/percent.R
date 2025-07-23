@@ -184,8 +184,8 @@ print.percent <- function(x, max = NULL, trim = TRUE,
 }
 
 #' @export
-c.percent <- function(...){
- new_percent(NextMethod("c"), digits = get_perc_digits(list(...)[[1]]))
+c.percent <- function(...) {
+  new_percent(NextMethod("c"), digits = get_perc_digits(list(...)[[1]]))
 }
 
 #' @export
