@@ -180,32 +180,22 @@ print.percent <- function(x, max = NULL, trim = TRUE,
 
 #' @export
 `[.percent` <- function(x, ..., drop = TRUE) {
-  cl <- oldClass(x)
-  class(x) <- NULL
-  out <- NextMethod("[")
-  class(out) <- cl
-  attr(out, ".digits") <- get_perc_digits(x)
-  out
+  new_percent(NextMethod("["), digits = get_perc_digits(x))
+}
+
+#' @export
+c.percent <- function(...){
+ new_percent(NextMethod("c"), digits = get_perc_digits(list(...)[[1]]))
 }
 
 #' @export
 unique.percent <- function(x, incomparables = FALSE, ...) {
-  cl <- oldClass(x)
-  class(x) <- NULL
-  out <- NextMethod("unique")
-  class(out) <- cl
-  attr(out, ".digits") <- get_perc_digits(x)
-  out
+  new_percent(NextMethod("unique"), digits = get_perc_digits(x))
 }
 
 #' @export
 rep.percent <- function(x, ...) {
-  cl <- oldClass(x)
-  class(x) <- NULL
-  out <- NextMethod("rep")
-  class(out) <- cl
-  attr(out, ".digits") <- get_perc_digits(x)
-  out
+  new_percent(NextMethod("rep"), digits = get_perc_digits(x))
 }
 
 #' @export
@@ -253,11 +243,11 @@ Summary.percent <- function(x, ...) {
   x <- unclass(x)
   out <- NextMethod(.Generic)
   if (summary_math) {
-    out <- new_percent(out, get_perc_digits(x))
+    out <- new_percent(out, digits = get_perc_digits(x))
   }
   out
 }
 #' @export
 mean.percent <- function(x, ...) {
-  new_percent(mean(unclass(x), ...), get_perc_digits(x))
+  new_percent(mean(unclass(x), ...), digits = get_perc_digits(x))
 }
