@@ -185,7 +185,9 @@ print.percent <- function(x, max = NULL, trim = TRUE,
 
 #' @export
 c.percent <- function(...) {
-  new_percent(NextMethod("c"), digits = get_perc_digits(list(...)[[1]]))
+  percents <- list(...)
+  out <- do.call(c, lapply(percents, function(x) `class<-`(x, setdiff(class(x), "percent"))))
+  new_percent(out, digits = get_perc_digits(percents[[1]]))
 }
 
 #' @export
