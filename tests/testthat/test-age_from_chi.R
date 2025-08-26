@@ -400,3 +400,126 @@ test_that("Checking types works", {
     "`max_age` must be a "
   )
 })
+
+test_that("Context-aware messaging suggests min_age/max_age when called from age_from_chi", {
+  # Test that when age_from_chi calls dob_from_chi, it suggests min_age/max_age
+  expect_message(
+    age_from_chi(gen_real_chi(010101)),
+    regexp = "Try different values for.*min_age.*max_age"
+  )
+
+  # Test that the base message is still correct
+  expect_message(
+    age_from_chi(gen_real_chi(010101)),
+    regexp = "1 CHI number produced an ambiguous date"
+  )
+
+  # Test with multiple CHI numbers
+  expect_message(
+    age_from_chi(c(gen_real_chi(010101), gen_real_chi(010110))),
+    regexp = "2 CHI numbers produced ambiguous dates"
+  )
+
+  expect_message(
+    age_from_chi(c(gen_real_chi(010101), gen_real_chi(010110))),
+    regexp = "Try different values for.*min_age.*max_age"
+  )
+
+  # Test that it doesn't suggest min_date/max_date when called from age_from_chi
+  expect_no_match <- function(object, regexp, ...) {
+    expect_false(grepl(regexp, paste(capture_output(object)$message, collapse = "")))
+  }
+
+  suppressMessages({
+    expect_false(grepl("min_date.*max_date",
+      paste(capture.output({
+        suppressMessages(age_from_chi(gen_real_chi(010101)))
+      }, type = "message"), collapse = "")))
+  })
+})
+
+test_that("NA value handling works correctly", {
+  # Test ref_date with NA values - need matching vector lengths
+  expect_equal(
+    age_from_chi(
+      c("0101336489", "0101336489"),
+      ref_date = c(as.Date("2023-01-01"), as.Date(NA)),
+      min_age = 0,
+      max_age = 150
+    ),
+    c(90, 92) # Should use today's date for NA ref_date
+  )
+
+  # Test min_age with NA values
+  expect_equal(
+    age_from_chi(
+      "0101336489",
+      ref_date = as.Date("2023-01-01"),
+      min_age = NA_integer_,  # Should default to 0
+      max_age = 150
+    ),
+    90
+  )
+
+  # Test max_age with NA values (should use age from 1900-01-01)
+  result_na_max <- age_from_chi(
+    "0101336489",
+    ref_date = as.Date("2023-01-01"),
+    min_age = 0,
+    max_age = NA_integer_
+  )
+  expect_true(is.numeric(result_na_max))
+  expect_false(is.na(result_na_max))
+})
+
+test_that("Vector length validation works correctly", {
+  # Test when ref_date length doesn't match chi_number length
+  expect_error(
+    age_from_chi(
+      c("0101336489", "0101405073"),
+      ref_date = c(as.Date("2023-01-01"), as.Date("2023-01-02"), as.Date("2023-01-03"))
+    ),
+    "must be size 1 or 2.*not 3"
+  )
+
+  # Test when max_age length doesn't match chi_number length
+  expect_error(
+    age_from_chi(
+      c("0101336489", "0101405073"),
+      max_age = c(100, 110, 120)
+    ),
+    "must be size 1 or 2.*not 3"
+  )
+
+  # Test when min_age length doesn't match chi_number length
+  expect_error(
+    age_from_chi(
+      c("0101336489", "0101405073"),
+      min_age = c(0, 5, 10)
+    ),
+    "must be size 1 or 2.*not 3"
+  )
+
+  # Test single chi with multiple ref_dates (should error)
+  expect_error(
+    age_from_chi(
+      "0101336489",
+      ref_date = c(as.Date("2023-01-01"), as.Date("2023-01-02"))
+    ),
+    "must be size 1.*not 2"
+  )
+})
+
+test_that("Edge case: negative min_age", {
+  expect_error(
+    age_from_chi("0101336489", min_age = -1),
+    "must be a positive integer"
+  )
+})
+
+test_that("Edge case: max_age less than min_age", {
+  expect_error(
+    age_from_chi("0101336489", min_age = 50, max_age = 30),
+    "must always be greater than or equal"
+  )
+})
