@@ -171,11 +171,24 @@ dob_from_chi <- function(
 
   new_na_count <- sum(is.na(guess_dob)) - na_count
 
-  if (new_na_count > 0) {
-    cli::cli_inform(c(
-      "!" = "{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} produced {?an/} ambiguous date{?s} and will be given {.val NA} for {?its/their} Date{?s} of Birth.",
-      "v" = "Try different values for {.arg min_date} and/or {.arg max_date}."
-    ))
+if (new_na_count > 0) {
+    base_message <- "{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} produced {?an/} ambiguous date{?s} and will be given {.val NA} for {?its/their} Date{?s} of Birth."
+
+    # Check if we're being called from age_from_chi
+    call_context <- rlang::caller_call()
+    from_age_function <- !is.null(rlang::caller_call()) && "age_from_chi" %in% as.character(rlang::caller_call())
+
+    if (from_age_function) {
+      cli::cli_inform(c(
+        "!" = base_message,
+        "v" = "Try different values for {.arg min_age} and/or {.arg max_age}."
+      ))
+    } else {
+      cli::cli_inform(c(
+        "!" = base_message,
+        "v" = "Try different values for {.arg min_date} and/or {.arg max_date}."
+      ))
+    }
   }
 
   return(guess_dob)
