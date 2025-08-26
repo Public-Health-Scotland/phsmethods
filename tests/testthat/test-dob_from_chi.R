@@ -444,7 +444,7 @@ test_that("Future max_date warning", {
 
 test_that("Edge case: date processing with leap years", {
   # Test leap year date that exists in 2000 but not 1900
-  leap_chi <- gen_real_chi(290200)  # Feb 29, 2000
+  leap_chi <- gen_real_chi(290200) # Feb 29, 2000
   result <- dob_from_chi(leap_chi)
   expect_equal(result, as.Date("2000-02-29"))
 })
@@ -457,7 +457,7 @@ test_that("Multiple CHI numbers with mixed validity", {
     "1 CHI number.*invalid"
   )
   expect_equal(length(result), 3)
-  expect_true(is.na(result[2]))  # Invalid CHI should be NA
+  expect_true(is.na(result[2])) # Invalid CHI should be NA
   expect_false(is.na(result[1])) # Valid CHI should have date
   expect_false(is.na(result[3])) # Valid CHI should have date
 })

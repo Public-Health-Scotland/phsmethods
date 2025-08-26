@@ -431,10 +431,15 @@ test_that("Context-aware messaging suggests min_age/max_age when called from age
   }
 
   suppressMessages({
-    expect_false(grepl("min_date.*max_date",
-      paste(capture.output({
-        suppressMessages(age_from_chi(gen_real_chi(010101)))
-      }, type = "message"), collapse = "")))
+    expect_false(grepl(
+      "min_date.*max_date",
+      paste(capture.output(
+        {
+          suppressMessages(age_from_chi(gen_real_chi(010101)))
+        },
+        type = "message"
+      ), collapse = "")
+    ))
   })
 })
 
@@ -455,7 +460,7 @@ test_that("NA value handling works correctly", {
     age_from_chi(
       "0101336489",
       ref_date = as.Date("2023-01-01"),
-      min_age = NA_integer_,  # Should default to 0
+      min_age = NA_integer_, # Should default to 0
       max_age = 150
     ),
     90

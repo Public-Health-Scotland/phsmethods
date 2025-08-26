@@ -171,7 +171,7 @@ dob_from_chi <- function(
 
   new_na_count <- sum(is.na(guess_dob)) - na_count
 
-if (new_na_count > 0) {
+  if (new_na_count > 0) {
     base_message <- "{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} produced {?an/} ambiguous date{?s} and will be given {.val NA} for {?its/their} Date{?s} of Birth."
 
     # Check if we're being called from age_from_chi
