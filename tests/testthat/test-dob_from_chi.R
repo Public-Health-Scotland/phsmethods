@@ -332,3 +332,132 @@ test_that("max_date validation works correctly", {
     regexp = "must be size 1 or 3"
   )
 })
+
+test_that("Context-aware messaging suggests correct parameters", {
+  # Test that when dob_from_chi is called directly, it suggests min_date/max_date
+  expect_message(
+    dob_from_chi(gen_real_chi(010101)),
+    regexp = "Try different values for.*min_date.*max_date"
+  )
+
+  # Test that the base message is still correct
+  expect_message(
+    dob_from_chi(gen_real_chi(010101)),
+    regexp = "1 CHI number produced an ambiguous date"
+  )
+
+  # Test with multiple CHI numbers
+  expect_message(
+    dob_from_chi(c(gen_real_chi(010101), gen_real_chi(010110))),
+    regexp = "2 CHI numbers produced ambiguous dates"
+  )
+
+  expect_message(
+    dob_from_chi(c(gen_real_chi(010101), gen_real_chi(010110))),
+    regexp = "Try different values for.*min_date.*max_date"
+  )
+})
+
+test_that("NA value handling in min_date and max_date", {
+  # Test max_date with NA values (should use today's date)
+  result_na_max <- dob_from_chi(
+    "0101336489",
+    min_date = as.Date("1900-01-01"),
+    max_date = as.Date(NA)
+  )
+  expect_false(is.na(result_na_max))
+
+  # Test min_date with NA values (should use 1900-01-01)
+  result_na_min <- dob_from_chi(
+    "0101336489",
+    min_date = as.Date(NA),
+    max_date = as.Date("2030-01-01")
+  )
+  expect_false(is.na(result_na_min))
+
+  # Test both with NA values
+  result_both_na <- dob_from_chi(
+    "0101336489",
+    min_date = as.Date(NA),
+    max_date = as.Date(NA)
+  )
+  expect_false(is.na(result_both_na))
+})
+
+test_that("Vector length validation for min_date and max_date", {
+  # Test when max_date length doesn't match chi_number length
+  expect_error(
+    dob_from_chi(
+      c("0101336489", "0101405073"),
+      max_date = c(as.Date("2023-01-01"), as.Date("2023-01-02"), as.Date("2023-01-03"))
+    ),
+    "must be size 1 or 2.*not 3"
+  )
+
+  # Test when min_date length doesn't match chi_number length
+  expect_error(
+    dob_from_chi(
+      c("0101336489", "0101405073"),
+      min_date = c(as.Date("1900-01-01"), as.Date("1900-01-02"), as.Date("1900-01-03"))
+    ),
+    "must be size 1 or 2.*not 3"
+  )
+
+  # Test single chi with multiple dates (should error)
+  expect_error(
+    dob_from_chi(
+      "0101336489",
+      max_date = c(as.Date("2023-01-01"), as.Date("2023-01-02"))
+    ),
+    "must be size 1.*not 2"
+  )
+
+  expect_error(
+    dob_from_chi(
+      "0101336489",
+      min_date = c(as.Date("1900-01-01"), as.Date("1900-01-02"))
+    ),
+    "must be size 1.*not 2"
+  )
+})
+
+test_that("chi_check parameter works correctly", {
+  # Test with chi_check = FALSE (should not validate CHI)
+  result_no_check <- dob_from_chi("1234567890", chi_check = FALSE)
+  # Invalid CHI but should still try to process it
+  expect_true(is.na(result_no_check) || inherits(result_no_check, "Date"))
+
+  # Test with chi_check = TRUE (default) - should validate
+  expect_message(
+    dob_from_chi("1234567890", chi_check = TRUE),
+    "CHI number.*invalid"
+  )
+})
+
+test_that("Future max_date warning", {
+  future_date <- Sys.Date() + 365
+  expect_warning(
+    dob_from_chi("0101336489", max_date = future_date),
+    "Any.*max_date.*values which are in the future will be set to today"
+  )
+})
+
+test_that("Edge case: date processing with leap years", {
+  # Test leap year date that exists in 2000 but not 1900
+  leap_chi <- gen_real_chi(290200)  # Feb 29, 2000
+  result <- dob_from_chi(leap_chi)
+  expect_equal(result, as.Date("2000-02-29"))
+})
+
+test_that("Multiple CHI numbers with mixed validity", {
+  # Mix of valid and invalid CHI numbers
+  mixed_chis <- c("0101336489", "1234567890", "0101405073")
+  expect_message(
+    result <- dob_from_chi(mixed_chis),
+    "1 CHI number.*invalid"
+  )
+  expect_equal(length(result), 3)
+  expect_true(is.na(result[2]))  # Invalid CHI should be NA
+  expect_false(is.na(result[1])) # Valid CHI should have date
+  expect_false(is.na(result[3])) # Valid CHI should have date
+})
