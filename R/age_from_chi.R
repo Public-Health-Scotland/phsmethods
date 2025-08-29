@@ -131,14 +131,16 @@ age_from_chi <- function(
     )
   }
 
-  if (length(min_age) != 1L && n_chis != 1L && n_chis != length(min_age)) {
-    cli::cli_abort(
-      "{.arg min_age} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(min_age)}."
-    )
-  } else if (length(min_age) != 1L && n_chis == 1L) {
-    cli::cli_abort(
-      "{.arg min_age} must be size 1 (the same as {.arg chi_number}) not {length(min_age)}."
-    )
+  if (length(min_age) != 1L ) {
+      if(n_chis != 1L && n_chis != length(min_age)) {
+        cli::cli_abort(
+          "{.arg min_age} must be {length(chi_number)} (the same as {.arg chi_number}) not {length(min_age)}."
+        )
+      } else if (n_chis == 1L) {
+        cli::cli_abort(
+          "{.arg min_age} must be size 1 (the same as {.arg chi_number}) not {length(min_age)}."
+        )
+      }
   }
 
   # Handle NA values in min_age
