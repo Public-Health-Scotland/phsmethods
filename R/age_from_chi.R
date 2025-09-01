@@ -88,16 +88,17 @@ age_from_chi <- function(
 
   n_chis <- length(chi_number)
 
-  if (length(ref_date) != 1L && n_chis != 1L && n_chis != length(ref_date)) {
-    cli::cli_abort(
-      "{.arg ref_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(ref_date)}."
-    )
-  } else if (length(ref_date) != 1L && n_chis == 1L) {
-    cli::cli_abort(
-      "{.arg ref_date} must be size 1 (the same as {.arg chi_number}) not {length(ref_date)}."
-    )
+  if (length(ref_date) != 1L) {
+    if (n_chis != 1L && n_chis != length(ref_date)) {
+      cli::cli_abort(
+        "{.arg ref_date} must be size {length(chi_number)} (the same as {.arg chi_number}) not {length(ref_date)}."
+      )
+    } else if (n_chis == 1L) {
+      cli::cli_abort(
+        "{.arg ref_date} must be size 1 (the same as {.arg chi_number}) not {length(ref_date)}."
+      )
+    }
   }
-
   # Ensure ref_date is replicated if length 1
   if (length(ref_date) == 1L && length(chi_number) > 1L) {
     ref_date <- rep(ref_date, length(chi_number))
