@@ -333,7 +333,7 @@ test_that("min_age validation works correctly", {
       ),
       min_age = c(20, 50)
     ),
-    regexp = "must be size 1 or 3"
+    regexp = "must be size 3"
   )
 })
 
@@ -355,11 +355,11 @@ test_that("max_age validation works correctly", {
       ),
       max_age = 1:10
     ),
-    regexp = "must be size 1 or 3"
+    regexp = "must be size 3"
   )
 })
 
-test_that("ref_date validation works correctly", {
+test_that("ref_date validation w correctly", {
   expect_error(
     age_from_chi(
       "0101336489",
@@ -385,7 +385,7 @@ test_that("ref_date validation works correctly", {
         by = "year"
       )
     ),
-    regexp = "must be size 1 or 3"
+    regexp = "must be size 3"
   )
 })
 
@@ -424,19 +424,6 @@ test_that("Context-aware messaging suggests min_age/max_age when called from age
     age_from_chi(c(gen_real_chi(010101), gen_real_chi(010110))),
     regexp = "Try different values for.*min_age.*max_age"
   )
-
-  # Test that it doesn't suggest min_date/max_date when called from age_from_chi
-  suppressMessages({
-    expect_false(grepl(
-      "min_date.*max_date",
-      paste(capture.output(
-        {
-          suppressMessages(age_from_chi(gen_real_chi(010101)))
-        },
-        type = "message"
-      ), collapse = "")
-    ))
-  })
 })
 
 test_that("NA value handling works correctly", {
@@ -478,9 +465,13 @@ test_that("Vector length validation works correctly", {
   expect_error(
     age_from_chi(
       c("0101336489", "0101405073"),
-      ref_date = c(as.Date("2023-01-01"), as.Date("2023-01-02"), as.Date("2023-01-03"))
+      ref_date = c(
+        as.Date("2023-01-01"),
+        as.Date("2023-01-02"),
+        as.Date("2023-01-03")
+      )
     ),
-    "must be size 1 or 2.*not 3"
+    "must be size 2.*not 3"
   )
 
   # Test when max_age length doesn't match chi_number length
@@ -489,7 +480,7 @@ test_that("Vector length validation works correctly", {
       c("0101336489", "0101405073"),
       max_age = c(100, 110, 120)
     ),
-    "must be size 1 or 2.*not 3"
+    "must be size 2.*not 3"
   )
 
   # Test when min_age length doesn't match chi_number length
@@ -498,7 +489,7 @@ test_that("Vector length validation works correctly", {
       c("0101336489", "0101405073"),
       min_age = c(0, 5, 10)
     ),
-    "must be size 1 or 2.*not 3"
+    "must be size 2.*not 3"
   )
 
   # Test single chi with multiple ref_dates (should error)

@@ -329,7 +329,7 @@ test_that("max_date validation works correctly", {
       min_date = as.Date("1990-01-01"),
       max_date = as.Date(c("2000-01-01", "2001-01-01"))
     ),
-    regexp = "must be size 1 or 3"
+    regexp = "must be size 3"
   )
 })
 
@@ -360,20 +360,21 @@ test_that("Context-aware messaging suggests correct parameters", {
 
 test_that("NA value handling in min_date and max_date", {
   # Test max_date with NA values (should use today's date)
-  result_na_max <- dob_from_chi(
+  dob_from_chi(
     "0101336489",
     min_date = as.Date("1900-01-01"),
     max_date = as.Date(NA)
-  )
-  expect_false(is.na(result_na_max))
+  ) |>
+    expect_equal(as.Date("1933-01-01"))
 
   # Test min_date with NA values (should use 1900-01-01)
-  result_na_min <- dob_from_chi(
+  dob_from_chi(
     "0101336489",
     min_date = as.Date(NA),
     max_date = as.Date("2030-01-01")
-  )
-  expect_false(is.na(result_na_min))
+  ) |>
+    expect_equal(as.Date("1933-01-01")) |>
+    expect_warning("values which are in the future will be set to today")
 
   # Test both with NA values
   result_both_na <- dob_from_chi(
@@ -389,18 +390,26 @@ test_that("Vector length validation for min_date and max_date", {
   expect_error(
     dob_from_chi(
       c("0101336489", "0101405073"),
-      max_date = c(as.Date("2023-01-01"), as.Date("2023-01-02"), as.Date("2023-01-03"))
+      max_date = c(
+        as.Date("2023-01-01"),
+        as.Date("2023-01-02"),
+        as.Date("2023-01-03")
+      )
     ),
-    "must be size 1 or 2.*not 3"
+    "must be size 2.*not 3"
   )
 
   # Test when min_date length doesn't match chi_number length
   expect_error(
     dob_from_chi(
       c("0101336489", "0101405073"),
-      min_date = c(as.Date("1900-01-01"), as.Date("1900-01-02"), as.Date("1900-01-03"))
+      min_date = c(
+        as.Date("1900-01-01"),
+        as.Date("1900-01-02"),
+        as.Date("1900-01-03")
+      )
     ),
-    "must be size 1 or 2.*not 3"
+    "must be size 2.*not 3"
   )
 
   # Test single chi with multiple dates (should error)
@@ -422,10 +431,9 @@ test_that("Vector length validation for min_date and max_date", {
 })
 
 test_that("chi_check parameter works correctly", {
-  # Test with chi_check = FALSE (should not validate CHI)
-  result_no_check <- dob_from_chi("1234567890", chi_check = FALSE)
   # Invalid CHI but should still try to process it
-  expect_true(is.na(result_no_check) || inherits(result_no_check, "Date"))
+  expect_equal(dob_from_chi("1234567890", chi_check = FALSE), as.Date(NA)) |>
+    expect_message("This could be because of invalid CHIs")
 
   # Test with chi_check = TRUE (default) - should validate
   expect_message(
