@@ -426,10 +426,6 @@ test_that("Context-aware messaging suggests min_age/max_age when called from age
   )
 
   # Test that it doesn't suggest min_date/max_date when called from age_from_chi
-  expect_no_match <- function(object, regexp, ...) {
-    expect_false(grepl(regexp, paste(capture_output(object)$message, collapse = "")))
-  }
-
   suppressMessages({
     expect_false(grepl(
       "min_date.*max_date",
