@@ -68,16 +68,6 @@ dob_from_chi <- function(
 
   n_chis <- length(chi_number)
 
-  if (length(max_date) != 1L && n_chis != 1L && n_chis != length(max_date)) {
-    cli::cli_abort(
-      "{.arg max_date} must be size 1 or {length(chi_number)} (the same as {.arg chi_number}) not {length(max_date)}."
-    )
-  } else if (length(max_date) != 1L && n_chis == 1L) {
-    cli::cli_abort(
-      "{.arg max_date} must be size 1 (the same as {.arg chi_number}) not {length(max_date)}."
-    )
-  }
-
   if (is.null(min_date)) {
     # Default the min_date to 1 Jan 1900
     min_date <- as.Date("1900-01-01")
