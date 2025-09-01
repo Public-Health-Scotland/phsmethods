@@ -280,7 +280,7 @@ test_that("dob_from_chi returns correct DoB when chi_check = FALSE", {
   # Note: The behaviour for invalid CHIs with chi_check = FALSE depends on
   # how substr and fast_strptime handle the malformed input.
   # Assuming substr gets the first 6 chars and fast_strptime might return NA.
-  # The date part is "123456", which is an invalid date.
+  # The date part is "123456" (from CHI "1234567890"), which is invalid because "12" is not a valid day, "34" is not a valid month, and "56" is not a valid year in DDMMYY format.
   expect_message(
     expect_equal(
       dob_from_chi(invalid_chi <- "1234567890", chi_check = FALSE),
