@@ -180,7 +180,7 @@ dob_from_chi <- function(
 
     # Check if we're being called from age_from_chi
     call_context <- rlang::caller_call()
-    from_age_function <- !is.null(rlang::caller_call()) && "age_from_chi" %in% as.character(rlang::caller_call())
+    from_age_function <- !is.null(call_context) && "age_from_chi" %in% as.character(call_context)
 
     if (from_age_function) {
       cli::cli_inform(c(
