@@ -28,7 +28,7 @@ Authors:
   \item Chris Deans \email{Chris.Deans2@phs.scot}
   \item Jaime Villacampa \email{Jaime.Villacampa@phs.scot}
   \item Graeme Gowans \email{Graeme.Gowans@phs.scot}
-  \item James McMahon \email{James.McMahon@phs.scot} (\href{https://orcid.org/0000-0002-5380-2029}{ORCID})
+  \item James Hayes \email{James.Hayes2@phs.scot} (\href{https://orcid.org/0000-0002-5380-2029}{ORCID})
   \item Nicolaos Christofidis \email{nicolaos.christofidis@phs.scot}
 }
 
