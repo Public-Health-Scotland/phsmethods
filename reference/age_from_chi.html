@@ -37,7 +37,7 @@ and returns the age as implied by the CHI number(s). If the Date of Birth
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Extract age from the CHI number</h1>
-      <small class="dont-index">Source: <a href="https://github.com/Public-Health-Scotland/phsmethods/blob/master/R/dob_from_chi.R" class="external-link"><code>R/dob_from_chi.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Public-Health-Scotland/phsmethods/blob/master/R/age_from_chi.R" class="external-link"><code>R/age_from_chi.R</code></a></small>
       <div class="d-none name"><code>age_from_chi.Rd</code></div>
     </div>
 
@@ -52,7 +52,7 @@ and returns the age as implied by the CHI number(s). If the Date of Birth
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">age_from_chi</span><span class="op">(</span></span>
 <span>  <span class="va">chi_number</span>,</span>
 <span>  ref_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  min_age <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  min_age <span class="op">=</span> <span class="fl">0L</span>,</span>
 <span>  max_age <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  chi_check <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -131,7 +131,7 @@ It will be the same length as <code>chi_number</code>.</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>chi_age <span class="op">=</span> <span class="fu">age_from_chi</span><span class="op">(</span><span class="va">chi</span>, min_age <span class="op">=</span> <span class="fl">18</span>, max_age <span class="op">=</span> <span class="fl">65</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> 2 CHI numbers produced ambiguous dates and will be given <span style="color: #0000BB;">"NA"</span> for their Dates</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   of Birth.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Try different values for `min_date` and/or `max_date`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Try different values for `min_age` and/or `max_age`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   chi        dis_date   chi_age</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
