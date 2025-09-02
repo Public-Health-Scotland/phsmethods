@@ -48,16 +48,14 @@ age_calculate <- function(
 
   units <- match.arg(tolower(units), c("years", "months"))
 
-  age_interval <- lubridate::interval(start, end)
+  age_interval <- lubridate::interval(end, start)
 
   unit_time <- do.call(
     get("period", asNamespace("lubridate")),
     list(num = 1, units = units)
   )
 
-  age_interval <- lubridate::as.period(age_interval, unit = units)
-
-  age <- age_interval / unit_time
+  age <- -(age_interval / unit_time)
 
   if (any(age < 0, na.rm = TRUE)) {
     cli::cli_warn(c("!" = "There are ages less than 0."))
