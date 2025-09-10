@@ -49,12 +49,12 @@ test_that("Vectorized inputs of unequal lengths", {
     round_down = TRUE
   ), c(1, 1))
 
-  expect_error(age_calculate(
+  expect_equal(age_calculate(
     as.Date("2021-02-21"),
     as.Date(c("2022-02-01", "2021-02-28")),
     units = "years",
     round_down = TRUE
-  ))
+  ), c(0, 0))
 })
 
 test_that("Age is calculated correctly for all units", {
