@@ -1,8 +1,13 @@
 #' @title Calculate file size
 #'
-#' @description `file_size` takes a filepath and an optional regular
+#' @description
+#' `r lifecycle::badge('deprecated')`
+#'
+#' `file_size` takes a filepath and an optional regular
 #' expression pattern. It returns the size of all files within that directory
 #' which match the given pattern.
+#'
+#' @keywords internal
 #'
 #' @details The sizes of files with certain extensions are returned with the
 #' type of file prefixed. For example, the size of a 12 KB `.xlsx` file is
@@ -65,7 +70,7 @@
 #' library(magrittr)
 #' file_size() %>%
 #'   dplyr::pull(size) %>%
-#'   extract(1)
+#'   magrittr::extract(1)
 #'
 #' @seealso For more information on using regular expressions, see this
 #' [Jumping Rivers blog post](https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/)
@@ -75,6 +80,14 @@
 #'
 #' @export
 file_size <- function(filepath = getwd(), pattern = NULL) {
+  lifecycle::deprecate_warn(
+    "1.1.0",
+    "file_size()",
+    details = "We think it is redundant, but if you still have a need for this
+    function, please get in touch.",
+    always = TRUE
+  )
+
   if (!file.exists(filepath)) {
     cli::cli_abort("A valid {.arg filepath} must be supplied.")
   }
