@@ -3,6 +3,7 @@
 - `file_size()` has been deprecated as we believe it is no longer relevant ([#11](https://github.com/Public-Health-Scotland/phsmethods/issues/11)).
 Please let us know if you still have a use for it, otherwise it will be removed 
 in a future version.
+- Three functions that were renamed and deprecated in [phsmethods 0.2.1 (2022-02-11)]() have now been removed: `postcode()` is now `format_postcode()`; `age_group()` is now `create_age_groups()` and `fin_year()` is now `extract_fin_year()`.
 
 # phsmethods 1.0.2 (2024-01-05)
 
