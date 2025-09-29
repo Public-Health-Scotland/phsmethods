@@ -12,26 +12,26 @@ date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phsmethods
 [![Build
 Status](https://github.com/Public-Health-Scotland/phsmethods/workflows/R-CMD-check/badge.svg)](https://github.com/Public-Health-Scotland/phsmethods/actions)
 [![codecov](https://codecov.io/gh/Public-Health-Scotland/phsmethods/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Public-Health-Scotland/phsmethods)
+
 <!-- badges: end -->
 
 `phsmethods` contains functions for commonly undertaken analytical tasks
 in [Public Health Scotland
 (PHS)](https://www.publichealthscotland.scot/):
 
-- `create_age_groups()` categorises ages into groups
-- `chi_check()` assesses the validity of a CHI number
-- `chi_pad()` adds a leading zero to nine-digit CHI numbers
-- `sex_from_chi()` extracts the sex of a person from a CHI number
-- `file_size()` returns the names and sizes of files in a directory
+- `create_age_groups()` categorises ages into groups.
+- `chi_check()` assesses the validity of a CHI number.
+- `chi_pad()` adds a leading zero to nine-digit CHI numbers.
+- `sex_from_chi()` extracts the sex of a person from a CHI number.
 - `extract_fin_year()` assigns a date to a financial year in the format
-  `YYYY/YY`
-- `match_area()` converts geography codes into area names
-- `format_postcode()` formats improperly recorded postcodes
+  `YYYY/YY`.
+- `match_area()` converts geography codes into area names.
+- `format_postcode()` formats improperly recorded postcodes.
 - `qtr()`, `qtr_end()`, `qtr_next()` and `qtr_prev()` assign a date to a
-  quarter
-- `age_calculate()` calculates age between two dates
-- `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number
-- `age_from_chi()` extracts age from the CHI number
+  quarter.
+- `age_calculate()` calculates age between two dates.
+- `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number.
+- `age_from_chi()` extracts age from the CHI number.
 
 `phsmethods` can be used on both the PHS server and desktop versions of
 RStudio.
@@ -89,7 +89,7 @@ You can access the full list of functions and their help pages on
 website](https://public-health-scotland.github.io/phsmethods/reference/index.html).
 You will be able to see some examples of each function.
 
-There is also a very useful [PHS Methods online training
+There is also a very useful [PHS Methods on-line training
 course](https://scotland.shinyapps.io/phs-learnr-phsmethods) which gives
 you an interactive way to learn about this package.
 
