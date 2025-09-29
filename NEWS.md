@@ -1,6 +1,6 @@
 # phsmethods (development version)
 
-- `file_size()` has been deprecated as we believe it is no longer relevant (#11).
+- `file_size()` has been deprecated as we believe it is no longer relevant ([#11](https://github.com/Public-Health-Scotland/phsmethods/issues/11)).
 Please let us know if you still have a use for it, otherwise it will be removed 
 in a future version.
 
