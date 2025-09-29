@@ -1,6 +1,6 @@
 Package: phsmethods
 Title: Standard Methods for Use in Public Health Scotland
-Version: 1.0.2
+Version: 1.0.2.9000
 Authors@R: c(
     person("Public Health Scotland", , , "phs.datascience@phs.scot", role = "cph"),
     person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
@@ -13,7 +13,7 @@ Authors@R: c(
     person("Graeme", "Gowans", , "Graeme.Gowans@phs.scot", role = "aut"),
     person("Alice", "Byers", role = "ctb"),
     person("Alan", "Yeung", , "Alan.Yeung@phs.scot", role = "ctb"),
-    person("James", "McMahon", , "James.McMahon@phs.scot", role = "aut",
+    person("James", "Hayes", , "James.Hayes2@phs.scot", role = "aut",
            comment = c(ORCID = "0000-0002-5380-2029")),
     person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut")
   )
@@ -40,7 +40,8 @@ Imports:
     scales (>= 1.0.0),
     stringr,
     tibble,
-    utils
+    utils,
+    withr
 Suggests: 
     covr,
     ggplot2,
@@ -58,4 +59,4 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
