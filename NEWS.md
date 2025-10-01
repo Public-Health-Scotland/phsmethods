@@ -3,6 +3,7 @@
 - `file_size()` has been deprecated as we believe it is no longer relevant ([#11](https://github.com/Public-Health-Scotland/phsmethods/issues/11)).
 Please let us know if you still have a use for it, otherwise it will be removed 
 in a future version.
+- `age_calculate()` is now more robust in uncommon situations such as leap years, or if a date is supplied as a date time. Previously, it would sometimes give incorrect values for these types of edge cases.
 
 # phsmethods 1.0.2 (2024-01-05)
 
