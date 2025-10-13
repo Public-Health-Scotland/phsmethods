@@ -1,6 +1,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
 #' @importFrom rlang .data
+#' @importFrom rlang %||%
 #' @importFrom tibble tibble
 #' @importFrom lifecycle deprecated
 #' @keywords internal
