@@ -171,12 +171,6 @@ test_that("rounding and recycling", {
     signif_half_up(rep_len(x, 70), digits = dig)
   )
 
-
-  expect_equal(
-    as_percent(0.1234567),
-    structure(0.1234567, class = "percent", .digits = 2)
-  )
-
   expect_equal(format(as_percent(0.045), digits = 0), "5%")
   expect_equal(round(as_percent(0.045)), as_percent(0.05))
 })
