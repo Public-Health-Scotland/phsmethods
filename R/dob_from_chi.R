@@ -42,10 +42,11 @@
 #'     max_date = adm_date
 #'   ))
 dob_from_chi <- function(
-    chi_number,
-    min_date = NULL,
-    max_date = NULL,
-    chi_check = TRUE) {
+  chi_number,
+  min_date = NULL,
+  max_date = NULL,
+  chi_check = TRUE
+) {
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
     cli::cli_abort(
