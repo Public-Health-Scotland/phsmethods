@@ -48,11 +48,12 @@
 #'     ref_date = dis_date
 #'   ))
 age_from_chi <- function(
-    chi_number,
-    ref_date = NULL,
-    min_age = 0L,
-    max_age = NULL,
-    chi_check = TRUE) {
+  chi_number,
+  ref_date = NULL,
+  min_age = 0L,
+  max_age = NULL,
+  chi_check = TRUE
+) {
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
     cli::cli_abort(
