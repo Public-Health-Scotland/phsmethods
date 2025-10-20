@@ -108,8 +108,6 @@ test_that("age_group is deprecated", {
       )
 
 
-
-
       # If x is not numeric cut will error
       expect_error(age_group(c("1", "57", "apple", "12"), as_factor = FALSE))
 
