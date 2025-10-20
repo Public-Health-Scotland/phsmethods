@@ -1,5 +1,58 @@
 # phsmethods (development version)
 
+## New features
+
+Introducing `<percent>` vectors, a re-imagined and simplified approach
+to working with percentages in R.
+
+It is implemented as a lightweight S3 object that automatically formats
+proportions as percentages, simplifying any workflow that uses
+percentages at any stage of analysis.
+
+Rather than:
+
+``` r
+x <- c(0.25, 0.5, 0.75)
+paste0(x * 100, "%")
+```
+
+    ## [1] "25%" "50%" "75%"
+
+You can now instead write:
+
+``` r
+x <- c(0.25, 0.5, 0.75)
+as_percent(x)
+```
+
+    ## [1] "25%" "50%" "75%"
+
+`as_percent()` keeps the proportions as-is and simply prints them as
+percentages.
+
+``` r
+p <- as_percent(0.000567)
+p
+```
+
+    ## [1] "0.06%"
+
+``` r
+as.double(p) # Under-the-hood nothing is modified
+```
+
+    ## [1] 0.000567
+
+This allows us to use `<percent>` vectors throughout our script without
+ever needing to convert to a character vector of percentages.
+
+Maths operations are also possible with `<percent>` such as
+multiplication, division, rounding, summary statistics, etc. The more
+traditional workflow would require a lot more effort to do these same
+operations.
+
+## Lifecycle changes
+
 - `file_size()` has been deprecated as we believe it is no longer relevant ([#11](https://github.com/Public-Health-Scotland/phsmethods/issues/11)).
 Please let us know if you still have a use for it, otherwise it will be removed 
 in a future version.
