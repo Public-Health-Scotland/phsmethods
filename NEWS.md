@@ -57,7 +57,7 @@ operations.
 Please let us know if you still have a use for it, otherwise it will be removed 
 in a future version.
 - `age_calculate()` is now more robust in uncommon situations such as leap years, or if a date is supplied as a date time. Previously, it would sometimes give incorrect values for these types of edge cases.
-- Three functions that were renamed and deprecated in [phsmethods 0.2.1 (2022-02-11)]() have now been removed: `postcode()` is now `format_postcode()`; `age_group()` is now `create_age_groups()` and `fin_year()` is now `extract_fin_year()`.
+- Three functions that were renamed and deprecated in [phsmethods 0.2.1 (2022-02-11)](#phsmethods-0.2.1-(2022-02-11)) have now been removed: `postcode()` is now `format_postcode()`; `age_group()` is now `create_age_groups()` and `fin_year()` is now `extract_fin_year()`.
 
 # phsmethods 1.0.2 (2024-01-05)
 
