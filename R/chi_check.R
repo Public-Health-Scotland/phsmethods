@@ -111,7 +111,7 @@ checksum <- function(x) {
 
   # Mod 11 check
   # Extract the first nine digits
-  chi_matrix_nine <- chi_matrix[, 1:9]
+  chi_matrix_nine <- chi_matrix[, 1:9, drop = FALSE]
   # Extract the tenth digit
   chi_matrix_ten <- chi_matrix[, 10]
 

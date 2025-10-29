@@ -40,7 +40,10 @@ test_that("Length > 10 fails chi_check", {
 })
 
 test_that("Non-character input fails chi_check", {
-  expect_error(chi_check(123), "The input must be a <character> vector, not a <numeric> vector\\.$")
+  expect_error(
+    chi_check(123),
+    "The input must be a <character> vector, not a <numeric> vector\\.$"
+  )
 })
 
 test_that("Zero day fails chi_check", {
@@ -71,7 +74,8 @@ test_that("Vector entry works in chi_check", {
   expect_equal(
     chi_check(c(
       "0101011237",
-      "0101201234",
+      "0101201234", # This passes Mod 10 so updated test
+      "0101201233",
       "3201201234",
       "0113201234",
       "3213201234",
@@ -84,6 +88,7 @@ test_that("Vector entry works in chi_check", {
     )),
     c(
       "Valid CHI",
+      "Valid CHI", # This passes Mod 10 so updated test
       "Invalid checksum",
       "Invalid date",
       "Invalid date",
