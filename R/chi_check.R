@@ -62,7 +62,9 @@
 
 chi_check <- function(x) {
   if (!inherits(x, "character")) {
-    cli::cli_abort("The input must be a {.cls character} vector, not a {.cls {class(x)}} vector.")
+    cli::cli_abort(
+      "The input must be a {.cls character} vector, not a {.cls {class(x)}} vector."
+    )
   }
 
   # Calculate the number of characters
@@ -71,7 +73,10 @@ chi_check <- function(x) {
   # Initialise the output vector to be a character vector
   out <- character(length(x))
   # Check if the first six digits denote a valid date
-  out[is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y"))] <- "Invalid date"
+  out[is.na(lubridate::fast_strptime(
+    substr(x, 1, 6),
+    "%d%m%y"
+  ))] <- "Invalid date"
   # Check if the number of characters is less than 10 digits
   out[nc < 10] <- "Too few characters"
   # Check if the number of characters is more than 10 digits
@@ -83,7 +88,11 @@ chi_check <- function(x) {
   # Check if any are are missing values
   out[is.na(x)] <- "Missing (NA)"
   # Check if the checksum digit is valid
-  out[out == ""] <- ifelse(checksum(x[out == ""]), "Valid CHI", "Invalid checksum")
+  out[out == ""] <- ifelse(
+    checksum(x[out == ""]),
+    "Valid CHI",
+    "Invalid checksum"
+  )
 
   out
 }
@@ -99,6 +108,8 @@ checksum <- function(x) {
 
   # Separate each CHI digit into a matrix
   chi_matrix <- outer(xu_num, denom, function(x, y) x %/% y %% 10)
+
+  # Mod 11 check
   # Extract the first nine digits
   chi_matrix_nine <- chi_matrix[, 1:9]
   # Extract the tenth digit
@@ -114,7 +125,25 @@ checksum <- function(x) {
   k <- ifelse(k == 11, 0, k) # If 11, make 0
 
   # Return TRUE if k is equal to the tenth digit
-  out <- k == chi_matrix_ten
+  mod11_passed <- k == chi_matrix_ten
+
+  # Mod 10 check
+  mod10_matrix <- chi_matrix_nine
+  # Start from digit 9, double it, then double every 2nd digit
+  mod10_matrix[, c(9, 7, 5, 3, 1)] <- mod10_matrix[, c(9, 7, 5, 3, 1)] * 2
+  # If doubling the digit makes it greater than 10, subtract 9
+  mod10_matrix <- ifelse(mod10_matrix > 9, mod10_matrix - 9, mod10_matrix)
+
+  # Sum up the digits in each row, divide the sum by 10 and take the remainder
+  mod10_remainder <- rowSums(mod10_matrix) %% 10
+  mod10_calc <- 10 - mod10_remainder
+  # If calculation equals 10 (happens when Mod 10 remainder is 0), set to zero
+  mod10_calc[mod10_calc == 10] <- 0
+  mod10_passed <- mod10_calc == chi_matrix_ten
+
+  # Check if either Mod 11 or Mod 10 passed
+  either_passed <- mod11_passed | mod10_passed
+
   # Spread the results to all inputs
-  out[match(x, xu)]
+  either_passed[match(x, xu)]
 }
