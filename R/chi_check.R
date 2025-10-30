@@ -31,6 +31,7 @@
 #' * Is the checksum digit correct?
 #'
 #' @param x a CHI number or a vector of CHI numbers with `character` class.
+#' @param option option to check CHI numbers using Modulo 11, Modulo 10 or both. One of 'both', 'mod11' or 'mod10', default is 'both'.
 #'
 #' @return `chi_check` returns a character string. Depending on the
 #' validity of the entered CHI number, it will return one of the following:
@@ -60,10 +61,18 @@
 #'   mutate(validity = chi_check(chi))
 #' @export
 
-chi_check <- function(x) {
+chi_check <- function(x, option = "both") {
   if (!inherits(x, "character")) {
     cli::cli_abort(
       "The input must be a {.cls character} vector, not a {.cls {class(x)}} vector."
+    )
+  }
+
+  # Validate options against supported options
+  valid_options <- c("both", "mod11", "mod10")
+  if (!option %in% valid_options) {
+    cli::cli_abort(
+      "{.arg option} must be one of {.or {.val {valid_options}}}, not {.val {valid_options}}."
     )
   }
 
@@ -89,7 +98,7 @@ chi_check <- function(x) {
   out[is.na(x)] <- "Missing (NA)"
   # Check if the checksum digit is valid
   out[out == ""] <- ifelse(
-    checksum(x[out == ""]),
+    checksum(x[out == ""], option = option),
     "Valid CHI",
     "Invalid checksum"
   )
@@ -97,7 +106,7 @@ chi_check <- function(x) {
   out
 }
 
-checksum <- function(x) {
+checksum <- function(x, option) {
   # Get unique values of input to improve efficiency
   xu <- unique(x)
 
@@ -108,42 +117,53 @@ checksum <- function(x) {
 
   # Separate each CHI digit into a matrix
   chi_matrix <- outer(xu_num, denom, function(x, y) x %/% y %% 10)
-
-  # Mod 11 check
   # Extract the first nine digits
   chi_matrix_nine <- chi_matrix[, 1:9, drop = FALSE]
   # Extract the tenth digit
   chi_matrix_ten <- chi_matrix[, 10]
 
-  # Weight factor for checksum calculation
-  wg <- 10:2
-  # Matrix multiplication
-  i <- c(chi_matrix_nine %*% wg)
+  # Mod 11 check
+  if (option %in% c("mod11", "both")) {
+    # Weight factor for checksum calculation
+    wg <- 10:2
+    # Matrix multiplication
+    i <- c(chi_matrix_nine %*% wg)
 
-  j <- floor(i / 11) # Discard remainder
-  k <- 11 * (j + 1) - i # Checksum calculation
-  k <- ifelse(k == 11, 0, k) # If 11, make 0
+    j <- floor(i / 11) # Discard remainder
+    k <- 11 * (j + 1) - i # Checksum calculation
+    k <- ifelse(k == 11, 0, k) # If 11, make 0
 
-  # Return TRUE if k is equal to the tenth digit
-  mod11_passed <- k == chi_matrix_ten
+    # Return TRUE if k is equal to the tenth digit
+    mod11_passed <- k == chi_matrix_ten
+  }
 
   # Mod 10 check
-  mod10_matrix <- chi_matrix_nine
-  # Start from digit 9, double it, then double every 2nd digit
-  mod10_matrix[, c(9, 7, 5, 3, 1)] <- mod10_matrix[, c(9, 7, 5, 3, 1)] * 2
-  # If doubling the digit makes it greater than 10, subtract 9
-  mod10_matrix <- ifelse(mod10_matrix > 9, mod10_matrix - 9, mod10_matrix)
+  if (option %in% c("mod10", "both")) {
+    mod10_matrix <- chi_matrix_nine
+    # Start from digit 9, double it, then double every 2nd digit
+    mod10_matrix[, c(9, 7, 5, 3, 1)] <- mod10_matrix[, c(9, 7, 5, 3, 1)] * 2
+    # If doubling the digit makes it greater than 10, subtract 9
+    mod10_matrix <- ifelse(mod10_matrix > 9, mod10_matrix - 9, mod10_matrix)
 
-  # Sum up the digits in each row, divide the sum by 10 and take the remainder
-  mod10_remainder <- rowSums(mod10_matrix) %% 10
-  mod10_calc <- 10 - mod10_remainder
-  # If calculation equals 10 (happens when Mod 10 remainder is 0), set to zero
-  mod10_calc[mod10_calc == 10] <- 0
-  mod10_passed <- mod10_calc == chi_matrix_ten
+    # Sum up the digits in each row, divide the sum by 10 and take the remainder
+    mod10_remainder <- rowSums(mod10_matrix) %% 10
+    mod10_calc <- 10 - mod10_remainder
+    # If calculation equals 10 (happens when Mod 10 remainder is 0), set to zero
+    mod10_calc[mod10_calc == 10] <- 0
+    # Return TRUE if calculation is equal to the tenth digit
+    mod10_passed <- mod10_calc == chi_matrix_ten
+  }
 
-  # Check if either Mod 11 or Mod 10 passed
-  either_passed <- mod11_passed | mod10_passed
-
-  # Spread the results to all inputs
-  either_passed[match(x, xu)]
+  if (option == "both") {
+    # Check if either Mod 11 or Mod 10 passed
+    either_passed <- mod11_passed | mod10_passed
+    # Spread the results to all inputs
+    return(either_passed[match(x, xu)])
+  } else if (option == "mod11") {
+    # Spread the results to all inputs
+    return(mod11_passed[match(x, xu)])
+  } else if (option == "mod10") {
+    # Spread the results to all inputs
+    return(mod10_passed[match(x, xu)])
+  }
 }
