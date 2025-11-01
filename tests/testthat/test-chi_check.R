@@ -108,3 +108,10 @@ test_that("chi_check option argument", {
   expect_equal(chi_check("0101201234", option = "mod10"), "Valid CHI")
   expect_equal(chi_check("0101201234", option = "both"), "Valid CHI")
 })
+
+test_that("Invalid option for chi_check fails", {
+  expect_error(
+    chi_check("0101011237", option = "mod12"),
+    "`option` must be one of"
+  )
+})
