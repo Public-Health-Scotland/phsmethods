@@ -12,7 +12,7 @@ permissions:
   statuses: read
 
 jobs:
-  PHS-checks-test:
+  PHS-checks-test2:
     uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@fix-check-no-suggests
     permissions: 
       contents: write
