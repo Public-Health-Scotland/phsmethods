@@ -31,7 +31,11 @@
 #' * Is the checksum digit correct?
 #'
 #' @param x a CHI number or a vector of CHI numbers with `character` class.
-#' @param option option to check CHI numbers using Modulo 11, Modulo 10 or both. One of 'both', 'mod11' or 'mod10', default is 'both'.
+#' @param check_mod11 A boolean (default `TRUE`). Check CHI numbers using Modulo 11.
+#' @param check_mod10 A boolean (default `TRUE`). Check CHI numbers using Modulo 10.
+#' Implementation of Mod 10 CHI numbers is scheduled for February 2026.
+#' From this date, CHI numbers are valid if they pass either a Mod 11 check
+#' or a Mod 10 check.
 #'
 #' @return `chi_check` returns a character string. Depending on the
 #' validity of the entered CHI number, it will return one of the following:
@@ -61,18 +65,16 @@
 #'   mutate(validity = chi_check(chi))
 #' @export
 
-chi_check <- function(x, option = "both") {
+chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   if (!inherits(x, "character")) {
     cli::cli_abort(
       "The input must be a {.cls character} vector, not a {.cls {class(x)}} vector."
     )
   }
 
-  # Validate options against supported options
-  valid_options <- c("both", "mod11", "mod10")
-  if (!option %in% valid_options) {
+  if (!check_mod11 && !check_mod10) {
     cli::cli_abort(
-      "{.arg option} must be one of {.or {.val {valid_options}}}, not {.val {valid_options}}."
+      "At least one of {.arg check_mod11} and {.arg check_mod10} must be TRUE."
     )
   }
 
@@ -98,7 +100,11 @@ chi_check <- function(x, option = "both") {
   out[is.na(x)] <- "Missing (NA)"
   # Check if the checksum digit is valid
   out[out == ""] <- ifelse(
-    checksum(x[out == ""], option = option),
+    checksum(
+      x[out == ""],
+      check_mod11 = check_mod11,
+      check_mod10 = check_mod10
+    ),
     "Valid CHI",
     "Invalid checksum"
   )
@@ -106,7 +112,7 @@ chi_check <- function(x, option = "both") {
   out
 }
 
-checksum <- function(x, option) {
+checksum <- function(x, check_mod11, check_mod10) {
   # Get unique values of input to improve efficiency
   xu <- unique(x)
 
@@ -123,7 +129,7 @@ checksum <- function(x, option) {
   chi_matrix_ten <- chi_matrix[, 10]
 
   # Mod 11 check
-  if (option %in% c("mod11", "both")) {
+  if (check_mod11) {
     # Weight factor for checksum calculation
     wg <- 10:2
     # Matrix multiplication
@@ -138,7 +144,7 @@ checksum <- function(x, option) {
   }
 
   # Mod 10 check
-  if (option %in% c("mod10", "both")) {
+  if (check_mod10) {
     mod10_matrix <- chi_matrix_nine
     # Start from digit 9, double it, then double every 2nd digit
     mod10_matrix[, c(9, 7, 5, 3, 1)] <- mod10_matrix[, c(9, 7, 5, 3, 1)] * 2
@@ -154,15 +160,15 @@ checksum <- function(x, option) {
     mod10_passed <- mod10_calc == chi_matrix_ten
   }
 
-  if (option == "both") {
+  if (check_mod11 && check_mod10) {
     # Check if either Mod 11 or Mod 10 passed
     either_passed <- mod11_passed | mod10_passed
     # Spread the results to all inputs
     return(either_passed[match(x, xu)])
-  } else if (option == "mod11") {
+  } else if (check_mod11 && !check_mod10) {
     # Spread the results to all inputs
     return(mod11_passed[match(x, xu)])
-  } else if (option == "mod10") {
+  } else if (!check_mod11 && check_mod10) {
     # Spread the results to all inputs
     return(mod10_passed[match(x, xu)])
   }

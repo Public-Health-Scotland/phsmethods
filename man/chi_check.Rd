@@ -4,12 +4,17 @@
 \alias{chi_check}
 \title{Check the validity of a CHI number}
 \usage{
-chi_check(x, option = "both")
+chi_check(x, check_mod11 = TRUE, check_mod10 = TRUE)
 }
 \arguments{
 \item{x}{a CHI number or a vector of CHI numbers with \code{character} class.}
 
-\item{option}{option to check CHI numbers using Modulo 11, Modulo 10 or both. One of 'both', 'mod11' or 'mod10', default is 'both'.}
+\item{check_mod11}{A boolean (default \code{TRUE}). Check CHI numbers using Modulo 11.}
+
+\item{check_mod10}{A boolean (default \code{TRUE}). Check CHI numbers using Modulo 10.
+Implementation of Mod 10 CHI numbers is scheduled for February 2026.
+From this date, CHI numbers are valid if they pass either a Mod 11 check
+or a Mod 10 check.}
 }
 \value{
 \code{chi_check} returns a character string. Depending on the

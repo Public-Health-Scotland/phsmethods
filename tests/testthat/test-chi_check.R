@@ -104,14 +104,23 @@ test_that("Vector entry works in chi_check", {
 })
 
 test_that("chi_check option argument", {
-  expect_equal(chi_check("0101201234", option = "mod11"), "Invalid checksum")
-  expect_equal(chi_check("0101201234", option = "mod10"), "Valid CHI")
-  expect_equal(chi_check("0101201234", option = "both"), "Valid CHI")
+  expect_equal(
+    chi_check("0101201234", check_mod11 = TRUE, check_mod10 = FALSE),
+    "Invalid checksum"
+  )
+  expect_equal(
+    chi_check("0101201234", check_mod11 = FALSE, check_mod10 = TRUE),
+    "Valid CHI"
+  )
+  expect_equal(
+    chi_check("0101201234", check_mod11 = TRUE, check_mod10 = TRUE),
+    "Valid CHI"
+  )
 })
 
 test_that("Invalid option for chi_check fails", {
   expect_error(
-    chi_check("0101011237", option = "mod12"),
-    "`option` must be one of"
+    chi_check("0101011237", check_mod11 = FALSE, check_mod10 = FALSE),
+    "At least one of"
   )
 })
