@@ -9,9 +9,7 @@ chi_check(x, check_mod11 = TRUE, check_mod10 = TRUE)
 \arguments{
 \item{x}{a CHI number or a vector of CHI numbers with \code{character} class.}
 
-\item{check_mod11}{A boolean (default \code{TRUE}). Check CHI numbers using Modulo 11.}
-
-\item{check_mod10}{A boolean (default \code{TRUE}). Check CHI numbers using Modulo 10.
+\item{check_mod11, check_mod10}{Logical values (TRUE or FALSE, default is \code{TRUE}). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting from 2026, some CHIs will only pass if they meet the modulo 10 criteria.
 Implementation of Mod 10 CHI numbers is scheduled for February 2026.
 From this date, CHI numbers are valid if they pass either a Mod 11 check
 or a Mod 10 check.}
