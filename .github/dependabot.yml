@@ -12,6 +12,6 @@ updates:
       interval: "weekly"
       day: "sunday"
     assignees:
-      - "Public-Health-Scotland/phs-packages"
+      - "Tina815"
     reviewers: 
-      - "Public-Health-Scotland/phs-packages" 
+      - "Tina815" 
