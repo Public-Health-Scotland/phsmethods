@@ -1,0 +1,220 @@
+# Changelog
+
+## phsmethods (development version)
+
+### New features
+
+Introducing `<percent>` vectors, a re-imagined and simplified approach
+to working with percentages in R.
+
+It is implemented as a lightweight S3 object that automatically formats
+proportions as percentages, simplifying any workflow that uses
+percentages at any stage of analysis.
+
+Rather than:
+
+``` r
+x <- c(0.25, 0.5, 0.75)
+paste0(x * 100, "%")
+```
+
+``` R
+## [1] "25%" "50%" "75%"
+```
+
+You can now instead write:
+
+``` r
+x <- c(0.25, 0.5, 0.75)
+as_percent(x)
+```
+
+``` R
+## [1] "25%" "50%" "75%"
+```
+
+[`as_percent()`](https://public-health-scotland.github.io/phsmethods/reference/percent.md)
+keeps the proportions as-is and simply prints them as percentages.
+
+``` r
+p <- as_percent(0.000567)
+p
+```
+
+``` R
+## [1] "0.06%"
+```
+
+``` r
+as.double(p) # Under-the-hood nothing is modified
+```
+
+``` R
+## [1] 0.000567
+```
+
+This allows us to use `<percent>` vectors throughout our script without
+ever needing to convert to a character vector of percentages.
+
+Maths operations are also possible with `<percent>` such as
+multiplication, division, rounding, summary statistics, etc. The more
+traditional workflow would require a lot more effort to do these same
+operations.
+
+### Lifecycle changes
+
+- [`file_size()`](https://public-health-scotland.github.io/phsmethods/reference/file_size.md)
+  has been deprecated as we believe it is no longer relevant
+  ([\#11](https://github.com/Public-Health-Scotland/phsmethods/issues/11)).
+  Please let us know if you still have a use for it, otherwise it will
+  be removed in a future version.
+- [`age_calculate()`](https://public-health-scotland.github.io/phsmethods/reference/age_calculate.md)
+  is now more robust in uncommon situations such as leap years, or if a
+  date is supplied as a date time. Previously, it would sometimes give
+  incorrect values for these types of edge cases.
+- Three functions that were renamed and deprecated in [phsmethods 0.2.1
+  (2022-02-11)](#phsmethods-021-2022-02-11) have now been removed:
+  `postcode()` is now
+  [`format_postcode()`](https://public-health-scotland.github.io/phsmethods/reference/format_postcode.md);
+  `age_group()` is now
+  [`create_age_groups()`](https://public-health-scotland.github.io/phsmethods/reference/create_age_groups.md)
+  and `fin_year()` is now
+  [`extract_fin_year()`](https://public-health-scotland.github.io/phsmethods/reference/extract_fin_year.md).
+
+## phsmethods 1.0.2 (2024-01-05)
+
+CRAN release: 2024-01-08
+
+- No user-facing changes. Fix some tests for
+  [`age_from_chi()`](https://public-health-scotland.github.io/phsmethods/reference/age_from_chi.md)
+  due to a helper function `expected_age()` caused the tests fail when
+  the new year comes. It has been replaced with a fixed reference date.
+
+## phsmethods 1.0.1 (2023-11-27)
+
+CRAN release: 2023-11-28
+
+- Fix a bug in
+  [`extract_fin_year()`](https://public-health-scotland.github.io/phsmethods/reference/extract_fin_year.md)
+  to make sure financial years are displayed correctly from 1999/20 to
+  2008/09.
+
+- A new article has been added to the documentation - [Working with CHI
+  numbers](https://public-health-scotland.github.io/phsmethods/articles/chi-operations.html).
+
+## phsmethods 1.0.0 (2023-09-26)
+
+CRAN release: 2023-11-03
+
+- This is the first new major release to CRAN.
+
+## phsmethods 0.2.3 (2023-09-11)
+
+- The [{gdata}](https://github.com/r-gregmisc/gdata) import has been
+  dropped and replaced with [{scales}](https://scales.r-lib.org/).
+
+- [`extract_fin_year()`](https://public-health-scotland.github.io/phsmethods/reference/extract_fin_year.md)
+  is now much faster and will use less memory, especially for smaller
+  vectors (1 to 1,000).
+
+- [`format_postcode()`](https://public-health-scotland.github.io/phsmethods/reference/format_postcode.md)
+  is now faster and also gains a `quiet` parameter, the default value is
+  `FALSE` but setting it to `TRUE` will skip some of the checks and
+  messages, this is useful when using
+  [`format_postcode()`](https://public-health-scotland.github.io/phsmethods/reference/format_postcode.md)
+  to ‘clean-up’ and format a vector of postcodes, rather than wanting to
+  check them. Because of the skipped checks `quiet = TRUE` should also
+  run faster.
+
+- The installation instructions in the README have been updated.
+
+## phsmethods 0.2.2 (2022-11-14)
+
+- Improved
+  [`chi_check()`](https://public-health-scotland.github.io/phsmethods/reference/chi_check.md)
+  to make it more efficient and run faster.
+
+- Improved the “Using phsmethods” section in the README to be shorter
+  and more accessible.
+
+- Update all errors, warnings and messages to use
+  [{cli}](https://cli.r-lib.org/).
+
+- Improve errors when giving incorrect types to some functions.
+
+## phsmethods 0.2.1 (2022-02-11)
+
+- Three functions renamed to improve code clarity: `postcode()` to
+  [`format_postcode()`](https://public-health-scotland.github.io/phsmethods/reference/format_postcode.md);
+  `age_group()` to
+  [`create_age_groups()`](https://public-health-scotland.github.io/phsmethods/reference/create_age_groups.md);
+  `fin_year()` to
+  [`extract_fin_year()`](https://public-health-scotland.github.io/phsmethods/reference/extract_fin_year.md).
+  The old functions will still work but will produce a warning. After a
+  reasonable amount of time, they will be removed completely.
+
+- New functions added:
+  [`age_calculate()`](https://public-health-scotland.github.io/phsmethods/reference/age_calculate.md)([\#65](https://github.com/Public-Health-Scotland/phsmethods/issues/65),
+  [@Nic-chr](https://github.com/Nic-Chr));
+  [`dob_from_chi()`](https://public-health-scotland.github.io/phsmethods/reference/dob_from_chi.md)([\#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42),
+  [@Moohan](https://github.com/Moohan)); and
+  [`age_from_chi()`](https://public-health-scotland.github.io/phsmethods/reference/age_from_chi.md)([\#42](https://github.com/Public-Health-Scotland/phsmethods/issues/42),
+  [@Moohan](https://github.com/Moohan))
+
+- Change the output for `chi_check` so that empty string (““) reports as
+  missing
+  ([\#76](https://github.com/Public-Health-Scotland/phsmethods/issues/76))
+
+## phsmethods 0.2.0 (2020-04-17)
+
+- New functions added:
+  `age_group()`([\#23](https://github.com/Public-Health-Scotland/phsmethods/issues/23),
+  [@chrisdeans](https://github.com/chrisdeans));
+  [`chi_check()`](https://public-health-scotland.github.io/phsmethods/reference/chi_check.md)([\#30](https://github.com/Public-Health-Scotland/phsmethods/issues/30),
+  [@graemegowans](https://github.com/graemegowans));
+  [`chi_pad()`](https://public-health-scotland.github.io/phsmethods/reference/chi_pad.md)([\#30](https://github.com/Public-Health-Scotland/phsmethods/issues/30),
+  [@graemegowans](https://github.com/graemegowans)); and
+  [`match_area()`](https://public-health-scotland.github.io/phsmethods/reference/match_area.md)([\#13](https://github.com/Public-Health-Scotland/phsmethods/issues/13),
+  [@jvillacampa](https://github.com/jvillacampa)).
+
+- The first argument of `postcode()` is now `x`, as opposed to `string`.
+  This is unlikely to break much, if any, existing code. `postcode()` is
+  also now slightly faster.
+
+- `phsmethods` no longer imports `stringi`.
+
+- `phsmethods` now depends on a version of R \>= 2.10.
+
+- [Jack Hannah](https://github.com/jackhannah95) is no longer a
+  maintainer.
+
+## phsmethods 0.1.1 (2020-02-10)
+
+- [`file_size()`](https://public-health-scotland.github.io/phsmethods/reference/file_size.md),
+  `fin_year()`,
+  [`qtr()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md),
+  [`qtr_end()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md),
+  [`qtr_next()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md)
+  and
+  [`qtr_prev()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md)
+  now use `inherits(x, "y")` instead of `class(x) == "y"` to check
+  class. The reasoning is explained in this [blogpost by Martin
+  Maechler](https://developer.r-project.org/Blog/public/2019/11/09/when-you-think-class.-think-again/index.html).
+
+- The performance of `fin_year()` has been improved. The function now
+  extracts the unique date(s) from the input, calculates the associated
+  financial year(s), and joins to the original input. This is in
+  contrast with the original method, which directly calculated the
+  financial year of all input dates individually.
+
+## phsmethods 0.1.0 (2020-01-24)
+
+- Initial package release.
+- [`file_size()`](https://public-health-scotland.github.io/phsmethods/reference/file_size.md),
+  `fin_year()`, `postcode()`,
+  [`qtr()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md),
+  [`qtr_end()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md),
+  [`qtr_next()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md)
+  and
+  [`qtr_prev()`](https://public-health-scotland.github.io/phsmethods/reference/qtr.md)
+  functions added.
