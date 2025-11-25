@@ -45,16 +45,18 @@ Usually, we will have the CHI as a variable in some data.
 ```{r, message=FALSE}
 library(dplyr)
 
-data <- tibble(chi = c(
-  "0211165794",
-  "9999999999",
-  "402070763",
-  "00402070763",
-  "0101010000",
-  "Missing CHI",
-  NA,
-  ""
-))
+data <- tibble(
+  chi = c(
+    "0211165794",
+    "9999999999",
+    "402070763",
+    "00402070763",
+    "0101010000",
+    "Missing CHI",
+    NA,
+    ""
+  )
+)
 ```
 
 It looks like one of the CHI numbers '402070763' might have just lost a leading zero, this is a common occurrence if the data has passed through Excel at some point. We can fix this specific issue with `chi_pad()`.
@@ -90,6 +92,19 @@ fixed_data %>%
   filter(chi_check(chi) == "Valid CHI")
 ```
 
+CHI numbers beginning with certain dates of birth, particularly those on 1st January, are running into the issue of there being no more CHI numbers that can be generated that conform to the Modulo 11 check digit, as all combinations have already been assigned to individuals. In this circumstance, CHI numbers that conform to the Modulo 10 check digit will be allowed to be generated instead after the implementation date in February 2026. By default, `chi_check()` will output as 'Valid CHI' if the CHI numbers passes either a Mod-11 or Mod-10 check. However it will not apply complicated rules such as using a Mod-10/Mod-11 check on only CHI numbers relating to dates of birth starting on 1st January and using the Mod-11 check otherwise. If you want to apply a check following these rules, `if_else()` or `case_when()` can be used.
+
+```{r}
+fixed_data %>%
+  mutate(
+    chi_valid = if_else(
+      stringr::str_detect(chi, "^0101"),
+      chi_check(chi),
+      chi_check(chi, check_mod10 = FALSE)
+    )
+  )
+```
+
 ## Inferring data from a CHI number
 
 In an ideal world, we would always have supplementary data such as Date of Birth, Age and Sex alongside the CHI number, however, we often work with data where we only have the CHI number and the other demographic variables are either completely missing or incomplete.
@@ -108,7 +123,14 @@ If you have already checked the CHI in a previous step it can be useful to use `
 
 ```{r}
 data <- tibble(
-  chi = c("0101011237", "0211165794", "0402070763", "0101336489", "1904851231", "2902960018")
+  chi = c(
+    "0101011237",
+    "0211165794",
+    "0402070763",
+    "0101336489",
+    "1904851231",
+    "2902960018"
+  )
 )
 
 # Confirm all of the CHIs are valid
@@ -167,25 +189,29 @@ data %>%
 
 # Expect no one born before 1999-12-31 i.e. 16 years before our data started.
 data %>%
-  mutate(dob = dob_from_chi(
-    chi,
-    max_date = as.Date("2015-12-31"),
-    min_date = as.Date("2015-12-31") - lubridate::years(16)
-  ))
+  mutate(
+    dob = dob_from_chi(
+      chi,
+      max_date = as.Date("2015-12-31"),
+      min_date = as.Date("2015-12-31") - lubridate::years(16)
+    )
+  )
 ```
 
 Usually, we will have event dates e.g. an admission date alongside the data and this can be used instead of, or in conjunction with a fixed date.
 
 ```{r}
 data <- data %>%
-  mutate(event_date = as.Date(c(
-    "2015-01-01",
-    "2014-01-01",
-    "2013-01-01",
-    "2012-01-01",
-    "2011-01-01",
-    "2010-01-01"
-  )))
+  mutate(
+    event_date = as.Date(c(
+      "2015-01-01",
+      "2014-01-01",
+      "2013-01-01",
+      "2012-01-01",
+      "2011-01-01",
+      "2010-01-01"
+    ))
+  )
 
 # Using the event date as the maximum date
 data %>%
@@ -193,11 +219,13 @@ data %>%
 
 # Setting a 'fixed' minimum date as well as using the event date
 data_dob <- data %>%
-  mutate(dob = dob_from_chi(
-    chi,
-    max_date = event_date,
-    min_date = as.Date("1915-01-01")
-  ))
+  mutate(
+    dob = dob_from_chi(
+      chi,
+      max_date = event_date,
+      min_date = as.Date("1915-01-01")
+    )
+  )
 
 data_dob
 ```
@@ -228,17 +256,21 @@ data %>%
   mutate(age = age_from_chi(chi, ref_date = event_date, max_age = 18))
 
 data %>%
-  mutate(age = age_from_chi(
-    chi,
-    ref_date = event_date,
-    min_age = 60,
-    max_age = 120
-  ))
+  mutate(
+    age = age_from_chi(
+      chi,
+      ref_date = event_date,
+      min_age = 60,
+      max_age = 120
+    )
+  )
 
 data %>%
-  mutate(age = age_from_chi(
-    chi,
-    min_age = 60,
-    max_age = 120
-  ))
+  mutate(
+    age = age_from_chi(
+      chi,
+      min_age = 60,
+      max_age = 120
+    )
+  )
 ```
