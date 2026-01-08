@@ -108,6 +108,15 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
     "Invalid checksum"
   )
 
+  cli::cli_warn(
+    c(
+      "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
+      "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(x, check_mod10 = FALSE)}"
+    ),
+    .frequency = "once",
+    .frequency_id = "MOD10"
+  )
+
   out
 }
 
