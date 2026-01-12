@@ -74,8 +74,8 @@ There are two main ways to control how percent vectors are rounded:
 
 `as_percent` does two things:
 
-1 - It creates a `<percent>` vector \
-2 - It sets the ".digits" attribute which controls how the percent vector is printed downstream.
+1.  It creates a `<percent>` vector
+2.  It sets the ".digits" attribute, which controls how the percent vector is printed downstream.
 
 ```{r}
 p2 <- as_percent(p, digits = 0)
