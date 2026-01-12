@@ -153,9 +153,11 @@ percent vectors also print nicely in tibbles
 
 ```{r}
 library(dplyr)
+
 species <- starwars |>
   count(species, sort = TRUE) |>
   mutate(perc = as_percent(n / sum(n)))
+
 species |>
   slice_head(n = 5)
 ```
@@ -171,6 +173,7 @@ species |>
 
 ```{r, fig.width = 7, fig.height = 6}
 library(ggplot2)
+
 starwars |>
   ggplot(aes(species)) +
   geom_bar(aes(fill = eye_color), position = "fill") +
