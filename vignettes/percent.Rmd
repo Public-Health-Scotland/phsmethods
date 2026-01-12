@@ -109,7 +109,7 @@ A strong feature of `<percent>` vectors is the ability to use them in mathematic
 
 ```{r}
 # Helper to create literal percentages
-percent <- function(x){
+percent <- function(x) {
   as_percent(x / 100)
 }
 ```
@@ -153,17 +153,17 @@ percent vectors also print nicely in tibbles
 
 ```{r}
 library(dplyr)
-species <- starwars |> 
-  count(species, sort = TRUE) |> 
+species <- starwars |>
+  count(species, sort = TRUE) |>
   mutate(perc = as_percent(n / sum(n)))
-species |> 
+species |>
   slice_head(n = 5)
 ```
 
 percent vector columns can be handled in the same way as any other vector, e.g. via `mutate()`
 
 ```{r}
-species |> 
+species |>
   mutate(rounded_perc = round(perc))
 ```
 
@@ -171,12 +171,12 @@ species |>
 
 ```{r, fig.width = 7, fig.height = 6}
 library(ggplot2)
-starwars |> 
-    ggplot(aes(species)) + 
-    geom_bar(aes(fill = eye_color), position = "fill") + 
-    coord_flip() +
-    scale_y_continuous(name = "Percentage", labels = as_percent) +
-    theme_minimal()
+starwars |>
+  ggplot(aes(species)) +
+  geom_bar(aes(fill = eye_color), position = "fill") +
+  coord_flip() +
+  scale_y_continuous(name = "Percentage", labels = as_percent) +
+  theme_minimal()
 ```
 
 With the new release of ggplot2 4.0.0, there is potential for embedding `<percent>` vectors more formally and programmatically into `ggplot2`. This is currently being worked on.
