@@ -155,13 +155,13 @@ We can also do statistical summaries.
 
 ```{r}
 perc_summary <- species |>
-    summarise(
-      min = min(perc), 
-      max = max(perc), 
-      median = median(perc), 
-      avg = mean(perc),
-      sum = sum(perc)
-    )
+  summarise(
+    min = min(perc),
+    max = max(perc),
+    median = median(perc),
+    avg = mean(perc),
+    sum = sum(perc)
+  )
 perc_summary
 ```
 
@@ -186,16 +186,16 @@ qflextable(perc_summary)
 ```{r}
 library(ggplot2)
 
-gg_data <- iris |> 
-  as_tibble() |> 
-  count(Species) |> 
+gg_data <- iris |>
+  as_tibble() |>
+  count(Species) |>
   mutate(
     prop = n / sum(n),
     perc = as_percent(
       prop,
       digits = 1 # To control formatting in ggplot + elsewhere
-      )
     )
+  )
 
 gg_data
 
@@ -207,7 +207,7 @@ species_gg <- gg_data |>
 Use `as_percent` for formatting percentage axes.
 
 ```{r, fig.width = 7, fig.height = 6}
-species_gg + 
+species_gg +
   scale_y_continuous(name = "Percentage", labels = as_percent)
 ```
 
@@ -216,10 +216,10 @@ We can also use `<percent>` vectors as ggplot aesthetics[^1]
 [^1]: Using `<percent>` vectors in ggplot2 is currently limited and you are likely to face issues with using them as plot aesthetics. With the new release of ggplot2 4.0.0, there is potential for embedding `<percent>` vectors more formally and programmatically into `ggplot2`. This is currently being worked on.
 
 ```{r, fig.width = 7, fig.height = 6}
-gg_data |> 
+gg_data |>
   ggplot(aes(x = "", y = perc, fill = Species)) +
   geom_bar(stat = "identity", width = 1, color = "white") +
-  coord_polar("y", start=0) +
+  coord_polar("y", start = 0) +
   theme_void() +
   geom_text(aes(label = perc), position = position_stack(vjust = 0.5)) +
   scale_fill_brewer(palette = "Set1")
