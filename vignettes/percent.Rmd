@@ -135,38 +135,50 @@ round(percentages, 1)
 round(percentages, 2)
 ```
 
-Statistical summaries.
-
-```{r}
-percentages <- percent(seq(0, 100, by = 10))
-
-range(percentages)
-mean(percentages)
-median(percentages)
-sum(percentages)
-cumsum(percentages)
-```
-
 ## percent vectors and tidyverse
 
-percent vectors also print nicely in tibbles
+`<percent>` vectors can be used in tibbles just like regular vectors.
 
 ```{r}
 library(dplyr)
 
 species <- starwars |>
   count(species, sort = TRUE) |>
-  mutate(perc = as_percent(n / sum(n)))
+  mutate(perc = as_percent(n / sum(n), digits = 1))
 
+# Prints nicely
 species |>
   slice_head(n = 5)
 ```
 
-percent vector columns can be handled in the same way as any other vector, e.g. via `mutate()`
+We can also do statistical summaries.
 
 ```{r}
-species |>
-  mutate(rounded_perc = round(perc))
+perc_summary <- species |>
+    summarise(
+      min = min(perc), 
+      max = max(perc), 
+      median = median(perc), 
+      avg = mean(perc),
+      sum = sum(perc)
+    )
+perc_summary
+```
+
+## `<percent>` vectors and formatted tables
+
+They can also be easily and nicely formatted into tables (e.g. via `kable()`)
+
+```{r}
+library(knitr)
+kable(perc_summary)
+```
+
+And flextables.
+
+```{r}
+library(flextable)
+qflextable(perc_summary)
 ```
 
 ## percent vectors and `ggplot2`
