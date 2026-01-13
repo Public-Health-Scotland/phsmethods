@@ -23,7 +23,7 @@ Let's start by loading the phsmethods package.
 library(phsmethods)
 ```
 
-### Motivation
+## Motivation
 
 Working with percentages in R can be frustrating, to say the least. A typical workflow for generating percentages might look like this:
 
@@ -42,7 +42,7 @@ With `<percent>` vectors, this workflow is reduced to:
 
 This is clearly much simpler and allows for cleaner and more reproducible code.
 
-### Creating percentages
+## Creating percentages
 
 The primary function for converting to percentages is `as_percent()`. This converts a `<numeric>` vector to a `<percent>` vector, handling the formatting and rounding when needed, i.e printing or converting to a character vector.
 
@@ -64,13 +64,13 @@ as.character(p)
 format(p)
 ```
 
-### Rounding
+## Rounding
 
 Percentages are rounded using a round-halves-up approach. The rationale for straying away from R's round-to-even is that readers generally expect percentages to be rounded this way in formatted outputs such as papers, reports, etc. We are less concerned with statistical bias and more concerned with formatting.
 
 There are two main ways to control how percent vectors are rounded:
 
-### Rounding via `as_percent` + `digits`
+## Rounding via `as_percent` + `digits`
 
 `as_percent` does two things:
 
@@ -88,7 +88,7 @@ as.character(p2)
 unclass(p2)
 ```
 
-### Rounding via `round()`
+## Rounding via `round()`
 
 This method will 'physically' round the numbers.
 
@@ -103,7 +103,7 @@ unclass(p3)
 
 In practice, this means that rounding with `as_percent` is more flexible as it reduces downstream errors that can accumulate from premature rounding.
 
-### Math with percent vectors
+## Math with percent vectors
 
 A strong feature of `<percent>` vectors is the ability to use them in mathematical contexts without extra unnecessary work.
 
@@ -147,7 +147,7 @@ sum(percentages)
 cumsum(percentages)
 ```
 
-### percent vectors and tidyverse
+## percent vectors and tidyverse
 
 percent vectors also print nicely in tibbles
 
@@ -169,7 +169,7 @@ species |>
   mutate(rounded_perc = round(perc))
 ```
 
-### percent vectors and `ggplot2`
+## percent vectors and `ggplot2`
 
 ```{r, fig.width = 7, fig.height = 6}
 library(ggplot2)
