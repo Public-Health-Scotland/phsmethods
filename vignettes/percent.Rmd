@@ -213,7 +213,7 @@ species_gg +
 
 We can also use `<percent>` vectors as ggplot aesthetics[^1]
 
-[^1]: Using `<percent>` vectors in ggplot2 is currently limited and you are likely to face issues with using them as plot aesthetics. With the new release of ggplot2 4.0.0, there is potential for embedding `<percent>` vectors more formally and programmatically into `ggplot2`. This is currently being worked on.
+[^1]: Using `<percent>` vectors in ggplot2 is currently limited and you are likely to face issues with using them as plot aesthetics. This can include messages surrounding unsupported scales and axes. With the new release of ggplot2 4.0.0, there is potential for embedding `<percent>` vectors more formally and programmatically into `ggplot2`. This is currently being worked on.
 
 ```{r, fig.width = 7, fig.height = 6}
 gg_data |>
