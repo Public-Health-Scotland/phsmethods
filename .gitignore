@@ -5,3 +5,5 @@
 *.html
 docs
 inst/doc
+/doc/
+/Meta/
