@@ -92,7 +92,26 @@ fixed_data %>%
   filter(chi_check(chi) == "Valid CHI")
 ```
 
-CHI numbers beginning with certain dates of birth, particularly those on 1st January, are running into the issue of there being no more CHI numbers that can be generated that conform to the Modulo 11 check digit, as all combinations have already been assigned to individuals. In this circumstance, CHI numbers that conform to the Modulo 10 check digit will be allowed to be generated instead after the implementation date in February 2026. By default, `chi_check()` will output as 'Valid CHI' if the CHI numbers passes either a Mod-11 or Mod-10 check. However it will not apply complicated rules such as using a Mod-10/Mod-11 check on only CHI numbers relating to dates of birth starting on 1st January and using the Mod-11 check otherwise. If you want to apply a check following these rules, `if_else()` or `case_when()` can be used.
+## Inferring data from a CHI number
+
+In an ideal world, we would always have supplementary data such as Date of Birth, Age and Sex alongside the CHI number, however, we often work with data where we only have the CHI number and the other demographic variables are either completely missing or incomplete.
+
+Once we have checked and (if necessary) padded the CHI numbers, we can then try and extract some information from them.
+
+### The structure of a CHI number
+
+As explained in this [Wikipedia article](https://en.wikipedia.org/wiki/National_Health_Service_Central_Register#Community_Health_Index){target="_blank"} a CHI number is constructed as follows: 
+
+* The first 6 digits are the patient's Date of Birth in the format `DDMMYY`.
+* Digits 7 and 8 are random.
+* The 9<sup>th</sup> number indicates the patient's sex - odd for male, even for female.
+* The final, 10<sup>th</sup>, digit is a (Modulus-11) 'check digit' - This helps guard against transcription errors, for example, if someone makes a typo it is very unlikely that the check digit will still be valid.
+
+### Changes to CHI numbers (February 2026)
+
+There is a limit to the number of possible CHI numbers that can be generated for each combination of date of birth and sex. This limit is being reached for CHI numbers that involve dates of birth on 1<sup>st</sup> January for certain years. To increase the limit of possible CHI numbers that can be generated, the current rules (in 2025) which require CHI numbers to have a valid Modulus-11 (Mod-11) check digit are being made less restrictive. Specifically, **from February 2026, changes are being implemented that will allow CHI numbers to be assigned to patients if they have a valid Mod-11 or [Mod-10](https://en.wikipedia.org/wiki/Luhn_algorithm){target="_blank"} check digit**.  
+
+By default, `chi_check()` will output as 'Valid CHI' if CHI numbers pass either a Mod-11 or Mod-10 check. However it will not apply complicated logic such as using a Mod-10/Mod-11 check on only CHI numbers relating to dates of birth starting on 1<sup>st</sup> January and using the Mod-11 check otherwise. If you want to apply a check following that logic, `if_else()` or `case_when()` can be used.
 
 ```{r}
 fixed_data %>%
@@ -104,16 +123,6 @@ fixed_data %>%
     )
   )
 ```
-
-## Inferring data from a CHI number
-
-In an ideal world, we would always have supplementary data such as Date of Birth, Age and Sex alongside the CHI number, however, we often work with data where we only have the CHI number and the other demographic variables are either completely missing or incomplete.
-
-Once we have checked and (if necessary) padded the CHI numbers, we can then try and extract some information from them.
-
-#### The structure of a CHI number
-
-As explained in this [Wikipedia article](https://en.wikipedia.org/wiki/National_Health_Service_Central_Register#Community_Health_Index) a CHI number is constructed as follows: \* The first 6 digits are the patient's Date of Birth in the format `DDMMYY`. \* Digits 7 and 8 are random. \* The 9<sup>th</sup> number indicates the patient's sex - odd for male, even for female. \* The final, 10<sup>th</sup>, digit is a (Modulus-11) 'check digit' - This helps guard against transcription errors, for example, if someone makes a typo it is very unlikely that the check digit will still be valid.
 
 ### Extracting sex from CHI
 
@@ -141,7 +150,7 @@ data_sex <- data %>%
 data_sex
 ```
 
-By default sex will be returned as an integer with '1' representing 'Male' and '2' representing 'Female', this is consistent with the [coding of sex](https://www.ndc.scot.nhs.uk/Dictionary-A-Z/Definitions/index.asp?Search=S&ID=1277&Title=Sex) in other PHS datasets.
+By default sex will be returned as an integer with '1' representing 'Male' and '2' representing 'Female', this is consistent with the [coding of sex](https://www.ndc.scot.nhs.uk/Dictionary-A-Z/Definitions/index.asp?Search=S&ID=1277&Title=Sex){target="_blank"} in other PHS datasets.
 
 We can have sex returned as a factor using `as_factor = TRUE`, which by default will have levels of '1' and '2' and labels of 'Male' and 'Female' which can be useful, particularly when visualising the data.
 
