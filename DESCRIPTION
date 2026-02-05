@@ -44,6 +44,7 @@ Imports:
     withr
 Suggests: 
     covr,
+    flextable,
     ggplot2,
     here,
     knitr,
