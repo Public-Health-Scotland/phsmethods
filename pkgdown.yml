@@ -3,7 +3,8 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   chi-operations: chi-operations.html
-last_built: 2025-11-25T17:43Z
+  percent: percent.html
+last_built: 2026-02-05T12:07Z
 urls:
   reference: https://public-health-scotland.github.io/phsmethods/reference
   article: https://public-health-scotland.github.io/phsmethods/articles

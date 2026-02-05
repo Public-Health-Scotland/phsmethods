@@ -51,7 +51,7 @@ will be the same length as `chi_number`.
 
 ``` r
 age_from_chi("0101336489")
-#> [1] 92
+#> [1] 93
 
 library(tibble)
 library(dplyr)
@@ -78,9 +78,9 @@ data %>%
 #> # A tibble: 3 × 3
 #>   chi        dis_date   chi_age
 #>   <chr>      <date>       <dbl>
-#> 1 0101336489 1950-01-01      92
-#> 2 0101405073 2000-01-01      85
-#> 3 0101625707 2020-01-01      63
+#> 1 0101336489 1950-01-01      93
+#> 2 0101405073 2000-01-01      86
+#> 3 0101625707 2020-01-01      64
 
 data %>%
   mutate(chi_age = age_from_chi(chi, min_age = 18, max_age = 65))
@@ -92,7 +92,7 @@ data %>%
 #>   <chr>      <date>       <dbl>
 #> 1 0101336489 1950-01-01      NA
 #> 2 0101405073 2000-01-01      NA
-#> 3 0101625707 2020-01-01      63
+#> 3 0101625707 2020-01-01      64
 
 data %>%
   mutate(chi_age = age_from_chi(chi,
