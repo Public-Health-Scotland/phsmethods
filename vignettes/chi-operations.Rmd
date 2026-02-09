@@ -107,11 +107,20 @@ As explained in this [Wikipedia article](https://en.wikipedia.org/wiki/National_
 * The 9<sup>th</sup> number indicates the patient's sex - odd for male, even for female.
 * The final, 10<sup>th</sup>, digit is a (Modulus-11) 'check digit' - This helps guard against transcription errors, for example, if someone makes a typo it is very unlikely that the check digit will still be valid.
 
-### Changes to CHI numbers (February 2026)
+### Changes to CHI numbers (August 2026): Inclusion of Modulus-10 check
 
-There is a limit to the number of possible CHI numbers that can be generated for each combination of date of birth and sex. This limit is being reached for CHI numbers that involve dates of birth on 1<sup>st</sup> January for certain years. To increase the limit of possible CHI numbers that can be generated, the current rules (in 2025) which require CHI numbers to have a valid Modulus-11 (Mod-11) check digit are being made less restrictive. Specifically, **from February 2026, changes are being implemented that will allow CHI numbers to be assigned to patients if they have a valid Mod-11 or [Mod-10](https://en.wikipedia.org/wiki/Luhn_algorithm){target="_blank"} check digit**.  
+There is a limit to the number of possible CHI numbers that can be generated for each combination of date of birth and sex. This limit is being reached for CHI numbers that involve dates of birth on 1<sup>st</sup> January for certain years. To increase the limit of possible CHI numbers that can be generated, the current rules (in 2025) which require CHI numbers to have a valid Modulus-11 (Mod-11) check digit are being made less restrictive. Specifically, **from August 2026, changes are being implemented that will allow CHI numbers to be assigned to patients if they have a valid Mod-11 or [Mod-10](https://en.wikipedia.org/wiki/Luhn_algorithm){target="_blank"} check digit**.  This change means that there are a range of scenarios that a CHI number can fit:
 
-By default, `chi_check()` will output as 'Valid CHI' if CHI numbers pass either a Mod-11 or Mod-10 check. However it will not apply complicated logic such as using a Mod-10/Mod-11 check on only CHI numbers relating to dates of birth starting on 1<sup>st</sup> January and using the Mod-11 check otherwise. If you want to apply a check following that logic, `if_else()` or `case_when()` can be used.
+1. CHI passes Mod-11 and fails Mod-10.
+2. CHI passes Mod-11 and passes Mod-10.
+3. CHI fails Mod-11 and passes Mod-10.
+4. CHI fails Mod-11 and fails Mod-10. 
+
+For scenarios (1), (2) and (4), the CHI check results are no different to previously but allowing scenario (3) to occur means that more CHI numbers will pass a CHI check compared with previously. It is important to note that prior to the implementation date of allowing Mod-10 to be used for CHI numbers, no individuals will have been assigned a CHI number that passes Mod-10 but fails Mod-11.  
+
+By default, `chi_check()` will output as 'Valid CHI' if CHI numbers pass either a Mod-11 or Mod-10 check. Therefore, the default setting for `chi_check()` can allow some CHI numbers to be returned as a valid CHI when they are not. For instance, this can happen if you know a dataset only contains CHI numbers assigned to patients prior to the Mod-10 implementation date. In this case, you can use `chi_check(chi, check_mod10 = FALSE)` to apply a CHI check that only allows CHI numbers that pass a Mod-11 check to be returned as valid.  
+
+If a dataset contains data where it is possible for patients to have been assigned a CHI number which passes Mod-10 (i.e. patient was first registered after the Mod-10 implementation and had an affected date of birth), then a small error rate may occur when applying the CHI check function with default settings. While this error rate is very small, one approach to reduce this error rate is to apply the CHI check conditionally. For example, a Mod-10/Mod-11 check can be applied only to CHI numbers that have dates of birth starting on 1<sup>st</sup> January and the Mod-11 check can be used otherwise. If you want to apply a check following that logic, `if_else()` or `case_when()` can be used.
 
 ```{r}
 fixed_data %>%
