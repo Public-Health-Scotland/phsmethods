@@ -437,7 +437,7 @@ test_that("NA value handling works correctly", {
       min_age = 0,
       max_age = 150
     ),
-    c(90, 92) # Should use today's date for NA ref_date
+    c(90, expected_age_na) # Should use today's date for NA ref_date
   )
 
   # Test min_age with NA values
