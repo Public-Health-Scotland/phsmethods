@@ -429,7 +429,7 @@ test_that("Context-aware messaging suggests min_age/max_age when called from age
 test_that("NA value handling works correctly", {
   # Test ref_date with NA values - need matching vector lengths
   expected_age_na <- age_calculate(as.Date("1933-01-01"), Sys.Date())
-  
+
   expect_equal(
     age_from_chi(
       c("0101336489", "0101336489"),
