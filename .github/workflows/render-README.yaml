@@ -13,7 +13,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Commit and create a Pull Request on master
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "Automated re-knit of the README"
           branch: document_master
@@ -47,6 +47,6 @@ jobs:
 
       - name: Commit and push changes on all other branches
         if: ${{ github.ref != 'refs/heads/master' }}
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Automated re-knit of the README"
