@@ -4,16 +4,28 @@
 \alias{create_age_groups}
 \title{Create age groups}
 \usage{
-create_age_groups(x, from = 0, to = 90, by = 5, as_factor = FALSE)
+create_age_groups(
+  x,
+  from = lifecycle::deprecated(),
+  to = lifecycle::deprecated(),
+  by = lifecycle::deprecated(),
+  breaks = seq(0, 90, 5),
+  as_factor = FALSE
+)
 }
 \arguments{
 \item{x}{a vector of numeric values}
 
-\item{from}{the start of the smallest age group. The default is \code{0}.}
+\item{from}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{breaks} instead.}
 
-\item{to}{the end point of the age groups. The default is \code{90}.}
+\item{to}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{breaks} instead.}
 
-\item{by}{the size of the age groups. The default is \code{5}.}
+\item{by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{breaks} instead.}
+
+\item{breaks}{a numeric vector of cut points defining the age groups. The
+default is \code{seq(0, 90, 5)}, which corresponds to the
+\href{https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69}{European Standard Population}
+age groups.}
 
 \item{as_factor}{The default behaviour is to return a character vector. Use
 \code{TRUE} to return a factor vector instead.}
@@ -28,26 +40,19 @@ vector is returned instead.
 appropriate age group.
 }
 \details{
-The \code{from}, \code{to} and \code{by} values are used to create distinct
-age groups. \code{from} dictates the starting age of the lowest age group,
-and \code{by} indicates how wide each group should be. \code{to} stipulates
-the cut-off point at which all ages equal to or greater than this value
-should be categorised together in a \verb{to+} group. If the specified value
-of \code{to} is not a multiple of \code{by}, the value of \code{to} is
-rounded down to the nearest multiple of \code{by}.
-
-The default values of \code{from}, \code{to} and \code{by} correspond to the
-\href{https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69}{European Standard Population}
-age groups.
+The \code{breaks} vector defines the cut points for the age groups. The final
+age group will capture all ages equal to or greater than the last value in
+\code{breaks}, labelled as \verb{last+}. If the cut points are not evenly spaced, the
+labels will reflect the actual width of each group.
 }
 \examples{
 age <- c(54, 7, 77, 1, 26, 101)
 
 create_age_groups(age)
-create_age_groups(age, from = 0, to = 80, by = 10)
+create_age_groups(age, breaks = seq(0, 80, 10))
 
-# Final group may start below 'to'
-create_age_groups(age, from = 0, to = 65, by = 10)
+# Final group may start below the last break
+create_age_groups(age, breaks = seq(0, 65, 10))
 
 # To get the output as a factor:
 create_age_groups(age, as_factor = TRUE)
