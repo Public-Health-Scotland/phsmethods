@@ -9,8 +9,8 @@ create_age_groups(
   from = lifecycle::deprecated(),
   to = lifecycle::deprecated(),
   by = lifecycle::deprecated(),
-  breaks = seq(0, 90, 5),
-  as_factor = FALSE
+  as_factor = FALSE,
+  breaks = seq(0, 90, 5)
 )
 }
 \arguments{
@@ -22,13 +22,13 @@ create_age_groups(
 
 \item{by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{breaks} instead.}
 
+\item{as_factor}{The default behaviour is to return a character vector. Use
+\code{TRUE} to return a factor vector instead.}
+
 \item{breaks}{a numeric vector of cut points defining the age groups. The
 default is \code{seq(0, 90, 5)}, which corresponds to the
 \href{https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69}{European Standard Population}
 age groups.}
-
-\item{as_factor}{The default behaviour is to return a character vector. Use
-\code{TRUE} to return a factor vector instead.}
 }
 \value{
 A character vector, where each element is the age group for the
