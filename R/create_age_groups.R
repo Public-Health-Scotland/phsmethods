@@ -8,12 +8,12 @@
 #' @param from `r lifecycle::badge("deprecated")` Use `breaks` instead.
 #' @param to `r lifecycle::badge("deprecated")` Use `breaks` instead.
 #' @param by `r lifecycle::badge("deprecated")` Use `breaks` instead.
+#' @param as_factor The default behaviour is to return a character vector. Use
+#'   `TRUE` to return a factor vector instead.
 #' @param breaks a numeric vector of cut points defining the age groups. The
 #'   default is `seq(0, 90, 5)`, which corresponds to the
 #'   [European Standard Population](https://www.opendata.nhs.scot/dataset/standard-populations/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69)
 #'   age groups.
-#' @param as_factor The default behaviour is to return a character vector. Use
-#'   `TRUE` to return a factor vector instead.
 #'
 #' @return A character vector, where each element is the age group for the
 #' corresponding element in `x`. If `as_factor = TRUE`, a factor
@@ -42,8 +42,8 @@ create_age_groups <- function(
   from = lifecycle::deprecated(),
   to = lifecycle::deprecated(),
   by = lifecycle::deprecated(),
-  breaks = seq(0, 90, 5),
-  as_factor = FALSE
+  as_factor = FALSE,
+  breaks = seq(0, 90, 5)
 ) {
   if (
     lifecycle::is_present(from) ||
