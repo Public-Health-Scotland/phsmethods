@@ -1,4 +1,4 @@
-# phsmethods 1.1.2 (2026-02-24)
+# phsmethods 1.1.0 (2026-02-24)
 
 ## New features
 
