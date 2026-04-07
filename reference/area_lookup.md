@@ -24,10 +24,6 @@ with 2 variables and over 17,000 rows:
 
   Name of the area the code represents
 
-## Source
-
-<https://statistics.gov.scot/>
-
 ## Details
 
 `geo_code` contains geography codes pertaining to Health Boards, Council
@@ -36,6 +32,8 @@ Zones (2001 and 2011), Electoral Wards, Scottish Parliamentary
 Constituencies, UK Parliamentary Constituencies, Travel to work areas,
 National Parks, Community Health Partnerships, Localities (S19),
 Settlements (S20) and Scotland.
+
+Source: Scotland's official statistics
 
 ## See also
 
