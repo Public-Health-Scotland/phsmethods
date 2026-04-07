@@ -11,9 +11,6 @@ A \code{\link[tibble:tibble]{tibble::tibble()}} with 2 variables and over 17,000
 \item{area_name}{Name of the area the code represents}
 }
 }
-\source{
-\url{https://statistics.gov.scot/}
-}
 \usage{
 area_lookup
 }
@@ -28,6 +25,8 @@ Zones, Data Zones (2001 and 2011), Electoral Wards, Scottish Parliamentary
 Constituencies, UK Parliamentary Constituencies, Travel to work areas,
 National Parks, Community Health Partnerships, Localities (S19),
 Settlements (S20) and Scotland.
+
+Source: Scotland's official statistics
 }
 \seealso{
 The script used to create the \code{area_lookup} dataset on

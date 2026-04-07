@@ -1,4 +1,4 @@
-# phsmethods (development version)
+# phsmethods 1.1.0 (2026-02-24)
 
 ## New features
 
@@ -50,6 +50,8 @@ Maths operations are also possible with `<percent>` such as
 multiplication, division, rounding, summary statistics, etc. The more
 traditional workflow would require a lot more effort to do these same
 operations.
+
+A [percent vignette](https://public-health-scotland.github.io/phsmethods/articles/percent.html) has been created to help introduce and explain this new feature.
 
 ## Lifecycle changes
 
