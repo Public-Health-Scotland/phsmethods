@@ -11,6 +11,7 @@ return a value for each CHI number letting you know if it’s valid, and
 if it isn’t what the issue is.
 
 ``` r
+
 chi_numbers <- c(
   "0211165794",
   "9999999999",
@@ -36,6 +37,7 @@ chi_check(chi_numbers)
 Usually, we will have the CHI as a variable in some data.
 
 ``` r
+
 library(dplyr)
 
 data <- tibble(chi = c(
@@ -56,6 +58,7 @@ Excel at some point. We can fix this specific issue with
 [`chi_pad()`](https://public-health-scotland.github.io/phsmethods/reference/chi_pad.md).
 
 ``` r
+
 fixed_data <- data %>%
   mutate(chi = chi_pad(chi))
 
@@ -80,6 +83,7 @@ On a larger dataset, it might be useful to get a count of the issues
 rather than seeing them per CHI.
 
 ``` r
+
 fixed_data %>%
   count(valid_chi = chi_check(chi), sort = TRUE)
 #> # A tibble: 7 × 2
@@ -104,6 +108,7 @@ CHI numbers have issues.
 3.  Filter the data with invalid CHIs out completely.
 
 ``` r
+
 fixed_data %>%
   mutate(chi = if_else(chi_check(chi) != "Valid CHI", NA_character_, chi))
 #> # A tibble: 8 × 1
@@ -161,6 +166,7 @@ If you have already checked the CHI in a previous step it can be useful
 to use `chi_check = FALSE` as this will be faster.
 
 ``` r
+
 data <- tibble(
   chi = c("0101011237", "0211165794", "0402070763", "0101336489", "1904851231", "2902960018")
 )
@@ -197,6 +203,7 @@ default will have levels of ‘1’ and ‘2’ and labels of ‘Male’ and
 ‘Female’ which can be useful, particularly when visualising the data.
 
 ``` r
+
 data_sex <- data_sex %>%
   mutate(sex_factor = sex_from_chi(chi, as_factor = TRUE))
 
@@ -213,6 +220,7 @@ data_sex
 ```
 
 ``` r
+
 library(ggplot2)
 
 data_sex %>%
@@ -242,6 +250,7 @@ will try to extract the Date of Birth and will return `NA` if the date
 is ambiguous.
 
 ``` r
+
 data_dob <- data %>%
   mutate(dob = dob_from_chi(chi))
 #> ! 3 CHI numbers produced ambiguous dates and will be given "NA" for their Dates
@@ -275,6 +284,7 @@ have been born earlier than that. We can use the `min_date` and
   anyone older than 16 as of today’s date.
 
 ``` r
+
 # Expect no one born after 2015-12-31
 data %>%
   mutate(dob = dob_from_chi(chi, max_date = as.Date("2015-12-31")))
@@ -317,6 +327,7 @@ data and this can be used instead of, or in conjunction with a fixed
 date.
 
 ``` r
+
 data <- data %>%
   mutate(event_date = as.Date(c(
     "2015-01-01",
@@ -382,6 +393,7 @@ Note that age is calculated at *today’s* date unless otherwise specified
 with the `ref_date` argument.
 
 ``` r
+
 data %>%
   mutate(age = age_from_chi(chi))
 #> ! 3 CHI numbers produced ambiguous dates and will be given "NA" for their Dates
@@ -394,7 +406,7 @@ data %>%
 #> 2 0211165794 2014-01-01    NA
 #> 3 0402070763 2013-01-01    NA
 #> 4 0101336489 2012-01-01    93
-#> 5 1904851231 2011-01-01    40
+#> 5 1904851231 2011-01-01    41
 #> 6 2902960018 2010-01-01    30
 
 # Work out age at a fixed date
@@ -433,6 +445,7 @@ data %>%
 We will get different results depending on which context we supply.
 
 ``` r
+
 data %>%
   mutate(age = age_from_chi(chi, ref_date = event_date, max_age = 18))
 #> ! 3 CHI numbers produced ambiguous dates and will be given "NA" for their Dates

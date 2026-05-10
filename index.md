@@ -41,6 +41,7 @@ PHS Posit Package Manager, the benefit of this is that `phsmethods` is
 listed there so you can install it with:
 
 ``` r
+
 install.packages("phsmethods")
 ```
 
@@ -50,6 +51,7 @@ required, and can be installed with `install.packages("remotes")`.
 You can then install `phsmethods` from GitHub with:
 
 ``` r
+
 remotes::install_github("Public-Health-Scotland/phsmethods")
 ```
 
@@ -61,6 +63,7 @@ and running the following code (replacing the section marked `<>`,
 including the arrows themselves):
 
 ``` r
+
 remotes::install_local("<FILEPATH OF ZIPPED FILE>/phsmethods-master.zip",
   upgrade = "never"
 )
@@ -72,6 +75,7 @@ Load `phsmethods` using
 [`library()`](https://rdrr.io/r/base/library.html):
 
 ``` r
+
 library(phsmethods)
 ```
 
@@ -79,6 +83,7 @@ To see the documentation for any `phsmethods`’ functions, type
 `?function_name` into the RStudio console after loading the package:
 
 ``` r
+
 ?extract_fin_year
 ?format_postcode
 ```

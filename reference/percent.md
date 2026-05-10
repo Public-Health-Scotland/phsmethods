@@ -13,10 +13,6 @@ as_percent(x, digits = 2)
 NA_percent_
 ```
 
-## Format
-
-An object of class `percent` of length 1.
-
 ## Arguments
 
 - x:

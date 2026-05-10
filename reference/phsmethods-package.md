@@ -24,6 +24,8 @@ Useful links:
 
 Authors:
 
+- Tina Fu <Yuyan.Fu2@phs.scot>
+
 - David Caldwell <David.Caldwell@phs.scot>
 
 - Jack Hannah <jack.hannah2@phs.scot>

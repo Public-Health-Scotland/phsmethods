@@ -16,6 +16,7 @@ percentages at any stage of analysis.
 Rather than:
 
 ``` r
+
 x <- c(0.25, 0.5, 0.75)
 paste0(x * 100, "%")
 ```
@@ -27,6 +28,7 @@ paste0(x * 100, "%")
 You can now instead write:
 
 ``` r
+
 x <- c(0.25, 0.5, 0.75)
 as_percent(x)
 ```
@@ -39,6 +41,7 @@ as_percent(x)
 keeps the proportions as-is and simply prints them as percentages.
 
 ``` r
+
 p <- as_percent(0.000567)
 p
 ```
@@ -48,6 +51,7 @@ p
 ```
 
 ``` r
+
 as.double(p) # Under-the-hood nothing is modified
 ```
 

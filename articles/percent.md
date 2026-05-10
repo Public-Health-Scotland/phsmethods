@@ -3,6 +3,7 @@
 Let’s start by loading the phsmethods package.
 
 ``` r
+
 library(phsmethods)
 ```
 
@@ -36,6 +37,7 @@ formatting and rounding when needed, i.e printing or converting to a
 character vector.
 
 ``` r
+
 (p <- as_percent(0.055))
 #> [1] "5.5%"
 ```
@@ -44,6 +46,7 @@ Internally, the numeric vector is left as-is, which can be confirmed by
 examining the vector via `unclass(x)`.
 
 ``` r
+
 unclass(p)
 #> [1] 0.055
 #> attr(,".digits")
@@ -55,6 +58,7 @@ The only time percentage formatting actually happens is when the
 `as.character` or `format`).
 
 ``` r
+
 print(p)
 #> [1] "5.5%"
 as.character(p)
@@ -82,6 +86,7 @@ There are two main ways to control how percent vectors are rounded:
     vector is printed downstream.
 
 ``` r
+
 p2 <- as_percent(p, digits = 0)
 
 # Prints and formats to 0 decimal places
@@ -102,6 +107,7 @@ unclass(p2)
 This method will ‘physically’ round the numbers.
 
 ``` r
+
 p3 <- round(p, digits = 0)
 
 p3
@@ -124,6 +130,7 @@ A strong feature of `<percent>` vectors is the ability to use them in
 mathematical contexts without extra unnecessary work.
 
 ``` r
+
 # Helper to create literal percentages
 percent <- function(x) {
   as_percent(x / 100)
@@ -133,6 +140,7 @@ percent <- function(x) {
 Addition, subtraction, multiplication and division.
 
 ``` r
+
 percent(50) + percent(25) # = 50% + 25% = 75%
 #> [1] "75%"
 percent(50) - percent(25) # = 50% - 25% = 25%
@@ -146,6 +154,7 @@ percent(50) / percent(25) # = 50% / (1/4) = 200%
 More rounding functions.
 
 ``` r
+
 percentages <- percent(seq(-0.1, 0.1, by = 0.05))
 floor(percentages)
 #> [1] "-1%" "-1%" "0%"  "0%"  "0%"
@@ -166,6 +175,7 @@ round(percentages, 2)
 `<percent>` vectors can be used in tibbles just like regular vectors.
 
 ``` r
+
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -196,6 +206,7 @@ species |>
 We can also do statistical summaries.
 
 ``` r
+
 perc_summary <- species |>
   summarise(
     min = min(perc),
@@ -217,6 +228,7 @@ They can also be easily and nicely formatted into tables (e.g. via
 [`kable()`](https://rdrr.io/pkg/knitr/man/kable.html))
 
 ``` r
+
 library(knitr)
 kable(perc_summary)
 ```
@@ -228,6 +240,7 @@ kable(perc_summary)
 And flextables.
 
 ``` r
+
 library(flextable)
 qflextable(perc_summary)
 ```
@@ -239,6 +252,7 @@ qflextable(perc_summary)
 ## percent vectors and `ggplot2`
 
 ``` r
+
 library(ggplot2)
 
 gg_data <- iris |>
@@ -268,15 +282,17 @@ species_gg <- gg_data |>
 Use `as_percent` for formatting percentage axes.
 
 ``` r
+
 species_gg +
   scale_y_continuous(name = "Percentage", labels = as_percent)
 ```
 
 ![](percent_files/figure-html/unnamed-chunk-15-1.png)
 
-We can also use `<percent>` vectors as ggplot aesthetics[¹](#fn1)
+We can also use `<percent>` vectors as ggplot aesthetics[^1]
 
 ``` r
+
 gg_data |>
   ggplot(aes(x = "", y = perc, fill = Species)) +
   geom_bar(stat = "identity", width = 1, color = "white") +
@@ -292,9 +308,7 @@ gg_data |>
 
 ![](percent_files/figure-html/unnamed-chunk-16-1.png)
 
-------------------------------------------------------------------------
-
-1.  Using `<percent>` vectors in ggplot2 is currently limited and you
+[^1]: Using `<percent>` vectors in ggplot2 is currently limited and you
     are likely to face issues with using them as plot aesthetics. This
     can include messages surrounding unsupported scales and axes. With
     the new release of ggplot2 4.0.0, there is potential for embedding
