@@ -1,3 +1,7 @@
+* Updated to version 1.1.0
+
+* Removed broken URL.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 0 note
