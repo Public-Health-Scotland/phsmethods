@@ -10,6 +10,8 @@
 #' National Parks, Community Health Partnerships, Localities (S19),
 #' Settlements (S20) and Scotland.
 #'
+#' Source: Scotland's official statistics
+#'
 #' @seealso The script used to create the `area_lookup` dataset on
 #' [GitHub](https://github.com/Public-Health-Scotland/phsmethods/blob/master/data-raw/area_lookup.R).
 #'
@@ -18,5 +20,4 @@
 #'   \item{geo_code}{Standard geography code - 9 characters}
 #'   \item{area_name}{Name of the area the code represents}
 #' }
-#' @source <https://statistics.gov.scot/>
 "area_lookup"

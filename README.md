@@ -112,7 +112,7 @@ contributing is by writing a function, this isn’t the only way to make a
 useful contribution. Fixing typos in documentation, for example, isn’t
 the most glamorous way to contribute, but is of great help to the
 package maintainers. Please see this [blog post by Jim
-Hester](https://www.tidyverse.org/blog/2017/08/contributing/) for more
+Hester](https://tidyverse.org/blog/2017/08/contributing/) for more
 information on getting started with contributing to open-source
 software.
 
