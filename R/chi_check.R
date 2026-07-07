@@ -82,31 +82,44 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
 
   # Initialise the output vector to be a character vector
   out <- character(length(x))
-  # Check if the first six digits denote a valid date
-  out[is.na(lubridate::fast_strptime(
-    substr(x, 1, 6),
-    "%d%m%y"
-  ))] <- "Invalid date"
-  # Check if the number of characters is less than 10 digits
-  out[nc < 10] <- "Too few characters"
-  # Check if the number of characters is more than 10 digits
-  out[nc > 10] <- "Too many characters"
-  # Check if it contains non-numeric characters (e.g. letters and punctuation)
-  out[grepl("[^0-9]", x)] <- "Invalid character(s) present"
-  # Check if any are empty strings
-  out[!is.na(x) & x == ""] <- "Missing (Blank)"
+
   # Check if any are are missing values
   out[is.na(x)] <- "Missing (NA)"
+  # Check if any are empty strings
+  out[!is.na(x) & x == ""] <- "Missing (Blank)"
+
+  # Check if the number of characters is less than 10 digits
+  out[out == "" & nc < 10] <- "Too few characters"
+  # Check if the number of characters is more than 10 digits
+  out[out == "" & nc > 10] <- "Too many characters"
+
+  # Check if it contains non-numeric characters (e.g. letters and punctuation)
+  out[out == "" & grepl("[^0-9]", x)] <- "Invalid character(s) present"
+
+  # Check if the first six digits denote a valid date
+  needs_date_check <- out == ""
+
+  if (any(needs_date_check)) {
+    # Only parse strings that actually need a date check
+    valid_date <- !is.na(lubridate::fast_strptime(
+      substr(x[needs_date_check], 1, 6),
+      "%d%m%y"
+    ))
+
+    invalid_indices <- which(needs_date_check)[!valid_date]
+    out[invalid_indices] <- "Invalid date"
+  }
+
   # Check if the checksum digit is valid
-  out[out == ""] <- ifelse(
-    checksum(
-      x[out == ""],
-      check_mod11 = check_mod11,
-      check_mod10 = check_mod10
-    ),
-    "Valid CHI",
-    "Invalid checksum"
-  )
+  needs_checksum <- out == ""
+
+  if (any(needs_checksum)) {
+    out[needs_checksum] <- dplyr::if_else(
+      checksum(x[needs_checksum], check_mod11, check_mod10),
+      "Valid CHI",
+      "Invalid checksum"
+    )
+  }
 
   cli::cli_inform(
     c(
@@ -141,11 +154,11 @@ checksum <- function(x, check_mod11, check_mod10) {
     # Weight factor for checksum calculation
     wg <- 10:2
     # Matrix multiplication to multiply digits by weights and sum
-    nine_wg_sum <- c(chi_matrix_nine %*% wg)
+    nine_wg_sum <- drop(chi_matrix_nine %*% wg)
 
-    remainder <- nine_wg_sum %% 11
-    check_digit <- 11 - remainder
-    check_digit <- ifelse(check_digit == 11, 0, check_digit) # If 11, make 0
+    mod11_remainder <- nine_wg_sum %% 11
+    check_digit <- 11 - mod11_remainder
+    check_digit[check_digit == 11] <- 0 # If 11, make 0
 
     # Return TRUE if check digit is equal to the tenth digit
     mod11_passed <- check_digit == chi_matrix_ten
@@ -156,8 +169,9 @@ checksum <- function(x, check_mod11, check_mod10) {
     mod10_matrix <- chi_matrix_nine
     # Start from digit 9, double it, then double every 2nd digit
     mod10_matrix[, c(9, 7, 5, 3, 1)] <- mod10_matrix[, c(9, 7, 5, 3, 1)] * 2
-    # If doubling the digit makes it greater than 10, subtract 9
-    mod10_matrix <- ifelse(mod10_matrix > 9, mod10_matrix - 9, mod10_matrix)
+    # If doubling the digit makes it 10 or more, subtract 9
+    over_nine <- mod10_matrix > 9
+    mod10_matrix[over_nine] <- mod10_matrix[over_nine] - 9
 
     # Sum up the digits in each row, divide the sum by 10 and take the remainder
     mod10_remainder <- rowSums(mod10_matrix) %% 10
@@ -170,14 +184,13 @@ checksum <- function(x, check_mod11, check_mod10) {
 
   if (check_mod11 && check_mod10) {
     # Check if either Mod 11 or Mod 10 passed
-    either_passed <- mod11_passed | mod10_passed
-    # Spread the results to all inputs
-    return(either_passed[match(x, xu)])
-  } else if (check_mod11 && !check_mod10) {
-    # Spread the results to all inputs
-    return(mod11_passed[match(x, xu)])
-  } else if (!check_mod11 && check_mod10) {
-    # Spread the results to all inputs
-    return(mod10_passed[match(x, xu)])
+    final_passed <- mod11_passed | mod10_passed
+  } else if (check_mod11) {
+    final_passed <- mod11_passed
+  } else {
+    final_passed <- mod10_passed
   }
+
+  # Spread the results to all inputs
+  return(final_passed[match(x, xu)])
 }
