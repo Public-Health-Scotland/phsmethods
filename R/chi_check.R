@@ -140,15 +140,15 @@ checksum <- function(x, check_mod11, check_mod10) {
   if (check_mod11) {
     # Weight factor for checksum calculation
     wg <- 10:2
-    # Matrix multiplication
-    i <- c(chi_matrix_nine %*% wg)
+    # Matrix multiplication to multiply digits by weights and sum
+    nine_wg_sum <- c(chi_matrix_nine %*% wg)
 
-    j <- floor(i / 11) # Discard remainder
-    k <- 11 * (j + 1) - i # Checksum calculation
-    k <- ifelse(k == 11, 0, k) # If 11, make 0
+    remainder <- nine_wg_sum %% 11
+    check_digit <- 11 - remainder
+    check_digit <- ifelse(check_digit == 11, 0, check_digit) # If 11, make 0
 
-    # Return TRUE if k is equal to the tenth digit
-    mod11_passed <- k == chi_matrix_ten
+    # Return TRUE if check digit is equal to the tenth digit
+    mod11_passed <- check_digit == chi_matrix_ten
   }
 
   # Mod 10 check
