@@ -12,18 +12,17 @@ using internal::cpp_to_r;
 using internal::r_to_cpp;
 using internal::dispatch_template_impl;
 
-// code.cpp
-void dummy();
-extern "C" SEXP _phsmethods_dummy() {
+// chi_check.cpp
+r_vector<r_str> cpp_chi_check(const r_vector<r_str>& x, bool check_mod11, bool check_mod10);
+extern "C" SEXP _phsmethods_cpp_chi_check(SEXP x, SEXP check_mod11, SEXP check_mod10) {
   BEGIN_CPPALLY
-  ::dummy();
-  return R_NilValue;
+  return cpp_to_r(::cpp_chi_check(r_to_cpp<const r_vector<r_str>&>(x), r_to_cpp<bool>(check_mod11), r_to_cpp<bool>(check_mod10)));
   END_CPPALLY
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_phsmethods_dummy", (DL_FUNC) &_phsmethods_dummy, 0},
+    {"_phsmethods_cpp_chi_check", (DL_FUNC) &_phsmethods_cpp_chi_check, 3},
     {NULL, NULL, 0}
 };
 }
