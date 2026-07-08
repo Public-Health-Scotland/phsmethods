@@ -61,3 +61,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
+LinkingTo: 
+    cppally
+SystemRequirements: C++20

@@ -8,5 +8,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @useDynLib phsmethods, .registration = TRUE
 ## usethis namespace: end
 NULL
