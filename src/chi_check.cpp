@@ -1,6 +1,6 @@
 
 // ----- Check validity of Community Health Index (CHI) numbers -----
-// Authors: Nick Christofides & phsmethods collaborators
+// Authors: Nick Christofides, Alan Yeung & phsmethods collaborators
 
 #include <cppally.hpp>
 #include <string_view>
