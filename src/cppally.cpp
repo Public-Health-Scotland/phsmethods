@@ -19,10 +19,18 @@ extern "C" SEXP _phsmethods_cpp_chi_check(SEXP x, SEXP check_mod11, SEXP check_m
   return cpp_to_r(::cpp_chi_check(r_to_cpp<const r_vector<r_str>&>(x), r_to_cpp<bool>(check_mod11), r_to_cpp<bool>(check_mod10)));
   END_CPPALLY
 }
+// chi_check.cpp
+r_vector<r_date> cpp_dob_from_chi(const r_vector<r_str>& x);
+extern "C" SEXP _phsmethods_cpp_dob_from_chi(SEXP x) {
+  BEGIN_CPPALLY
+  return cpp_to_r(::cpp_dob_from_chi(r_to_cpp<const r_vector<r_str>&>(x)));
+  END_CPPALLY
+}
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_phsmethods_cpp_chi_check", (DL_FUNC) &_phsmethods_cpp_chi_check, 3},
+    {"_phsmethods_cpp_chi_check",    (DL_FUNC) &_phsmethods_cpp_chi_check,    3},
+    {"_phsmethods_cpp_dob_from_chi", (DL_FUNC) &_phsmethods_cpp_dob_from_chi, 1},
     {NULL, NULL, 0}
 };
 }

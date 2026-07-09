@@ -146,3 +146,15 @@ r_vector<r_str> cpp_chi_check(const r_vector<r_str>& x, bool check_mod11, bool c
     return phsmethods::chi_check(v, check_mod11, check_mod10);
   }, x);
 }
+
+// DOB from CHI
+[[cppally::register]]
+r_vector<r_date> cpp_dob_from_chi(const r_vector<r_str>& x) {
+  return pmap([](const r_str& v){
+    r_str check = phsmethods::chi_check(v, true, true);
+    if (!identical(check, cached_str<"Valid CHI">())){
+      return na<r_date>();
+    }
+    return phsmethods::impl::parse_date(v.cpp_str());
+  }, x);
+}
