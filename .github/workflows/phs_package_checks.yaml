@@ -2,6 +2,8 @@ on:
   push:
     branches: [main, master]
   pull_request:
+    types: [opened, reopened, ready_for_review, auto_merge_enabled]
+  merge_group: 
   workflow_dispatch:
 
 name: phs_package_checks.yaml
@@ -13,7 +15,7 @@ permissions:
 
 jobs:
   PHS-checks:
-    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@v2.6.0
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@v2.7.0
     permissions: 
       contents: write
       pull-requests: write
