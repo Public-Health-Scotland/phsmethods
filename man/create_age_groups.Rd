@@ -51,6 +51,9 @@ age <- c(54, 7, 77, 1, 26, 101)
 create_age_groups(age)
 create_age_groups(age, breaks = seq(0, 80, 10))
 
+# Non-uniform age groups
+create_age_groups(age, breaks = c(0, 18, 45, 65, 90))
+
 # Final group may start below the last break
 create_age_groups(age, breaks = seq(0, 65, 10))
 
