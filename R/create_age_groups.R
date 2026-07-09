@@ -124,26 +124,27 @@ create_age_groups <- function(
     }
   }
 
-  breaks <- c(breaks, Inf)
-  breaks <- sort(unique(breaks))
+  n_breaks <- length(breaks)
+  n_intervals <- max(n_breaks - 1L, 0L)
 
-  # Create labels based on consecutive values in breaks
-  labels <- paste0(utils::head(breaks, -1), "-", utils::tail(breaks, -1) - 1)
-
-  # Reformat label for last value
-  labels <- gsub("-Inf", "+", labels)
-
-  agegroup <- cut(
-    x,
-    breaks = breaks,
-    labels = labels,
-    right = FALSE,
-    ordered_result = TRUE
+  age_bands <- paste0(
+    breaks[seq_len(n_intervals)],
+    "-",
+    breaks[seq(to = n_breaks, length.out = n_intervals)] - 1L
   )
+  rightmost_band <- paste0(breaks[n_breaks], "+")
+  age_bands <- c(age_bands, rightmost_band)
 
-  if (as_factor == FALSE) {
-    agegroup <- as.character(agegroup)
+  factor_codes <- .bincode(x, breaks = c(breaks, Inf), right = FALSE)
+
+  if (as_factor) {
+    age_groups <- structure(
+      factor_codes,
+      levels = age_bands,
+      class = c("ordered", "factor")
+    )
+  } else {
+    age_groups <- age_bands[factor_codes]
   }
-
-  agegroup
+  age_groups
 }
