@@ -119,60 +119,9 @@ dob_from_chi <- function(
     )
   }
 
-  # Default behaviour: Check the CHI number
-  # for invalid CHIs we will return NA
-  if (chi_check) {
-    # Don't use any CHIs which don't pass the validity check
-    na_count <- sum(is.na(chi_number))
-    chi_number <- dplyr::if_else(
-      chi_check(chi_number) == "Valid CHI",
-      chi_number,
-      NA_character_
-    )
-    new_na_count <- sum(is.na(chi_number)) - na_count
-
-    if (new_na_count > 0) {
-      cli::cli_alert_warning(
-        ("{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} {?is/are} invalid and will be given {.val NA} for {?its/their} Date{?s} of Birth.")
-      )
-    }
-  }
-
-  # Parse the digits of the chi number as a date
-  date_from_chi <- substr(chi_number, 1, 6)
-
-  # Create dates as all DD/MM/19YY
-  date_1900 <- lubridate::fast_strptime(
-    date_from_chi,
-    "%d%m%y",
-    cutoff_2000 = -1L
-  )
-
-  # Create dates as all DD/MM/20YY
-  date_2000 <- lubridate::fast_strptime(
-    date_from_chi,
-    "%d%m%y",
-    cutoff_2000 = 100L
-  )
-
   na_count <- sum(is.na(chi_number))
 
-  guess_dob <- as.Date(dplyr::case_when(
-    # Date is NA - missing, invalid or an invalid leap year date in 19XX.
-    is.na(date_1900) ~ date_2000,
-    # Invalid leap year date in 20XX.
-    is.na(date_2000) ~ date_1900,
-    # When 20XX date is in the valid range and the 19XX date isn't,
-    # 20XX is guessed.
-    (date_2000 >= min_date & date_2000 <= max_date) &
-      !(date_1900 >= min_date & date_1900 <= max_date) ~
-      date_2000,
-    # When 19XX date is in the valid range and the 20XX date isn't,
-    # 19XX is guessed.
-    (date_1900 >= min_date & date_1900 <= max_date) &
-      !(date_2000 >= min_date & date_2000 <= max_date) ~
-      date_1900
-  ))
+  guess_dob <- cpp_dob_from_chi(chi_number, min_date, max_date)
 
   new_na_count <- sum(is.na(guess_dob)) - na_count
 
