@@ -7,23 +7,53 @@
 
 using namespace cppally;
 
-r_lgl checksum(r_str_view x, bool check_mod11, bool check_mod10) {
+namespace phsmethods {
 
-  if (x.is_na()) {
-    return na<r_lgl>();
+namespace impl {
+
+constexpr bool valid_char(const char c) noexcept {
+  return !(c < '0' || c > '9');
+}
+
+constexpr bool all_valid_digits(std::string_view s) noexcept {
+  for (const char c : s) {
+    if (!valid_char(c)){
+      return false;
+    }
   }
+  return true;
+}
 
-  const std::string_view s = x.cpp_str();
 
-  if (s.size() != 10) {
-    return na<r_lgl>();
-  }
+// Extract number from double digit string
+int parse_double_digit(std::string_view s){
+  return (s[0] - '0') * 10 + (s[1] - '0');
+}
+
+// Valid DDMMYY?
+// The C++ library chrono is used for thorough validation of dates
+// r_date(year, month, day) evaluates to NA on impossible dates
+r_date parse_date(std::string_view s){
+  int day   = parse_double_digit(s.substr(0, 2));
+  int month = parse_double_digit(s.substr(2, 2));
+  int yy    = parse_double_digit(s.substr(4, 2));
+  int year  = yy <= 68 ? 2000 + yy : 1900 + yy; // fast_strptime cutoff_2000 = 68
+  return r_date(year, month, day);
+}
+
+bool valid_date(std::string_view s){
+  r_date d = parse_date(s);
+  return !is_na(d);
+}
+
+
+bool valid_checksum(std::string_view s, bool check_mod11, bool check_mod10) {
 
   int d[10];
   for (int p = 0; p < 10; ++p) {
     const char c = s[p];
-    if (c < '0' || c > '9') {
-      return na<r_lgl>();
+    if (!valid_char(c)){
+      return false;
     }
     d[p] = c - '0';
   }
@@ -47,7 +77,7 @@ r_lgl checksum(r_str_view x, bool check_mod11, bool check_mod10) {
   }
 
   // Mod 10 (Luhn): double the 1st, 3rd, ..., 9th digits, casting out nines
-  if (check_mod10) {
+  if (!passed && check_mod10) {
     int sum = 0;
     for (int p = 0; p < 9; ++p) {
       int v = d[p];
@@ -66,64 +96,53 @@ r_lgl checksum(r_str_view x, bool check_mod11, bool check_mod10) {
     passed = passed || check_digit == tenth;
   }
 
-  return r_lgl(passed);
+  return passed;
 }
 
-// Extract number from single or double digit number
-int two_digits(std::string_view s) {
-  return (s[0] - '0') * 10 + (s[1] - '0');
-}
-
-// Valid DDMMYY?
-// The C++ library chrono is used for thorough validation of dates
-// NA is returned on impossible dates
-bool valid_ddmmyy(std::string_view s) {
-  const int day   = two_digits(s.substr(0, 2));
-  const int month = two_digits(s.substr(2, 2));
-  const int yy    = two_digits(s.substr(4, 2));
-  const int year  = yy <= 68 ? 2000 + yy : 1900 + yy; // fast_strptime cutoff_2000 = 68
-  return !r_date(year, month, day).is_na();
-}
+} // namespace impl
 
 r_str chi_check(r_str_view x, bool check_mod11, bool check_mod10) {
 
-  if (!check_mod11 && !check_mod10) {
-    abort("chi_check: At least one of `check_mod11` and `check_mod10` must be TRUE.");
-  }
+  // cached_str<> allocates the string once on first call and re-uses it on subsequents calls
 
-  if (x.is_na()) {
+  if (is_na(x)) {
     return cached_str<"Missing (NA)">();
   }
 
   const std::string_view s = x.cpp_str();
 
-  if (s.empty()) {
+  const auto n_chars = s.size();
+
+  if (n_chars == 0) {
     return cached_str<"Missing (Blank)">();
   }
-
-  if (s.size() < 10) {
+  if (n_chars < 10) {
     return cached_str<"Too few characters">();
   }
-  if (s.size() > 10) {
+  if (n_chars > 10){
     return cached_str<"Too many characters">();
   }
 
-  for (const char c : s) {
-    if (c < '0' || c > '9') {
-      return cached_str<"Invalid character(s) present">();
-    }
+  if (!impl::all_valid_digits(s)){
+    return cached_str<"Invalid character(s) present">();
   }
 
-  if (!valid_ddmmyy(s)) {
+  if (!impl::valid_date(s)) {
     return cached_str<"Invalid date">();
   }
 
-  return checksum(x, check_mod11, check_mod10).is_true() ? cached_str<"Valid CHI">() : cached_str<"Invalid checksum">();
+  if (!impl::valid_checksum(s, check_mod11, check_mod10)){
+    return cached_str<"Invalid checksum">();
+  }
+
+  return cached_str<"Valid CHI">();
 }
+
+} // namespace phsmethods
 
 [[cppally::register]]
 r_vector<r_str> cpp_chi_check(const r_vector<r_str>& x, bool check_mod11, bool check_mod10) {
   return pmap([check_mod11, check_mod10](const r_str& v){
-    return chi_check(v, check_mod11, check_mod10);
+    return phsmethods::chi_check(v, check_mod11, check_mod10);
   }, x);
 }
