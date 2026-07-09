@@ -99,21 +99,27 @@ create_age_groups <- function(
       lifecycle::is_present(by)
   ) {
     if (missing(breaks)) {
-      lifecycle::deprecate_soft(
+      lifecycle::deprecate_warn(
         when = "1.0.0",
         what = I("create_age_groups(from/to/by)"),
         with = "create_age_groups(breaks)"
       )
 
       # Fall back to defaults for any missing deprecated arguments
-      if (!lifecycle::is_present(from)) from <- 0
-      if (!lifecycle::is_present(to)) to <- 90
-      if (!lifecycle::is_present(by)) by <- 5
+      if (!lifecycle::is_present(from)) {
+        from <- 0
+      }
+      if (!lifecycle::is_present(to)) {
+        to <- 90
+      }
+      if (!lifecycle::is_present(by)) {
+        by <- 5
+      }
 
       breaks <- seq(from, to, by)
     } else {
       cli::cli_abort(
-        "{.arg from}, {.arg to} or {.arg by} should no longer be used, use {.arg breaks} only"
+        "{.arg from}, {.arg to} or {.arg by} should no longer be used, use {.arg breaks} only."
       )
     }
   }
