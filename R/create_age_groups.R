@@ -48,6 +48,51 @@ create_age_groups <- function(
   as_factor = FALSE,
   breaks = seq(0, 90, 5)
 ) {
+  if (!is.numeric(x)) {
+    cli::cli_abort(
+      "{.arg x} must be an {.cls integer} vector, not a {.cls {class(x)}} vector."
+    )
+  }
+  if (any(x < 0, na.rm = TRUE)) {
+    cli::cli_abort("{.arg x} cannot contain negative ages.")
+  }
+  if (!is.integer(x)) {
+    x_int <- as.integer(x)
+
+    if (any(x != x_int, na.rm = TRUE)) {
+      cli::cli_warn(c(
+        "!" = "{.arg x} contains non-whole number ages. All values will be truncated to integers.",
+        "i" = "For example, an age of 17.9 will be labelled {.val 0-17}, despite being over 17."
+      ))
+    }
+    x <- x_int
+  }
+  if (!is.logical(as_factor)) {
+    cli::cli_abort(
+      "{.arg as_factor} must be a {.cls logical}, not a {.cls {class(as_factor)}}."
+    )
+  }
+  if (length(as_factor) != 1) {
+    cli::cli_abort(
+      "{.arg as_factor} must be length 1, not {length(as_factor)}."
+    )
+  }
+  if (!is.numeric(breaks)) {
+    cli::cli_abort(
+      "{.arg breaks} must be a {.cls numeric} vector, not a {.cls {class(breaks)}} vector."
+    )
+  }
+  if (length(breaks) <= 1) {
+    cli::cli_abort(
+      "{.arg breaks} must have at least 2 values, not {.val {length(breaks)}}."
+    )
+  }
+  if (is.unsorted(breaks, strictly = TRUE)) {
+    cli::cli_abort(
+      "{.arg breaks} must be strictly increasing and contain no duplicates."
+    )
+  }
+
   if (
     lifecycle::is_present(from) ||
       lifecycle::is_present(to) ||
