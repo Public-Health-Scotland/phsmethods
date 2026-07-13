@@ -51,6 +51,8 @@ Suggests:
     rmarkdown,
     spelling,
     testthat (>= 3.0.0)
+LinkingTo: 
+    cppally (>= 1.1.0)
 VignetteBuilder: 
     knitr
 RdMacros: 
@@ -61,6 +63,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
-LinkingTo: 
-    cppally (>= 1.1.0)
 SystemRequirements: C++20
