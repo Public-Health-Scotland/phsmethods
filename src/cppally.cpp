@@ -19,7 +19,7 @@ extern "C" SEXP _phsmethods_cpp_chi_check(SEXP x, SEXP check_mod11, SEXP check_m
   return cpp_to_r(::cpp_chi_check(r_to_cpp<const r_vector<r_str>&>(x), r_to_cpp<bool>(check_mod11), r_to_cpp<bool>(check_mod10)));
   END_CPPALLY
 }
-// chi_check.cpp
+// dob_from_chi.cpp
 r_vector<r_date> cpp_dob_from_chi(const r_vector<r_str>& x, const r_vector<r_date>& min_date, const r_vector<r_date>& max_date);
 extern "C" SEXP _phsmethods_cpp_dob_from_chi(SEXP x, SEXP min_date, SEXP max_date) {
   BEGIN_CPPALLY
