@@ -7,20 +7,6 @@ namespace phsmethods {
 
 namespace impl {
 
-bool valid_char(const char c) noexcept {
-  return !(c < '0' || c > '9');
-}
-
-bool all_valid_digits(std::string_view s) noexcept {
-  for (const char c : s) {
-    if (!valid_char(c)){
-      return false;
-    }
-  }
-  return true;
-}
-
-
 // Extract number from double digit string
 int parse_double_digit(std::string_view s){
   return (s[0] - '0') * 10 + (s[1] - '0');
