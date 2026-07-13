@@ -121,6 +121,26 @@ dob_from_chi <- function(
 
   na_count <- sum(is.na(chi_number))
 
+  # Default behaviour: Check the CHI number
+  # for invalid CHIs we will return NA
+  if (chi_check) {
+    # Don't use any CHIs which don't pass the validity check
+    chi_number <- dplyr::if_else(
+      chi_check(chi_number) == "Valid CHI",
+      chi_number,
+      NA_character_
+    )
+    new_na_count <- sum(is.na(chi_number)) - na_count
+
+    if (new_na_count > 0) {
+      cli::cli_alert_warning(
+        ("{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} {?is/are} invalid and will be given {.val NA} for {?its/their} Date{?s} of Birth.")
+      )
+    }
+    # Reuse count if chi_check = TRUE
+    na_count <- new_na_count
+  }
+
   guess_dob <- cpp_dob_from_chi(chi_number, min_date, max_date)
 
   new_na_count <- sum(is.na(guess_dob)) - na_count
