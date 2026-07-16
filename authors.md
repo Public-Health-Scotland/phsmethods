@@ -35,13 +35,13 @@ Source:
 
 Caldwell D, Hannah J, Fu T, Gribben C, Deans C, Villacampa J, Gowans G,
 Hayes J, Christofidis N (2026). *phsmethods: Standard Methods for Use in
-Public Health Scotland*. R package version 1.1.0,
+Public Health Scotland*. R package version 1.1.0.9000,
 <https://github.com/Public-Health-Scotland/phsmethods>.
 
     @Manual{,
       title = {phsmethods: Standard Methods for Use in Public Health Scotland},
       author = {David Caldwell and Jack Hannah and Tina Fu and Ciara Gribben and Chris Deans and Jaime Villacampa and Graeme Gowans and James Hayes and Nicolaos Christofidis},
       year = {2026},
-      note = {R package version 1.1.0},
+      note = {R package version 1.1.0.9000},
       url = {https://github.com/Public-Health-Scotland/phsmethods},
     }

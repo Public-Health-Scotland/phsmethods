@@ -1,5 +1,7 @@
 # Changelog
 
+## phsmethods (development version)
+
 ## phsmethods 1.1.0 (2026-02-24)
 
 CRAN release: 2026-03-30
