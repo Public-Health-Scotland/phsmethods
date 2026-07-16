@@ -12,55 +12,57 @@
 ###
 ### This code should run successfully on RStudio server
 ### It may time out on RStudio desktop due to network security settings
+get_area_lookup <- function(endpoint, query) {
+  resp <- httr2::request(endpoint) |>
+    httr2::req_url_query(query = trimws(query)) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json(simplifyVector = FALSE)
 
-
-library(SPARQL)
-library(magrittr)
-
-# API address for SG open data platform
-endpoint <- "http://statistics.gov.scot/sparql"
-
-# Query for the platform API, written in SPARQL
-query <- "SELECT ?geo_code ?area_name
-WHERE {
-?s <http://statistics.data.gov.uk/def/statistical-entity#code> ?entity;
-<http://www.w3.org/2004/02/skos/core#notation> ?geo_code.
-OPTIONAL {?s <http://statistics.data.gov.uk/def/statistical-geography#officialname> ?area_name.}
+  tibble::tibble(
+    geo_code = vapply(
+      resp$results$bindings,
+      \(x) x$geo_code$value,
+      character(1)
+    ),
+    area_name = vapply(
+      resp$results$bindings,
+      \(x) {
+        if (is.null(x$area_name)) {
+          NA_character_
+        } else {
+          x$area_name$value
+        }
+      },
+      character(1)
+    )
+  )
 }
-ORDER BY ?geo_code "
 
-qd <- SPARQL::SPARQL(endpoint, query)
+endpoint <- "http://statistics.gov.scot/sparql.json"
 
-area_lookup <- qd[["results"]] %>%
-  # Extract the code only
-  dplyr::mutate(geo_code = substr(geo_code, 2, 10)) %>%
-  # Drop codes with no area name
-  # Storing them isn't necessary as codes without a corresponding area name
-  # will generate an NA from match_area regardless of whether the code is
-  # present in the lookup file
-  tidyr::drop_na(area_name)
+query <- "
+SELECT ?geo_code ?area_name
+WHERE {
+  ?s <http://statistics.data.gov.uk/def/statistical-entity#code> ?entity ;
+     <http://www.w3.org/2004/02/skos/core#notation> ?geo_code .
 
-# A bunch of area names don't parse correctly from the SG open data platform
-# This seems like a problem with their platform, rather than with SPARQL
-# Most of the problems seem to be with parsing non-ASCII characters, although
-# not all of the area names which are parsed incorrectly should even have
-# non-ASCII characters in them
-# This step identifies the problem area names
-area_lookup %>%
-  dplyr::filter(!xfun::is_ascii(area_name))
+  OPTIONAL {
+    ?s <http://statistics.data.gov.uk/def/statistical-geography#officialname> ?area_name .
+  }
+}
+"
 
-# I did't see an easier solution than googling the codes of the areas with
-# problem names, finding out what the real names are, and manually changing them
-area_lookup %<>%
-  dplyr::mutate(area_name = dplyr::case_when(
-    geo_code == "S13002605" ~ "Ste\U00F2rnabhagh a Deas",
-    geo_code == "S13002606" ~ "Ste\U00F2rnabhagh a Tuath",
-    geo_code == "S13002672" ~ "Eilean a' Ch\U00E8o",
-    geo_code == "S13002891" ~ "Annandale East and Eskdale",
-    geo_code == "S13002936" ~ "Bo'ness and Blackness",
-    geo_code == "S13002999" ~ "Eilean a' Ch\U00E8o",
-    TRUE ~ area_name
-  ))
+area_lookup <- get_area_lookup(endpoint, query) |>
+  tidyr::drop_na(area_name) |>
+  # Two of the area names had non-breaking spaces at the end
+  # Cleaning as this is definitely a mistake.
+  dplyr::mutate(area_name = trimws(area_name, whitespace = "[\\h\\v]")) |>
+  dplyr::arrange(geo_code)
+
+# The JSON endpoint correctly preserves Unicode characters in area names,
+# including Gaelic accents and typographic punctuation. Previous versions
+# using the SPARQL package required several names to be corrected manually.
+dplyr::filter(area_lookup, !xfun::is_ascii(area_name))
 
 # Manually add some additional codes which aren't present in the lookup file
 other_areas <- tibble::tibble(
@@ -85,21 +87,18 @@ other_areas <- tibble::tibble(
     "S27000002",
     "S08100001",
     "S08100008",
-    sprintf("RA270%d", seq(1:4)),
-    sprintf("S0820000%d", seq(1:4))
+    paste0("RA270", 1:4),
+    paste0("S0820000", 1:4)
   )
 )
 
 # Should the lookup file ever be updated to include any of the additional codes,
 # this will prevent those codes from being duplicated in the final file
 if (any(other_areas$geo_code %in% area_lookup$geo_code)) {
-  other_areas %<>%
-    dplyr::filter(!geo_code %in% area_lookup$geo_code)
+  other_areas <- dplyr::filter(other_areas, !geo_code %in% area_lookup$geo_code)
 }
 
-area_lookup %<>%
-  tibble::as_tibble() %>%
-  dplyr::bind_rows(other_areas)
+area_lookup <- dplyr::bind_rows(area_lookup, other_areas)
 
 # Save data to data/area_lookup.rda
 usethis::use_data(area_lookup, overwrite = TRUE)
