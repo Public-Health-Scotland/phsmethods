@@ -56,17 +56,6 @@ create_age_groups <- function(
   if (any(x < 0, na.rm = TRUE)) {
     cli::cli_abort("{.arg x} cannot contain negative ages.")
   }
-  if (!is.integer(x)) {
-    x_int <- as.integer(x)
-
-    if (any(x != x_int, na.rm = TRUE)) {
-      cli::cli_warn(c(
-        "!" = "{.arg x} contains non-whole number ages. All values will be truncated to integers.",
-        "i" = "For example, an age of 17.9 will be labelled {.val 0-17}, despite being over 17."
-      ))
-    }
-    x <- x_int
-  }
   if (!is.logical(as_factor)) {
     cli::cli_abort(
       "{.arg as_factor} must be a {.cls logical}, not a {.cls {class(as_factor)}}."
