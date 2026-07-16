@@ -40,17 +40,16 @@ Imports:
     scales (>= 1.0.0),
     stringr,
     tibble,
-    utils,
-    withr
+    utils
 Suggests: 
     covr,
     flextable,
     ggplot2,
-    here,
     knitr,
     rmarkdown,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 VignetteBuilder: 
     knitr
 RdMacros: 
