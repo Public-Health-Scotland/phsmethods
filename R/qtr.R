@@ -47,8 +47,16 @@ NULL
 format_quarter_internal <- function(
   date,
   format,
-  type = c("current", "end", "next", "prev")
+  type = c("current", "end", "next", "prev"),
+  call = rlang::caller_call()
 ) {
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    cli::cli_abort(
+      "{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.",
+      call = call
+    )
+  }
+
   quarter_num <- lubridate::quarter(date)
   year <- lubridate::year(date)
 
@@ -95,12 +103,6 @@ format_quarter_internal <- function(
 qtr <- function(date, format = c("long", "short")) {
   format <- rlang::arg_match(format)
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort(
-      "{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector."
-    )
-  }
-
   format_quarter_internal(date, format, type = "current")
 }
 
@@ -108,12 +110,6 @@ qtr <- function(date, format = c("long", "short")) {
 #' @rdname qtr
 qtr_end <- function(date, format = c("long", "short")) {
   format <- rlang::arg_match(format)
-
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort(
-      "{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector."
-    )
-  }
 
   format_quarter_internal(date, format, type = "end")
 }
@@ -123,12 +119,6 @@ qtr_end <- function(date, format = c("long", "short")) {
 qtr_next <- function(date, format = c("long", "short")) {
   format <- rlang::arg_match(format)
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort(
-      "{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector."
-    )
-  }
-
   format_quarter_internal(date, format, type = "next")
 }
 
@@ -136,12 +126,6 @@ qtr_next <- function(date, format = c("long", "short")) {
 #' @rdname qtr
 qtr_prev <- function(date, format = c("long", "short")) {
   format <- rlang::arg_match(format)
-
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort(
-      "{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector."
-    )
-  }
 
   format_quarter_internal(date, format, type = "prev")
 }
