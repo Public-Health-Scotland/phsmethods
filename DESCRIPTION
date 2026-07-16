@@ -39,17 +39,16 @@ Imports:
     rlang,
     scales (>= 1.0.0),
     stringr,
-    tibble,
-    withr
+    tibble
 Suggests: 
     covr,
     flextable,
     ggplot2,
-    here,
     knitr,
     rmarkdown,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 VignetteBuilder: 
     knitr
 RdMacros: 
