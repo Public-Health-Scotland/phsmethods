@@ -5,9 +5,7 @@
 #' appropriate age group.
 #'
 #' @param x a vector of numeric values
-#' @param from `r lifecycle::badge("deprecated")` Use `breaks` instead.
-#' @param to `r lifecycle::badge("deprecated")` Use `breaks` instead.
-#' @param by `r lifecycle::badge("deprecated")` Use `breaks` instead.
+#' @param from,to,by `r lifecycle::badge("deprecated")` Use `breaks` instead.
 #' @param as_factor The default behaviour is to return a character vector. Use
 #'   `TRUE` to return a factor vector instead.
 #' @param breaks a numeric vector of cut points defining the age groups. The
