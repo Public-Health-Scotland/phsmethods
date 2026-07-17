@@ -75,7 +75,7 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
       "{.var check_mod10} must be a {.cls logical} vector, not a {.cls {class(check_mod10)}} vector."
     )
   }
-    if (!inherits(check_mod11, "logical")) {
+  if (!inherits(check_mod11, "logical")) {
     cli::cli_abort(
       "{.var check_mod11} must be a {.cls logical} vector, not a {.cls {class(check_mod11)}} vector."
     )
@@ -124,16 +124,20 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
 
   if (any(needs_checksum)) {
     out[needs_checksum] <- dplyr::if_else(
-      checksum(x[needs_checksum], 
-      check_mod11 = check_mod11,
-      check_mod10 = check_mod10
-)),
+      checksum(
+        x[needs_checksum],
+        check_mod11 = check_mod11,
+        check_mod10 = check_mod10
+      ),
       "Valid CHI",
       "Invalid checksum"
     )
   }
 
-  if (rlang::is_missing(rlang::enexpr(check_mod10)) && rlang::is_missing(rlang::enexpr(check_mod11))) {
+  if (
+    rlang::is_missing(rlang::enexpr(check_mod10)) &&
+      rlang::is_missing(rlang::enexpr(check_mod11))
+  ) {
     cli::cli_inform(
       c(
         "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
