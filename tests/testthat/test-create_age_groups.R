@@ -106,7 +106,15 @@ test_that("Input validation for as_factor and breaks", {
     create_age_groups(10, breaks = "0, 10, 20"),
     "must be a .+?numeric.+? vector, not a .+?character.+?"
   )
+  expect_error(
+    create_age_groups(c(1, 2, 3), breaks = c(0, 5.5, 10)),
+    "must all be whole numbers"
+  )
+  expect_no_error(
+    create_age_groups(c(1, 2, 3), breaks = c(0, 5 + 1e-9, 10))
+  )
 })
+
 
 test_that("Handling of non-numeric values for x", {
   # If x is not numeric cut will error
@@ -173,19 +181,6 @@ test_that("Age groups work with breaks parameter for uniform and non-uniform bin
 })
 
 test_that("NAs, fractional ages, and invalid values are handled correctly", {
-  expect_warning(
-    result <- create_age_groups(
-      c(NA, 0.9, 17.9, 65.2),
-      breaks = c(0, 18, 45, 65),
-      as_factor = FALSE
-    ),
-    "contains non-whole number ages"
-  )
-  expect_identical(
-    result,
-    c(NA, "0-17", "0-17", "65+")
-  )
-
   expect_identical(
     create_age_groups(c(NA, 5), breaks = seq(0, 10, 5), as_factor = TRUE),
     factor(

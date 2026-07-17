@@ -74,6 +74,14 @@ create_age_groups <- function(
       "{.arg breaks} must have at least 2 values, not {.val {length(breaks)}}."
     )
   }
+  is_whole_number <- function(x, tol = sqrt(.Machine$double.eps)) {
+    abs(x - round(x)) <= tol
+  }
+  if (!isTRUE(all(is_whole_number(breaks)))) {
+    cli::cli_abort(
+      "{.arg breaks} must all be whole numbers."
+    )
+  }
   if (is.unsorted(breaks, strictly = TRUE)) {
     cli::cli_abort(
       "{.arg breaks} must be strictly increasing and contain no duplicates."
