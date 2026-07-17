@@ -50,8 +50,8 @@ sex_from_chi <- function(chi_number,
                          female_value = 2L,
                          as_factor = FALSE,
                          chi_check = TRUE) {
-#' df |>
-#'   mutate(chi_sex = sex_from_chi(chi))
+  #' df |>
+  #'   mutate(chi_sex = sex_from_chi(chi))
   # Do type checking on male/female values
   male_class <- class(male_value)
   female_class <- class(female_value)
