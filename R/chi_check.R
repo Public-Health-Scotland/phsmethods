@@ -31,8 +31,8 @@
 #' * Is the checksum digit correct?
 #'
 #' @param x a CHI number or a vector of CHI numbers with `character` class.
-#' @param check_mod11,check_mod10 Logical values (TRUE or FALSE, default is `TRUE`). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting from 2026, some CHIs will only pass if they meet the modulo 10 criteria.
-#' Implementation of Mod 10 CHI numbers is scheduled for February 2026.
+#' @param check_mod11,check_mod10 Logical values (TRUE or FALSE, default is `TRUE`). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
+#' Implementation of Mod 10 CHI numbers is scheduled for August 2026.
 #' From this date, CHI numbers are valid if they pass either a Mod 11 check
 #' or a Mod 10 check.
 #'
@@ -67,10 +67,19 @@
 chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   if (!inherits(x, "character")) {
     cli::cli_abort(
-      "The input must be a {.cls character} vector, not a {.cls {class(x)}} vector."
+      "The input {.var x} must be a {.cls character} vector, not a {.cls {class(x)}} vector."
     )
   }
-
+  if (!inherits(check_mod10, "logical")) {
+    cli::cli_abort(
+      "{.var check_mod10} must be a {.cls logical} vector, not a {.cls {class(check_mod10)}} vector."
+    )
+  }
+    if (!inherits(check_mod11, "logical")) {
+    cli::cli_abort(
+      "{.var check_mod11} must be a {.cls logical} vector, not a {.cls {class(check_mod11)}} vector."
+    )
+  }
   if (!check_mod11 && !check_mod10) {
     cli::cli_abort(
       "At least one of {.arg check_mod11} and {.arg check_mod10} must be TRUE."
@@ -83,7 +92,7 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   # Initialise the output vector to be a character vector
   out <- character(length(x))
 
-  # Check if any are are missing values
+  # Check if any are missing values
   out[is.na(x)] <- "Missing (NA)"
   # Check if any are empty strings
   out[!is.na(x) & x == ""] <- "Missing (Blank)"
@@ -115,20 +124,25 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
 
   if (any(needs_checksum)) {
     out[needs_checksum] <- dplyr::if_else(
-      checksum(x[needs_checksum], check_mod11, check_mod10),
+      checksum(x[needs_checksum], 
+      check_mod11 = check_mod11,
+      check_mod10 = check_mod10
+)),
       "Valid CHI",
       "Invalid checksum"
     )
   }
 
-  cli::cli_inform(
-    c(
-      "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
-      "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(x, check_mod10 = FALSE)}"
-    ),
-    .frequency = "once",
-    .frequency_id = "MOD10"
-  )
+  if (rlang::is_missing(rlang::enexpr(check_mod10)) && rlang::is_missing(rlang::enexpr(check_mod11))) {
+    cli::cli_inform(
+      c(
+        "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
+        "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(x, check_mod10 = FALSE)}"
+      ),
+      .frequency = "once",
+      .frequency_id = "MOD10"
+    )
+  }
 
   out
 }
@@ -192,5 +206,5 @@ checksum <- function(x, check_mod11, check_mod10) {
   }
 
   # Spread the results to all inputs
-  return(final_passed[match(x, xu)])
+  final_passed[match(x, xu)]
 }
