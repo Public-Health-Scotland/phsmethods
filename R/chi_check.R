@@ -134,10 +134,7 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
     )
   }
 
-  if (
-    rlang::is_missing(rlang::enexpr(check_mod10)) &&
-      rlang::is_missing(rlang::enexpr(check_mod11))
-  ) {
+  if (missing(check_mod10) && missing(check_mod11)) {
     cli::cli_inform(
       c(
         "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
