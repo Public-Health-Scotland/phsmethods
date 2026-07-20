@@ -62,6 +62,7 @@ format_quarter_internal <- function(
   quarter_num <- (date_lt$mon %/% 3L) + 1L
   year <- date_lt$year + 1900L
 
+  # Adjust quarter number and year based on type
   if (type == "next") {
     # (quarter_num %% 4L) + 1L handles 1->2, 2->3, 3->4, 4->1
     year_change <- quarter_num == 4L
@@ -72,13 +73,16 @@ format_quarter_internal <- function(
     year_change <- quarter_num == 1L
     quarter_num <- ((quarter_num + 2L) %% 4L) + 1L
     year <- year - year_change
-  } else if (type == "end") {
+  }
+
+  # Select appropriate labels based on type and format
+  if (type == "end") {
     labels <- if (format == "long") {
       c("March", "June", "September", "December")
     } else {
       c("Mar", "Jun", "Sep", "Dec")
     }
-  } else if (type == "current") {
+  } else {
     labels <- if (format == "long") {
       c(
         "January to March",
