@@ -1,6 +1,7 @@
 # phsmethods (development version)
 
 -   phsmethods now requires R 4.1 or later, allowing use of the native pipe (`|>`) and removing the dependency on `{magrittr}`. Documentation and examples have been updated accordingly.
+-   Refreshed the `area_lookup` dataset used by `match_area()`, improving handling of non-ASCII area names and adding more comprehensive tests.
 
 # phsmethods 1.1.0 (2026-02-24)
 
