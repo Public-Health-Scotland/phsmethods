@@ -51,7 +51,7 @@ create_age_groups <- function(
       "{.arg x} must be an {.cls integer} vector, not a {.cls {class(x)}} vector."
     )
   }
-  if (any(x < 0, na.rm = TRUE)) {
+  if (min(x, na.rm = TRUE) < 0) {
     cli::cli_abort("{.arg x} cannot contain negative ages.")
   }
   if (!is.logical(as_factor)) {
