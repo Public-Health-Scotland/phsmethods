@@ -39,8 +39,7 @@ Imports:
     rlang,
     scales (>= 1.0.0),
     stringr,
-    tibble,
-    utils
+    tibble
 Suggests: 
     covr,
     flextable,
