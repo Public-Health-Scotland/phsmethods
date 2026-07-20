@@ -31,6 +31,10 @@
 #' * Is the checksum digit correct?
 #'
 #' @param x a CHI number or a vector of CHI numbers with `character` class.
+#' @param check_mod11,check_mod10 Logical values (TRUE or FALSE, default is `TRUE`). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
+#' Implementation of Mod 10 CHI numbers is scheduled for August 2026.
+#' From this date, CHI numbers are valid if they pass either a Mod 11 check
+#' or a Mod 10 check.
 #'
 #' @return `chi_check` returns a character string. Depending on the
 #' validity of the entered CHI number, it will return one of the following:
@@ -60,9 +64,26 @@
 #'   mutate(validity = chi_check(chi))
 #' @export
 
-chi_check <- function(x) {
+chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   if (!inherits(x, "character")) {
-    cli::cli_abort("The input must be a {.cls character} vector, not a {.cls {class(x)}} vector.")
+    cli::cli_abort(
+      "The input {.var x} must be a {.cls character} vector, not a {.cls {class(x)}} vector."
+    )
+  }
+  if (!inherits(check_mod10, "logical")) {
+    cli::cli_abort(
+      "{.var check_mod10} must be a {.cls logical} vector, not a {.cls {class(check_mod10)}} vector."
+    )
+  }
+  if (!inherits(check_mod11, "logical")) {
+    cli::cli_abort(
+      "{.var check_mod11} must be a {.cls logical} vector, not a {.cls {class(check_mod11)}} vector."
+    )
+  }
+  if (!check_mod11 && !check_mod10) {
+    cli::cli_abort(
+      "At least one of {.arg check_mod11} and {.arg check_mod10} must be TRUE."
+    )
   }
 
   # Calculate the number of characters
@@ -70,25 +91,64 @@ chi_check <- function(x) {
 
   # Initialise the output vector to be a character vector
   out <- character(length(x))
-  # Check if the first six digits denote a valid date
-  out[is.na(lubridate::fast_strptime(substr(x, 1, 6), "%d%m%y"))] <- "Invalid date"
-  # Check if the number of characters is less than 10 digits
-  out[nc < 10] <- "Too few characters"
-  # Check if the number of characters is more than 10 digits
-  out[nc > 10] <- "Too many characters"
-  # Check if it contains non-numeric characters (e.g. letters and punctuation)
-  out[grepl("[^0-9]", x)] <- "Invalid character(s) present"
+
+  # Check if any are missing values
+  out[is.na(x)] <- "Missing (NA)"
   # Check if any are empty strings
   out[!is.na(x) & x == ""] <- "Missing (Blank)"
-  # Check if any are are missing values
-  out[is.na(x)] <- "Missing (NA)"
+
+  # Check if the number of characters is less than 10 digits
+  out[out == "" & nc < 10] <- "Too few characters"
+  # Check if the number of characters is more than 10 digits
+  out[out == "" & nc > 10] <- "Too many characters"
+
+  # Check if it contains non-numeric characters (e.g. letters and punctuation)
+  out[out == "" & grepl("[^0-9]", x)] <- "Invalid character(s) present"
+
+  # Check if the first six digits denote a valid date
+  needs_date_check <- out == ""
+
+  if (any(needs_date_check)) {
+    # Only parse strings that actually need a date check
+    valid_date <- !is.na(lubridate::fast_strptime(
+      substr(x[needs_date_check], 1, 6),
+      "%d%m%y"
+    ))
+
+    invalid_indices <- which(needs_date_check)[!valid_date]
+    out[invalid_indices] <- "Invalid date"
+  }
+
   # Check if the checksum digit is valid
-  out[out == ""] <- ifelse(checksum(x[out == ""]), "Valid CHI", "Invalid checksum")
+  needs_checksum <- out == ""
+
+  if (any(needs_checksum)) {
+    out[needs_checksum] <- dplyr::if_else(
+      checksum(
+        x[needs_checksum],
+        check_mod11 = check_mod11,
+        check_mod10 = check_mod10
+      ),
+      "Valid CHI",
+      "Invalid checksum"
+    )
+  }
+
+  if (missing(check_mod10) && missing(check_mod11)) {
+    cli::cli_inform(
+      c(
+        "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
+        "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(x, check_mod10 = FALSE)}"
+      ),
+      .frequency = "once",
+      .frequency_id = "MOD10"
+    )
+  }
 
   out
 }
 
-checksum <- function(x) {
+checksum <- function(x, check_mod11, check_mod10) {
   # Get unique values of input to improve efficiency
   xu <- unique(x)
 
@@ -100,21 +160,52 @@ checksum <- function(x) {
   # Separate each CHI digit into a matrix
   chi_matrix <- outer(xu_num, denom, function(x, y) x %/% y %% 10)
   # Extract the first nine digits
-  chi_matrix_nine <- chi_matrix[, 1:9]
+  chi_matrix_nine <- chi_matrix[, 1:9, drop = FALSE]
   # Extract the tenth digit
   chi_matrix_ten <- chi_matrix[, 10]
 
-  # Weight factor for checksum calculation
-  wg <- 10:2
-  # Matrix multiplication
-  i <- c(chi_matrix_nine %*% wg)
+  # Mod 11 check
+  if (check_mod11) {
+    # Weight factor for checksum calculation
+    wg <- 10:2
+    # Matrix multiplication to multiply digits by weights and sum
+    nine_wg_sum <- drop(chi_matrix_nine %*% wg)
 
-  j <- floor(i / 11) # Discard remainder
-  k <- 11 * (j + 1) - i # Checksum calculation
-  k <- ifelse(k == 11, 0, k) # If 11, make 0
+    mod11_remainder <- nine_wg_sum %% 11
+    check_digit <- 11 - mod11_remainder
+    check_digit[check_digit == 11] <- 0 # If 11, make 0
 
-  # Return TRUE if k is equal to the tenth digit
-  out <- k == chi_matrix_ten
+    # Return TRUE if check digit is equal to the tenth digit
+    mod11_passed <- check_digit == chi_matrix_ten
+  }
+
+  # Mod 10 check
+  if (check_mod10) {
+    mod10_matrix <- chi_matrix_nine
+    # Start from digit 9, double it, then double every 2nd digit
+    mod10_matrix[, c(9, 7, 5, 3, 1)] <- mod10_matrix[, c(9, 7, 5, 3, 1)] * 2
+    # If doubling the digit makes it 10 or more, subtract 9
+    over_nine <- mod10_matrix > 9
+    mod10_matrix[over_nine] <- mod10_matrix[over_nine] - 9
+
+    # Sum up the digits in each row, divide the sum by 10 and take the remainder
+    mod10_remainder <- rowSums(mod10_matrix) %% 10
+    mod10_calc <- 10 - mod10_remainder
+    # If calculation equals 10 (happens when Mod 10 remainder is 0), set to zero
+    mod10_calc[mod10_calc == 10] <- 0
+    # Return TRUE if calculation is equal to the tenth digit
+    mod10_passed <- mod10_calc == chi_matrix_ten
+  }
+
+  if (check_mod11 && check_mod10) {
+    # Check if either Mod 11 or Mod 10 passed
+    final_passed <- mod11_passed | mod10_passed
+  } else if (check_mod11) {
+    final_passed <- mod11_passed
+  } else {
+    final_passed <- mod10_passed
+  }
+
   # Spread the results to all inputs
-  out[match(x, xu)]
+  final_passed[match(x, xu)]
 }

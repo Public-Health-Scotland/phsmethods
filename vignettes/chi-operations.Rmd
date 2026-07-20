@@ -45,16 +45,18 @@ Usually, we will have the CHI as a variable in some data.
 ```{r, message=FALSE}
 library(dplyr)
 
-data <- tibble(chi = c(
-  "0211165794",
-  "9999999999",
-  "402070763",
-  "00402070763",
-  "0101010000",
-  "Missing CHI",
-  NA,
-  ""
-))
+data <- tibble(
+  chi = c(
+    "0211165794",
+    "9999999999",
+    "402070763",
+    "00402070763",
+    "0101010000",
+    "Missing CHI",
+    NA,
+    ""
+  )
+)
 ```
 
 It looks like one of the CHI numbers '402070763' might have just lost a leading zero, this is a common occurrence if the data has passed through Excel at some point. We can fix this specific issue with `chi_pad()`.
@@ -96,9 +98,40 @@ In an ideal world, we would always have supplementary data such as Date of Birth
 
 Once we have checked and (if necessary) padded the CHI numbers, we can then try and extract some information from them.
 
-#### The structure of a CHI number
+### The structure of a CHI number
 
-As explained in this [Wikipedia article](https://en.wikipedia.org/wiki/National_Health_Service_Central_Register#Community_Health_Index) a CHI number is constructed as follows: \* The first 6 digits are the patient's Date of Birth in the format `DDMMYY`. \* Digits 7 and 8 are random. \* The 9<sup>th</sup> number indicates the patient's sex - odd for male, even for female. \* The final, 10<sup>th</sup>, digit is a (Modulus-11) 'check digit' - This helps guard against transcription errors, for example, if someone makes a typo it is very unlikely that the check digit will still be valid.
+As explained in this [Wikipedia article](https://en.wikipedia.org/wiki/National_Health_Service_Central_Register#Community_Health_Index){target="_blank"} a CHI number is constructed as follows: 
+
+* The first 6 digits are the patient's Date of Birth in the format `DDMMYY`.
+* Digits 7 and 8 are random.
+* The 9<sup>th</sup> number indicates the patient's sex - odd for male, even for female.
+* The final, 10<sup>th</sup>, digit is a 'check digit' that is calculated from the preceding 9 digits - This helps guard against transcription errors, as it is unlikely that an incorrect number will still produce a valid check digit. Historically, CHIs have used a Mod‑11 check digit; however, from August 2026 new CHI numbers may instead use either a Mod‑11 or a Mod‑10 (Luhn) check digit.
+
+### Changes to CHI numbers (August 2026): Inclusion of Modulus-10 check
+
+There is a limit to the number of possible CHI numbers that can be generated for each combination of date of birth and sex. This limit is being reached for CHI numbers that involve dates of birth on 1<sup>st</sup> January for certain years. To increase the limit of possible CHI numbers that can be generated, the current rules (in 2025) which require CHI numbers to have a valid Modulus-11 (Mod-11) check digit are being made less restrictive. Specifically, **from August 2026, changes are being implemented that will allow CHI numbers to be assigned to patients if they have a valid Mod-11 or [Mod-10](https://en.wikipedia.org/wiki/Luhn_algorithm){target="_blank"} check digit**.  This change means that there are a range of scenarios that a CHI number can fit:
+
+1. CHI passes Mod-11 but fails Mod-10.
+2. CHI passes Mod-11 and passes Mod-10.
+3. CHI fails Mod-11 but passes Mod-10.
+4. CHI fails Mod-11 and fails Mod-10.
+
+For scenarios 1, 2, and 4, the results of the CHI check will remain the same as before. However, permitting scenario 3 will result in more CHI numbers passing the CHI check. It is important to note that prior to the implementation date that allows Mod-10 to be used for CHI numbers, no individuals will have been assigned a CHI number that passes Mod-10 but fails Mod-11.
+
+By default, `chi_check()` will output as `"Valid CHI"` if CHI numbers pass either a Mod-11 or Mod-10 check. Therefore, the default setting for `chi_check()` can allow some CHI numbers to be returned as a valid CHI when they are not. For instance, this can happen if you know a dataset only contains CHI numbers assigned to patients prior to the Mod-10 implementation date. In this case, you can use `chi_check(chi, check_mod10 = FALSE)` to apply a CHI check that only allows CHI numbers that pass a Mod-11 check to be returned as valid.  
+
+If a dataset contains data where it is possible for patients to have been assigned a CHI number which passes Mod-10 (i.e. patient was first registered after the Mod-10 implementation and had an affected date of birth), then a small error rate may occur when applying the CHI check function with default settings. While this error rate is very small, one approach to reduce this error rate is to apply the CHI check conditionally. For example, a Mod-10/Mod-11 check can be applied only to CHI numbers that have dates of birth starting on 1<sup>st</sup> January and the Mod-11 check can be used otherwise. If you want to apply a check following that logic, `if_else()` or `case_when()` can be used.
+
+```{r}
+fixed_data %>%
+  mutate(
+    chi_valid = if_else(
+      stringr::str_detect(chi, "^0101"),
+      chi_check(chi),
+      chi_check(chi, check_mod10 = FALSE)
+    )
+  )
+```
 
 ### Extracting sex from CHI
 
@@ -108,7 +141,14 @@ If you have already checked the CHI in a previous step it can be useful to use `
 
 ```{r}
 data <- tibble(
-  chi = c("0101011237", "0211165794", "0402070763", "0101336489", "1904851231", "2902960018")
+  chi = c(
+    "0101011237",
+    "0211165794",
+    "0402070763",
+    "0101336489",
+    "1904851231",
+    "2902960018"
+  )
 )
 
 # Confirm all of the CHIs are valid
@@ -119,7 +159,7 @@ data_sex <- data %>%
 data_sex
 ```
 
-By default sex will be returned as an integer with '1' representing 'Male' and '2' representing 'Female', this is consistent with the [coding of sex](https://www.ndc.scot.nhs.uk/Dictionary-A-Z/Definitions/index.asp?Search=S&ID=1277&Title=Sex) in other PHS datasets.
+By default sex will be returned as an integer with '1' representing 'Male' and '2' representing 'Female', this is consistent with the [coding of sex](https://www.ndc.scot.nhs.uk/Dictionary-A-Z/Definitions/index.asp?Search=S&ID=1277&Title=Sex){target="_blank"} in other PHS datasets.
 
 We can have sex returned as a factor using `as_factor = TRUE`, which by default will have levels of '1' and '2' and labels of 'Male' and 'Female' which can be useful, particularly when visualising the data.
 
@@ -167,25 +207,29 @@ data %>%
 
 # Expect no one born before 1999-12-31 i.e. 16 years before our data started.
 data %>%
-  mutate(dob = dob_from_chi(
-    chi,
-    max_date = as.Date("2015-12-31"),
-    min_date = as.Date("2015-12-31") - lubridate::years(16)
-  ))
+  mutate(
+    dob = dob_from_chi(
+      chi,
+      max_date = as.Date("2015-12-31"),
+      min_date = as.Date("2015-12-31") - lubridate::years(16)
+    )
+  )
 ```
 
 Usually, we will have event dates e.g. an admission date alongside the data and this can be used instead of, or in conjunction with a fixed date.
 
 ```{r}
 data <- data %>%
-  mutate(event_date = as.Date(c(
-    "2015-01-01",
-    "2014-01-01",
-    "2013-01-01",
-    "2012-01-01",
-    "2011-01-01",
-    "2010-01-01"
-  )))
+  mutate(
+    event_date = as.Date(c(
+      "2015-01-01",
+      "2014-01-01",
+      "2013-01-01",
+      "2012-01-01",
+      "2011-01-01",
+      "2010-01-01"
+    ))
+  )
 
 # Using the event date as the maximum date
 data %>%
@@ -193,11 +237,13 @@ data %>%
 
 # Setting a 'fixed' minimum date as well as using the event date
 data_dob <- data %>%
-  mutate(dob = dob_from_chi(
-    chi,
-    max_date = event_date,
-    min_date = as.Date("1915-01-01")
-  ))
+  mutate(
+    dob = dob_from_chi(
+      chi,
+      max_date = event_date,
+      min_date = as.Date("1915-01-01")
+    )
+  )
 
 data_dob
 ```
@@ -228,17 +274,21 @@ data %>%
   mutate(age = age_from_chi(chi, ref_date = event_date, max_age = 18))
 
 data %>%
-  mutate(age = age_from_chi(
-    chi,
-    ref_date = event_date,
-    min_age = 60,
-    max_age = 120
-  ))
+  mutate(
+    age = age_from_chi(
+      chi,
+      ref_date = event_date,
+      min_age = 60,
+      max_age = 120
+    )
+  )
 
 data %>%
-  mutate(age = age_from_chi(
-    chi,
-    min_age = 60,
-    max_age = 120
-  ))
+  mutate(
+    age = age_from_chi(
+      chi,
+      min_age = 60,
+      max_age = 120
+    )
+  )
 ```
