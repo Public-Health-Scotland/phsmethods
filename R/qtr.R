@@ -1,7 +1,6 @@
 #' @title Assign a date to a quarter
 #'
 #' @description
-#'
 #' The qtr functions take a date input and calculate the relevant
 #' quarter-related value from it. They all return the year as part of this
 #' value.
@@ -25,7 +24,7 @@
 #' \item October to December (Oct-Dec)
 #' }
 #'
-#' @param date A date which must be supplied with `Date` or `POSIXct`
+#' @param date A date which must be supplied as `Date` or `POSIXct`
 #' @param format A `character` string specifying the format the quarter
 #' should be displayed in. Valid options are `long` (January to March 2018) and
 #' `short` (Jan-Mar 2018). The default is `long`.
@@ -33,216 +32,100 @@
 #' @return A character vector of financial quarters in the specified format.
 #'
 #' @examples
-#' x <- lubridate::dmy(c(26032012, 04052012, 23092012))
-#' qtr(x)
-#' qtr_end(x, format = "short")
-#' qtr_next(x)
-#' qtr_prev(x, format = "short")
+#' dates <- lubridate::dmy(c(26032012, 04052012, 23092012))
+#' qtr(dates)
+#' qtr_end(dates, format = "short")
+#' qtr_next(dates)
+#' qtr_prev(dates, format = "short")
 #'
+#' @name qtr
+#' @export
+#' @rdname qtr
+NULL
+
+#' @noRd
+format_quarter_internal <- function(
+  date,
+  format,
+  type = c("current", "end", "next", "prev"),
+  call = rlang::caller_call()
+) {
+  if (!inherits(date, c("Date", "POSIXct"))) {
+    cli::cli_abort(
+      "{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.",
+      call = call
+    )
+  }
+
+  date_lt <- as.POSIXlt(date)
+
+  quarter_num <- (date_lt$mon %/% 3L) + 1L
+  year <- date_lt$year + 1900L
+
+  # Adjust quarter number and year based on type
+  if (type == "next") {
+    # (quarter_num %% 4L) + 1L handles 1->2, 2->3, 3->4, 4->1
+    year_change <- quarter_num == 4L
+    quarter_num <- (quarter_num %% 4L) + 1L
+    year <- year + year_change
+  } else if (type == "prev") {
+    # ((quarter_num + 2L) %% 4L) + 1L handles 1->4, 2->1, 3->2, 4->3
+    year_change <- quarter_num == 1L
+    quarter_num <- ((quarter_num + 2L) %% 4L) + 1L
+    year <- year - year_change
+  }
+
+  # Select appropriate labels based on type and format
+  if (type == "end") {
+    labels <- if (format == "long") {
+      c("March", "June", "September", "December")
+    } else {
+      c("Mar", "Jun", "Sep", "Dec")
+    }
+  } else {
+    labels <- if (format == "long") {
+      c(
+        "January to March",
+        "April to June",
+        "July to September",
+        "October to December"
+      )
+    } else {
+      c("Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec")
+    }
+  }
+
+  paste(labels[quarter_num], year)
+}
+
 #' @export
 #' @rdname qtr
 qtr <- function(date, format = c("long", "short")) {
-  format <- match.arg(format)
+  format <- rlang::arg_match(format)
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
-  }
-
-  quarter_num <- lubridate::quarter(date)
-
-  if (format == "long") {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "January to March ",
-        lubridate::year(date)
-      ),
-      quarter_num == 2 ~ paste0(
-        "April to June ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "July to September ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "October to December ",
-        lubridate::year(date)
-      )
-    ))
-  } else {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "Jan-Mar ",
-        lubridate::year(date)
-      ),
-      quarter_num == 2 ~ paste0(
-        "Apr-Jun ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "Jul-Sep ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "Oct-Dec ",
-        lubridate::year(date)
-      )
-    ))
-  }
+  format_quarter_internal(date, format, type = "current")
 }
 
 #' @export
 #' @rdname qtr
 qtr_end <- function(date, format = c("long", "short")) {
-  format <- match.arg(format)
+  format <- rlang::arg_match(format)
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
-  }
-
-  quarter_num <- lubridate::quarter(date)
-
-  if (format == "long") {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "March ",
-        lubridate::year(date)
-      ),
-      quarter_num == 2 ~ paste0(
-        "June ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "September ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "December ",
-        lubridate::year(date)
-      )
-    ))
-  } else {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "Mar ",
-        lubridate::year(date)
-      ),
-      quarter_num == 2 ~ paste0(
-        "Jun ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "Sep ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "Dec ",
-        lubridate::year(date)
-      )
-    ))
-  }
+  format_quarter_internal(date, format, type = "end")
 }
 
 #' @export
 #' @rdname qtr
 qtr_next <- function(date, format = c("long", "short")) {
-  format <- match.arg(format)
+  format <- rlang::arg_match(format)
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
-  }
-
-  quarter_num <- lubridate::quarter(date)
-
-  if (format == "long") {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "April to June ",
-        lubridate::year(date)
-      ),
-      quarter_num == 2 ~ paste0(
-        "July to September ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "October to December ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "January to March ",
-        lubridate::year(date) + 1
-      )
-    ))
-  } else {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "Apr-Jun ",
-        lubridate::year(date)
-      ),
-      quarter_num == 2 ~ paste0(
-        "Jul-Sep ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "Oct-Dec ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "Jan-Mar ",
-        lubridate::year(date) + 1
-      )
-    ))
-  }
+  format_quarter_internal(date, format, type = "next")
 }
 
 #' @export
 #' @rdname qtr
 qtr_prev <- function(date, format = c("long", "short")) {
-  format <- match.arg(format)
+  format <- rlang::arg_match(format)
 
-  if (!inherits(date, c("Date", "POSIXct"))) {
-    cli::cli_abort("{.arg date} must be a {.cls Date} or {.cls POSIXct} vector, not a {.cls {class(date)}} vector.")
-  }
-
-  quarter_num <- lubridate::quarter(date)
-
-  if (format == "long") {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "October to December ",
-        lubridate::year(date) - 1
-      ),
-      quarter_num == 2 ~ paste0(
-        "January to March ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "April to June ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "July to September ",
-        lubridate::year(date)
-      )
-    ))
-  } else {
-    return(dplyr::case_when(
-      quarter_num == 1 ~ paste0(
-        "Oct-Dec ",
-        lubridate::year(date) - 1
-      ),
-      quarter_num == 2 ~ paste0(
-        "Jan-Mar ",
-        lubridate::year(date)
-      ),
-      quarter_num == 3 ~ paste0(
-        "Apr-Jun ",
-        lubridate::year(date)
-      ),
-      quarter_num == 4 ~ paste0(
-        "Jul-Sep ",
-        lubridate::year(date)
-      )
-    ))
-  }
+  format_quarter_internal(date, format, type = "prev")
 }
