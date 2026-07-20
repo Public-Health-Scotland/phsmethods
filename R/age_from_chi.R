@@ -37,13 +37,13 @@
 #'   "2020-01-01"
 #' )))
 #'
-#' data %>%
+#' data |>
 #'   mutate(chi_age = age_from_chi(chi))
 #'
-#' data %>%
+#' data |>
 #'   mutate(chi_age = age_from_chi(chi, min_age = 18, max_age = 65))
 #'
-#' data %>%
+#' data |>
 #'   mutate(chi_age = age_from_chi(chi,
 #'     ref_date = dis_date
 #'   ))

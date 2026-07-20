@@ -53,6 +53,6 @@ match_area("S20000010")
 
 library(dplyr)
 df <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013"))
-df \%>\% mutate(name = match_area(code))
+df |> mutate(name = match_area(code))
 
 }

@@ -43,10 +43,10 @@ data <- tibble(chi = c(
   "2020-01-01"
 )))
 
-data \%>\%
+data |>
   mutate(chi_dob = dob_from_chi(chi))
 
-data \%>\%
+data |>
   mutate(chi_dob = dob_from_chi(chi,
     min_date = as.Date("1930-01-01"),
     max_date = adm_date

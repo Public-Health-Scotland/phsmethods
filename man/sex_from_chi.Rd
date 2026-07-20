@@ -63,5 +63,6 @@ sex_from_chi(c("0101011237", "0101336489", NA), as_factor = TRUE)
 
 library(dplyr)
 df <- tibble(chi = c("0101011237", "0101336489", NA))
-df \%>\% mutate(chi_sex = sex_from_chi(chi))
+df |>
+  mutate(chi_sex = sex_from_chi(chi))
 }

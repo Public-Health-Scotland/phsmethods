@@ -75,10 +75,7 @@ file_size()
 file_size(pattern = "\\\\.xlsx$")
 
 # Size only of alphabetically first file in working directory
-library(magrittr)
-file_size() \%>\%
-  dplyr::pull(size) \%>\%
-  magrittr::extract(1)
+file_size()$size[1]
 
 }
 \seealso{

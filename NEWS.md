@@ -1,5 +1,7 @@
 # phsmethods (development version)
 
+-   phsmethods now requires R 4.1 or later, allowing use of the native pipe (`|>`) and removing the dependency on `{magrittr}`. Documentation and examples have been updated accordingly.
+
 # phsmethods 1.1.0 (2026-02-24)
 
 ## New features

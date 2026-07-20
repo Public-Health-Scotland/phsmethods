@@ -44,7 +44,7 @@
 #'
 #' library(dplyr)
 #' df <- tibble(code = c("S02000656", "S02001042", "S08000020", "S12000013"))
-#' df %>% mutate(name = match_area(code))
+#' df |> mutate(name = match_area(code))
 #'
 #' @export
 
@@ -79,10 +79,10 @@ match_area <- function(x) {
   )
 
   # Merge lookup with code variable and retrieving only the name
-  dplyr::left_join(code_var,
-    area_lookup,
-    by = "geo_code"
-  ) %>%
-    # dplyr::pull takes the last variable if none is specified
-    dplyr::pull()
+  dplyr::pull(
+    dplyr::left_join(code_var,
+      area_lookup,
+      by = "geo_code"
+    )
+  )
 }
