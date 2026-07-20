@@ -46,14 +46,23 @@ create_age_groups <- function(
   as_factor = FALSE,
   breaks = seq(0, 90, 5)
 ) {
+  is_whole_number <- function(x, tol = sqrt(.Machine$double.eps)) {
+    abs(x - round(x)) <= tol
+  }
   if (!is.numeric(x)) {
     cli::cli_abort(
-      "{.arg x} must be an {.cls integer} vector, not a {.cls {class(x)}} vector."
+      "{.arg x} must be a numeric vector (usually {.cls integer}), not a {.cls {class(x)}} vector."
+    )
+  }
+  if (all(is.na(x))) {
+    cli::cli_abort(
+      "{.arg x} must contain at least one non-missing value."
     )
   }
   if (min(x, na.rm = TRUE) < 0) {
     cli::cli_abort("{.arg x} cannot contain negative ages.")
   }
+
   if (!is.logical(as_factor)) {
     cli::cli_abort(
       "{.arg as_factor} must be a {.cls logical}, not a {.cls {class(as_factor)}}."
@@ -64,22 +73,30 @@ create_age_groups <- function(
       "{.arg as_factor} must be length 1, not {length(as_factor)}."
     )
   }
+  
   if (!is.numeric(breaks)) {
     cli::cli_abort(
       "{.arg breaks} must be a {.cls numeric} vector, not a {.cls {class(breaks)}} vector."
     )
   }
-  if (length(breaks) <= 1) {
+  if (length(breaks) < 2) {
     cli::cli_abort(
-      "{.arg breaks} must have at least 2 values, not {.val {length(breaks)}}."
+      "{.arg breaks} must have at least 2 values, not {length(breaks)}."
     )
   }
-  is_whole_number <- function(x, tol = sqrt(.Machine$double.eps)) {
-    abs(x - round(x)) <= tol
-  }
-  if (!isTRUE(all(is_whole_number(breaks)))) {
+  if (anyNA(breaks)) {
     cli::cli_abort(
-      "{.arg breaks} must all be whole numbers."
+      "{.arg breaks} cannot contain missing values."
+    )
+  }
+  if (min(breaks) < 0) {
+    cli::cli_abort(
+      "{.arg breaks} cannot contain negative values."
+    )
+  }
+  if (!all(is_whole_number(breaks))) {
+    cli::cli_abort(
+      "{.arg breaks} must contain only whole numbers."
     )
   }
   if (is.unsorted(breaks, strictly = TRUE)) {
