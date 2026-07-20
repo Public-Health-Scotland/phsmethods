@@ -24,7 +24,7 @@
 #' \item October to December (Oct-Dec)
 #' }
 #'
-#' @param date A date which must be supplied with `Date` or `POSIXct`
+#' @param date A date which must be supplied as `Date` or `POSIXct`
 #' @param format A `character` string specifying the format the quarter
 #' should be displayed in. Valid options are `long` (January to March 2018) and
 #' `short` (Jan-Mar 2018). The default is `long`.
@@ -57,32 +57,28 @@ format_quarter_internal <- function(
     )
   }
 
-  quarter_num <- lubridate::quarter(date)
-  year <- lubridate::year(date)
+  date_lt <- as.POSIXlt(date)
 
-  # Adjust quarter number and year based on type
+  quarter_num <- (date_lt$mon %/% 3L) + 1L
+  year <- date_lt$year + 1900L
+
   if (type == "next") {
-    # Vectorized calculation for next quarter number and year
     # (quarter_num %% 4L) + 1L handles 1->2, 2->3, 3->4, 4->1
-    year_change <- (quarter_num == 4L)
+    year_change <- quarter_num == 4L
     quarter_num <- (quarter_num %% 4L) + 1L
     year <- year + year_change
   } else if (type == "prev") {
-    # Vectorized calculation for previous quarter number and year
     # ((quarter_num + 2L) %% 4L) + 1L handles 1->4, 2->1, 3->2, 4->3
-    year_change <- (quarter_num == 1L)
+    year_change <- quarter_num == 1L
     quarter_num <- ((quarter_num + 2L) %% 4L) + 1L
     year <- year - year_change
-  }
-
-  # Select appropriate labels based on type and format
-  if (type == "end") {
+  } else if (type == "end") {
     labels <- if (format == "long") {
       c("March", "June", "September", "December")
     } else {
       c("Mar", "Jun", "Sep", "Dec")
     }
-  } else {
+  } else if (type == "current") {
     labels <- if (format == "long") {
       c(
         "January to March",
