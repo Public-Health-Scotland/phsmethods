@@ -4,10 +4,15 @@
 \alias{chi_pad}
 \title{Add a leading zero to nine-digit CHI numbers}
 \usage{
-chi_pad(chi_number)
+chi_pad(chi_number, chi_check = FALSE, check_mod11 = TRUE, check_mod10 = TRUE)
 }
 \arguments{
 \item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
+
+\item{check_mod11, check_mod10}{Logical values (TRUE or FALSE, default is \code{TRUE}). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
+Implementation of Mod 10 CHI numbers is scheduled for August 2026.
+From this date, CHI numbers are valid if they pass either a Mod 11 check
+or a Mod 10 check.}
 }
 \value{
 The original character vector with CHI numbers padded if applicable.
@@ -31,8 +36,7 @@ While a CHI number is made up exclusively of numeric digits, it cannot be
 stored with \code{numeric} class in R. This is because leading zeros in
 numeric values are silently dropped, a practice not exclusive to R. For this
 reason, \code{chi_pad} accepts input values of \code{character} class
-only, and returns values of the same class. It does not assess the validity
-of a CHI number - please see \code{\link[=chi_check]{chi_check()}} for that.
+only, and returns values of the same class.
 }
 \examples{
 chi_pad(c("101011237", "101201234"))
