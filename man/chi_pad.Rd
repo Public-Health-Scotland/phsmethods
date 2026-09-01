@@ -9,6 +9,11 @@ chi_pad(chi_number, chi_check = FALSE, check_mod11 = TRUE, check_mod10 = TRUE)
 \arguments{
 \item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
 
+\item{chi_check}{logical, optionally check the CHI for validity (after
+padding), any invalid CHIs will be substituted with \code{NA}. The default (FALSE)
+will skip checking but we recommend you check any padded CHIs.This uses
+\code{\link[=chi_check]{chi_check()}}.}
+
 \item{check_mod11, check_mod10}{Logical values (TRUE or FALSE, default is \code{TRUE}). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
 Implementation of Mod 10 CHI numbers is scheduled for August 2026.
 From this date, CHI numbers are valid if they pass either a Mod 11 check

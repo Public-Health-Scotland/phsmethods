@@ -18,6 +18,10 @@
 #' numeric values are silently dropped, a practice not exclusive to R. For this
 #' reason, `chi_pad` accepts input values of `character` class
 #' only, and returns values of the same class.
+#' @param chi_check logical, optionally check the CHI for validity (after
+#' padding), any invalid CHIs will be substituted with `NA`. The default (FALSE)
+#' will skip checking but we recommend you check any padded CHIs.This uses
+#' [chi_check()].
 #'
 #' @inheritParams chi_check
 #'
