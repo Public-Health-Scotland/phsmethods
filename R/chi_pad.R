@@ -17,8 +17,7 @@
 #' stored with `numeric` class in R. This is because leading zeros in
 #' numeric values are silently dropped, a practice not exclusive to R. For this
 #' reason, `chi_pad` accepts input values of `character` class
-#' only, and returns values of the same class. It does not assess the validity
-#' of a CHI number - please see [chi_check()] for that.
+#' only, and returns values of the same class.
 #'
 #' @inheritParams chi_check
 #'
@@ -27,12 +26,40 @@
 #' @examples
 #' chi_pad(c("101011237", "101201234"))
 #' @export
-chi_pad <- function(chi_number) {
+chi_pad <- function(chi_number, 
+                    chi_check = FALSE,
+                    check_mod11 = TRUE, 
+                    check_mod10 = TRUE) {
+
   if (!inherits(chi_number, "character")) {
     cli::cli_abort(
       "{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector."
     )
   }
-  # Add a leading zero to any string comprised of nine numeric digits
-  sub("^([0-9]{9})$", "0\\1", chi_number)
+  
+  # Pad the 9-digit numbers first
+  needs_padding <- nchar(chi_number) == 9 & !is.na(chi_number)
+  chi_number[needs_padding] <- paste0("0", chi_number[needs_padding])
+  
+  # Check the CHI after padding
+  if (chi_check) {
+    na_count <- sum(is.na(chi_number))
+    valid_chi <- chi_check(
+      chi_number, 
+      check_mod11 = check_mod11, 
+      check_mod10 = check_mod10
+    ) == "Valid CHI"
+    
+    chi_number[!valid_chi] <- NA_character_
+
+    new_na_count <- sum(is.na(chi_number)) - na_count
+
+    if (new_na_count > 0) {
+      cli::cli_alert_warning(
+        "{format(new_na_count, big.mark = ',')} {cli::qty(new_na_count)} CHI number{?s} {?is/are} invalid even after padding and will be set as {.val NA}."
+      )
+    }
+  }
+  
+  return(chi_number)
 }
