@@ -26,30 +26,29 @@
 #' @examples
 #' chi_pad(c("101011237", "101201234"))
 #' @export
-chi_pad <- function(chi_number, 
+chi_pad <- function(chi_number,
                     chi_check = FALSE,
-                    check_mod11 = TRUE, 
+                    check_mod11 = TRUE,
                     check_mod10 = TRUE) {
-
   if (!inherits(chi_number, "character")) {
     cli::cli_abort(
       "{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector."
     )
   }
-  
+
   # Pad the 9-digit numbers first
   needs_padding <- nchar(chi_number) == 9 & !is.na(chi_number)
   chi_number[needs_padding] <- paste0("0", chi_number[needs_padding])
-  
+
   # Check the CHI after padding
   if (chi_check) {
     na_count <- sum(is.na(chi_number))
     valid_chi <- chi_check(
-      chi_number, 
-      check_mod11 = check_mod11, 
+      chi_number,
+      check_mod11 = check_mod11,
       check_mod10 = check_mod10
     ) == "Valid CHI"
-    
+
     chi_number[!valid_chi] <- NA_character_
 
     new_na_count <- sum(is.na(chi_number)) - na_count
@@ -60,6 +59,6 @@ chi_pad <- function(chi_number,
       )
     }
   }
-  
+
   return(chi_number)
 }
