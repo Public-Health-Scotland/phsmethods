@@ -4,11 +4,17 @@
 \alias{dob_from_chi}
 \title{Extract Date of Birth (DoB) from the CHI number}
 \usage{
-dob_from_chi(chi_number, min_date = NULL, max_date = NULL, chi_check = TRUE)
+dob_from_chi(
+  chi_number,
+  min_date = NULL,
+  max_date = NULL,
+  chi_check = TRUE,
+  check_mod11 = TRUE,
+  check_mod10 = TRUE
+)
 }
 \arguments{
-\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character}
-class.}
+\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
 
 \item{min_date, max_date}{optional min and/or max dates that the
 DoB could take as the century needs to be guessed. Must be either length 1
@@ -19,6 +25,11 @@ whilst \code{max_date} can be date when an event happens such as discharge date.
 \item{chi_check}{logical, optionally skip checking the CHI for validity which
 will be faster but should only be used if you have previously checked the
 CHI(s). The default (TRUE) will check the CHI numbers.}
+
+\item{check_mod11, check_mod10}{Logical values (TRUE or FALSE, default is \code{TRUE}). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
+Implementation of Mod 10 CHI numbers is scheduled for August 2026.
+From this date, CHI numbers are valid if they pass either a Mod 11 check
+or a Mod 10 check.}
 }
 \value{
 a date vector of DoB. It will be the same length as \code{chi_number}.

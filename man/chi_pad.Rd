@@ -4,10 +4,10 @@
 \alias{chi_pad}
 \title{Add a leading zero to nine-digit CHI numbers}
 \usage{
-chi_pad(x)
+chi_pad(chi_number)
 }
 \arguments{
-\item{x}{a CHI number or a vector of CHI numbers with \code{character} class.}
+\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
 }
 \value{
 The original character vector with CHI numbers padded if applicable.

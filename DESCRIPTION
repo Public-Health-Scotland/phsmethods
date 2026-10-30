@@ -1,6 +1,6 @@
 Package: phsmethods
 Title: Standard Methods for Use in Public Health Scotland
-Version: 1.1.0.9000
+Version: 1.2.0.9000
 Authors@R: c(
     person("Public Health Scotland", , , "phs.datascience@phs.scot", role = "cph"),
     person("David", "Caldwell", , "David.Caldwell@phs.scot", role = "aut"),
@@ -25,7 +25,7 @@ Description: A collection of methods for commonly undertaken analytical
     data manipulation and analysis more efficient and reproducible.
 License: GPL (>= 2)
 URL: https://github.com/Public-Health-Scotland/phsmethods,
-    https://public-health-scotland.github.io/phsmethods/
+    https://code.publichealthscotland.scot/phsmethods
 BugReports: https://github.com/Public-Health-Scotland/phsmethods/issues
 Depends:
     R (>= 4.1)
@@ -38,8 +38,7 @@ Imports:
     rlang,
     scales (>= 1.0.0),
     stringr,
-    tibble,
-    utils
+    tibble
 Suggests: 
     covr,
     flextable,
@@ -54,7 +53,7 @@ VignetteBuilder:
 RdMacros: 
     lifecycle
 Config/roxygen2/markdown: TRUE
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB

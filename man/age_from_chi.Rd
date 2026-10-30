@@ -9,12 +9,13 @@ age_from_chi(
   ref_date = NULL,
   min_age = 0L,
   max_age = NULL,
-  chi_check = TRUE
+  chi_check = TRUE,
+  check_mod11 = TRUE,
+  check_mod10 = TRUE
 )
 }
 \arguments{
-\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character}
-class.}
+\item{chi_number}{a CHI number or a vector of CHI numbers with \code{character} class.}
 
 \item{ref_date}{calculate the age at this date, default is to use
 \code{Sys.Date()} i.e. today.}
@@ -29,6 +30,11 @@ can be age when an event happens such as the age at discharge.}
 \item{chi_check}{logical, optionally skip checking the CHI for validity which
 will be faster but should only be used if you have previously checked the
 CHI(s), the default (TRUE) will to check the CHI numbers.}
+
+\item{check_mod11, check_mod10}{Logical values (TRUE or FALSE, default is \code{TRUE}). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
+Implementation of Mod 10 CHI numbers is scheduled for August 2026.
+From this date, CHI numbers are valid if they pass either a Mod 11 check
+or a Mod 10 check.}
 }
 \value{
 an integer vector of ages in years truncated to the nearest year.

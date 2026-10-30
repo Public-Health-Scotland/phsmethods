@@ -4,8 +4,8 @@
 #' and returns the Date of Birth (DoB) as implied by the CHI number(s). If the
 #' DoB is ambiguous it will return NA.
 #'
-#' @param chi_number a CHI number or a vector of CHI numbers with `character`
-#' class.
+#' @inheritParams chi_check
+#'
 #' @param min_date,max_date optional min and/or max dates that the
 #' DoB could take as the century needs to be guessed. Must be either length 1
 #' for a 'fixed' date or the same length as `chi_number` for a date
@@ -45,7 +45,9 @@ dob_from_chi <- function(
   chi_number,
   min_date = NULL,
   max_date = NULL,
-  chi_check = TRUE
+  chi_check = TRUE,
+  check_mod11 = TRUE,
+  check_mod10 = TRUE
 ) {
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
@@ -125,7 +127,11 @@ dob_from_chi <- function(
     # Don't use any CHIs which don't pass the validity check
     na_count <- sum(is.na(chi_number))
     chi_number <- dplyr::if_else(
-      chi_check(chi_number) == "Valid CHI",
+      chi_check(
+        chi_number,
+        check_mod11 = check_mod11,
+        check_mod10 = check_mod10
+      ) == "Valid CHI",
       chi_number,
       NA_character_
     )

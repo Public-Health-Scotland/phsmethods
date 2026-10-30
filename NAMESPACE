@@ -28,6 +28,8 @@ export(qtr_next)
 export(qtr_prev)
 export(sex_from_chi)
 importFrom(lifecycle,deprecated)
-importFrom(rlang,"%||%")
-importFrom(rlang,.data)
+importFrom(rlang,
+  "%||%",
+  .data
+)
 importFrom(tibble,tibble)
