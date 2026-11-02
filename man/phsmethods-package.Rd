@@ -12,7 +12,7 @@ A collection of methods for commonly undertaken analytical tasks, primarily deve
 Useful links:
 \itemize{
   \item \url{https://github.com/Public-Health-Scotland/phsmethods}
-  \item \url{https://public-health-scotland.github.io/phsmethods/}
+  \item \url{https://code.publichealthscotland.scot/phsmethods}
   \item Report bugs at \url{https://github.com/Public-Health-Scotland/phsmethods/issues}
 }
 

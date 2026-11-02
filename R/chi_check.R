@@ -30,9 +30,9 @@
 #' * Do the first six digits denote a valid date?
 #' * Is the checksum digit correct?
 #'
-#' @param x a CHI number or a vector of CHI numbers with `character` class.
-#' @param check_mod11,check_mod10 Logical values (TRUE or FALSE, default is `TRUE`). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting from 2026, some CHIs will only pass if they meet the modulo 10 criteria.
-#' Implementation of Mod 10 CHI numbers is scheduled for February 2026.
+#' @param chi_number a CHI number or a vector of CHI numbers with `character` class.
+#' @param check_mod11,check_mod10 Logical values (TRUE or FALSE, default is `TRUE`). By default, a CHI that passes either the modulo 10 or the modulo 11 check will be considered valid. Historically, CHIs only used modulo 11 for their check digit; however, starting in August 2026, some CHIs will only pass if they meet the modulo 10 criteria.
+#' Implementation of Mod 10 CHI numbers is scheduled for August 2026.
 #' From this date, CHI numbers are valid if they pass either a Mod 11 check
 #' or a Mod 10 check.
 #'
@@ -63,10 +63,11 @@
 #' df %>%
 #'   mutate(validity = chi_check(chi))
 #' @export
-chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
-  if (!inherits(x, "character")) {
+
+chi_check <- function(chi_number, check_mod11 = TRUE, check_mod10 = TRUE) {
+  if (!inherits(chi_number, "character")) {
     cli::cli_abort(
-      "The input must be a {.cls character} vector, not a {.cls {class(x)}} vector."
+      "The input {.var chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector."
     )
   }
   if (!inherits(check_mod10, "logical")) {
@@ -85,24 +86,24 @@ chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
     )
   }
   if (cpp20_available()){
-    cpp_chi_check(x, check_mod11 = check_mod11, check_mod10 = check_mod10)
+    cpp_chi_check(chi_number, check_mod11 = check_mod11, check_mod10 = check_mod10)
   } else {
-    r_chi_check(x, check_mod11 = check_mod11, check_mod10 = check_mod10)
+    r_chi_check(chi_number, check_mod11 = check_mod11, check_mod10 = check_mod10)
   }
 }
 
 r_chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
 
   # Calculate the number of characters
-  nc <- nchar(x)
+  nc <- nchar(chi_number)
 
   # Initialise the output vector to be a character vector
-  out <- character(length(x))
+  out <- character(length(chi_number))
 
   # Check if any are missing values
-  out[is.na(x)] <- "Missing (NA)"
+  out[is.na(chi_number)] <- "Missing (NA)"
   # Check if any are empty strings
-  out[!is.na(x) & x == ""] <- "Missing (Blank)"
+  out[!is.na(chi_number) & chi_number == ""] <- "Missing (Blank)"
 
   # Check if the number of characters is less than 10 digits
   out[out == "" & nc < 10] <- "Too few characters"
@@ -110,7 +111,7 @@ r_chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   out[out == "" & nc > 10] <- "Too many characters"
 
   # Check if it contains non-numeric characters (e.g. letters and punctuation)
-  out[out == "" & grepl("[^0-9]", x)] <- "Invalid character(s) present"
+  out[out == "" & grepl("[^0-9]", chi_number)] <- "Invalid character(s) present"
 
   # Check if the first six digits denote a valid date
   needs_date_check <- out == ""
@@ -118,7 +119,7 @@ r_chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   if (any(needs_date_check)) {
     # Only parse strings that actually need a date check
     valid_date <- !is.na(lubridate::fast_strptime(
-      substr(x[needs_date_check], 1, 6),
+      substr(chi_number[needs_date_check], 1, 6),
       "%d%m%y"
     ))
 
@@ -132,7 +133,7 @@ r_chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
   if (any(needs_checksum)) {
     out[needs_checksum] <- dplyr::if_else(
       checksum(
-        x[needs_checksum],
+        chi_number[needs_checksum],
         check_mod11 = check_mod11,
         check_mod10 = check_mod10
       ),
@@ -145,7 +146,7 @@ r_chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
     cli::cli_inform(
       c(
         "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
-        "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(x, check_mod10 = FALSE)}"
+        "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(chi_number, check_mod10 = FALSE)}"
       ),
       .frequency = "once",
       .frequency_id = "MOD10"

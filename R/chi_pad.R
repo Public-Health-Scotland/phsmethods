@@ -27,13 +27,12 @@
 #' @examples
 #' chi_pad(c("101011237", "101201234"))
 #' @export
-chi_pad <- function(x) {
-  if (!inherits(x, "character")) {
+chi_pad <- function(chi_number) {
+  if (!inherits(chi_number, "character")) {
     cli::cli_abort(
-      "The input must be a {.cls character} vector, not a {.cls {class(x)}} vector."
+      "{.arg chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector."
     )
   }
-
   # Add a leading zero to any string comprised of nine numeric digits
-  sub("^([0-9]{9})$", "0\\1", x)
+  sub("^([0-9]{9})$", "0\\1", chi_number)
 }

@@ -43,6 +43,7 @@ in [Public Health Scotland
 -   `age_calculate()` calculates age between two dates.
 -   `dob_from_chi()` extracts Date of Birth (DoB) from the CHI number.
 -   `age_from_chi()` extracts age from the CHI number.
+-   `as_percent()` converts vectors of proportions into `<percent>` vectors.
 
 `phsmethods` can be used on both the PHS server and desktop versions of
 RStudio.
@@ -97,7 +98,7 @@ To see the documentation for any `phsmethods`' functions, type
 
 You can access the full list of functions and their help pages on
 [Reference page of pkgdown
-website](https://public-health-scotland.github.io/phsmethods/reference/index.html).
+website](https://code.publichealthscotland.scot/phsmethods/reference/index.html).
 You will be able to see some examples of each function.
 
 There is also a very useful [PHS Methods on-line training
@@ -148,7 +149,7 @@ and code commentary. For more information on security when using git and
 GitHub, and on using git and GitHub for version control more generally,
 please see the [Transforming Publishing
 Programme](https://www.isdscotland.org/Products-and-Services/Transforming-Publishing-Programme/)'s
-[Git guide](https://Public-Health-Scotland.github.io/git-guide/) and
+[Git guide](https://code.publichealthscotland.scot/git-guide/) and
 [GitHub
 guidance](https://github.com/Public-Health-Scotland/GitHub-guidance).
 

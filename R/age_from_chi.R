@@ -4,8 +4,8 @@
 #' and returns the age as implied by the CHI number(s). If the Date of Birth
 #' (DoB) is ambiguous it will return NA. It uses [dob_from_chi()].
 #'
-#' @param chi_number a CHI number or a vector of CHI numbers with `character`
-#' class.
+#' @inheritParams chi_check
+#'
 #' @param ref_date calculate the age at this date, default is to use
 #' `Sys.Date()` i.e. today.
 #' @param min_age,max_age optional min and/or max dates that the DoB could take
@@ -52,7 +52,9 @@ age_from_chi <- function(
   ref_date = NULL,
   min_age = 0L,
   max_age = NULL,
-  chi_check = TRUE
+  chi_check = TRUE,
+  check_mod11 = TRUE,
+  check_mod10 = TRUE
 ) {
   # Do type checking on the params
   if (!inherits(chi_number, "character")) {
@@ -180,7 +182,9 @@ age_from_chi <- function(
     chi_number = chi_number,
     min_date = min_date.age,
     max_date = max_date.age,
-    chi_check = chi_check
+    chi_check = chi_check,
+    check_mod11 = check_mod11,
+    check_mod10 = check_mod10
   )
 
   # Calculate age from the guessed date of birth and reference date
