@@ -2,7 +2,9 @@
 % Please edit documentation in R/match_area.R
 \name{match_area}
 \alias{match_area}
-\title{Translate geography codes into area names}
+\title{Translate geography codes into area names
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#soft-deprecated}{\figure{lifecycle-soft-deprecated.svg}{options: alt='[Soft-deprecated]'}}}{\strong{[Soft-deprecated]}}}
 \usage{
 match_area(x)
 }
@@ -16,6 +18,8 @@ Any input value without a corresponding value in the
 \code{\link[=area_lookup]{area_lookup()}} dataset will return an NA output value.
 }
 \description{
+\code{match_area()} is soft-deprecated because the underlying area lookup data is
+out of date and will not be updated.
 \code{match_area} takes a geography code or vector of geography
 codes. It matches the input to the corresponding value in the
 \code{\link[=area_lookup]{area_lookup()}} dataset and returns the corresponding area name.
