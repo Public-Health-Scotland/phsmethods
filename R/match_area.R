@@ -1,6 +1,10 @@
 #' @title Translate geography codes into area names
 #'
-#' @description `match_area` takes a geography code or vector of geography
+#' `r lifecycle::badge("soft-deprecated")`
+#'
+#' @description `match_area()` is soft-deprecated because the underlying area lookup data is
+#' out of date and will not be updated.
+#' `match_area` takes a geography code or vector of geography
 #' codes. It matches the input to the corresponding value in the
 #' [area_lookup()] dataset and returns the corresponding area name.
 #'
