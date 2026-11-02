@@ -1,6 +1,10 @@
 #' @title Translate geography codes into area names
+#' 
+#' `r lifecycle::badge("soft-deprecated")`
 #'
-#' @description `match_area` takes a geography code or vector of geography
+#' @description `match_area()` is soft-deprecated because the underlying area lookup data is
+#' out of date and will not be updated.
+#'`match_area` takes a geography code or vector of geography
 #' codes. It matches the input to the corresponding value in the
 #' [area_lookup()] dataset and returns the corresponding area name.
 #'
@@ -47,8 +51,13 @@
 #' df %>% mutate(name = match_area(code))
 #'
 #' @export
-
 match_area <- function(x) {
+  lifecycle::deprecate_soft(
+    when = "0.2.1",
+    what = "match_area()",
+    details = "The underlying area lookup data is out of date and will not be updated. Using this function is not recommended."
+  )
+
   # Coerce input to character to prevent any warning messages appearing about
   # type conversion in dplyr::left_join
   code_var <- as.character(x)
