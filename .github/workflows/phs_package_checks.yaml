@@ -16,6 +16,11 @@ permissions:
 jobs:
   PHS-checks:
     uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks.yaml@v3.1.0
+    with:
+      lint: true
+      lint_changed_files_only: true
+      lint_error_on_lint: false
+      
     permissions: 
       contents: write
       pull-requests: write
