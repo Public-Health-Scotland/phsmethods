@@ -67,10 +67,7 @@
 #' file_size(pattern = "\\.xlsx$")
 #'
 #' # Size only of alphabetically first file in working directory
-#' library(magrittr)
-#' file_size() %>%
-#'   dplyr::pull(size) %>%
-#'   magrittr::extract(1)
+#' file_size()$size[1]
 #'
 #' @seealso For more information on using regular expressions, see this
 #' [Jumping Rivers blog post](https://www.jumpingrivers.com/blog/regular-expressions-every-r-programmer-should-know/)
@@ -102,8 +99,8 @@ file_size <- function(filepath = getwd(), pattern = NULL) {
     return(NULL)
   }
 
-  formatted_size <- file.path(filepath, file_list) %>%
-    file.size() %>%
+  formatted_size <- file.path(filepath, file_list) |>
+    file.size() |>
     scales::number_bytes(units = "si")
 
   file_type <- dplyr::case_when(

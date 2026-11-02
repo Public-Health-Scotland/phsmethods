@@ -92,13 +92,10 @@ test_that("Output is the same with the quiet param set to TRUE", {
 
 test_that("Produces correct number of warning messages", {
   dens_postcodes <- c("Dd37Jy", "DD37JY", "D  d 337JY")
-  format_postcode(dens_postcodes) %>%
-    expect_warning()
+  expect_warning(format_postcode(dens_postcodes))
 
   pittodrie_postcodes <- c("ab245qh", NA, "ab245q", "A  B245QH")
-  format_postcode(pittodrie_postcodes) %>%
-    expect_warning() %>%
-    expect_warning()
+  expect_warning(expect_warning(format_postcode(pittodrie_postcodes)))
 })
 
 test_that("Warning gives true number of values that don't adhere to format", {

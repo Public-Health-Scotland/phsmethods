@@ -45,7 +45,8 @@
 #'
 #' library(dplyr)
 #' df <- tibble(chi = c("0101011237", "0101336489", NA))
-#' df %>% mutate(chi_sex = sex_from_chi(chi))
+#' df |>
+#'   mutate(chi_sex = sex_from_chi(chi))
 sex_from_chi <- function(
   chi_number,
   male_value = 1L,
