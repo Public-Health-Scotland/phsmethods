@@ -16,8 +16,7 @@ bool valid_date(std::string_view s);
 bool valid_checksum(std::string_view s, bool check_mod11, bool check_mod10);
 
 // compiler sometimes doesn't optimise valid_char or all_valid_digits unless they are
-// marked constexpr and we can't forward declare constexpr in a header
-// so we fully define them here
+// in a header file, where the compiler can easily inline it.
 inline constexpr bool valid_char(const char c) noexcept {
   return !(c < '0' || c > '9');
 }
