@@ -143,10 +143,9 @@ dob_from_chi <- function(
         ("{format(new_na_count, big.mark = ',')}{cli::qty(new_na_count)} CHI number{?s} {?is/are} invalid and will be given {.val NA} for {?its/their} Date{?s} of Birth.")
       )
     }
-    # Reuse count if chi_check = TRUE
-    na_count <- new_na_count
   }
 
+  na_count <- sum(is.na(chi_number))
 
   if (cpp20_available()){
 
@@ -170,8 +169,6 @@ dob_from_chi <- function(
       "%d%m%y",
       cutoff_2000 = 100L
     )
-
-    na_count <- sum(is.na(chi_number))
 
     guess_dob <- as.Date(dplyr::case_when(
       # Date is NA - missing, invalid or an invalid leap year date in 19XX.
