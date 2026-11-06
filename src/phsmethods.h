@@ -37,7 +37,7 @@ inline cppally::r_int nchars(cppally::r_str_view x) {
   // Important: this assumes strings marked as CE_UTF8 are valid UTF-8
   // which is already a common R convention.
   r_str utf8_str = r_str(x, internal::view_tag{}).as_utf8();
-  std::string_view s = x.cpp_str();
+  std::string_view s = utf8_str.cpp_str();
 
   // https://en.wikipedia.org/wiki/UTF-8
   // Since we have normalised it to a valid UTF-8 string
@@ -53,7 +53,7 @@ inline cppally::r_int nchars(cppally::r_str_view x) {
     // X & top_two_bits will zero all bits except the top 2 leaving one of the following combinations:
     // 11000000, 01000000, 00000000 (first byte of a character)
     // 10000000 (continuation byte, which we skip)
-    bool is_continuation = (static_cast<unsigned char>(c) & top_two_bits) != continuation_prefix;
+    bool is_continuation = (static_cast<unsigned char>(c) & top_two_bits) == continuation_prefix;
     n_chars += !is_continuation;
   }
   return r_int(n_chars);
