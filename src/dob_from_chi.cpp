@@ -57,13 +57,19 @@ r_vector<r_date> cpp_dob_from_chi(
 ) {
   return pmap([](const r_str& chi, const r_date& min, const r_date& max){
 
-    r_str check = phsmethods::chi_check(chi, true, true);
-
-    if (!identical(check, cached_str<"Valid CHI">())){
+    if (is_na(chi)){
       return na<r_date>();
     }
 
-    return phsmethods::impl::dob_from_chi(chi.cpp_str(), min, max);
+    std::string_view s = chi.cpp_str();
+
+    // R dob_from_chi() already checked validity.
+    // We still try to parse dates regardless of CHI number validity.
+    if (s.size() < 6 || !phsmethods::impl::all_valid_digits(s.substr(0, 6))){
+      return na<r_date>();
+    }
+
+    return phsmethods::impl::dob_from_chi(s, min, max);
 
   }, x, min_date, max_date);
 }
