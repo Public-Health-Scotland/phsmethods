@@ -19,13 +19,13 @@ r_str chi_check(r_str_view x, bool check_mod11, bool check_mod10) {
     return cached_str<"Missing (NA)">();
   }
 
-  const std::string_view s = x.cpp_str();
-
-  const auto n_chars = s.size();
-
-  if (n_chars == 0) {
+  if (x.is_empty()){
     return cached_str<"Missing (Blank)">();
   }
+
+  int n_chars = impl::nchars(x);
+  const std::string_view s = x.cpp_str();
+
   if (n_chars < 10) {
     return cached_str<"Too few characters">();
   }
