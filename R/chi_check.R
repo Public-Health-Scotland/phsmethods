@@ -92,7 +92,7 @@ chi_check <- function(chi_number, check_mod11 = TRUE, check_mod10 = TRUE) {
   }
 }
 
-r_chi_check <- function(x, check_mod11 = TRUE, check_mod10 = TRUE) {
+r_chi_check <- function(chi_number, check_mod11 = TRUE, check_mod10 = TRUE) {
 
   # Calculate the number of characters
   nc <- nchar(chi_number)
