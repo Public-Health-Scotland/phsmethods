@@ -49,7 +49,7 @@ Suggests:
     spelling,
     testthat (>= 3.0.0)
 LinkingTo: 
-    cppally (>= 1.1.0),
+    cppally (>= 1.2.0),
     withr
 VignetteBuilder: 
     knitr
