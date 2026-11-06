@@ -47,10 +47,10 @@ Suggests:
     knitr,
     rmarkdown,
     spelling,
-    testthat (>= 3.0.0)
-LinkingTo: 
-    cppally (>= 1.2.0),
+    testthat (>= 3.0.0),
     withr
+LinkingTo: 
+    cppally (>= 1.2.0)
 VignetteBuilder: 
     knitr
 RdMacros: 
