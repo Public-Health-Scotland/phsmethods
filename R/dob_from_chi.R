@@ -150,7 +150,7 @@ dob_from_chi <- function(
 
   if (cpp20_available()){
 
-    guess_dob <- cpp_dob_from_chi(chi_number, min_date, max_date)
+    guess_dob <- cpp_dob_from_chi(chi_number, lubridate::as_date(min_date), lubridate::as_date(max_date))
 
   } else {
 
