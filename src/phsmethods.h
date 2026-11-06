@@ -54,7 +54,7 @@ inline cppally::r_int nchars(cppally::r_str_view x) {
     // 11000000, 01000000, 00000000 (first byte of a character)
     // 10000000 (continuation byte, which we skip)
     bool is_continuation = (static_cast<unsigned char>(c) & top_two_bits) != continuation_prefix;
-    n_chars += is_continuation;
+    n_chars += !is_continuation;
   }
   return r_int(n_chars);
 }
