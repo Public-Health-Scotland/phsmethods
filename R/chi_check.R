@@ -65,6 +65,18 @@
 #' @export
 
 chi_check <- function(chi_number, check_mod11 = TRUE, check_mod10 = TRUE) {
+
+  if (missing(check_mod10) && missing(check_mod11)) {
+    cli::cli_inform(
+      c(
+        "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
+        "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(chi_number, check_mod10 = FALSE)}"
+      ),
+      .frequency = "once",
+      .frequency_id = "MOD10"
+    )
+  }
+
   if (!inherits(chi_number, "character")) {
     cli::cli_abort(
       "The input {.var chi_number} must be a {.cls character} vector, not a {.cls {class(chi_number)}} vector."
@@ -85,6 +97,7 @@ chi_check <- function(chi_number, check_mod11 = TRUE, check_mod10 = TRUE) {
       "At least one of {.arg check_mod11} and {.arg check_mod10} must be TRUE."
     )
   }
+
   if (cpp20_available()){
     cpp_chi_check(chi_number, check_mod11 = check_mod11, check_mod10 = check_mod10)
   } else {
@@ -139,17 +152,6 @@ r_chi_check <- function(chi_number, check_mod11 = TRUE, check_mod10 = TRUE) {
       ),
       "Valid CHI",
       "Invalid checksum"
-    )
-  }
-
-  if (missing(check_mod10) && missing(check_mod11)) {
-    cli::cli_inform(
-      c(
-        "By default, {.fun chi_check} now returns CHI numbers as valid if they pass either a Mod11 or Mod10 check",
-        "Previously {.fun chi_check} would only return CHI numbers as valid if they pass a Mod11 check - for this behaviour, please use {.code chi_check(chi_number, check_mod10 = FALSE)}"
-      ),
-      .frequency = "once",
-      .frequency_id = "MOD10"
     )
   }
 
