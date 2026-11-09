@@ -1,5 +1,7 @@
 # phsmethods (development version)
 
+- phsmethods now requires R 4.1 or later, allowing use of the native pipe (`|>`) and removing the dependency on `{magrittr}`. Documentation and examples have been updated accordingly.
+
 # phsmethods 1.2.0 (2026-07-31)
 
 - `chi_check()` now supports both Mod-11 and Mod-10 (Luhn) check digits, 

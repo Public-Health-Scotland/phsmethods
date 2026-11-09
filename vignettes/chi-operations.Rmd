@@ -62,10 +62,10 @@ data <- tibble(
 It looks like one of the CHI numbers '402070763' might have just lost a leading zero, this is a common occurrence if the data has passed through Excel at some point. We can fix this specific issue with `chi_pad()`.
 
 ```{r}
-fixed_data <- data %>%
+fixed_data <- data |>
   mutate(chi = chi_pad(chi))
 
-checked_data <- fixed_data %>%
+checked_data <- fixed_data |>
   mutate(valid_chi = chi_check(chi))
 
 checked_data
@@ -74,7 +74,7 @@ checked_data
 On a larger dataset, it might be useful to get a count of the issues rather than seeing them per CHI.
 
 ```{r}
-fixed_data %>%
+fixed_data |>
   count(valid_chi = chi_check(chi), sort = TRUE)
 ```
 
@@ -85,10 +85,10 @@ Now we have this knowledge we have a few options. Which option we take will depe
 3.  Filter the data with invalid CHIs out completely.
 
 ```{r}
-fixed_data %>%
+fixed_data |>
   mutate(chi = if_else(chi_check(chi) != "Valid CHI", NA_character_, chi))
 
-fixed_data %>%
+fixed_data |>
   filter(chi_check(chi) == "Valid CHI")
 ```
 
@@ -165,7 +165,7 @@ data <- tibble(
 # Confirm all of the CHIs are valid
 count(data, chi_check(chi, check_mod10 = FALSE))
 
-data_sex <- data %>%
+data_sex <- data |>
   mutate(sex = sex_from_chi(chi, chi_check = FALSE))
 data_sex
 ```
@@ -175,7 +175,7 @@ By default sex will be returned as an integer with '1' representing 'Male' and '
 We can have sex returned as a factor using `as_factor = TRUE`, which by default will have levels of '1' and '2' and labels of 'Male' and 'Female' which can be useful, particularly when visualising the data.
 
 ```{r}
-data_sex <- data_sex %>%
+data_sex <- data_sex |>
   mutate(sex_factor = sex_from_chi(chi, as_factor = TRUE))
 
 data_sex
@@ -184,7 +184,7 @@ data_sex
 ```{r}
 library(ggplot2)
 
-data_sex %>%
+data_sex |>
   ggplot(aes(y = "", fill = sex_factor)) +
   geom_bar() +
   coord_polar() +
@@ -200,7 +200,7 @@ It is usually not possible to definitively infer a patient's Date of Birth from 
 The function `dob_from_chi()` will try to extract the Date of Birth and will return `NA` if the date is ambiguous.
 
 ```{r}
-data_dob <- data %>%
+data_dob <- data |>
   mutate(dob = dob_from_chi(chi))
 
 data_dob
@@ -213,11 +213,11 @@ We will need to provide some more context to be able to work out the still missi
 
 ```{r}
 # Expect no one born after 2015-12-31
-data %>%
+data |>
   mutate(dob = dob_from_chi(chi, max_date = as.Date("2015-12-31")))
 
 # Expect no one born before 1999-12-31 i.e. 16 years before our data started.
-data %>%
+data |>
   mutate(
     dob = dob_from_chi(
       chi,
@@ -230,7 +230,7 @@ data %>%
 Usually, we will have event dates e.g. an admission date alongside the data and this can be used instead of, or in conjunction with a fixed date.
 
 ```{r}
-data <- data %>%
+data <- data |>
   mutate(
     event_date = as.Date(c(
       "2015-01-01",
@@ -243,11 +243,11 @@ data <- data %>%
   )
 
 # Using the event date as the maximum date
-data %>%
+data |>
   mutate(dob = dob_from_chi(chi, max_date = event_date))
 
 # Setting a 'fixed' minimum date as well as using the event date
-data_dob <- data %>%
+data_dob <- data |>
   mutate(
     dob = dob_from_chi(
       chi,
@@ -266,25 +266,25 @@ The function `age_from_chi()` provides a simpler interface for just extracting a
 Note that age is calculated at *today's* date unless otherwise specified with the `ref_date` argument.
 
 ```{r}
-data %>%
+data |>
   mutate(age = age_from_chi(chi))
 
 # Work out age at a fixed date
-data %>%
+data |>
   mutate(age = age_from_chi(chi, ref_date = as.Date("2016-01-01")))
 
 # Work out age at a relative date
-data %>%
+data |>
   mutate(age = age_from_chi(chi, ref_date = event_date))
 ```
 
 We will get different results depending on which context we supply.
 
 ```{r}
-data %>%
+data |>
   mutate(age = age_from_chi(chi, ref_date = event_date, max_age = 18))
 
-data %>%
+data |>
   mutate(
     age = age_from_chi(
       chi,
@@ -294,7 +294,7 @@ data %>%
     )
   )
 
-data %>%
+data |>
   mutate(
     age = age_from_chi(
       chi,

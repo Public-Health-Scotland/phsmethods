@@ -21,18 +21,15 @@ test_that("Identifies correct number of files", {
 test_that("Returns sizes with correct prefix", {
   withr::local_options(lifecycle_verbosity = "quiet")
   expect_match(
-    file_size(test_path("files"), "tsv") %>%
-      dplyr::pull(size),
+    dplyr::pull(file_size(test_path("files"), "tsv"), size),
     "^TSV 1 kB$"
   )
   expect_match(
-    file_size(test_path("files"), "csv") %>%
-      dplyr::pull(size),
+    dplyr::pull(file_size(test_path("files"), "csv"), size),
     "^CSV 4 kB$"
   )
   expect_match(
-    file_size(test_path("files"), "fst") %>%
-      dplyr::pull(size),
+    dplyr::pull(file_size(test_path("files"), "fst"), size),
     "^FST 897 B$"
   )
 })
@@ -40,10 +37,9 @@ test_that("Returns sizes with correct prefix", {
 test_that("Returns sizes in alphabetical order", {
   withr::local_options(lifecycle_verbosity = "quiet")
   expect_equal(
-    file_size(test_path("files")) %>%
-      dplyr::pull(name),
-    file_size(test_path("files")) %>%
-      dplyr::arrange(name) %>%
+    dplyr::pull(file_size(test_path("files")), name),
+    file_size(test_path("files")) |>
+      dplyr::arrange(name) |>
       dplyr::pull(name)
   )
 })

@@ -76,6 +76,6 @@ format_postcode(c("KA89NB", "PA152TY"), format = "pc8")
 
 library(dplyr)
 df <- tibble(postcode = c("G429BA", "G207AL", "DD37JY", "DG98BS"))
-df \%>\%
+df |>
   mutate(postcode = format_postcode(postcode))
 }

@@ -73,6 +73,6 @@ df <- tibble(chi = c(
   "010120123?",
   NA
 ))
-df \%>\%
+df |>
   mutate(validity = chi_check(chi))
 }
