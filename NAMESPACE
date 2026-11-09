@@ -37,3 +37,4 @@ importFrom(rlang,
   .data
 )
 importFrom(tibble,tibble)
+useDynLib(phsmethods, .registration = TRUE)
